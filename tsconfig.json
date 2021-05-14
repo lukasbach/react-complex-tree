@@ -1,0 +1,7 @@
+{
+  "extends": "./node_modules/@lukasbach/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib"
+  },
+  "include": ["src"]
+}
