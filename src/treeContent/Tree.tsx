@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ControlledTreeEnvironmentProps, TreeProps, TreeRenderProps } from './types';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { TreeEnvironmentContext } from './ControlledTreeEnvironment';
-import { Droppable } from 'react-beautiful-dnd';
 import { TreeItemChildren } from './TreeItemChildren';
 
 export const TreeRenderContext = React.createContext<TreeRenderProps>(null as any);
@@ -10,8 +9,11 @@ export const TreeRenderContext = React.createContext<TreeRenderProps>(null as an
 export const Tree = <T extends any>(props: TreeProps<T>) => {
   const environment = useContext(TreeEnvironmentContext);
   const renderers = useMemo<TreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
+  const rootChildren = environment.items[props.rootItem].children;
 
-  const rootChildren = environment.data.items[props.rootItem].children!;
+  if (!rootChildren) {
+    throw Error(`Root ${props.rootItem} does not contain any children`);
+  }
 
   useEffect(() => {
     environment.registerTree({
@@ -24,14 +26,21 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
   return (
     <TreeRenderContext.Provider value={renderers}>
-      <Droppable droppableId={props.treeId}>
-        {(provided, snapshot) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <TreeItemChildren children={rootChildren} depth={0} indexOffset={0} parentPath={[props.treeId]} />
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      <TreeItemChildren children={rootChildren} depth={0} parentId={props.treeId} />
     </TreeRenderContext.Provider>
   );
 };
+
+export const ComponentMy = React.forwardRef<HTMLInputElement | null, {}>((props, ref) => {
+    const elementRef = useRef<HTMLInputElement>(null);
+    useImperativeHandle<HTMLInputElement | null, HTMLInputElement | null>(
+        ref,
+        () => elementRef.current && {
+            ...elementRef.current,
+        },
+    );
+
+    return (
+        <input ref={elementRef} />
+    );
+});

@@ -3,7 +3,6 @@ import {
   countVisibleChildrenIncludingSelf,
   getItemPathAtLinearIndex,
   getLinearIndexOfItem,
-  isItemExpanded,
 } from '../helpers';
 
 describe('helpers', function () {
@@ -16,66 +15,65 @@ describe('helpers', function () {
           root: {
             index: 'root',
             hasChildren: true,
-            children: ['child1', 'child2']
+            children: ['child1', 'child2'],
+            data: 'root',
           },
           child1: {
             index: 'child1',
             hasChildren: true,
-            children: ['child11']
+            children: ['child11'],
+            data: 'child1',
           },
           child2: {
             index: 'child2',
             hasChildren: true,
-            children: ['child21']
+            children: ['child21'],
+            data: 'child2',
           },
           child21: {
             index: 'child21',
             hasChildren: false,
+            data: 'child21',
           },
           child11: {
             index: 'child11',
             hasChildren: true,
-            children: ['child111', 'child112']
+            children: ['child111', 'child112'],
+            data: 'child11',
           },
           child111: {
             index: 'child111',
             hasChildren: false,
+            data: 'child111',
           },
           child112: {
             index: 'child112',
             hasChildren: true,
-            children: ['child1121']
+            children: ['child1121'],
+            data: 'child112',
           },
           child1121: {
             index: 'child1121',
             hasChildren: false,
+            data: 'child1121',
           },
         }
       },
       expandedItems: [
-        ['root'],
-        ['root', 'child1'],
-        ['root', 'child2'],
-        ['root', 'child1', 'child11'],
+        'root',
+        'child1',
+        'child2',
+        'child11',
       ]
     } as Pick<TreeEnvironmentConfiguration, 'data' | 'expandedItems'> as any;
   });
 
-  describe('isItemExpanded', function () {
-    it('should detect an expanded item', function () {
-      expect(isItemExpanded(env, ['root', 'child1', 'child11'])).toBeTruthy();
-    });
-    it('should not detect a collapsed item', function () {
-      expect(isItemExpanded(env, ['root', 'child2', 'child21'])).toBeFalsy();
-    });
-  });
-
   describe('countVisibleChildrenIncludingSelf', function () {
     it('should count the visible items correctly', function () {
-      expect(countVisibleChildrenIncludingSelf(env, ['root'])).toEqual(7);
-      expect(countVisibleChildrenIncludingSelf(env, ['root', 'child1'])).toEqual(4);
-      expect(countVisibleChildrenIncludingSelf(env, ['root', 'child1', 'child11'])).toEqual(3);
-      expect(countVisibleChildrenIncludingSelf(env, ['root', 'child1', 'child11', 'child112'])).toEqual(1);
+      expect(countVisibleChildrenIncludingSelf(env, 'root')).toEqual(7);
+      expect(countVisibleChildrenIncludingSelf(env, 'child1')).toEqual(4);
+      expect(countVisibleChildrenIncludingSelf(env, 'child11')).toEqual(3);
+      expect(countVisibleChildrenIncludingSelf(env, 'child112')).toEqual(1);
     });
   });
   /*
@@ -91,11 +89,11 @@ describe('helpers', function () {
 
   describe('getLinearIndexOfItem', function () {
     it('should get the linear index of an item correctly', function () {
-      expect(getLinearIndexOfItem(env, ['root'])).toEqual(0);
-      expect(getLinearIndexOfItem(env, ['root', 'child1'])).toEqual(1);
-      expect(getLinearIndexOfItem(env, ['root', 'child1', 'child11'])).toEqual(2);
-      expect(getLinearIndexOfItem(env, ['root', 'child1', 'child11', 'child112'])).toEqual(4);
-      expect(getLinearIndexOfItem(env, ['root', 'child2', 'child21'])).toEqual(6);
+      expect(getLinearIndexOfItem(env, 'root')).toEqual(0);
+      expect(getLinearIndexOfItem(env, 'child1')).toEqual(1);
+      expect(getLinearIndexOfItem(env, 'child11')).toEqual(2);
+      expect(getLinearIndexOfItem(env, 'child112')).toEqual(4);
+      expect(getLinearIndexOfItem(env, 'child21')).toEqual(6);
     });
   });
 

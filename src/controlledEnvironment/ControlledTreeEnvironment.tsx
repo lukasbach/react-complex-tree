@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { ControlledTreeEnvironmentProps, TreeConfiguration, TreeEnvironmentContextProps } from './types';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 export const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 
 export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEnvironmentProps<T>) => {
-  const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({})
-
+  const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
+  
   return (
     <TreeEnvironmentContext.Provider value={{
       ...props,
@@ -19,14 +18,7 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
         setTrees(trees);
       },
     }}>
-      <DragDropContext
-        onDragStart={(initial, provided) => {
-        }}
-        onDragEnd={(result, provided) => {
-        }}
-      >
-        {props.children}
-      </DragDropContext>
+      {props.children}
     </TreeEnvironmentContext.Provider>
   );
 };
