@@ -40,6 +40,9 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderDraggingItemTitle: items => {
       return <div />;
     },
+    renderTreeContainer: (children, containerProps) => {
+      return <div {...containerProps}>{ children }</div>
+    },
     renderDepthOffset: 4,
   };
 };

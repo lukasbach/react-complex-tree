@@ -13,6 +13,7 @@ export type TreeItem<T = any> = {
 }
 
 export type TreePosition = {
+  treeId: string;
   parent: TreeItemIndex;
   index: number;
 }
@@ -29,11 +30,12 @@ export type TreeItemActions = {
   selectItem: () => void;
   unselectItem: () => void;
   addToSelectedItems: () => void;
+  startDragging: () => void;
   // toggleSelectedState: () => void;
 }
 
 export type TreeItemRenderContext = TreeItemActions & {
-  itemContainerProps: HTMLProps<HTMLElement>;
+  itemContainerProps: HTMLProps<any>;
   isSelected?: boolean;
   isExpanded?: boolean;
   isFocused?: boolean;
@@ -52,6 +54,7 @@ export type TreeRenderProps<T = any> = {
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDepthOffset?: number;
+  renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>) => React.ReactNode;
 }
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
@@ -60,14 +63,16 @@ export type TreeCapabilities = {
   selectItemOnClick?: boolean;
 }
 
+export type IndividualTreeViewState = {
+  renamingItem?: TreeItemIndex;
+  selectedItems?: TreeItemIndex[];
+  expandedItems?: TreeItemIndex[];
+  untruncatedItems?: TreeItemIndex[];
+  focusedItem?: TreeItemIndex;
+};
+
 export type TreeViewState = {
-  //[treeId: string]: {
-    renamingItem?: TreeItemIndex;
-    selectedItems?: TreeItemIndex[];
-    expandedItems?: TreeItemIndex[];
-    untruncatedItems?: TreeItemIndex[];
-    focusedItem?: TreeItemIndex;
-  //}
+  [treeId: string]: IndividualTreeViewState;
 };
 
 export type ExplicitDataSource<T = any> = {
@@ -81,14 +86,14 @@ export type ImplicitDataSource<T = any> = {
 export type DataSource<T = any> = ExplicitDataSource<T> | ImplicitDataSource<T>;
 
 export type TreeChangeHandlers<T = any> = {
-  onStartRenamingItem?: (item: TreeItem<T>) => void;
-  onCollapseItem?: (item: TreeItem<T>) => void;
-  onExpandItem?: (item: TreeItem<T>) => void;
-  onRenameItem?: (item: TreeItem<T>, name: string) => void;
-  onSelectItems?: (items: TreeItemIndex[]) => void;
-  onStartDrag?: (items: TreeItemIndex[]) => void;
-  onFinishDrag?: (items: TreePosition[], target: TreePosition) => void;
-  onPrimaryAction?: (items: TreeItem<T>) => void;
+  onStartRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
+  onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
+  onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
+  onRenameItem?: (item: TreeItem<T>, name: string, treeId: string) => void;
+  onSelectItems?: (items: TreeItemIndex[], treeId: string) => void;
+  // onStartDrag?: (items: TreeItemIndex[], treeId: string) => void;
+  onDrop?: (items: TreePosition[], target: TreePosition) => void;
+  onPrimaryAction?: (items: TreeItem<T>, treeId: string) => void;
   onRegisterTree?: (tree: TreeConfiguration) => void;
   onUnregisterTree?: (tree: TreeConfiguration) => void;
   onMissingItems?: (itemIds: TreeItemIndex[]) => void;
@@ -102,8 +107,10 @@ export type TreeEnvironmentConfiguration<T = any> = {
 export type TreeEnvironmentContextProps<T = any> = {
   registerTree: (tree: TreeConfiguration<T>) => void;
   unregisterTree: (treeId: string) => void;
-  onStartDraggingSelectedItems: () => void;
-  isDragging: boolean;
+  onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
+  draggingItems?: TreeItem<T>[];
+  itemHeight: number;
+  onHover: (treeId: string, linearIndex: number, offset?: 'top' | 'bottom') => void, // TODO
 } & TreeEnvironmentConfiguration<T> & AllTreeRenderProps<T>;
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;

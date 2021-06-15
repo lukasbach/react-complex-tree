@@ -92,7 +92,9 @@ export const Example = () => (
   <UncontrolledTreeEnvironment
     dataProvider={new StaticTreeDataProvider(demoContent.data.items)}
     viewState={{
-      expandedItems: ['child1', 'child11', 'child2']
+      ['tree-1']: {
+        expandedItems: ['child1', 'child11', 'child2']
+      }
     }}
     {...demoRenderers}
   >

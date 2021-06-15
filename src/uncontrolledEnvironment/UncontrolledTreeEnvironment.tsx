@@ -2,8 +2,8 @@ import * as React from 'react';
 import {
   CompleteTreeDataProvider,
   ControlledTreeEnvironmentProps,
-  ImplicitDataSource,
-  TreeConfiguration, TreeDataProvider, TreeItem, TreeItemIndex,
+  ImplicitDataSource, IndividualTreeViewState,
+  TreeConfiguration, TreeDataProvider, TreeItem, TreeItemIndex, TreeViewState,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
 import { useEffect, useMemo, useState } from 'react';
@@ -25,32 +25,42 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
     setCurrentItems({ ...currentItems, ...newItems });
   }, [currentItems]);
 
-  console.log(viewState)
+  const amendViewState = (treeId: string, constructNewState: (oldState: IndividualTreeViewState) => Partial<IndividualTreeViewState>) => {
+    setViewState(oldState => ({
+      ...oldState,
+      [treeId]: {
+        ...oldState[treeId],
+        ...constructNewState(oldState[treeId]),
+      }
+    }));
+  }
+
 
   return (
     <ControlledTreeEnvironment
       {...props}
       viewState={viewState}
       items={currentItems}
-      onExpandItem={item => {
+      onExpandItem={(item, treeId) => {
+        amendViewState(treeId, old => ({ ...old, expandedItems: [...old.expandedItems ?? [], item.index] }));
         //const itemsToLoad = item.children?.filter(itemId => currentItems[itemId] === undefined) ?? [];
         //dataProvider.getTreeItems(itemsToLoad).then(items => {
         //  writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
-          setViewState(viewState => ({ ...viewState, expandedItems: [...viewState.expandedItems ?? [], item.index] }));
+        //  setViewState(viewState => ({ ...viewState, expandedItems: [...viewState.expandedItems ?? [], item.index] }));
         //});
       }}
-      onCollapseItem={item => {
-        setViewState(viewState => ({ ...viewState, expandedItems: viewState.expandedItems?.filter(id => id !== item.index) }));
+      onCollapseItem={(item, treeId) => {
+        amendViewState(treeId, old => ({ ...old, expandedItems: old.expandedItems?.filter(id => id !== item.index) }));
       }}
-      onSelectItems={items => {
-        setViewState(viewState => ({ ...viewState, selectedItems: items }));
+      onSelectItems={(items, treeId) => {
+        amendViewState(treeId, old => ({ ...old, selectedItems: items }));
       }}
-      onStartRenamingItem={item => {
-        setViewState(viewState => ({ ...viewState, renamingItem: item.index }));
+      onStartRenamingItem={(item, treeId) => {
+        amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
       }}
-      onRenameItem={(item, name) => {
+      onRenameItem={(item, name, treeId) => {
         dataProvider.onRenameItem(item, name);
-        setViewState(viewState => ({ ...viewState, renamingItem: undefined }));
+        amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
       }}
       onMissingItems={itemIds => {
         dataProvider.getTreeItems(itemIds).then(items => {

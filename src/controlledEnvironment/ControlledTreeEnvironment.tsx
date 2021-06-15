@@ -7,7 +7,8 @@ export const TreeEnvironmentContext = React.createContext<TreeEnvironmentContext
 
 export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEnvironmentProps<T>) => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
-  const [isDragging, setIsDragging] = useState(false);
+  const [draggingItems, setDraggingItems] = useState<TreeItem<T>[]>();
+  const [itemHeight, setItemHeight] = useState(4);
   
   return (
     <TreeEnvironmentContext.Provider value={{
@@ -22,8 +23,13 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
         delete trees[treeId];
         setTrees(trees);
       },
-      onStartDraggingSelectedItems: () => setIsDragging(true),
-      isDragging: isDragging,
+      onStartDraggingItems: (items, treeId) => {
+        setDraggingItems(items);
+        const height = document.querySelector(`[data-rbt-item='${treeId}']`)?.clientHeight ?? 5;
+        setItemHeight(height);
+      },
+      draggingItems: draggingItems,
+      itemHeight: itemHeight,
     }}>
       {props.children}
     </TreeEnvironmentContext.Provider>
