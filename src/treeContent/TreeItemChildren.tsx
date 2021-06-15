@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { TreeItem } from './TreeItem';
-import { TreeItemIndex, TreeProps } from './types';
-import { countVisibleChildrenIncludingSelf } from './helpers';
-import { TreeEnvironmentContext } from './controlledEnvironment/ControlledTreeEnvironment';
+import { TreeItemIndex, TreeProps } from '../types';
+import { countVisibleChildrenIncludingSelf } from '../helpers';
+import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const TreeItemChildren = <T extends any>(props: {
   children: TreeItemIndex[];

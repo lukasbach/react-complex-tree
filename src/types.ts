@@ -61,11 +61,13 @@ export type TreeCapabilities = {
 }
 
 export type TreeViewState = {
-  renamingItem?: TreeItemIndex;
-  selectedItems?: TreeItemIndex[];
-  expandedItems?: TreeItemIndex[];
-  untruncatedItems?: TreeItemIndex[];
-  focusedItem?: TreeItemIndex;
+  //[treeId: string]: {
+    renamingItem?: TreeItemIndex;
+    selectedItems?: TreeItemIndex[];
+    expandedItems?: TreeItemIndex[];
+    untruncatedItems?: TreeItemIndex[];
+    focusedItem?: TreeItemIndex;
+  //}
 };
 
 export type ExplicitDataSource<T = any> = {
@@ -100,6 +102,8 @@ export type TreeEnvironmentConfiguration<T = any> = {
 export type TreeEnvironmentContextProps<T = any> = {
   registerTree: (tree: TreeConfiguration<T>) => void;
   unregisterTree: (treeId: string) => void;
+  onStartDraggingSelectedItems: () => void;
+  isDragging: boolean;
 } & TreeEnvironmentConfiguration<T> & AllTreeRenderProps<T>;
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;

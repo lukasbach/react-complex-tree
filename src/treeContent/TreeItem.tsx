@@ -1,8 +1,8 @@
-import { TreeItemIndex, TreeProps } from './types';
+import { TreeItemIndex, TreeProps } from '../types';
 import { Draggable } from 'react-beautiful-dnd';
 import React, { useContext, useMemo } from 'react';
-import { TreeEnvironmentContext } from './ControlledTreeEnvironment';
-import { createTreeItemRenderContext, createTreeItemRenderContextDependencies } from './helpers';
+import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { createTreeItemRenderContext, createTreeItemRenderContextDependencies } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
 
 export const TreeItem = <T extends any>(props: {
@@ -11,7 +11,13 @@ export const TreeItem = <T extends any>(props: {
 }) => {
   const environment = useContext(TreeEnvironmentContext);
   const item = environment.items[props.itemIndex];
-  const isExpanded = useMemo(() => environment.expandedItems?.includes(props.itemIndex), [props.itemIndex, environment.expandedItems]);
+
+  if (item === undefined) {
+    environment.onMissingItems?.([props.itemIndex]);
+    return null;
+  }
+
+  const isExpanded = useMemo(() => environment.viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, environment.viewState.expandedItems]);
   const actions = useMemo(
     () => createTreeItemRenderContext(item, environment),
     createTreeItemRenderContextDependencies(item, environment)

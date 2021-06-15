@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ControlledTreeEnvironmentProps, TreeProps, TreeRenderProps } from './types';
+import { ControlledTreeEnvironmentProps, TreeProps, TreeRenderProps } from '../types';
 import { useContext, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import { TreeEnvironmentContext } from './ControlledTreeEnvironment';
+import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeItemChildren } from './TreeItemChildren';
 
 export const TreeRenderContext = React.createContext<TreeRenderProps>(null as any);
@@ -9,11 +9,7 @@ export const TreeRenderContext = React.createContext<TreeRenderProps>(null as an
 export const Tree = <T extends any>(props: TreeProps<T>) => {
   const environment = useContext(TreeEnvironmentContext);
   const renderers = useMemo<TreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
-  const rootChildren = environment.items[props.rootItem].children;
-
-  if (!rootChildren) {
-    throw Error(`Root ${props.rootItem} does not contain any children`);
-  }
+  const rootItem = environment.items[props.rootItem];
 
   useEffect(() => {
     environment.registerTree({
@@ -23,6 +19,17 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
+
+  if (rootItem === undefined) {
+    environment.onMissingItems?.([props.rootItem]);
+    return null;
+  }
+
+  const rootChildren = rootItem.children;
+
+  if (!rootChildren) {
+    throw Error(`Root ${props.rootItem} does not contain any children`);
+  }
 
   return (
     <TreeRenderContext.Provider value={renderers}>

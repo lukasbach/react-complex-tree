@@ -76,6 +76,10 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     isRenaming: environment.viewState.renamingItem === item.index,
   };
 
+  const canDrag = (environment.viewState.selectedItems?.length ?? 0) > 0 && (environment.viewState.selectedItems
+    ?.map(item => environment.items[item]?.canMove)
+    .reduce((a, b) => a && b, true) ?? false);
+
   const itemContainerProps: HTMLProps<HTMLElement> = {
     onClick: (e) => {
       if (e.ctrlKey) {
@@ -98,6 +102,10 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
         environment.onPrimaryAction?.(item);
       }
       // actions.selectItem();
+    },
+    draggable: canDrag,
+    onDragStart: e => {
+      console.log(e)
     },
   };
 
