@@ -34,13 +34,20 @@ export type TreeItemActions = {
   // toggleSelectedState: () => void;
 }
 
-export type TreeItemRenderContext = TreeItemActions & {
-  itemContainerProps: HTMLProps<any>;
+export type TreeItemRenderFlags = {
   isSelected?: boolean;
   isExpanded?: boolean;
   isFocused?: boolean;
   isRenaming?: boolean;
-}
+  isDraggingOver?: boolean;
+  isDraggingOverParent?: boolean;
+};
+
+export type TreeItemRenderContext = {
+  interactiveElementProps: HTMLProps<any>;
+  containerElementProps: HTMLProps<any>;
+
+} & TreeItemActions & TreeItemRenderFlags;
 
 export type TreeInformation = {
   areItemsSelected?: boolean;
@@ -55,6 +62,7 @@ export type TreeRenderProps<T = any> = {
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDepthOffset?: number;
   renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>) => React.ReactNode;
+  renderDragBetweenLine?: () => React.ReactNode;
 }
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
@@ -110,8 +118,16 @@ export type TreeEnvironmentContextProps<T = any> = {
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
   draggingItems?: TreeItem<T>[];
   itemHeight: number;
-  onHover: (treeId: string, linearIndex: number, offset?: 'top' | 'bottom') => void, // TODO
+  onDragAtPosition: (treeId: string, targetItem?: TreeItemIndex, childIndex?: number, linearIndex?: number) => void, // TODO
+  draggingPosition?: DraggingPosition;
 } & TreeEnvironmentConfiguration<T> & AllTreeRenderProps<T>;
+
+export type DraggingPosition = {
+  treeId: string;
+  targetItem: TreeItemIndex;
+  childIndex?: number;
+  linearIndex?: number;
+};
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;
 

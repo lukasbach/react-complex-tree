@@ -16,7 +16,7 @@ export const TreeItem = <T extends any>(props: {
   const item = environment.items[props.itemIndex];
 
   const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, viewState.expandedItems]);
-  const actions = useMemo(
+  const renderContext = useMemo(
     () => item && createTreeItemRenderContext(item, environment, treeId),
     createTreeItemRenderContextDependencies(item, environment, treeId)
   );
@@ -29,7 +29,7 @@ export const TreeItem = <T extends any>(props: {
 
   return (
     <>
-      {environment.renderItem(environment.items[props.itemIndex], props.depth, actions, {})}
+      {environment.renderItem(environment.items[props.itemIndex], props.depth, renderContext, {})}
       {item.hasChildren && isExpanded && item.children && (
         <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
       )}

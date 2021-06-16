@@ -3,7 +3,7 @@ import {
   TreeItem,
   TreeItemRenderContext,
   TreeItemIndex,
-  TreeItemActions, TreeEnvironmentContextProps,
+  TreeItemActions, TreeEnvironmentContextProps, IndividualTreeViewState, TreeItemRenderFlags,
 } from './types';
 import { HTMLProps } from 'react';
 import { act } from 'react-dom/test-utils';
@@ -35,12 +35,26 @@ export const getItemPathAtLinearIndex = (environment: TreeEnvironmentConfigurati
   return undefined;
 }
 
+export const getItemsLinearly = <T>(rootItem: TreeItemIndex, viewState: IndividualTreeViewState, items: Record<TreeItemIndex, TreeItem<T>>, depth = 0): Array<{ item: TreeItemIndex, depth: number }> => {
+  let itemIds: Array<{ item: TreeItemIndex, depth: number }> = [];
+
+  for (const itemId of items[rootItem].children ?? []) {
+    const item  = items[itemId];
+    itemIds.push({ item: itemId, depth: depth });
+    if (item.hasChildren && !!item.children && viewState.expandedItems?.includes(itemId)) {
+      itemIds.push(...getItemsLinearly(itemId, viewState, items, depth + 1));
+    }
+  }
+
+  return itemIds;
+}
+
 export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
-  const canDrag = (viewState.selectedItems?.length ?? 0) > 0 && (viewState.selectedItems
+  const canDrag = (viewState.selectedItems?.length ?? 0) > 0 ? (viewState.selectedItems
     ?.map(item => environment.items[item]?.canMove)
-    .reduce((a, b) => a && b, true) ?? false);
+    .reduce((a, b) => a && b, true) ?? false) : item.canMove;
 
   const actions: TreeItemActions = {
     collapseItem: () => {
@@ -74,20 +88,30 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     startRenamingItem: () => {
     },
     startDragging: () => {
+      if (!viewState.selectedItems?.includes(item.index)) {
+        environment.onSelectItems?.([item.index], treeId);
+      }
+
       if (canDrag) {
         environment.onStartDraggingItems((viewState.selectedItems ?? []).map(id => environment.items[id]), treeId);
       }
     }
   };
 
-  const renderContext = {
+  const renderContext: TreeItemRenderFlags = {
     isSelected: viewState.selectedItems?.includes(item.index),
     isExpanded: viewState.expandedItems?.includes(item.index),
     isFocused: viewState.focusedItem === item.index,
     isRenaming: viewState.renamingItem === item.index,
+    isDraggingOver:
+      environment.draggingPosition &&
+      environment.draggingPosition.targetItem === item.index &&
+      environment.draggingPosition.treeId === treeId &&
+      environment.draggingPosition.childIndex === undefined,
+    isDraggingOverParent: false
   };
 
-  const itemContainerProps: HTMLProps<HTMLElement> = {
+  const interactiveElementProps: HTMLProps<HTMLElement> = {
     onClick: (e) => {
       if (e.ctrlKey) {
         if (renderContext.isSelected) {
@@ -114,6 +138,9 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     onDragStart: e => {
       actions.startDragging();
     },
+  };
+
+  const containerElementProps: HTMLProps<HTMLElement> = {
     ...({
       ['data-rbt-item']: treeId,
     } as any),
@@ -122,7 +149,8 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
   return {
     ...actions,
     ...renderContext,
-    itemContainerProps,
+    interactiveElementProps,
+    containerElementProps
   };
 };
 

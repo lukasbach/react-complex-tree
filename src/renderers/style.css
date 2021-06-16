@@ -3,7 +3,17 @@
 }
 
 .rbt-tree-child-list {
+}
 
+.rbt-tree-item-button.rbt-tree-item-button-hasChildren:before {
+    content: '🞂';
+    width: 20px;
+    display: inline-block;
+    text-align: left;
+    padding-bottom: 4px;
+}
+.rbt-tree-item-button-expanded.rbt-tree-item-button-hasChildren:before {
+    content: '🞃';
 }
 
 .rbt-tree-item-button {
@@ -16,11 +26,26 @@
 }
 
 .rbt-tree-item-li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
 .rbt-tree-item-li-selected {
-    background-color: aliceblue;
+    background-color: rgb(12, 181, 252);
+}
+
+.rbt-tree-item-li-dragging-over {
+    background-color: rgb(142, 222, 255);
+}
+
+.rbt-tree-drag-between-line {
+    height: 4px;
+    width: 100%;
+    margin-top: -2px;
+    background-color: rgb(142, 222, 255);
 }

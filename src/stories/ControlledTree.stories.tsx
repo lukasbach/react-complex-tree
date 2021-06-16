@@ -9,7 +9,7 @@ import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDat
 const demoRenderers: TreeRenderProps<string> = {
   // renderItem(item: TreeItem<string>, depth: number, context: TreeItemRenderContext, info: TreeInformation): React.ReactNode {
   //   return (
-  //     <div {...context.itemContainerProps as any} style={{ marginLeft: `${depth * 5}px` }}>
+  //     <div {...context.interactiveElementProps as any} style={{ marginLeft: `${depth * 5}px` }}>
   //       {item.data}
   //     </div>
   //   );
@@ -89,15 +89,17 @@ export default {
 } as Meta;
 
 export const Example = () => (
-  <UncontrolledTreeEnvironment
-    dataProvider={new StaticTreeDataProvider(demoContent.data.items)}
-    viewState={{
-      ['tree-1']: {
-        expandedItems: ['child1', 'child11', 'child2']
-      }
-    }}
-    {...demoRenderers}
-  >
-    <Tree treeId="tree-1" rootItem="root" />
-  </UncontrolledTreeEnvironment>
+  <div style={{ marginTop: '200px' }}>
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(demoContent.data.items)}
+      viewState={{
+        ['tree-1']: {
+          expandedItems: ['child1', 'child11', 'child2']
+        }
+      }}
+      {...demoRenderers}
+    >
+      <Tree treeId="tree-1" rootItem="root" />
+    </UncontrolledTreeEnvironment>
+  </div>
 );

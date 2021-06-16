@@ -9,21 +9,26 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderItem: (item, depth, context, info) => {
       return (
         <li
+          {...context.containerElementProps as any}
           role="none"
           style={{ paddingLeft: `${depth * (renderers.renderDepthOffset ?? 10)}px` }}
           className={cx(
             'rbt-tree-item-li',
+            item.hasChildren && 'rbt-tree-item-li-hasChildren',
             context.isSelected && 'rbt-tree-item-li-selected',
             context.isExpanded && 'rbt-tree-item-li-expanded',
+            context.isDraggingOver && 'rbt-tree-item-li-dragging-over',
           )}
         >
           <button
             role="treeitem"
-            {...context.itemContainerProps as any}
+            {...context.interactiveElementProps as any}
             className={cx(
               'rbt-tree-item-button',
-              context.isSelected && 'rbt-tree-item-li-button',
-              context.isExpanded && 'rbt-tree-item-li-button',
+              item.hasChildren && 'rbt-tree-item-button-hasChildren',
+              context.isSelected && 'rbt-tree-item-button-selected',
+              context.isExpanded && 'rbt-tree-item-button-expanded',
+              context.isDraggingOver && 'rbt-tree-item-button-dragging-over',
             )}
           >
             { renderers.renderItemTitle(item, context, info) }
@@ -42,6 +47,9 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     },
     renderTreeContainer: (children, containerProps) => {
       return <div {...containerProps}>{ children }</div>
+    },
+    renderDragBetweenLine: () => {
+      return <div className="rbt-tree-drag-between-line" />;
     },
     renderDepthOffset: 4,
   };
