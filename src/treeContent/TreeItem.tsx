@@ -1,5 +1,5 @@
 import { TreeItemIndex, TreeProps } from '../types';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { createTreeItemRenderContext, createTreeItemRenderContextDependencies } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
@@ -10,6 +10,7 @@ export const TreeItem = <T extends any>(props: {
   itemIndex: TreeItemIndex;
   depth: number;
 }) => {
+  const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const treeId = useContext(TreeIdContext);
   const environment = useContext(TreeEnvironmentContext);
   const viewState = useViewState();
@@ -22,7 +23,10 @@ export const TreeItem = <T extends any>(props: {
   );
 
   if (item === undefined) {
-    environment.onMissingItems?.([props.itemIndex]);
+    if (!hasBeenRequested) {
+      setHasBeenRequested(true);
+      environment.onMissingItems?.([props.itemIndex]);
+    }
     return null;
   }
 

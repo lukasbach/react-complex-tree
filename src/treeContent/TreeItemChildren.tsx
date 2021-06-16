@@ -16,6 +16,7 @@ export const TreeItemChildren = <T extends any>(props: {
   for (const child of props.children) {
     childElements.push(
       <TreeItem
+        key={child}
         itemIndex={child}
         depth={props.depth}
       />
