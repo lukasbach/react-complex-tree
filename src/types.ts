@@ -56,7 +56,7 @@ export type TreeInformation = {
 }
 
 export type TreeRenderProps<T = any> = {
-  renderItem?: (item: TreeItem<T>, depth: number, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
+  renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
   renderItemTitle: (item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => string;
   renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;

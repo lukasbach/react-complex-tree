@@ -224,3 +224,20 @@ export const MultipleTrees = () => (
     </div>
   </UncontrolledTreeEnvironment>
 );
+
+export const TreeWithDelayedDataProvider = () => (
+  <UncontrolledTreeEnvironment
+    dataProvider={{
+      getTreeItem: itemId => {
+        return new Promise(res => setTimeout(() => res(longTree.items[itemId]), 750));
+      }
+    }}
+    viewState={{
+      ['tree-1']: {
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);

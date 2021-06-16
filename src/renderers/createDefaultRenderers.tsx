@@ -6,12 +6,11 @@ const cx = (...classNames: Array<string | undefined | false>) => classNames.filt
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   return {
     renderItemTitle: renderers.renderItemTitle,
-    renderItem: (item, depth, context, info) => {
+    renderItem: (item, depth, children, context, info) => {
       return (
         <li
           {...context.containerElementProps as any}
           role="none"
-          style={{ paddingLeft: `${depth * (renderers.renderDepthOffset ?? 10)}px` }}
           className={cx(
             'rbt-tree-item-li',
             item.hasChildren && 'rbt-tree-item-li-hasChildren',
@@ -21,9 +20,10 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           )}
         >
           <button
+            {...context.interactiveElementProps as any}
             role="treeitem"
             tabIndex={-1} // TODO 0 if focused
-            {...context.interactiveElementProps as any}
+            style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
             className={cx(
               'rbt-tree-item-button',
               item.hasChildren && 'rbt-tree-item-button-hasChildren',
@@ -34,6 +34,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           >
             { renderers.renderItemTitle(item, context, info) }
           </button>
+          {children}
         </li>
       );
     },

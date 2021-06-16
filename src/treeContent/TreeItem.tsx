@@ -39,13 +39,9 @@ export const TreeItem = <T extends any>(props: {
     return null;
   }
 
+  const children = item.hasChildren && isExpanded && item.children && (
+    <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
+  );
 
-  return (
-    <>
-      {environment.renderItem(environment.items[props.itemIndex], props.depth, renderContext, treeInformation)}
-      {item.hasChildren && isExpanded && item.children && (
-        <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
-      )}
-    </>
-  )
+  return environment.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation);
 }
