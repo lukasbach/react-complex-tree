@@ -9,7 +9,6 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderItem: (item, depth, children, context, info) => {
       return (
         <li
-          {...context.containerElementProps as any}
           role="none"
           className={cx(
             'rbt-tree-item-li',
@@ -20,6 +19,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           )}
         >
           <button
+            {...context.itemContainerElementProps as any}
             {...context.interactiveElementProps as any}
             role="treeitem"
             tabIndex={-1} // TODO 0 if focused

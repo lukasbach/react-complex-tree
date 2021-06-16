@@ -45,7 +45,7 @@ export type TreeItemRenderFlags = {
 
 export type TreeItemRenderContext = {
   interactiveElementProps: HTMLProps<any>;
-  containerElementProps: HTMLProps<any>;
+  itemContainerElementProps: HTMLProps<any>;
 
 } & TreeItemActions & TreeItemRenderFlags;
 

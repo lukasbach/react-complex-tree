@@ -158,7 +158,7 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     ...actions,
     ...renderContext,
     interactiveElementProps,
-    containerElementProps
+    itemContainerElementProps: containerElementProps
   };
 };
 
