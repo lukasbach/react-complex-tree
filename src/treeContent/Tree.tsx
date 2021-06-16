@@ -66,13 +66,13 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
       let linearIndex = Math.floor(hoveringPosition);
       let offset: 'top' | 'bottom' | undefined = undefined;
 
-      if (hoveringPosition % 1 < .1) {
+      if (hoveringPosition % 1 < .2) {
         offset = 'top';
-      } else if (hoveringPosition % 1 > .9) {
-        // offset = 'bottom';
+      } else if (hoveringPosition % 1 > .8) {
+        offset = 'bottom';
 
-        offset = 'top';
-        linearIndex =- 1;
+        // offset = 'top';
+        // linearIndex =- 1;
       } else {
       }
 
@@ -84,7 +84,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
         console.log(linearIndex, hoveringPosition, e.clientY, containerRef.current?.offsetTop, environment.itemHeight, containerRef.current)
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
-          environment.onDragAtPosition(props.treeId, undefined);
+          environment.onDragAtPosition(undefined);
           return;
         }
 
@@ -103,14 +103,34 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           return;
         }
 
+        if (offset) {
+          environment.onDragAtPosition({
+            treeId: props.treeId,
+            targetItem: parent.item,
+            depth: linearItems[linearIndex].depth,
+            linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
+            childIndex: linearIndex - parentLinearIndex + (offset === 'top' ? 0 : 1),
+            linePosition: offset,
+          });
+        } else {
+          environment.onDragAtPosition({
+            treeId: props.treeId,
+            targetItem: linearItems[linearIndex].item,
+            depth: linearItems[linearIndex].depth,
+            linearIndex: linearIndex,
+            childIndex: undefined,
+          })
+        }
+
+
         // console.log(linearItems[linearIndex].item, parent.item, offset)
 
-        environment.onDragAtPosition(
-          props.treeId,
-          !!offset ? parent.item : linearItems[linearIndex].item,
-          !!offset ? linearIndex - parentLinearIndex : undefined,
-          linearIndex
-        );
+        // environment.onDragAtPosition(
+        //   props.treeId,
+        //   !!offset ? parent.item : linearItems[linearIndex].item,
+        //   !!offset ? linearIndex - parentLinearIndex : undefined,
+        //   linearIndex
+        // );
       }
     },
     ref: containerRef,

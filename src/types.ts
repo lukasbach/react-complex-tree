@@ -62,7 +62,7 @@ export type TreeRenderProps<T = any> = {
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDepthOffset?: number;
   renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>) => React.ReactNode;
-  renderDragBetweenLine?: () => React.ReactNode;
+  renderDragBetweenLine?: (draggingPosition: DraggingPosition) => React.ReactNode;
 }
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
@@ -118,7 +118,7 @@ export type TreeEnvironmentContextProps<T = any> = {
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
   draggingItems?: TreeItem<T>[];
   itemHeight: number;
-  onDragAtPosition: (treeId: string, targetItem?: TreeItemIndex, childIndex?: number, linearIndex?: number) => void, // TODO
+  onDragAtPosition: (position: DraggingPosition | undefined) => void, // TODO
   draggingPosition?: DraggingPosition;
 } & TreeEnvironmentConfiguration<T> & AllTreeRenderProps<T>;
 
@@ -127,6 +127,8 @@ export type DraggingPosition = {
   targetItem: TreeItemIndex;
   childIndex?: number;
   linearIndex?: number;
+  depth: number;
+  linePosition?: 'top' | 'bottom';
 };
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;

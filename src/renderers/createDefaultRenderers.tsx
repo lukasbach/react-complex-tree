@@ -48,8 +48,17 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderTreeContainer: (children, containerProps) => {
       return <div {...containerProps}>{ children }</div>
     },
-    renderDragBetweenLine: () => {
-      return <div className="rbt-tree-drag-between-line" />;
+    renderDragBetweenLine: (draggingPosition) => {
+      return (
+        <div
+          style={{ left: `${draggingPosition.depth * (renderers.renderDepthOffset ?? 10)}px` }}
+          className={cx(
+            'rbt-tree-drag-between-line',
+            draggingPosition.linePosition === 'top' && 'rbt-tree-drag-between-line-top',
+            draggingPosition.linePosition === 'bottom' && 'rbt-tree-drag-between-line-bottom',
+          )}
+        />
+      );
     },
     renderDepthOffset: 4,
   };

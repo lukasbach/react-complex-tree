@@ -136,8 +136,13 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     },
     draggable: canDrag,
     onDragStart: e => {
+      e.dataTransfer.dropEffect = 'copy'; // TODO
+      // e.dataTransfer.setDragImage(environment.renderDraggingItem(viewState.selectedItems), 0, 0);
       actions.startDragging();
     },
+    onDragOver: e => {
+      e.preventDefault(); // Allow drop
+    }
   };
 
   const containerElementProps: HTMLProps<HTMLElement> = {

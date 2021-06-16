@@ -52,16 +52,14 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       },
       draggingItems: draggingItems,
       itemHeight: itemHeight,
-      onDragAtPosition: (treeId, targetItem, childIndex, linearIndex) => {
-        console.log(`Dragging in tree ${treeId} at item ${targetItem} at index ${childIndex} ${itemHeight}`);
+      onDragAtPosition: (position) => {
+        setDraggingPosition(position);
 
-        if (!targetItem) {
-          setDraggingPosition(undefined);
-        } else {
-          setDraggingPosition({ treeId, targetItem, childIndex, linearIndex });
+        if (position) {
+          console.log(`Dragging in tree ${position.treeId} at item ${position.targetItem} at index ${position.childIndex}, linear index ${position.linearIndex}`);
         }
       },
-      draggingPosition
+      draggingPosition: draggingPosition
     }}>
       {props.children}
     </TreeEnvironmentContext.Provider>

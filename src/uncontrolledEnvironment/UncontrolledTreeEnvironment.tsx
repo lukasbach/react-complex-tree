@@ -22,8 +22,8 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
   const dataProvider = createCompleteDataProvider(props.dataProvider);
 
   const writeItems = useMemo(() => (newItems: Record<TreeItemIndex, TreeItem<T>>) => {
-    setCurrentItems({ ...currentItems, ...newItems });
-  }, [currentItems]);
+    setCurrentItems(oldItems => ({ ...oldItems, ...newItems }));
+  }, []);
 
   const amendViewState = (treeId: string, constructNewState: (oldState: IndividualTreeViewState) => Partial<IndividualTreeViewState>) => {
     setViewState(oldState => ({
@@ -63,7 +63,9 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
       }}
       onMissingItems={itemIds => {
+        console.log(`Retrieving items ${itemIds.join(', ')}`)
         dataProvider.getTreeItems(itemIds).then(items => {
+          console.log(`Retrieved ${items.map(i => i.index).join(', ')}`)
           writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
         });
       }}

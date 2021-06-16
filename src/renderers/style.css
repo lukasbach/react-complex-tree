@@ -29,7 +29,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20px;
+    height: 25px;
+    border-bottom: 1px solid black;
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -44,8 +45,17 @@
 }
 
 .rbt-tree-drag-between-line {
+    position: absolute;
+    right: 0;
+    top: -2px;
     height: 4px;
-    width: 100%;
-    margin-top: -2px;
     background-color: rgb(142, 222, 255);
+}
+
+.rbt-tree-drag-between-line-top {
+    top: 0px;
+}
+
+.rbt-tree-drag-between-line-bottom {
+    top: -4px
 }
