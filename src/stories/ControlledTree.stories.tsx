@@ -19,6 +19,78 @@ const demoRenderers: TreeRenderProps<string> = {
   },
 };
 
+const longTreeTemplate = {
+  root: {
+    Fruit: {
+      Apple: null,
+      Orange: null,
+      Lemon: null,
+      Berries: {
+        Strawberry: null,
+        Blueberry: null,
+      },
+      Banana: null
+    },
+    Meals: {
+      America: {
+        SmashBurger: null,
+        Chowder: null,
+        Ravioli: null,
+        MacAndCheese: null,
+        Brownies: null,
+      },
+      Europe: {
+        Risotto: null,
+        Spaghetti: null,
+        Pizza: null,
+        Weisswurst: null,
+        Spargel: null,
+      },
+      Asia: {
+        Curry: null,
+        PadThai: null,
+        Jiaozi: null,
+        Sushi: null,
+      },
+      Australia: {
+        PotatoWedges: null,
+        PokeBowl: null,
+        LemonCurd: null,
+        KumaraFries: null,
+      }
+    },
+    Desserts: {
+      Cookies: null,
+      IceCream: null,
+    },
+    Drinks: {
+      PinaColada: null,
+      Cola: null,
+      Juice: null,
+    },
+  }
+};
+
+const readTemplate = (template: any, data: ExplicitDataSource = { items: {} }) => {
+  for (const [key, value] of Object.entries(template)) {
+    data.items[key] = {
+      index: key,
+      canMove: true,
+      hasChildren: value !== null,
+      children: value !== null ? Object.keys(value as object) : undefined,
+      data: key,
+      canRename: true,
+    }
+
+    if (value !== null) {
+      readTemplate(value, data);
+    }
+  }
+  return data;
+}
+
+const longTree = readTemplate(longTreeTemplate);
+
 const demoContent: { data: ExplicitDataSource } = {
   data: {
     items: {
@@ -89,17 +161,16 @@ export default {
 } as Meta;
 
 export const Example = () => (
-  <div style={{ marginTop: '200px' }}>
-    <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(demoContent.data.items)}
-      viewState={{
-        ['tree-1']: {
-          expandedItems: ['child1', 'child11', 'child2']
-        }
-      }}
-      {...demoRenderers}
-    >
-      <Tree treeId="tree-1" rootItem="root" />
-    </UncontrolledTreeEnvironment>
-  </div>
+  <UncontrolledTreeEnvironment
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    viewState={{
+      ['tree-1']: {
+        // expandedItems: ['child1', 'child11', 'child2']
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
 );
