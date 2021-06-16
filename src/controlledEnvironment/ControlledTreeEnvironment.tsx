@@ -16,12 +16,17 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
   const [draggingItems, setDraggingItems] = useState<TreeItem<T>[]>();
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [itemHeight, setItemHeight] = useState(4);
+  const [activeTree, setActiveTree] = useState<string>();
 
   useEffect(() => {
     const dragEndEventListener = () => {
-      console.log("MOUSE UP")
       setDraggingPosition(undefined);
       setDraggingItems(undefined);
+
+      console.log("DROP", draggingPosition, draggingItems, props.onDrop)
+      if (draggingItems && draggingPosition && props.onDrop) {
+        props.onDrop(draggingItems, draggingPosition);
+      }
     };
 
     window.addEventListener('dragend', dragEndEventListener);
@@ -29,7 +34,7 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
     return () => {
       window.removeEventListener('dragend', dragEndEventListener);
     }
-  }, [])
+  }, [draggingPosition, draggingItems, props.onDrop]);
 
   return (
     <TreeEnvironmentContext.Provider value={{
@@ -46,6 +51,7 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       },
       onStartDraggingItems: (items, treeId) => {
         setDraggingItems(items);
+        console.log("ITEMS", items)
         const height = document.querySelector<HTMLElement>(`[data-rbt-item='${treeId}']`)?.offsetHeight ?? 5;
         console.log(`HEIGHT ${height}`, document.querySelector<HTMLElement>(`[data-rbt-item='${treeId}']`))
         setItemHeight(height);
@@ -55,11 +61,13 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       onDragAtPosition: (position) => {
         setDraggingPosition(position);
 
-        if (position) {
-          console.log(`Dragging in tree ${position.treeId} at item ${position.targetItem} at index ${position.childIndex}, linear index ${position.linearIndex}`);
-        }
+        // if (position) {
+        //   console.log(`Dragging in tree ${position.treeId} at item ${position.targetItem} at index ${position.childIndex}, linear index ${position.linearIndex}`);
+        // }
       },
-      draggingPosition: draggingPosition
+      draggingPosition: draggingPosition,
+      activeTreeId: activeTree,
+      setActiveTree: setActiveTree,
     }}>
       {props.children}
     </TreeEnvironmentContext.Provider>

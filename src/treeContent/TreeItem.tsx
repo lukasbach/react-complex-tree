@@ -1,7 +1,11 @@
 import { TreeItemIndex, TreeProps } from '../types';
 import React, { useContext, useMemo, useState } from 'react';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { createTreeItemRenderContext, createTreeItemRenderContextDependencies } from '../helpers';
+import {
+  createTreeInformation, createTreeInformationDependencies,
+  createTreeItemRenderContext,
+  createTreeItemRenderContextDependencies,
+} from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
 import { TreeIdContext } from './Tree';
 import { useViewState } from './useViewState';
@@ -22,6 +26,11 @@ export const TreeItem = <T extends any>(props: {
     createTreeItemRenderContextDependencies(item, environment, treeId)
   );
 
+  const treeInformation = useMemo(
+    () => createTreeInformation(environment, treeId),
+    createTreeInformationDependencies(environment, treeId),
+  ); // TODO Construct in tree instead of every item
+
   if (item === undefined) {
     if (!hasBeenRequested) {
       setHasBeenRequested(true);
@@ -33,7 +42,7 @@ export const TreeItem = <T extends any>(props: {
 
   return (
     <>
-      {environment.renderItem(environment.items[props.itemIndex], props.depth, renderContext, {})}
+      {environment.renderItem(environment.items[props.itemIndex], props.depth, renderContext, treeInformation)}
       {item.hasChildren && isExpanded && item.children && (
         <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
       )}

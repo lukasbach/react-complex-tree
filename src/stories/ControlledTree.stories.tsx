@@ -160,17 +160,67 @@ export default {
   },
 } as Meta;
 
-export const Example = () => (
+export const SingleTree = () => (
   <UncontrolledTreeEnvironment
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     viewState={{
       ['tree-1']: {
-        // expandedItems: ['child1', 'child11', 'child2']
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
       }
     }}
     {...demoRenderers}
   >
     <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const SingleTreeAllCollapsed = () => (
+  <UncontrolledTreeEnvironment
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    viewState={{
+      ['tree-1']: {
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const MultipleTrees = () => (
+  <UncontrolledTreeEnvironment
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    viewState={{
+      ['tree-1']: {
+      }
+    }}
+    {...demoRenderers}
+  >
+    <div style={{
+      display: 'flex',
+      backgroundColor: '#eee',
+      justifyContent: 'space-evenly',
+      alignItems: 'baseline',
+      padding: '20px 0',
+    }}>
+      <div style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}>
+        <Tree treeId="tree-1" rootItem="root" />
+      </div>
+      <div style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}>
+        <Tree treeId="tree-2" rootItem="root" />
+      </div>
+      <div style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}>
+        <Tree treeId="tree-3" rootItem="root" />
+      </div>
+    </div>
   </UncontrolledTreeEnvironment>
 );

@@ -11,9 +11,10 @@ import { ControlledTreeEnvironment, TreeEnvironmentContext } from '../controlled
 
 const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({
   ...provider,
-  onDidChangeTreeData: provider.onDidChangeTreeData ?? (() => {}),
+  onDidChangeTreeData: provider.onDidChangeTreeData ?? (() => ({ dispose: () => {} })),
   getTreeItems: provider.getTreeItems ?? (itemIds => Promise.all(itemIds.map(id => provider.getTreeItem(id)))),
-  onRenameItem: provider.onRenameItem ?? (() => {}),
+  onRenameItem: provider.onRenameItem ?? (async () => {}),
+  onChangeItemChildren: provider.onChangeItemChildren ?? (async () => {}),
 });
 
 export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTreeEnvironmentProps<T>) => {
@@ -30,11 +31,20 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       ...oldState,
       [treeId]: {
         ...oldState[treeId],
-        ...constructNewState(oldState[treeId]),
+        ...constructNewState(oldState[treeId] ?? {}),
       }
     }));
   }
 
+  useEffect(() => {
+    const { dispose } = dataProvider.onDidChangeTreeData(changedItemIds => {
+      dataProvider.getTreeItems(changedItemIds).then(items => {
+        writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
+      });
+    });
+
+    return dispose;
+  })
 
   return (
     <ControlledTreeEnvironment
@@ -61,6 +71,45 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       onRenameItem={(item, name, treeId) => {
         dataProvider.onRenameItem(item, name);
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
+      }}
+      onDrop={async (items, target) => {
+        for (const item of items) {
+          const parent = Object.values(currentItems).find(potentialParent => potentialParent.children?.includes(item.index));
+          const newParent = currentItems[target.parentItem];
+
+          if (!parent) {
+            throw Error(`Could not find parent of item "${item.index}"`);
+          }
+
+          if (!parent.children) {
+            throw Error(`Parent "${parent.index}" of item "${item.index}" did not have any children`);
+          }
+
+          console.log(target.parentItem, parent.index, dataProvider)
+
+          if (target.targetType === 'item') {
+            if (target.targetItem === parent.index) {
+              // NOOP
+              console.log(1)
+            } else {
+              console.log(2)
+              await dataProvider.onChangeItemChildren(parent.index, parent.children.filter(child => child !== item.index));
+              await dataProvider.onChangeItemChildren(target.targetItem, [...currentItems[target.targetItem].children ?? [], item.index]);
+            }
+          } else {
+            const newParentChildren = [...newParent.children ?? []].filter(child => child !== item.index);
+            newParentChildren.splice(target.childIndex, 0, item.index);
+            if (target.parentItem === parent.index) {
+              console.log(3)
+              await dataProvider.onChangeItemChildren(target.parentItem, newParentChildren);
+            } else {
+              console.log(4)
+              await dataProvider.onChangeItemChildren(parent.index, parent.children.filter(child => child !== item.index));
+              await dataProvider.onChangeItemChildren(target.parentItem, newParentChildren);
+            }
+          }
+
+        }
       }}
       onMissingItems={itemIds => {
         console.log(`Retrieving items ${itemIds.join(', ')}`)

@@ -1,16 +1,23 @@
 .rbt-tree-root {
+    font-family: sans-serif;
+}
 
+.rbt-tree-root-focus {
+    outline: 3px solid rgb(118, 221, 246);
 }
 
 .rbt-tree-child-list {
 }
 
-.rbt-tree-item-button.rbt-tree-item-button-hasChildren:before {
-    content: '🞂';
+.rbt-tree-item-button:before {
     width: 20px;
     display: inline-block;
     text-align: left;
     padding-bottom: 4px;
+    content: '';
+}
+.rbt-tree-item-button.rbt-tree-item-button-hasChildren:before {
+    content: '🞂';
 }
 .rbt-tree-item-button-expanded.rbt-tree-item-button-hasChildren:before {
     content: '🞃';
@@ -22,7 +29,9 @@
     font-size: inherit;
     border: none;
     width: 100%;
+    height: 100%;
     text-align: left;
+    color: inherit;
 }
 
 .rbt-tree-item-li {
@@ -30,6 +39,7 @@
     justify-content: center;
     align-items: center;
     height: 25px;
+    font-size: .8em;
     border-bottom: 1px solid black;
     list-style-type: none;
     padding: 0;
@@ -38,6 +48,7 @@
 
 .rbt-tree-item-li-selected {
     background-color: rgb(12, 181, 252);
+    color: #fff;
 }
 
 .rbt-tree-item-li-dragging-over {

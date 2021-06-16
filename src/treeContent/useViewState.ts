@@ -5,5 +5,5 @@ import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeE
 export const useViewState = () => {
   const treeId = useContext(TreeIdContext);
   const environment = useContext(TreeEnvironmentContext);
-  return environment.viewState[treeId];
+  return environment.viewState[treeId] ?? {};
 }

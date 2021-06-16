@@ -22,6 +22,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         >
           <button
             role="treeitem"
+            tabIndex={-1} // TODO 0 if focused
             {...context.interactiveElementProps as any}
             className={cx(
               'rbt-tree-item-button',
@@ -45,8 +46,20 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderDraggingItemTitle: items => {
       return <div />;
     },
-    renderTreeContainer: (children, containerProps) => {
-      return <div {...containerProps}>{ children }</div>
+    renderTreeContainer: (children, containerProps, info) => {
+      return (
+        <div
+          {...containerProps}
+          className={cx(
+            'rbt-tree-root',
+            info.isFocused && 'rbt-tree-root-focus',
+            info.isRenaming && 'rbt-tree-root-renaming',
+            info.areItemsSelected && 'rbt-tree-root-itemsselected',
+          )}
+        >
+          { children }
+        </div>
+      );
     },
     renderDragBetweenLine: (draggingPosition) => {
       return (
@@ -54,8 +67,8 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           style={{ left: `${draggingPosition.depth * (renderers.renderDepthOffset ?? 10)}px` }}
           className={cx(
             'rbt-tree-drag-between-line',
-            draggingPosition.linePosition === 'top' && 'rbt-tree-drag-between-line-top',
-            draggingPosition.linePosition === 'bottom' && 'rbt-tree-drag-between-line-bottom',
+            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'top' && 'rbt-tree-drag-between-line-top',
+            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'bottom' && 'rbt-tree-drag-between-line-bottom',
           )}
         />
       );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AllTreeRenderProps,
-  ControlledTreeEnvironmentProps,
+  ControlledTreeEnvironmentProps, TreeInformation,
   TreeItemIndex,
   TreeProps,
   TreeRenderProps,
@@ -9,9 +9,11 @@ import {
 import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeItemChildren } from './TreeItemChildren';
-import { getItemsLinearly } from '../helpers';
+import { createTreeInformation, createTreeInformationDependencies, getItemsLinearly } from '../helpers';
 import { useViewState } from './useViewState';
 import { DragBetweenLine } from './DragBetweenLine';
+import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
+import { useFocusWithin } from './useFocusWithin';
 
 export const TreeRenderContext = React.createContext<AllTreeRenderProps>(null as any);
 export const TreeIdContext = React.createContext<string>('__no_tree');
@@ -42,6 +44,19 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
 
+  useFocusWithin(containerRef.current, () => {
+    environment.setActiveTree(props.treeId)
+  }, () => {
+    if (environment.activeTreeId === props.treeId) {
+      environment.setActiveTree(undefined);
+    }
+  }, [environment.activeTreeId, props.treeId]);
+
+  const treeInformation = useMemo(
+    () => createTreeInformation(environment, props.treeId),
+    createTreeInformationDependencies(environment, props.treeId),
+  ); // share with tree children
+
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
     return null;
@@ -62,7 +77,24 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
   const containerProps: HTMLProps<any> = {
     onDrag: e => {
-      const hoveringPosition = (e.clientY - containerRef.current!.offsetTop) / environment.itemHeight;
+      console.log("DRAG", props.treeId)
+      if (!containerRef.current) {
+        return;
+      }
+
+      if (e.clientX < 0 || e.clientY < 0) {
+        return; // TODO hotfix
+      }
+
+      const treeBb = containerRef.current.getBoundingClientRect();
+      const outsideContainer = e.clientX < treeBb.left
+        || e.clientX > treeBb.right
+        || e.clientY < treeBb.top
+        || e.clientY > treeBb.bottom; // TODO hotfix
+
+      // console.log(outsideContainer, treeBb, e.clientX, e.clientY);
+
+      const hoveringPosition = (e.clientY- /*containerRef.current!.offsetTop*/ treeBb.top) / environment.itemHeight;
       let linearIndex = Math.floor(hoveringPosition);
       let offset: 'top' | 'bottom' | undefined = undefined;
 
@@ -70,20 +102,24 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
         offset = 'top';
       } else if (hoveringPosition % 1 > .8) {
         offset = 'bottom';
-
-        // offset = 'top';
-        // linearIndex =- 1;
       } else {
       }
 
-      const hoveringCode = `${linearIndex}${offset ?? ''}`;
+      const hoveringCode = outsideContainer ? 'outside' : `${linearIndex}${offset ?? ''}`;
 
       if (lastHoverCode.current !== hoveringCode) {
         lastHoverCode.current = hoveringCode;
+
+        if (outsideContainer) {
+          console.log("Dragged outside of container", e.clientX, e.clientY, treeBb);
+          environment.onDragAtPosition(undefined);
+          return;
+        }
+
         const linearItems = getItemsLinearly(props.rootItem, environment.viewState[props.treeId], environment.items);
 
-        console.log(linearIndex, hoveringPosition, e.clientY, containerRef.current?.offsetTop, environment.itemHeight, containerRef.current)
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
+          console.log("Dragged outside linear list");
           environment.onDragAtPosition(undefined);
           return;
         }
@@ -105,32 +141,24 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
         if (offset) {
           environment.onDragAtPosition({
+            targetType: 'between-items',
             treeId: props.treeId,
-            targetItem: parent.item,
+            parentItem: parent.item,
             depth: linearItems[linearIndex].depth,
             linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
-            childIndex: linearIndex - parentLinearIndex + (offset === 'top' ? 0 : 1),
+            childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
             linePosition: offset,
           });
         } else {
           environment.onDragAtPosition({
+            targetType: 'item',
             treeId: props.treeId,
+            parentItem: parent.item,
             targetItem: linearItems[linearIndex].item,
             depth: linearItems[linearIndex].depth,
             linearIndex: linearIndex,
-            childIndex: undefined,
           })
         }
-
-
-        // console.log(linearItems[linearIndex].item, parent.item, offset)
-
-        // environment.onDragAtPosition(
-        //   props.treeId,
-        //   !!offset ? parent.item : linearItems[linearIndex].item,
-        //   !!offset ? linearIndex - parentLinearIndex : undefined,
-        //   linearIndex
-        // );
       }
     },
     ref: containerRef,
@@ -140,7 +168,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
   return (
     <TreeRenderContext.Provider value={renderers}>
       <TreeIdContext.Provider value={props.treeId}>
-        {renderers.renderTreeContainer(treeChildren, containerProps)}
+        {renderers.renderTreeContainer(treeChildren, containerProps, treeInformation)}
       </TreeIdContext.Provider>
     </TreeRenderContext.Provider>
   );
