@@ -139,6 +139,11 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           return;
         }
 
+        if (offset === 'top' && depth === (linearItems[linearIndex - 1]?.depth ?? -1)) {
+          offset = 'bottom';
+          linearIndex -= 1;
+        }
+
         if (offset) {
           environment.onDragAtPosition({
             targetType: 'between-items',
