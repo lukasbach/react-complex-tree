@@ -76,7 +76,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
   );
 
   const containerProps: HTMLProps<any> = {
-    onDrag: e => {
+    onDragOver: e => {
       console.log("DRAG", props.treeId)
       if (!containerRef.current) {
         return;
@@ -116,7 +116,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           return;
         }
 
-        const linearItems = getItemsLinearly(props.rootItem, environment.viewState[props.treeId], environment.items);
+        const linearItems = getItemsLinearly(props.rootItem, environment.viewState[props.treeId] ?? {}, environment.items);
 
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
           console.log("Dragged outside linear list");
@@ -135,7 +135,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           parentLinearIndex = 0;
         }
 
-        if (environment.viewState[props.treeId].selectedItems?.includes(linearItems[linearIndex].item)) {
+        if (environment.viewState[props.treeId]?.selectedItems?.includes(linearItems[linearIndex].item)) {
           return;
         }
 
@@ -159,6 +159,14 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
             linearIndex: linearIndex,
           })
         }
+
+        // if (environment.activeTreeId !== props.treeId) {
+          environment.setActiveTree(props.treeId);
+
+          if (environment.draggingItems && environment.onSelectItems && environment.activeTreeId !== props.treeId) {
+            environment.onSelectItems(environment.draggingItems.map(item => item.index), props.treeId);
+          }
+        // }
       }
     },
     ref: containerRef,

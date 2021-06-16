@@ -166,3 +166,19 @@ export type Disposable = {
 }
 
 export type CompleteTreeDataProvider<T = any> = Required<TreeDataProvider<T>>;
+
+export type KeyboardBindings = Partial<{
+  moveFocusUp: string[];
+  moveFocusDown: string[];
+  expandItem: string[];
+  collapseItem: string[];
+  primaryAction: string[];
+  moveFocusToFirstItem: string[];
+  moveFocusToLastItem: string[];
+  expandSiblings: string[];
+  renameItem: string[];
+  toggleSelectItem: string[];
+  startMovingItems: string[];
+  completeMovingItems: string[];
+  abortMovingItems: string[];
+}>;

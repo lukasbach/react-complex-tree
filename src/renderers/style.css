@@ -46,7 +46,12 @@
     margin: 0;
 }
 
-.rbt-tree-item-li-selected {
+.rbt-tree-root:not(.rbt-tree-root-focus) .rbt-tree-item-li-selected {
+    background-color: rgb(161, 161, 161);
+    color: #fff;
+
+}
+.rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-li-selected {
     background-color: rgb(12, 181, 252);
     color: #fff;
 }
