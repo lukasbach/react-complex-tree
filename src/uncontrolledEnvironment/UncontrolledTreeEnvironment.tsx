@@ -65,6 +65,9 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       onSelectItems={(items, treeId) => {
         amendViewState(treeId, old => ({ ...old, selectedItems: items }));
       }}
+      onFocusItem={(item, treeId) => {
+        amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));
+      }}
       onStartRenamingItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
       }}

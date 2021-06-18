@@ -40,6 +40,11 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
     <TreeEnvironmentContext.Provider value={{
       ...createDefaultRenderers(props),
       ...props,
+      onFocusItem: (item, treeId) => {
+        props.onFocusItem?.(item, treeId);
+        const newItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-id="${item.index}"]`);
+        (newItem as HTMLElement)?.focus?.();
+      },
       registerTree: (tree) => {
         setTrees({...trees, [tree.treeId]: tree});
         props.onRegisterTree?.(tree);
@@ -52,8 +57,8 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       onStartDraggingItems: (items, treeId) => {
         setDraggingItems(items);
         console.log("ITEMS", items)
-        const height = document.querySelector<HTMLElement>(`[data-rbt-item='${treeId}']`)?.offsetHeight ?? 5;
-        console.log(`HEIGHT ${height}`, document.querySelector<HTMLElement>(`[data-rbt-item='${treeId}']`))
+        const height = document.querySelector<HTMLElement>(`[data-rbt-tree="${treeId}"] [data-rbt-item-container="true"]`)?.offsetHeight ?? 5;
+        console.log(`HEIGHT ${height}`, document.querySelector<HTMLElement>(`[data-rbt-tree="${treeId}"] [data-rbt-item-container="true"]`))
         setItemHeight(height);
       },
       draggingItems: draggingItems,

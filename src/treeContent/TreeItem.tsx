@@ -7,7 +7,7 @@ import {
   createTreeItemRenderContextDependencies,
 } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
-import { TreeIdContext } from './Tree';
+import { TreeConfigurationContext, TreeRenderContext } from './Tree';
 import { useViewState } from './useViewState';
 
 export const TreeItem = <T extends any>(props: {
@@ -15,9 +15,10 @@ export const TreeItem = <T extends any>(props: {
   depth: number;
 }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
-  const treeId = useContext(TreeIdContext);
+  const { treeId } = useContext(TreeConfigurationContext);
   const environment = useContext(TreeEnvironmentContext);
   const viewState = useViewState();
+  const renderers = useContext(TreeRenderContext);
   const item = environment.items[props.itemIndex];
 
   const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, viewState.expandedItems]);
@@ -43,5 +44,5 @@ export const TreeItem = <T extends any>(props: {
     <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
   );
 
-  return (environment.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation) ?? null) as any; // Type to use AllTreeRenderProps
+  return (renderers.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation) ?? null) as any; // Type to use AllTreeRenderProps
 }

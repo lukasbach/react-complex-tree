@@ -45,11 +45,13 @@
 .rbt-tree-root:not(.rbt-tree-root-focus) .rbt-tree-item-button-selected {
     background-color: rgb(161, 161, 161);
     color: #fff;
-
 }
 .rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-button-selected {
     background-color: rgb(12, 181, 252);
     color: #fff;
+}
+.rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-button-focused {
+    box-shadow: inset 0 0 0 2px rgb(43, 191, 255);
 }
 
 .rbt-tree-item-button-dragging-over {

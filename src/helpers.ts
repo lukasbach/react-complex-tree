@@ -35,20 +35,6 @@ export const getItemPathAtLinearIndex = (environment: TreeEnvironmentConfigurati
   return undefined;
 }
 
-export const getItemsLinearly = <T>(rootItem: TreeItemIndex, viewState: IndividualTreeViewState, items: Record<TreeItemIndex, TreeItem<T>>, depth = 0): Array<{ item: TreeItemIndex, depth: number }> => {
-  let itemIds: Array<{ item: TreeItemIndex, depth: number }> = [];
-
-  for (const itemId of items[rootItem].children ?? []) {
-    const item  = items[itemId];
-    itemIds.push({ item: itemId, depth: depth });
-    if (item.hasChildren && !!item.children && viewState.expandedItems?.includes(itemId)) {
-      itemIds.push(...getItemsLinearly(itemId, viewState, items, depth + 1));
-    }
-  }
-
-  return itemIds;
-}
-
 export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
@@ -97,6 +83,9 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     },
     startRenamingItem: () => {
     },
+    focusItem: () => {
+      environment.onFocusItem?.(item, treeId);
+    },
     startDragging: () => {
       let selectedItems = viewState?.selectedItems ?? [];
 
@@ -126,6 +115,7 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
 
   const interactiveElementProps: HTMLProps<HTMLElement> = {
     onClick: (e) => {
+      actions.focusItem();
       if (e.ctrlKey) {
         if (renderContext.isSelected) {
           actions.unselectItem();
@@ -147,7 +137,9 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
       }
       // actions.selectItem();
     },
-    draggable: canDrag,
+    onFocus: () => {
+      actions.focusItem();
+    },
     onDragStart: e => {
       e.dataTransfer.dropEffect = 'copy'; // TODO
       // e.dataTransfer.setDragImage(environment.renderDraggingItem(viewState.selectedItems), 0, 0);
@@ -155,12 +147,18 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
     },
     onDragOver: e => {
       e.preventDefault(); // Allow drop
-    }
+    },
+    draggable: canDrag,
+    ...({
+      ['data-rbt-item-interactive']: true,
+      ['data-rbt-item-focus']: renderContext.isFocused ? 'true' : 'false',
+      ['data-rbt-item-id']: item.index,
+    } as any)
   };
 
   const containerElementProps: HTMLProps<HTMLElement> = {
     ...({
-      ['data-rbt-item']: treeId,
+      ['data-rbt-item-container']: 'true',
     } as any),
   };
 

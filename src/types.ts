@@ -31,6 +31,7 @@ export type TreeItemActions = {
   unselectItem: () => void;
   addToSelectedItems: () => void;
   startDragging: () => void;
+  focusItem: () => void;
   // toggleSelectedState: () => void;
 }
 
@@ -46,7 +47,6 @@ export type TreeItemRenderFlags = {
 export type TreeItemRenderContext = {
   interactiveElementProps: HTMLProps<any>;
   itemContainerElementProps: HTMLProps<any>;
-
 } & TreeItemActions & TreeItemRenderFlags;
 
 export type TreeInformation = {
@@ -105,7 +105,8 @@ export type TreeChangeHandlers<T = any> = {
   onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
   onRenameItem?: (item: TreeItem<T>, name: string, treeId: string) => void;
-  onSelectItems?: (items: TreeItemIndex[], treeId: string) => void;
+  onSelectItems?: (items: TreeItemIndex[], treeId: string) => void; // TODO TreeItem instead of just index
+  onFocusItem?: (item: TreeItem<T>, treeId: string) => void;
   // onStartDrag?: (items: TreeItemIndex[], treeId: string) => void;
   onDrop?: (items: TreeItem<T>[], target: DraggingPosition) => void;
   onPrimaryAction?: (items: TreeItem<T>, treeId: string) => void;
@@ -116,6 +117,7 @@ export type TreeChangeHandlers<T = any> = {
 
 export type TreeEnvironmentConfiguration<T = any> = {
   viewState: TreeViewState;
+  keyboardBindings?: KeyboardBindings;
 } & TreeRenderProps<T> & TreeCapabilities<T> & TreeChangeHandlers<T> & ExplicitDataSource<T>;
 
 export type TreeEnvironmentContextProps<T = any> = {
@@ -148,6 +150,7 @@ export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvi
 
 export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
   viewState: TreeViewState;
+  keyboardBindings?: KeyboardBindings;
 } & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
 
 export type TreeConfiguration<T = any> = {
@@ -172,10 +175,6 @@ export type Disposable = {
 export type CompleteTreeDataProvider<T = any> = Required<TreeDataProvider<T>>;
 
 export type KeyboardBindings = Partial<{
-  moveFocusUp: string[];
-  moveFocusDown: string[];
-  expandItem: string[];
-  collapseItem: string[];
   primaryAction: string[];
   moveFocusToFirstItem: string[];
   moveFocusToLastItem: string[];
