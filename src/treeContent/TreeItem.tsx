@@ -13,7 +13,7 @@ import { useViewState } from './useViewState';
 export const TreeItem = <T extends any>(props: {
   itemIndex: TreeItemIndex;
   depth: number;
-}) => {
+}): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const treeId = useContext(TreeIdContext);
   const environment = useContext(TreeEnvironmentContext);
@@ -36,12 +36,12 @@ export const TreeItem = <T extends any>(props: {
       setHasBeenRequested(true);
       environment.onMissingItems?.([props.itemIndex]);
     }
-    return null;
+    return null as any;
   }
 
   const children = item.hasChildren && isExpanded && item.children && (
     <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
   );
 
-  return environment.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation);
+  return (environment.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation) ?? null) as any; // Type to use AllTreeRenderProps
 }

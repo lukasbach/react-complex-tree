@@ -162,6 +162,9 @@ export default {
 
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     viewState={{
       ['tree-1']: {
@@ -176,6 +179,9 @@ export const SingleTree = () => (
 
 export const SingleTreeAllCollapsed = () => (
   <UncontrolledTreeEnvironment
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     viewState={{
       ['tree-1']: {
@@ -189,6 +195,9 @@ export const SingleTreeAllCollapsed = () => (
 
 export const MultipleTrees = () => (
   <UncontrolledTreeEnvironment
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     viewState={{
       ['tree-1']: {
@@ -227,6 +236,9 @@ export const MultipleTrees = () => (
 
 export const TreeWithDelayedDataProvider = () => (
   <UncontrolledTreeEnvironment
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
     dataProvider={{
       getTreeItem: itemId => {
         return new Promise(res => setTimeout(() => res(longTree.items[itemId]), 750));
@@ -234,6 +246,77 @@ export const TreeWithDelayedDataProvider = () => (
     }}
     viewState={{
       ['tree-1']: {
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+/*
+export const ImplicitOrdering = () => (
+  <UncontrolledTreeEnvironment
+    dataProvider={new StaticTreeDataProvider(longTree.items, (itemA, itemB) => {
+      if (itemA.hasChildren !== itemB.hasChildren) {
+        return itemA.hasChildren ? 1 : -1;
+      } else {
+        return (itemA.data as string).localeCompare(itemB.data);
+      }
+    })}
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+*/
+
+export const NoDragAndDrop = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const NoDropOnItemsAllowed = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    allowDragAndDrop={true}
+    allowReorderingItems={true}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const NoReorderingAllowed = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
       }
     }}
     {...demoRenderers}

@@ -9,8 +9,6 @@ export const TreeItemChildren = <T extends any>(props: {
   depth: number;
   parentId: TreeItemIndex;
 }) => {
-  const environment = useContext(TreeEnvironmentContext);
-
   let childElements: JSX.Element[] = [];
 
   for (const child of props.children) {

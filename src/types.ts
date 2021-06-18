@@ -68,8 +68,14 @@ export type TreeRenderProps<T = any> = {
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
 
-export type TreeCapabilities = {
-  selectItemOnClick?: boolean;
+export type TreeCapabilities<T = any> = {
+  defaultInteractionMode?: 'click-to-activate' | 'click-to-select';
+  allowDragAndDrop?: boolean;
+  allowDropOnItemWithChildren?: boolean;
+  allowDropOnItemWithoutChildren?: boolean;
+  allowReorderingItems?: boolean;
+  canDrag?: (items: TreeItem<T>[]) => boolean;
+  canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
 }
 
 export type IndividualTreeViewState = {
@@ -110,8 +116,7 @@ export type TreeChangeHandlers<T = any> = {
 
 export type TreeEnvironmentConfiguration<T = any> = {
   viewState: TreeViewState;
-  defaultInteractionMode?: 'click-to-activate' | 'click-to-select';
-} & TreeRenderProps<T> & TreeCapabilities & TreeChangeHandlers<T> & ExplicitDataSource<T>;
+} & TreeRenderProps<T> & TreeCapabilities<T> & TreeChangeHandlers<T> & ExplicitDataSource<T>;
 
 export type TreeEnvironmentContextProps<T = any> = {
   registerTree: (tree: TreeConfiguration<T>) => void;
@@ -143,7 +148,6 @@ export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvi
 
 export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
   viewState: TreeViewState;
-  defaultInteractionMode?: 'click-to-activate' | 'click-to-select';
 } & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
 
 export type TreeConfiguration<T = any> = {

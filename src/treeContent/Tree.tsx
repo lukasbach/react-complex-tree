@@ -77,6 +77,10 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
   const containerProps: HTMLProps<any> = {
     onDragOver: e => {
+      if (!environment.allowDragAndDrop) {
+        return;
+      }
+
       console.log("DRAG", props.treeId)
       if (!containerRef.current) {
         return;
@@ -98,9 +102,11 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
       let linearIndex = Math.floor(hoveringPosition);
       let offset: 'top' | 'bottom' | undefined = undefined;
 
-      if (hoveringPosition % 1 < .2) {
+      const lineThreshold = (environment.allowDropOnItemWithChildren || environment.allowDropOnItemWithoutChildren) ? .2 : .5;
+
+      if (hoveringPosition % 1 < lineThreshold) {
         offset = 'top';
-      } else if (hoveringPosition % 1 > .8) {
+      } else if (hoveringPosition % 1 > 1 - lineThreshold) {
         offset = 'bottom';
       } else {
       }
@@ -111,7 +117,6 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
         lastHoverCode.current = hoveringCode;
 
         if (outsideContainer) {
-          console.log("Dragged outside of container", e.clientX, e.clientY, treeBb);
           environment.onDragAtPosition(undefined);
           return;
         }
@@ -119,15 +124,31 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
         const linearItems = getItemsLinearly(props.rootItem, environment.viewState[props.treeId] ?? {}, environment.items);
 
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
-          console.log("Dragged outside linear list");
           environment.onDragAtPosition(undefined);
           return;
         }
 
-        const depth = linearItems[linearIndex].depth;
+        const targetItem = linearItems[linearIndex];
+        const depth = targetItem.depth;
+        const targetItemData = environment.items[targetItem.item];
+
+        if (!offset && !environment.allowDropOnItemWithoutChildren && !targetItemData.hasChildren) {
+          environment.onDragAtPosition(undefined);
+          return;
+        }
+
+        if (!offset && !environment.allowDropOnItemWithChildren && targetItemData.hasChildren) {
+          environment.onDragAtPosition(undefined);
+          return;
+        }
+
+        if (offset && !environment.allowReorderingItems) {
+          environment.onDragAtPosition(undefined);
+          return;
+        }
+
         let parentLinearIndex = linearIndex;
         for (; !!linearItems[parentLinearIndex] && linearItems[parentLinearIndex].depth !== depth - 1; parentLinearIndex--);
-
         let parent = linearItems[parentLinearIndex];
 
         if (!parent) {
@@ -135,7 +156,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           parentLinearIndex = 0;
         }
 
-        if (environment.viewState[props.treeId]?.selectedItems?.includes(linearItems[linearIndex].item)) {
+        if (environment.viewState[props.treeId]?.selectedItems?.includes(targetItem.item)) {
           return;
         }
 
@@ -149,7 +170,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
             targetType: 'between-items',
             treeId: props.treeId,
             parentItem: parent.item,
-            depth: linearItems[linearIndex].depth,
+            depth: targetItem.depth,
             linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
             childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
             linePosition: offset,
@@ -159,8 +180,8 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
             targetType: 'item',
             treeId: props.treeId,
             parentItem: parent.item,
-            targetItem: linearItems[linearIndex].item,
-            depth: linearItems[linearIndex].depth,
+            targetItem: targetItem.item,
+            depth: targetItem.depth,
             linearIndex: linearIndex,
           })
         }
