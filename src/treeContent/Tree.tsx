@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AllTreeRenderProps,
-  ControlledTreeEnvironmentProps, TreeInformation,
+  ControlledTreeEnvironmentProps, DraggingPosition, TreeInformation,
   TreeItemIndex,
   TreeProps,
   TreeRenderProps,
@@ -147,6 +147,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           return;
         }
 
+
         let parentLinearIndex = linearIndex;
         for (; !!linearItems[parentLinearIndex] && linearItems[parentLinearIndex].depth !== depth - 1; parentLinearIndex--);
         let parent = linearItems[parentLinearIndex];
@@ -165,8 +166,10 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
           linearIndex -= 1;
         }
 
+        let draggingPosition: DraggingPosition;
+
         if (offset) {
-          environment.onDragAtPosition({
+          draggingPosition = {
             targetType: 'between-items',
             treeId: props.treeId,
             parentItem: parent.item,
@@ -174,17 +177,26 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
             linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
             childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
             linePosition: offset,
-          });
+          };
         } else {
-          environment.onDragAtPosition({
+          draggingPosition = {
             targetType: 'item',
             treeId: props.treeId,
             parentItem: parent.item,
             targetItem: targetItem.item,
             depth: targetItem.depth,
             linearIndex: linearIndex,
-          })
+          };
         }
+
+
+        if (environment.canDropAt && (!environment.draggingItems
+          || !environment.canDropAt(environment.draggingItems, draggingPosition))) {
+          environment.onDragAtPosition(undefined);
+          return;
+        }
+
+        environment.onDragAtPosition(draggingPosition);
 
         // if (environment.activeTreeId !== props.treeId) {
           environment.setActiveTree(props.treeId);

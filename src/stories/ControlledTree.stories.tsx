@@ -324,3 +324,41 @@ export const NoReorderingAllowed = () => (
     <Tree treeId="tree-1" rootItem="root" />
   </UncontrolledTreeEnvironment>
 );
+
+export const AllowDraggingOnlyItemsStartingWithA = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
+    canDrag={items => items.map(item => (item.data as string).startsWith('A'))
+      .reduce((a, b) => a && b, true)}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const AllowDroppingOnlyOnItemsStartingWithA = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
+    canDropAt={(items, target) => target.targetType === 'between-items'
+      ? (target.parentItem as string).startsWith('A') : (target.targetItem as string).startsWith('A')}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
