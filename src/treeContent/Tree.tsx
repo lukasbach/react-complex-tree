@@ -48,6 +48,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
     environment.setActiveTree(props.treeId)
   }, () => {
     if (environment.activeTreeId === props.treeId) {
+      // TODO currently looses focus while dropping in the active tree
       environment.setActiveTree(undefined);
     }
   }, [environment.activeTreeId, props.treeId]);
@@ -87,6 +88,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
       }
 
       if (e.clientX < 0 || e.clientY < 0) {
+        console.log("Drag aborted due to mouse coords being negative");
         return; // TODO hotfix
       }
 
@@ -118,6 +120,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
         if (outsideContainer) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to being out of container");
           return;
         }
 
@@ -125,6 +128,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to being out of linear list");
           return;
         }
 
@@ -134,16 +138,19 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
 
         if (!offset && !environment.allowDropOnItemWithoutChildren && !targetItemData.hasChildren) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to allowDropOnItemWithoutChildren");
           return;
         }
 
         if (!offset && !environment.allowDropOnItemWithChildren && targetItemData.hasChildren) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to allowDropOnItemWithChildren");
           return;
         }
 
         if (offset && !environment.allowReorderingItems) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to allowReorderingItems");
           return;
         }
 
@@ -193,6 +200,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
         if (environment.canDropAt && (!environment.draggingItems
           || !environment.canDropAt(environment.draggingItems, draggingPosition))) {
           environment.onDragAtPosition(undefined);
+          console.log("Drag aborted due to canDropAt hook");
           return;
         }
 

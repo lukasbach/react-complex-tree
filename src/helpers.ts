@@ -52,10 +52,10 @@ export const getItemsLinearly = <T>(rootItem: TreeItemIndex, viewState: Individu
 export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
-  const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]);
+  const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
 
-  const canDrag = selectedItems &&
-    selectedItems.length > 0 &&
+  const canDrag = //selectedItems &&
+  //  selectedItems.length > 0 &&
     environment.allowDragAndDrop &&
     (environment.canDrag?.(selectedItems) ?? true) &&
     (
@@ -64,7 +64,7 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
       .reduce((a, b) => a && b, true)
     );
 
-  console.log(canDrag, selectedItems, environment.allowDragAndDrop)
+  // console.log(canDrag, selectedItems, environment.allowDragAndDrop)
 
   const actions: TreeItemActions = {
     collapseItem: () => {

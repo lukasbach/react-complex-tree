@@ -67,7 +67,10 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       },
       draggingPosition: draggingPosition,
       activeTreeId: activeTree,
-      setActiveTree: setActiveTree,
+      setActiveTree: treeId => {
+        console.log(`Set active tree to ${treeId}`)
+        setActiveTree(treeId);
+      },
     }}>
       {props.children}
     </TreeEnvironmentContext.Provider>
