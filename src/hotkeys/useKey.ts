@@ -6,8 +6,6 @@ export const useKey = (key: string, onHit: (e: KeyboardEvent) => void, active?: 
       return;
     }
 
-    console.log(active, key.toLowerCase(), e.key.toLowerCase())
-
     if (active && key.toLowerCase() === e.key.toLowerCase()) {
       onHit(e);
     }

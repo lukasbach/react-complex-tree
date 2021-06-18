@@ -41,6 +41,37 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
   }, isActiveTree);
 
+  useKey('arrowright', (e) => {
+    e.preventDefault();
+    moveFocusToIndex((currentIndex, linearItems) => {
+      const item = environment.items[linearItems[currentIndex].item];
+      if (item.hasChildren) {
+        if (viewState.expandedItems?.includes(item.index)) {
+          return currentIndex + 1;
+        } else {
+          environment.onExpandItem?.(item, treeId);
+        }
+      }
+      return currentIndex;
+    });
+  }, isActiveTree);
+
+  useKey('arrowleft', (e) => {
+    e.preventDefault();
+    moveFocusToIndex((currentIndex, linearItems) => {
+      const item = environment.items[linearItems[currentIndex].item];
+      const itemDepth = linearItems[currentIndex].depth;
+      if (item.hasChildren && viewState.expandedItems?.includes(item.index)) {
+        environment.onCollapseItem?.(item, treeId);
+      } else if (itemDepth > 0) {
+        let parentIndex = currentIndex;
+        for (parentIndex; linearItems[parentIndex].depth !== itemDepth - 1; parentIndex--);
+        return parentIndex;
+      }
+      return currentIndex;
+    });
+  }, isActiveTree);
+
   useFocusWithin(containerRef.current, () => {
     environment.setActiveTree(treeId)
   }, () => {
