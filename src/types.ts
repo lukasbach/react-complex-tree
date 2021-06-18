@@ -63,7 +63,7 @@ export type TreeRenderProps<T = any> = {
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDepthOffset?: number;
   renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
-  renderDragBetweenLine?: (draggingPosition: DraggingPosition) => React.ReactNode;
+  renderDragBetweenLine?: (draggingPosition: DraggingPosition, lineProps: HTMLProps<any>) => React.ReactNode;
 }
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
