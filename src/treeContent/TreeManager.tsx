@@ -6,7 +6,7 @@ import { HTMLProps, useContext, useMemo, useRef } from 'react';
 import { useFocusWithin } from './useFocusWithin';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
-import { SearchInput } from './SearchInput';
+import { SearchInput } from '../search/SearchInput';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 

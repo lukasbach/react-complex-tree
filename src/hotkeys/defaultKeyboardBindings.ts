@@ -9,5 +9,5 @@ export const defaultKeyboardBindings: Required<KeyboardBindings> = {
   renameItem: ['f2'],
   moveItems: ['control+m'],
   toggleSelectItem: ['control+space'],
-  abortSearch: ['escape'],
+  abortSearch: ['escape', 'enter'],
 };

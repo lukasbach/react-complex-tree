@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { useContext, useRef, useState } from 'react';
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useHotkey } from '../hotkeys/useHotkey';
-import { useTree } from './Tree';
+import { useTree } from '../treeContent/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useGetLinearItems } from './useGetLinearItems';
+import { useSearchMatchFocus } from './useSearchMatchFocus';
 
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement
 }> = props => {
   const { search, setSearch, treeId, renderers } = useTree();
-  useGetLinearItems();
   const environment = useTreeEnvironment();
   const isActiveTree = environment.activeTreeId === treeId;
+
+  useSearchMatchFocus();
 
   const clearSearch = () => {
     setSearch(null);

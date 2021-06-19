@@ -83,7 +83,7 @@ export type TreeCapabilities<T = any> = {
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;
   canSearch?: boolean;
-  doesSearchMatchItem?: (search: string, item: TreeItem<T>) => boolean;
+  doesSearchMatchItem?: (search: string, item: TreeItem<T>, itemTitle: string) => boolean;
 }
 
 export type IndividualTreeViewState = {

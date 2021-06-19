@@ -1,5 +1,6 @@
 .rbt-tree-root {
     font-family: sans-serif;
+    overflow-y: auto;
 }
 
 .rbt-tree-root-focus {
@@ -86,7 +87,7 @@
 }
 
 .rbt-tree-search-input {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     width: 120px;

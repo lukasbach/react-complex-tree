@@ -6,7 +6,7 @@ import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useMoveFocusToIndex = (containerRef?: HTMLElement) => {
-  const { treeId, rootItem } = useTree();
+  const { treeId } = useTree();
   const environment = useTreeEnvironment();
   const getLinearItems = useGetLinearItems();
   const viewState = useViewState();

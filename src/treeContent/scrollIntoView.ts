@@ -1,4 +1,3 @@
-// TODO unused
 export const scrollIntoView = (element: Element | undefined | null) => {
   if (!element) {
     return;

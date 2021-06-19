@@ -8,6 +8,7 @@ import {
 } from '../types';
 import { useContext, useEffect, useState } from 'react';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
+import { scrollIntoView } from '../treeContent/scrollIntoView';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
@@ -60,7 +61,14 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       onFocusItem: (item, treeId) => {
         props.onFocusItem?.(item, treeId);
         const newItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-id="${item.index}"]`);
-        (newItem as HTMLElement)?.focus?.();
+
+        if (document.activeElement?.attributes.getNamedItem('data-rbt-search-input')?.value !== 'true') {
+          // Move DOM focus to item if the current focus is not on the search input
+          (newItem as HTMLElement)?.focus?.();
+        } else {
+          // Otherwise just manually scroll into view
+          scrollIntoView(newItem);
+        }
       },
       registerTree: (tree) => {
         setTrees(trees => ({...trees, [tree.treeId]: tree}));

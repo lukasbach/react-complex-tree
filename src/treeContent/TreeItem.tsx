@@ -9,6 +9,7 @@ import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { defaultMatcher } from '../search/defaultMatcher';
 
 export const TreeItem = <T extends any>(props: {
   itemIndex: TreeItemIndex;
@@ -19,13 +20,14 @@ export const TreeItem = <T extends any>(props: {
   const environment = useTreeEnvironment();
   const viewState = useViewState();
   const item = environment.items[props.itemIndex];
+  const itemTitle = item && environment.getItemTitle(item);
 
   const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, viewState.expandedItems]);
 
   const isSearchMatching = useMemo(() => {
-    return search === null || search.length === 0 || !item ? false : environment.doesSearchMatchItem?.(search, item)
-      ?? environment.getItemTitle(item).toLowerCase().includes(search.toLowerCase());
-  }, [search]);
+    return search === null || search.length === 0 || !item
+      ? false : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
+  }, [search, itemTitle]);
 
   const renderContext = useMemo(
     () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching),
