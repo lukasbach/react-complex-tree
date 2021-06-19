@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { ExplicitDataSource, TreeInformation, TreeItem, TreeItemRenderContext, TreeRenderProps } from '../types';
-import { Tree } from '../treeContent/Tree';
+import { Tree } from '../tree/Tree';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 

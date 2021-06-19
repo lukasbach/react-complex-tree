@@ -8,7 +8,7 @@ import {
 } from '../types';
 import { useContext, useEffect, useState } from 'react';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
-import { scrollIntoView } from '../treeContent/scrollIntoView';
+import { scrollIntoView } from '../tree/scrollIntoView';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);

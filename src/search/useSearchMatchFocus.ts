@@ -1,6 +1,6 @@
-import { useTree } from '../treeContent/Tree';
+import { useTree } from '../tree/Tree';
 import { useEffect } from 'react';
-import { useGetLinearItems } from '../treeContent/useGetLinearItems';
+import { useGetLinearItems } from '../tree/useGetLinearItems';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultMatcher } from './defaultMatcher';
 

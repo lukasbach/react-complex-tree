@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useHotkey } from '../hotkeys/useHotkey';
-import { useTree } from '../treeContent/Tree';
+import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useSearchMatchFocus } from './useSearchMatchFocus';
 

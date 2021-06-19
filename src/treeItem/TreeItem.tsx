@@ -6,8 +6,8 @@ import {
   createTreeItemRenderContextDependencies,
 } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
-import { useViewState } from './useViewState';
-import { useTree } from './Tree';
+import { useViewState } from '../tree/useViewState';
+import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultMatcher } from '../search/defaultMatcher';
 
