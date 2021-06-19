@@ -77,6 +77,16 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         />
       );
     },
+    renderSearchInput: (inputProps) => {
+      return (
+        <input
+          {...inputProps}
+          className={cx(
+            'rbt-tree-search-input',
+          )}
+        />
+      )
+    },
     renderDepthOffset: 4,
   };
 };

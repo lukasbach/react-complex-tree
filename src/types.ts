@@ -62,9 +62,10 @@ export type TreeRenderProps<T = any> = {
   renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
-  renderDepthOffset?: number;
   renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
   renderDragBetweenLine?: (draggingPosition: DraggingPosition, lineProps: HTMLProps<any>) => React.ReactNode;
+  renderSearchInput?: (inputProps: HTMLProps<HTMLInputElement>) => React.ReactNode;
+  renderDepthOffset?: number;
 }
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
@@ -115,6 +116,7 @@ export type TreeChangeHandlers<T = any> = {
   onRegisterTree?: (tree: TreeConfiguration) => void;
   onUnregisterTree?: (tree: TreeConfiguration) => void;
   onMissingItems?: (itemIds: TreeItemIndex[]) => void;
+  onMissingChildren?: (itemIds: TreeItemIndex[]) => void; // TODO
 };
 
 export type TreeEnvironmentConfiguration<T = any> = {
@@ -185,4 +187,5 @@ export type KeyboardBindings = Partial<{
   toggleSelectItem: string[];
   moveItems: string[];
   abortMovingItems: string[];
+  abortSearch: string[];
 }>;

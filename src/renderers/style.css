@@ -76,3 +76,10 @@
 .rbt-tree-drag-between-line-bottom {
     top: -4px
 }
+
+.rbt-tree-search-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+}

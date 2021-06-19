@@ -9,6 +9,7 @@ import { useFocusWithin } from './useFocusWithin';
 import { createTreeInformation, createTreeInformationDependencies } from '../helpers';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
+import { SearchInput } from './SearchInput';
 
 export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   const { treeId, rootItem } = useContext(TreeConfigurationContext);
@@ -45,6 +46,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     <React.Fragment>
       <TreeItemChildren children={rootChildren} depth={0} parentId={treeId} />
       <DragBetweenLine treeId={treeId} />
+      <SearchInput containerRef={containerRef.current} />
     </React.Fragment>
   );
 
