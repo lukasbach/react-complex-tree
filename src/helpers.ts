@@ -35,7 +35,7 @@ export const getItemPathAtLinearIndex = (environment: TreeEnvironmentConfigurati
   return undefined;
 }
 
-export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string): TreeItemRenderContext => {
+export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
   const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
@@ -114,7 +114,8 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
       environment.draggingPosition.targetType === 'item' &&
       environment.draggingPosition.targetItem === item.index &&
       environment.draggingPosition.treeId === treeId,
-    isDraggingOverParent: false
+    isDraggingOverParent: false,
+    isSearchMatching: isSearchMatching,
   };
 
   const interactiveElementProps: HTMLProps<HTMLElement> = {
@@ -178,24 +179,28 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
   };
 };
 
-export const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefined, environment: TreeEnvironmentConfiguration, treeId: string) => [
+export const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefined, environment: TreeEnvironmentConfiguration, treeId: string, isSearchMatching: boolean) => [
   environment,
   environment.viewState[treeId]?.expandedItems,
   environment.viewState[treeId]?.selectedItems,
   item?.index ?? '___no_item',
-  treeId
+  treeId,
+  isSearchMatching,
 ];
 
 
-export const createTreeInformation = <T>(environment: TreeEnvironmentContextProps, treeId: string): TreeInformation => ({
+export const createTreeInformation = <T>(environment: TreeEnvironmentContextProps, treeId: string, search: string | null): TreeInformation => ({
   isFocused: environment.activeTreeId === treeId,
   isRenaming: environment.viewState[treeId]?.renamingItem !== undefined,
   areItemsSelected: (environment.viewState[treeId]?.selectedItems?.length ?? 0) > 0,
+  isSearching: search !== null,
+  search: search,
 });
 
-export const createTreeInformationDependencies = <T>(environment: TreeEnvironmentContextProps, treeId: string) => [
+export const createTreeInformationDependencies = <T>(environment: TreeEnvironmentContextProps, treeId: string, search: string | null) => [
   environment.activeTreeId,
   environment.viewState[treeId]?.renamingItem,
   environment.viewState[treeId]?.selectedItems,
   treeId,
+  search,
 ];

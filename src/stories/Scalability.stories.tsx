@@ -6,12 +6,6 @@ import { Tree } from '../treeContent/Tree';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 
-const demoRenderers: TreeRenderProps<string> = {
-  renderItemTitle(item: TreeItem<string>, context: TreeItemRenderContext, info: TreeInformation): string {
-    return item.data;
-  },
-};
-
 const itemsWithManyChildren: ExplicitDataSource = {
   items: {
     root: {
@@ -50,14 +44,14 @@ export default {
 } as Meta;
 
 export const SingleTree = () => (
-  <UncontrolledTreeEnvironment
+  <UncontrolledTreeEnvironment<string>
     allowDragAndDrop={true}
     allowDropOnItemWithChildren={true}
     allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(itemsWithManyChildren.items)}
+    getItemTitle={item => item.data}
     viewState={{
     }}
-    {...demoRenderers}
   >
     <Tree treeId="tree-1" rootItem="root" />
   </UncontrolledTreeEnvironment>

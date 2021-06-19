@@ -13,11 +13,19 @@ export const TreeConfigurationContext = React.createContext<TreeConfiguration>({
   treeId: '__no_tree',
   rootItem: '__no_tree',
 });
+export const TreeSearchContext = React.createContext<{
+  search: string | null,
+  setSearch: (searchValue: string | null) => void
+}>({
+  search: null,
+  setSearch: () => {},
+});
 
 export const Tree = <T extends any>(props: TreeProps<T>) => {
   const environment = useContext(TreeEnvironmentContext);
   const renderers = useMemo<AllTreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
   const rootItem = environment.items[props.rootItem];
+  const [search, setSearch] = useState<string | null>(null);
 
   useEffect(() => {
     environment.registerTree({
@@ -37,7 +45,9 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
   return (
     <TreeRenderContext.Provider value={renderers}>
       <TreeConfigurationContext.Provider value={{ treeId: props.treeId, rootItem: props.rootItem }}>
-        <TreeManager />
+        <TreeSearchContext.Provider value={{ search, setSearch }}>
+          <TreeManager />
+        </TreeSearchContext.Provider>
       </TreeConfigurationContext.Provider>
     </TreeRenderContext.Provider>
   );

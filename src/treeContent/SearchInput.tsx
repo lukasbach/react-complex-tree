@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useRef, useState } from 'react';
-import { TreeConfigurationContext, TreeRenderContext } from './Tree';
+import { TreeConfigurationContext, TreeRenderContext, TreeSearchContext } from './Tree';
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useHotkey } from '../hotkeys/useHotkey';
@@ -8,10 +8,10 @@ import { useHotkey } from '../hotkeys/useHotkey';
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement
 }> = props => {
+  const { setSearch, search } = useContext(TreeSearchContext);
   const renderers = useContext(TreeRenderContext);
   const { treeId } = useContext(TreeConfigurationContext);
   const environment = useContext(TreeEnvironmentContext);
-  const [search, setSearch] = useState<string | null>(null);
   const pressedKeys = useRef<string[]>([]);
   const isActiveTree = environment.activeTreeId === treeId;
 

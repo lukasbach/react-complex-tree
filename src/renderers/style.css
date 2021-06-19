@@ -61,6 +61,14 @@
     background-color: rgb(142, 222, 255);
 }
 
+.rbt-tree-item-button-search-match {
+    font-style: italic;
+}
+
+.rbt-tree-item-search-highlight {
+    background-color: rgb(43, 255, 156);
+}
+
 .rbt-tree-drag-between-line {
     position: absolute;
     right: 0;

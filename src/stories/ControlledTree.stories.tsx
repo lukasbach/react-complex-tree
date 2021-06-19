@@ -14,9 +14,9 @@ const demoRenderers: TreeRenderProps<string> = {
   //     </div>
   //   );
   // },
-  renderItemTitle(item: TreeItem<string>, context: TreeItemRenderContext, info: TreeInformation): string {
-    return item.data;
-  },
+  // renderItemTitle(item: TreeItem<string>, context: TreeItemRenderContext, info: TreeInformation): string {
+  //   return item.data;
+  // },
 };
 
 const longTreeTemplate = {
@@ -166,6 +166,7 @@ export const SingleTree = () => (
     allowDropOnItemWithChildren={true}
     allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -183,6 +184,7 @@ export const SingleTreeAllCollapsed = () => (
     allowDropOnItemWithChildren={true}
     allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
       }
@@ -199,6 +201,7 @@ export const MultipleTrees = () => (
     allowDropOnItemWithChildren={true}
     allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
       }
@@ -244,6 +247,7 @@ export const TreeWithDelayedDataProvider = () => (
         return new Promise(res => setTimeout(() => res(longTree.items[itemId]), 750));
       }
     }}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
       }
@@ -282,6 +286,7 @@ export const ImplicitOrdering = () => (
 export const NoDragAndDrop = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -298,6 +303,7 @@ export const NoDropOnItemsAllowed = () => (
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     allowDragAndDrop={true}
     allowReorderingItems={true}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -314,6 +320,7 @@ export const NoReorderingAllowed = () => (
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     allowDragAndDrop={true}
     allowDropOnItemWithChildren={true}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -333,6 +340,7 @@ export const AllowDraggingOnlyItemsStartingWithA = () => (
     allowReorderingItems={true}
     canDrag={items => items.map(item => (item.data as string).startsWith('A'))
       .reduce((a, b) => a && b, true)}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -352,6 +360,7 @@ export const AllowDroppingOnlyOnItemsStartingWithA = () => (
     allowReorderingItems={true}
     canDropAt={(items, target) => target.targetType === 'between-items'
       ? (target.parentItem as string).startsWith('A') : (target.targetItem as string).startsWith('A')}
+    getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']

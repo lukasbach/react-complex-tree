@@ -7,7 +7,7 @@ import {
   createTreeItemRenderContextDependencies,
 } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
-import { TreeConfigurationContext, TreeRenderContext } from './Tree';
+import { TreeConfigurationContext, TreeRenderContext, TreeSearchContext } from './Tree';
 import { useViewState } from './useViewState';
 
 export const TreeItem = <T extends any>(props: {
@@ -19,17 +19,24 @@ export const TreeItem = <T extends any>(props: {
   const environment = useContext(TreeEnvironmentContext);
   const viewState = useViewState();
   const renderers = useContext(TreeRenderContext);
+  const { search } = useContext(TreeSearchContext);
   const item = environment.items[props.itemIndex];
 
   const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, viewState.expandedItems]);
+
+  const isSearchMatching = useMemo(() => {
+    return search === null || search.length === 0 || !item ? false : environment.doesSearchMatchItem?.(search, item)
+      ?? environment.getItemTitle(item).toLowerCase().includes(search.toLowerCase());
+  }, [search]);
+
   const renderContext = useMemo(
-    () => item && createTreeItemRenderContext(item, environment, treeId),
-    createTreeItemRenderContextDependencies(item, environment, treeId)
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching),
+    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching),
   );
 
   const treeInformation = useMemo(
-    () => createTreeInformation(environment, treeId),
-    createTreeInformationDependencies(environment, treeId),
+    () => createTreeInformation(environment, treeId, search),
+    createTreeInformationDependencies(environment, treeId, search),
   ); // TODO Construct in tree instead of every item
 
   if (item === undefined) {
@@ -44,5 +51,8 @@ export const TreeItem = <T extends any>(props: {
     <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
   );
 
-  return (renderers.renderItem(environment.items[props.itemIndex], props.depth, children, renderContext, treeInformation) ?? null) as any; // Type to use AllTreeRenderProps
+  const title = environment.getItemTitle(item);
+  const titleComponent = renderers.renderItemTitle(title, item, renderContext, treeInformation);
+
+  return (renderers.renderItem(environment.items[props.itemIndex], props.depth, children, titleComponent, renderContext, treeInformation) ?? null) as any; // Type to use AllTreeRenderProps
 }

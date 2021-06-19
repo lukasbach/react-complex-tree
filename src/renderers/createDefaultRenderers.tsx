@@ -5,8 +5,21 @@ const cx = (...classNames: Array<string | undefined | false>) => classNames.filt
 
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   return {
-    renderItemTitle: renderers.renderItemTitle,
-    renderItem: (item, depth, children, context, info) => {
+    renderItemTitle: (title, item, context, info) => {
+      if (!info.isSearching || !context.isSearchMatching) {
+        return (<>{title}</>);
+      } else {
+        const startIndex = title.toLowerCase().indexOf(info.search!.toLowerCase());
+        return (
+          <React.Fragment>
+            { startIndex > 0 && (<span>{title.slice(0, startIndex)}</span>) }
+            <span className="rbt-tree-item-search-highlight">{title.slice(startIndex, startIndex + info.search!.length)}</span>
+            { startIndex + info.search!.length < title.length && (<span>{title.slice(startIndex + info.search!.length, title.length)}</span>)}
+          </React.Fragment>
+        );
+      }
+    },
+    renderItem: (item, depth, children, title, context, info) => {
       return (
         <li
           role="none"
@@ -17,6 +30,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             context.isExpanded && 'rbt-tree-item-li-expanded',
             context.isFocused && 'rbt-tree-item-li-focused',
             context.isDraggingOver && 'rbt-tree-item-li-dragging-over',
+            context.isSearchMatching && 'rbt-tree-item-li-search-match',
           )}
         >
           <button
@@ -32,9 +46,10 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
               context.isExpanded && 'rbt-tree-item-button-expanded',
               context.isFocused && 'rbt-tree-item-button-focused',
               context.isDraggingOver && 'rbt-tree-item-button-dragging-over',
+              context.isSearchMatching && 'rbt-tree-item-button-search-match',
             )}
           >
-            { renderers.renderItemTitle(item, context, info) }
+            { title }
           </button>
           {children}
         </li>

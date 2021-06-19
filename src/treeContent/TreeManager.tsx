@@ -3,7 +3,7 @@ import * as React from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { DragBetweenLine } from './DragBetweenLine';
 import { HTMLProps, useContext, useMemo, useRef } from 'react';
-import { TreeConfigurationContext, TreeRenderContext } from './Tree';
+import { TreeConfigurationContext, TreeRenderContext, TreeSearchContext } from './Tree';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useFocusWithin } from './useFocusWithin';
 import { createTreeInformation, createTreeInformationDependencies } from '../helpers';
@@ -18,6 +18,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   const lastHoverCode = useRef<string>();
   const getLinearItems = useGetLinearItems(treeId, rootItem);
   const renderers = useContext(TreeRenderContext);
+  const { search } = useContext(TreeSearchContext);
   const isActiveTree = environment.activeTreeId === treeId;
 
   useTreeKeyboardBindings(containerRef.current);
@@ -32,8 +33,8 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   }, [environment.activeTreeId, treeId, isActiveTree]);
 
   const treeInformation = useMemo(
-    () => createTreeInformation(environment, treeId),
-    createTreeInformationDependencies(environment, treeId),
+    () => createTreeInformation(environment, treeId, search),
+    createTreeInformationDependencies(environment, treeId, search),
   ); // share with tree children
 
   const rootChildren = environment.items[rootItem].children;

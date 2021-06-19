@@ -43,6 +43,7 @@ export type TreeItemRenderFlags = {
   isRenaming?: boolean;
   isDraggingOver?: boolean;
   isDraggingOverParent?: boolean;
+  isSearchMatching?: boolean;
 };
 
 export type TreeItemRenderContext = {
@@ -54,11 +55,13 @@ export type TreeInformation = {
   areItemsSelected?: boolean;
   isRenaming?: boolean;
   isFocused?: boolean;
+  isSearching?: boolean;
+  search?: string | null;
 }
 
 export type TreeRenderProps<T = any> = {
-  renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
-  renderItemTitle: (item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => string;
+  renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, title: React.ReactNode, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
+  renderItemTitle?: (title: string, item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
   renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
@@ -79,6 +82,8 @@ export type TreeCapabilities<T = any> = {
   canDrag?: (items: TreeItem<T>[]) => boolean;
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;
+  canSearch?: boolean;
+  doesSearchMatchItem?: (search: string, item: TreeItem<T>) => boolean;
 }
 
 export type IndividualTreeViewState = {
@@ -122,6 +127,7 @@ export type TreeChangeHandlers<T = any> = {
 export type TreeEnvironmentConfiguration<T = any> = {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
+  getItemTitle: (item: TreeItem<T>) => string;
 } & TreeRenderProps<T> & TreeCapabilities<T> & TreeChangeHandlers<T> & ExplicitDataSource<T>;
 
 export type TreeEnvironmentContextProps<T = any> = {
@@ -155,6 +161,7 @@ export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvi
 export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
+  getItemTitle: (item: TreeItem<T>) => string;
 } & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
 
 export type TreeConfiguration<T = any> = {
