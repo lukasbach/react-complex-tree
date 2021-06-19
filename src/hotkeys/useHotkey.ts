@@ -9,16 +9,17 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
   const pressedKeys = useRef<string[]>([]);
   const possibleCombinations = useMemo(
     () => environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName],
-    [combinationName]
+    [combinationName, environment.keyboardBindings]
   );
 
   useHtmlElementEventListener(document, 'keydown', e => {
     if (!active) {
       return;
     }
-    console.log(e.key)
 
-    pressedKeys.current.push(e.key);
+    if (!pressedKeys.current.includes(e.key)) {
+      pressedKeys.current.push(e.key);
+    }
   }, [active]);
 
   useHtmlElementEventListener(document, 'keyup', e => {

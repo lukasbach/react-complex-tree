@@ -24,7 +24,12 @@ export const SearchInput: React.FC<{
   }
 
   useHotkey('abortSearch', e => {
-    clearSearch();
+    // Without the requestAnimationFrame, hitting enter to abort
+    // and then moving focus weirdly moves the selected item along
+    // with the focused item.
+    requestAnimationFrame(() => {
+      clearSearch();
+    })
   }, isActiveTree && search !== null, [search, isActiveTree]);
 
   useHtmlElementEventListener(props.containerRef, 'keydown', e => {
