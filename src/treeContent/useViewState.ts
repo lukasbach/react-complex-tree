@@ -6,4 +6,4 @@ export const useViewState = () => {
   const { treeId } = useContext(TreeConfigurationContext);
   const environment = useContext(TreeEnvironmentContext);
   return environment.viewState[treeId] ?? {};
-}
+};

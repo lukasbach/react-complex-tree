@@ -18,14 +18,17 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     e.preventDefault();
     moveFocusToIndex(currentIndex => currentIndex + 1);
   }, isActiveTree);
+
   useKey('arrowup', (e) => {
     e.preventDefault();
     moveFocusToIndex(currentIndex => currentIndex - 1);
   }, isActiveTree);
+
   useHotkey('moveFocusToFirstItem', e => {
     e.preventDefault();
     moveFocusToIndex(() => 0);
   }, isActiveTree);
+
   useHotkey('moveFocusToLastItem', e => {
     e.preventDefault();
     moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
@@ -60,5 +63,39 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
       }
       return currentIndex;
     });
+  }, isActiveTree);
+
+  useHotkey('primaryAction', e => {
+    e.preventDefault();
+    if (viewState.focusedItem) {
+      console.log(1);
+      environment.onSelectItems?.([viewState.focusedItem], treeId);
+      environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
+    }
+  }, isActiveTree);
+
+  useHotkey('toggleSelectItem', e => {
+    e.preventDefault();
+    if (viewState.focusedItem) {
+      if (viewState.selectedItems && viewState.selectedItems.includes(viewState.focusedItem)) {
+        console.log(2)
+        environment.onSelectItems?.(viewState.selectedItems.filter(item => item !== viewState.focusedItem), treeId);
+      } else {
+        console.log(3);
+        environment.onSelectItems?.([...viewState.selectedItems ?? [], viewState.focusedItem], treeId);
+      }
+    }
+  }, isActiveTree);
+
+  useHotkey('moveItems', e => {
+    e.preventDefault();
+    const selectedItems = viewState.selectedItems?.length ?? 0 > 0
+      ? viewState.selectedItems : Object.values(environment.viewState)
+      .find(state => state?.selectedItems?.length ?? 0 > 0)?.selectedItems
+      ?? null;
+
+    if (selectedItems) {
+      // TODO move
+    }
   }, isActiveTree);
 }

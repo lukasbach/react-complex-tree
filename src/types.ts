@@ -20,6 +20,7 @@ export type TreePosition = {
 
 
 export type TreeItemActions = {
+  primaryAction: () => void;
   startRenamingItem: () => void;
   expandItem: () => void;
   collapseItem: () => void;
@@ -76,6 +77,7 @@ export type TreeCapabilities<T = any> = {
   allowReorderingItems?: boolean;
   canDrag?: (items: TreeItem<T>[]) => boolean;
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
+  canInvokePrimaryActionOnItemContainer?: boolean;
 }
 
 export type IndividualTreeViewState = {
@@ -181,7 +183,6 @@ export type KeyboardBindings = Partial<{
   expandSiblings: string[];
   renameItem: string[];
   toggleSelectItem: string[];
-  startMovingItems: string[];
-  completeMovingItems: string[];
+  moveItems: string[];
   abortMovingItems: string[];
 }>;

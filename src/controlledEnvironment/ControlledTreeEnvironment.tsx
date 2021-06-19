@@ -18,6 +18,19 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
   const [itemHeight, setItemHeight] = useState(4);
   const [activeTree, setActiveTree] = useState<string>();
 
+  const viewState = props.viewState;
+
+  // Make sure that every tree view state has a focused item
+  for (const treeId of Object.keys(trees)) {
+    console.log(treeId, !viewState[treeId]?.focusedItem && trees[treeId], viewState[treeId], viewState[treeId]?.focusedItem, trees[treeId], trees)
+    if (!viewState[treeId]?.focusedItem && trees[treeId]) {
+      viewState[treeId] = {
+        ...viewState[treeId],
+        focusedItem: props.items[trees[treeId].rootItem].children?.[0]
+      }
+    }
+  }
+
   useEffect(() => {
     const dragEndEventListener = () => {
       setDraggingPosition(undefined);
@@ -46,7 +59,7 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
         (newItem as HTMLElement)?.focus?.();
       },
       registerTree: (tree) => {
-        setTrees({...trees, [tree.treeId]: tree});
+        setTrees(trees => ({...trees, [tree.treeId]: tree}));
         props.onRegisterTree?.(tree);
       },
       unregisterTree: (treeId) => {

@@ -1,9 +1,8 @@
-import { DraggingPosition, TreeProps } from '../types';
+import { DraggingPosition } from '../types';
 import * as React from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { DragBetweenLine } from './DragBetweenLine';
 import { HTMLProps, useContext, useMemo, useRef } from 'react';
-import { useViewState } from './useViewState';
 import { TreeConfigurationContext, TreeRenderContext } from './Tree';
 import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useFocusWithin } from './useFocusWithin';

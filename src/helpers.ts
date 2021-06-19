@@ -53,6 +53,10 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
   // console.log(canDrag, selectedItems, environment.allowDragAndDrop)
 
   const actions: TreeItemActions = {
+    primaryAction: () => {
+      console.log(`PRIMARY ACTION ON ${item.index}`)
+      environment.onPrimaryAction?.(environment.items[item.index], treeId);
+    },
     collapseItem: () => {
       environment.onCollapseItem?.(item, treeId);
     },
@@ -127,6 +131,10 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
           actions.toggleExpandedState();
         }
         actions.selectItem();
+
+        if (!item.hasChildren || environment.canInvokePrimaryActionOnItemContainer) {
+          actions.primaryAction();
+        }
       }
     },
     onDoubleClick: () => {

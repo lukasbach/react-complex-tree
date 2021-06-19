@@ -13,7 +13,6 @@ export const useMoveFocusToIndex = (containerRef?: HTMLElement) => {
 
   return (computeNewIndex: (currentIndex: number, linearItems: ReturnType<typeof getItemsLinearly>) => number) => {
     const linearItems = getLinearItems();
-    console.log(linearItems.map(item => item.item).join(', '))
     const currentIndex = linearItems.findIndex(item => item.item === viewState.focusedItem) ?? 0;
     const newIndex = computeNewIndex(currentIndex, linearItems);
     const newIndexBounded = Math.max(0, Math.min(linearItems.length - 1, newIndex));
