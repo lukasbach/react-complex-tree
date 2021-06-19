@@ -99,7 +99,7 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
             const newParentChildren = [...newParent.children ?? []].filter(child => child !== item.index);
 
             if (target.parentItem === parent.index) {
-              const isOldItemPriorToNewItem = ((newParent.children ?? []).findIndex(child => child === item.index) ?? Infinity) <= target.childIndex;
+              const isOldItemPriorToNewItem = ((newParent.children ?? []).findIndex(child => child === item.index) ?? Infinity) < target.childIndex;
               newParentChildren.splice(target.childIndex - (isOldItemPriorToNewItem ? 1 : 0), 0, item.index);
               await dataProvider.onChangeItemChildren(target.parentItem, newParentChildren);
             } else {
