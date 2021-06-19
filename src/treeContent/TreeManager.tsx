@@ -28,7 +28,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
       // TODO currently looses focus while dropping in the active tree
       environment.setActiveTree(undefined);
     }
-  }, [environment.activeTreeId, treeId]);
+  }, [environment.activeTreeId, treeId, isActiveTree]);
 
   const treeInformation = useMemo(
     () => createTreeInformation(environment, treeId),
@@ -54,7 +54,6 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
         return;
       }
 
-      console.log("DRAG", treeId)
       if (!containerRef.current) {
         return;
       }

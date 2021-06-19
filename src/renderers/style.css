@@ -53,6 +53,9 @@
 .rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-button-focused {
     box-shadow: inset 0 0 0 2px rgb(43, 191, 255);
 }
+.rbt-tree-root:not(.rbt-tree-root-focus) .rbt-tree-item-button-focused {
+    box-shadow: inset 0 0 0 2px rgb(219, 219, 219);
+}
 
 .rbt-tree-item-button-dragging-over {
     background-color: rgb(142, 222, 255);

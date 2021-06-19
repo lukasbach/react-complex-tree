@@ -88,8 +88,6 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
             throw Error(`Parent "${parent.index}" of item "${item.index}" did not have any children`);
           }
 
-          console.log(target.parentItem, parent.index, dataProvider)
-
           if (target.targetType === 'item') {
             if (target.targetItem === parent.index) {
               // NOOP
@@ -116,7 +114,6 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       onMissingItems={itemIds => {
         console.log(`Retrieving items ${itemIds.join(', ')}`)
         dataProvider.getTreeItems(itemIds).then(items => {
-          console.log(`Retrieved ${items.map(i => i.index).join(', ')}`)
           writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
         });
       }}

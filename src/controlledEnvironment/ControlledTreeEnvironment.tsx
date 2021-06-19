@@ -22,11 +22,14 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
 
   // Make sure that every tree view state has a focused item
   for (const treeId of Object.keys(trees)) {
-    console.log(treeId, !viewState[treeId]?.focusedItem && trees[treeId], viewState[treeId], viewState[treeId]?.focusedItem, trees[treeId], trees)
+    // TODO if the focus item is dragged out of the tree and is not within the expanded items
+    // TODO of that tree, the tree does not show any focus item anymore.
+    // Fix: use linear items to see if focus item is visible, and reset if not. Only refresh that
+    // information when the viewstate changes
     if (!viewState[treeId]?.focusedItem && trees[treeId]) {
       viewState[treeId] = {
         ...viewState[treeId],
-        focusedItem: props.items[trees[treeId].rootItem].children?.[0]
+        focusedItem: props.items[trees[treeId].rootItem]?.children?.[0]
       }
     }
   }
@@ -69,25 +72,24 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       },
       onStartDraggingItems: (items, treeId) => {
         setDraggingItems(items);
-        console.log("ITEMS", items)
         const height = document.querySelector<HTMLElement>(`[data-rbt-tree="${treeId}"] [data-rbt-item-container="true"]`)?.offsetHeight ?? 5;
-        console.log(`HEIGHT ${height}`, document.querySelector<HTMLElement>(`[data-rbt-tree="${treeId}"] [data-rbt-item-container="true"]`))
         setItemHeight(height);
       },
       draggingItems: draggingItems,
       itemHeight: itemHeight,
       onDragAtPosition: (position) => {
         setDraggingPosition(position);
-
-        // if (position) {
-        //   console.log(`Dragging in tree ${position.treeId} at item ${position.targetItem} at index ${position.childIndex}, linear index ${position.linearIndex}`);
-        // }
       },
       draggingPosition: draggingPosition,
       activeTreeId: activeTree,
       setActiveTree: treeId => {
         console.log(`Set active tree to ${treeId}`)
         setActiveTree(treeId);
+
+        if (!document.querySelector(`[data-rbt-tree="${treeId}"]`)?.contains(document.activeElement)) {
+          const focusItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-focus="true"]`);
+          (focusItem as HTMLElement)?.focus?.();
+        }
       },
     }}>
       {props.children}

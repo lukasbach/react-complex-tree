@@ -7,27 +7,35 @@ export const useFocusWithin = (
   onFocusOut?: () => void,
   deps: any[] = []
 ) => {
-  const [focusWithin, setFocusWithin] = useState(false);
-  const isLoosingFocusFlag = useRef(false);
+  // const [focusWithin, setFocusWithin] = useState(false);
+  // const isLoosingFocusFlag = useRef(false);
 
   useHtmlElementEventListener(element, 'focusin', () => {
-    setFocusWithin(true);
+    // console.log("focusin", element, document.activeElement, isLoosingFocusFlag.current);
+    // setFocusWithin(true);
     onFocusIn?.();
-    if (isLoosingFocusFlag.current) {
-      isLoosingFocusFlag.current = false;
-    }
+    // if (isLoosingFocusFlag.current) {
+    //   isLoosingFocusFlag.current = false;
+    // }
   }, deps);
 
   useHtmlElementEventListener(element, 'focusout', (e) => {
-    isLoosingFocusFlag.current = true;
-    setTimeout(() => {
-      if (isLoosingFocusFlag.current) {
-        onFocusOut?.();
-        isLoosingFocusFlag.current = false;
-        setFocusWithin(false);
-      }
-    });
+    // console.log("focusout", element, document.activeElement, isLoosingFocusFlag.current);
+    // isLoosingFocusFlag.current = true;
+
+    if (!element?.contains(document.activeElement)) {
+      onFocusOut?.();
+    }
+
+    // setTimeout(() => {
+    //   if (isLoosingFocusFlag.current /*&& !element?.contains(document.activeElement)*/) {
+    //     console.log("focusout with flag", element, document.activeElement, isLoosingFocusFlag.current);
+    //     onFocusOut?.();
+    //     isLoosingFocusFlag.current = false;
+    //     setFocusWithin(false);
+    //   }
+    // });
   }, deps);
 
-  return focusWithin;
+  // return focusWithin;
 };
