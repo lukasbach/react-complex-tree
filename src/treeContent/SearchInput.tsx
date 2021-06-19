@@ -11,21 +11,33 @@ export const SearchInput: React.FC<{
   const renderers = useContext(TreeRenderContext);
   const { treeId } = useContext(TreeConfigurationContext);
   const environment = useContext(TreeEnvironmentContext);
-  const [search, setSearch] = useState('');
-  const keyCounter = useRef(0);
+  const [search, setSearch] = useState<string | null>(null);
+  const pressedKeys = useRef<string[]>([]);
   const isActiveTree = environment.activeTreeId === treeId;
 
+  const clearSearch = () => {
+    setSearch(null);
+
+    // Refocus item in tree
+    // TODO move logic as reusable method into tree or tree environment
+    const focusItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-focus="true"]`);
+    (focusItem as HTMLElement)?.focus?.();
+  }
+
   useHotkey('abortSearch', e => {
-    setSearch('');
-  }, isActiveTree && search.length > 0, [search, isActiveTree]);
+    clearSearch();
+  }, isActiveTree && search !== null, [search, isActiveTree]);
 
   useHtmlElementEventListener(props.containerRef, 'keydown', e => {
-    keyCounter.current = keyCounter.current + 1;
-    console.log(`Counter ${keyCounter.current} for key ${e.key}`)
-  }, [keyCounter.current]);
+    console.log(`Newly pressed is ${e.key}, pressed were ${pressedKeys.current.join('+')}`)
+    if (!pressedKeys.current.includes(e.key)) {
+      pressedKeys.current.push(e.key);
+    }
+  });
 
   useHtmlElementEventListener(props.containerRef, 'keyup', (e) => {
-    if (isActiveTree && keyCounter.current === 1 && search.length === 0) {
+    console.log(`Released is ${e.key}, pressed were ${pressedKeys.current.join('+')}`)
+    if (isActiveTree && pressedKeys.current.length === 1 && e.key === pressedKeys.current[0] && search === null) {
       e.preventDefault();
       const unicode = e.key.charCodeAt(0);
       if (
@@ -38,14 +50,13 @@ export const SearchInput: React.FC<{
       console.log(e);
       (document.querySelector('[data-rbt-search-input="true"]') as any)?.focus?.();
 
-      keyCounter.current = 0;
+      pressedKeys.current = [];
     } else {
-      console.log(`Skipped, keycounter is ${keyCounter.current}, search length is ${search.length}, tree is ${isActiveTree ? 'active' : 'not active'}`)
-      keyCounter.current = keyCounter.current - 1;
+      pressedKeys.current = pressedKeys.current.filter(key => key !== e.key);
     }
-  }, [keyCounter.current]);
+  });
 
-  if (search.length === 0) {
+  if (search === null) {
     return null;
   }
 
@@ -54,7 +65,7 @@ export const SearchInput: React.FC<{
     onChange: (e: any) => setSearch(e.target.value),
     onBlur: () => {
       console.log("BLUR")
-      setSearch('');
+      clearSearch();
     },
     ...({
       ['data-rbt-search-input']: 'true'
