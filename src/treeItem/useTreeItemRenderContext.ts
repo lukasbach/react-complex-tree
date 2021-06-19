@@ -1,53 +1,30 @@
 import {
   TreeEnvironmentConfiguration,
+  TreeEnvironmentContextProps,
   TreeItem,
+  TreeItemActions, TreeItemIndex,
   TreeItemRenderContext,
-  TreeItemIndex,
-  TreeItemActions, TreeEnvironmentContextProps, IndividualTreeViewState, TreeItemRenderFlags, TreeInformation,
-} from './types';
-import { HTMLProps } from 'react';
-import { act } from 'react-dom/test-utils';
-import { action } from '@storybook/addon-actions';
+  TreeItemRenderFlags,
+} from '../types';
+import { HTMLProps, useMemo } from 'react';
+import { defaultMatcher } from '../search/defaultMatcher';
+import { useTree } from '../tree/Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useViewState } from '../tree/useViewState';
 
-// const isArraysEqual = <T>(arr1: T[], arr2: T[]) => {
-//   return arr1.length === arr2.length && arr1.reduce((aggr, v1, idx) => aggr && v1 === arr2[idx], true);
-// };
-//
-// export const isItemExpanded = (environment: TreeEnvironmentConfiguration, path: TreeItemPath) => {
-//   return !!environment.expandedItems?.find(item => isArraysEqual(item, path));
-// }
-
-// export const getItemIdFromPath = (path: TreeItemPath) => {
-//   return path[path.length - 1];
-// };
-
-export const countVisibleChildrenIncludingSelf = (environment: TreeEnvironmentConfiguration, itemId: TreeItemIndex, treeId: string): number => {
-  const item = environment.items[itemId];
-  const isExpanded = environment.viewState[treeId]?.expandedItems?.includes(itemId);
-  return 1 + (isExpanded ? item.children?.map(id => countVisibleChildrenIncludingSelf(environment, id, treeId))?.reduce((a, b) => a + b, 0) ?? 0 : 0);
-};
-
-export const getLinearIndexOfItem = (environment: TreeEnvironmentConfiguration, itemId: TreeItemIndex): number => {
-  return -1;
-}
-
-export const getItemPathAtLinearIndex = (environment: TreeEnvironmentConfiguration, rootItem: TreeItemIndex, linearIndex: number): TreeItemIndex | undefined => {
-  return undefined;
-}
-
-export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean): TreeItemRenderContext => {
+const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
   const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
 
   const canDrag = //selectedItems &&
-  //  selectedItems.length > 0 &&
+    //  selectedItems.length > 0 &&
     environment.allowDragAndDrop &&
     (environment.canDrag?.(selectedItems) ?? true) &&
     (
       selectedItems
-      .map(item => item.canMove ?? true)
-      .reduce((a, b) => a && b, true)
+        .map(item => item.canMove ?? true)
+        .reduce((a, b) => a && b, true)
     );
 
   // console.log(canDrag, selectedItems, environment.allowDragAndDrop)
@@ -179,7 +156,7 @@ export const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: T
   };
 };
 
-export const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefined, environment: TreeEnvironmentConfiguration, treeId: string, isSearchMatching: boolean) => [
+const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefined, environment: TreeEnvironmentConfiguration, treeId: string, isSearchMatching: boolean) => [
   environment,
   environment.viewState[treeId]?.expandedItems,
   environment.viewState[treeId]?.selectedItems,
@@ -188,19 +165,18 @@ export const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | u
   isSearchMatching,
 ];
 
+export const useTreeItemRenderContext = (item?: TreeItem) => {
+  const { treeId, search } = useTree();
+  const environment = useTreeEnvironment();
+  const itemTitle = item && environment.getItemTitle(item);
 
-export const createTreeInformation = <T>(environment: TreeEnvironmentContextProps, treeId: string, search: string | null): TreeInformation => ({
-  isFocused: environment.activeTreeId === treeId,
-  isRenaming: environment.viewState[treeId]?.renamingItem !== undefined,
-  areItemsSelected: (environment.viewState[treeId]?.selectedItems?.length ?? 0) > 0,
-  isSearching: search !== null,
-  search: search,
-});
+  const isSearchMatching = useMemo(() => {
+    return search === null || search.length === 0 || !item || !itemTitle
+      ? false : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
+  }, [search, itemTitle]);
 
-export const createTreeInformationDependencies = <T>(environment: TreeEnvironmentContextProps, treeId: string, search: string | null) => [
-  environment.activeTreeId,
-  environment.viewState[treeId]?.renamingItem,
-  environment.viewState[treeId]?.selectedItems,
-  treeId,
-  search,
-];
+  return useMemo(
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching),
+    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching),
+  );
+};

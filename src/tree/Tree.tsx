@@ -7,7 +7,7 @@ import {
 import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
-import { createTreeInformation, createTreeInformationDependencies } from '../helpers';
+import { useCreatedTreeInformation } from './useCreatedTreeInformation';
 
 const TreeContext = React.createContext<TreeContextProps>(null as any); // TODO default value
 
@@ -28,10 +28,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
 
-  const treeInformation = useMemo(
-    () => createTreeInformation(environment, props.treeId, search),
-    createTreeInformationDependencies(environment, props.treeId, search),
-  ); // TODO share with tree children
+  const treeInformation = useCreatedTreeInformation(props.treeId, search);
 
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
