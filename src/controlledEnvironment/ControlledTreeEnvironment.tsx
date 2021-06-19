@@ -9,7 +9,8 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
 
-export const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
+const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
+export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
 
 export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEnvironmentProps<T>) => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});

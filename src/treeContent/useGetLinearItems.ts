@@ -1,10 +1,11 @@
-import { useContext, useMemo } from 'react';
 import { getItemsLinearly } from './getItemsLinearly';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useViewState } from './useViewState';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useTree } from './Tree';
 
-export const useGetLinearItems = (treeId: string, rootItem: string) => {
+export const useGetLinearItems = () => {
+  const { rootItem } = useTree();
   const viewState = useViewState();
-  const environment = useContext(TreeEnvironmentContext);
+  const environment = useTreeEnvironment();
   return () => getItemsLinearly(rootItem, viewState, environment.items);
 }

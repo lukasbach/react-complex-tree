@@ -1,25 +1,23 @@
 import { TreeItemIndex, TreeProps } from '../types';
 import React, { useContext, useMemo, useState } from 'react';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import {
   createTreeInformation, createTreeInformationDependencies,
   createTreeItemRenderContext,
   createTreeItemRenderContextDependencies,
 } from '../helpers';
 import { TreeItemChildren } from './TreeItemChildren';
-import { TreeConfigurationContext, TreeRenderContext, TreeSearchContext } from './Tree';
 import { useViewState } from './useViewState';
+import { useTree } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const TreeItem = <T extends any>(props: {
   itemIndex: TreeItemIndex;
   depth: number;
 }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
-  const { treeId } = useContext(TreeConfigurationContext);
-  const environment = useContext(TreeEnvironmentContext);
+  const { treeId, renderers, search } = useTree();
+  const environment = useTreeEnvironment();
   const viewState = useViewState();
-  const renderers = useContext(TreeRenderContext);
-  const { search } = useContext(TreeSearchContext);
   const item = environment.items[props.itemIndex];
 
   const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [props.itemIndex, viewState.expandedItems]);

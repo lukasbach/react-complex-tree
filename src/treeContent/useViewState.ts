@@ -1,9 +1,8 @@
-import { useContext } from 'react';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { TreeConfigurationContext } from './Tree';
+import { useTree } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useViewState = () => {
-  const { treeId } = useContext(TreeConfigurationContext);
-  const environment = useContext(TreeEnvironmentContext);
-  return environment.viewState[treeId] ?? {};
+  const { treeId } = useTree();
+  const { viewState } = useTreeEnvironment();
+  return viewState[treeId] ?? {};
 };

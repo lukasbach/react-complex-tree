@@ -1,11 +1,11 @@
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useContext, useMemo, useRef } from 'react';
 import { KeyboardBindings } from '../types';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: KeyboardEvent) => void, active?: boolean, deps?: any[]) => {
-  const environment = useContext(TreeEnvironmentContext);
+  const environment = useTreeEnvironment();
   const pressedKeys = useRef<string[]>([]);
   const possibleCombinations = useMemo(
     () => environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName],

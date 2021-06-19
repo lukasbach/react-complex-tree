@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { HTMLProps, useContext } from 'react';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { TreeRenderContext } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useTree } from './Tree';
 
 export const DragBetweenLine: React.FC<{
   treeId: string,
 }> = props => {
-  const environment = useContext(TreeEnvironmentContext);
-  const renderers = useContext(TreeRenderContext);
+  const { draggingPosition, itemHeight } = useTreeEnvironment();
+  const { renderers } = useTree();
 
   const shouldDisplay =
-    environment.draggingPosition &&
-    environment.draggingPosition.targetType === 'between-items' &&
-    environment.draggingPosition.treeId === props.treeId;
+    draggingPosition &&
+    draggingPosition.targetType === 'between-items' &&
+    draggingPosition.treeId === props.treeId;
 
 
   if (!shouldDisplay) {
@@ -28,9 +28,9 @@ export const DragBetweenLine: React.FC<{
       position: 'absolute',
       left: '0',
       right: '0',
-      top: `${((environment.draggingPosition?.linearIndex ?? 0)) * environment.itemHeight}px`
+      top: `${((draggingPosition?.linearIndex ?? 0)) * itemHeight}px`
     }}>
-      {renderers.renderDragBetweenLine(environment.draggingPosition!, lineProps)}
+      {renderers.renderDragBetweenLine(draggingPosition!, lineProps)}
     </div>
   );
 };

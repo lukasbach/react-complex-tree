@@ -3,22 +3,19 @@ import * as React from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { DragBetweenLine } from './DragBetweenLine';
 import { HTMLProps, useContext, useMemo, useRef } from 'react';
-import { TreeConfigurationContext, TreeRenderContext, TreeSearchContext } from './Tree';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useFocusWithin } from './useFocusWithin';
-import { createTreeInformation, createTreeInformationDependencies } from '../helpers';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
 import { SearchInput } from './SearchInput';
+import { useTree } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const TreeManager = <T extends any>(props: {}): JSX.Element => {
-  const { treeId, rootItem } = useContext(TreeConfigurationContext);
-  const environment = useContext(TreeEnvironmentContext);
+  const { treeId, rootItem, renderers, treeInformation } = useTree();
+  const environment = useTreeEnvironment();
   const containerRef = useRef<HTMLElement>();
   const lastHoverCode = useRef<string>();
-  const getLinearItems = useGetLinearItems(treeId, rootItem);
-  const renderers = useContext(TreeRenderContext);
-  const { search } = useContext(TreeSearchContext);
+  const getLinearItems = useGetLinearItems();
   const isActiveTree = environment.activeTreeId === treeId;
 
   useTreeKeyboardBindings(containerRef.current);
@@ -31,11 +28,6 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
       environment.setActiveTree(undefined);
     }
   }, [environment.activeTreeId, treeId, isActiveTree]);
-
-  const treeInformation = useMemo(
-    () => createTreeInformation(environment, treeId, search),
-    createTreeInformationDependencies(environment, treeId, search),
-  ); // share with tree children
 
   const rootChildren = environment.items[rootItem].children;
 

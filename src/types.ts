@@ -79,7 +79,7 @@ export type TreeCapabilities<T = any> = {
   allowDropOnItemWithChildren?: boolean;
   allowDropOnItemWithoutChildren?: boolean;
   allowReorderingItems?: boolean;
-  canDrag?: (items: TreeItem<T>[]) => boolean;
+  canDrag?: (items: TreeItem<T>[]) => boolean; // TODO not working with first drag before focus
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;
   canSearch?: boolean;
@@ -170,6 +170,13 @@ export type TreeConfiguration<T = any> = {
 }
 
 export type TreeProps<T = any> = TreeConfiguration<T> & Partial<TreeRenderProps<T>>;
+
+export type TreeContextProps<T = any> = {
+  search: string | null;
+  setSearch: (searchValue: string | null) => void;
+  renderers: AllTreeRenderProps;
+  treeInformation: TreeInformation;
+} & TreeConfiguration;
 
 export type TreeDataProvider<T = any> = {
   onDidChangeTreeData?: (listener: (changedItemIds: TreeItemIndex[]) => void) => Disposable;

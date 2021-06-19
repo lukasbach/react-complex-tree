@@ -37,7 +37,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             {...context.itemContainerElementProps as any}
             {...context.interactiveElementProps as any}
             role="treeitem"
-            tabIndex={context.isFocused ? 0 : -1} // TODO 0 if focused
+            tabIndex={context.isFocused ? 0 : -1}
             style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
             className={cx(
               'rbt-tree-item-button',

@@ -1,28 +1,20 @@
 import * as React from 'react';
 import {
   AllTreeRenderProps,
-  ControlledTreeEnvironmentProps, DraggingPosition, TreeConfiguration, TreeInformation,
+  ControlledTreeEnvironmentProps, DraggingPosition, TreeConfiguration, TreeContextProps, TreeInformation,
   TreeProps,
 } from '../types';
 import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
+import { createTreeInformation, createTreeInformationDependencies } from '../helpers';
 
-export const TreeRenderContext = React.createContext<AllTreeRenderProps>(null as any);
-export const TreeConfigurationContext = React.createContext<TreeConfiguration>({
-  treeId: '__no_tree',
-  rootItem: '__no_tree',
-});
-export const TreeSearchContext = React.createContext<{
-  search: string | null,
-  setSearch: (searchValue: string | null) => void
-}>({
-  search: null,
-  setSearch: () => {},
-});
+const TreeContext = React.createContext<TreeContextProps>(null as any); // TODO default value
+
+export const useTree = () => useContext(TreeContext);
 
 export const Tree = <T extends any>(props: TreeProps<T>) => {
-  const environment = useContext(TreeEnvironmentContext);
+  const environment = useTreeEnvironment();
   const renderers = useMemo<AllTreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
   const rootItem = environment.items[props.rootItem];
   const [search, setSearch] = useState<string | null>(null);
@@ -36,6 +28,10 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
 
+  const treeInformation = useMemo(
+    () => createTreeInformation(environment, props.treeId, search),
+    createTreeInformationDependencies(environment, props.treeId, search),
+  ); // TODO share with tree children
 
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
@@ -43,12 +39,15 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
   }
 
   return (
-    <TreeRenderContext.Provider value={renderers}>
-      <TreeConfigurationContext.Provider value={{ treeId: props.treeId, rootItem: props.rootItem }}>
-        <TreeSearchContext.Provider value={{ search, setSearch }}>
-          <TreeManager />
-        </TreeSearchContext.Provider>
-      </TreeConfigurationContext.Provider>
-    </TreeRenderContext.Provider>
+    <TreeContext.Provider value={{
+      treeId: props.treeId,
+      rootItem: props.rootItem,
+      treeInformation,
+      search,
+      setSearch,
+      renderers,
+    }}>
+      <TreeManager />
+    </TreeContext.Provider>
   );
 };

@@ -1,14 +1,14 @@
 import type { getItemsLinearly } from './getItemsLinearly';
 import { useContext } from 'react';
-import { TreeConfigurationContext } from './Tree';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useViewState } from './useViewState';
+import { useTree } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useMoveFocusToIndex = (containerRef?: HTMLElement) => {
-  const { treeId, rootItem } = useContext(TreeConfigurationContext);
-  const getLinearItems = useGetLinearItems(treeId, rootItem);
-  const environment = useContext(TreeEnvironmentContext);
+  const { treeId, rootItem } = useTree();
+  const environment = useTreeEnvironment();
+  const getLinearItems = useGetLinearItems();
   const viewState = useViewState();
 
   return (computeNewIndex: (currentIndex: number, linearItems: ReturnType<typeof getItemsLinearly>) => number) => {

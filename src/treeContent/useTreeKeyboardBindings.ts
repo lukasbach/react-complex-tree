@@ -1,15 +1,14 @@
 import { useKey } from '../hotkeys/useKey';
 import { useHotkey } from '../hotkeys/useHotkey';
 import { useMoveFocusToIndex } from './useMoveFocusToIndex';
-import { useContext } from 'react';
-import { TreeConfigurationContext } from './Tree';
-import { TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useViewState } from './useViewState';
+import { useTree } from './Tree';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   const viewState = useViewState();
-  const { treeId } = useContext(TreeConfigurationContext);
-  const environment = useContext(TreeEnvironmentContext);
+  const { treeId } = useTree();
+  const environment = useTreeEnvironment();
   const moveFocusToIndex = useMoveFocusToIndex(containerRef);
 
   const isActiveTree = environment.activeTreeId === treeId;
