@@ -1,30 +1,30 @@
-.rbt-tree-root {
+.rct-tree-root {
     font-family: sans-serif;
     overflow-y: auto;
 }
 
-.rbt-tree-root-focus {
+.rct-tree-root-focus {
     outline: 3px solid rgb(118, 221, 246);
 }
 
-.rbt-tree-child-list {
+.rct-tree-child-list {
 }
 
-.rbt-tree-item-button:before {
+.rct-tree-item-button:before {
     width: 20px;
     display: inline-block;
     text-align: left;
     padding-bottom: 4px;
     content: '';
 }
-.rbt-tree-item-button.rbt-tree-item-button-hasChildren:before {
+.rct-tree-item-button.rct-tree-item-button-hasChildren:before {
     content: '🞂';
 }
-.rbt-tree-item-button-expanded.rbt-tree-item-button-hasChildren:before {
+.rct-tree-item-button-expanded.rct-tree-item-button-hasChildren:before {
     content: '🞃';
 }
 
-.rbt-tree-item-button {
+.rct-tree-item-button {
     background-color: transparent;
     font-family: inherit;
     font-size: inherit;
@@ -36,41 +36,41 @@
     /*border-bottom: 1px solid black;*/
 }
 
-.rbt-tree-item-li {
+.rct-tree-item-li {
     font-size: .8rem;
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.rbt-tree-root:not(.rbt-tree-root-focus) .rbt-tree-item-button-selected {
+.rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-selected {
     background-color: rgb(161, 161, 161);
     color: #fff;
 }
-.rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-button-selected {
+.rct-tree-root.rct-tree-root-focus .rct-tree-item-button-selected {
     background-color: rgb(12, 181, 252);
     color: #fff;
 }
-.rbt-tree-root.rbt-tree-root-focus .rbt-tree-item-button-focused {
+.rct-tree-root.rct-tree-root-focus .rct-tree-item-button-focused {
     box-shadow: inset 0 0 0 2px rgb(43, 191, 255);
 }
-.rbt-tree-root:not(.rbt-tree-root-focus) .rbt-tree-item-button-focused {
+.rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-focused {
     box-shadow: inset 0 0 0 2px rgb(219, 219, 219);
 }
 
-.rbt-tree-item-button-dragging-over {
+.rct-tree-item-button-dragging-over {
     background-color: rgb(142, 222, 255);
 }
 
-.rbt-tree-item-button-search-match {
+.rct-tree-item-button-search-match {
     font-style: italic;
 }
 
-.rbt-tree-item-search-highlight {
+.rct-tree-item-search-highlight {
     background-color: rgb(43, 255, 156);
 }
 
-.rbt-tree-drag-between-line {
+.rct-tree-drag-between-line {
     position: absolute;
     right: 0;
     top: -2px;
@@ -78,15 +78,15 @@
     background-color: rgb(142, 222, 255);
 }
 
-.rbt-tree-drag-between-line-top {
+.rct-tree-drag-between-line-top {
     top: 0px;
 }
 
-.rbt-tree-drag-between-line-bottom {
+.rct-tree-drag-between-line-bottom {
     top: -4px
 }
 
-.rbt-tree-search-input {
+.rct-tree-search-input {
     position: fixed;
     top: 0;
     right: 0;

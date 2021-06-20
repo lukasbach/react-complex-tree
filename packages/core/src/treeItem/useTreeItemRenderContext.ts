@@ -136,15 +136,15 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     },
     draggable: canDrag,
     ...({
-      ['data-rbt-item-interactive']: true,
-      ['data-rbt-item-focus']: renderContext.isFocused ? 'true' : 'false',
-      ['data-rbt-item-id']: item.index,
+      ['data-rct-item-interactive']: true,
+      ['data-rct-item-focus']: renderContext.isFocused ? 'true' : 'false',
+      ['data-rct-item-id']: item.index,
     } as any)
   };
 
   const containerElementProps: HTMLProps<HTMLElement> = {
     ...({
-      ['data-rbt-item-container']: 'true',
+      ['data-rct-item-container']: 'true',
     } as any),
   };
 

@@ -38,9 +38,9 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
 
   const onFocusHandler: typeof props.onFocusItem = (item, treeId) => {
     props.onFocusItem?.(item, treeId);
-    const newItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-id="${item.index}"]`);
+    const newItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`);
 
-    if (document.activeElement?.attributes.getNamedItem('data-rbt-search-input')?.value !== 'true') {
+    if (document.activeElement?.attributes.getNamedItem('data-rct-search-input')?.value !== 'true') {
       // Move DOM focus to item if the current focus is not on the search input
       (newItem as HTMLElement)?.focus?.();
     } else {
@@ -86,7 +86,7 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       },
       onStartDraggingItems: (items, treeId) => {
         setDraggingItems(items);
-        const height = document.querySelector<HTMLElement>(`[data-rbt-tree="${treeId}"] [data-rbt-item-container="true"]`)?.offsetHeight ?? 5;
+        const height = document.querySelector<HTMLElement>(`[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`)?.offsetHeight ?? 5;
         setItemHeight(height);
       },
       draggingItems: draggingItems,
@@ -100,8 +100,8 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
         console.log(`Set active tree to ${treeId}`)
         setActiveTree(treeId);
 
-        if (!document.querySelector(`[data-rbt-tree="${treeId}"]`)?.contains(document.activeElement)) {
-          const focusItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-focus="true"]`);
+        if (!document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
+          const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
           (focusItem as HTMLElement)?.focus?.();
         }
       },

@@ -13,7 +13,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         return (
           <React.Fragment>
             { startIndex > 0 && (<span>{title.slice(0, startIndex)}</span>) }
-            <span className="rbt-tree-item-search-highlight">{title.slice(startIndex, startIndex + info.search!.length)}</span>
+            <span className="rct-tree-item-search-highlight">{title.slice(startIndex, startIndex + info.search!.length)}</span>
             { startIndex + info.search!.length < title.length && (<span>{title.slice(startIndex + info.search!.length, title.length)}</span>)}
           </React.Fragment>
         );
@@ -24,13 +24,13 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         <li
           role="none"
           className={cx(
-            'rbt-tree-item-li',
-            item.hasChildren && 'rbt-tree-item-li-hasChildren',
-            context.isSelected && 'rbt-tree-item-li-selected',
-            context.isExpanded && 'rbt-tree-item-li-expanded',
-            context.isFocused && 'rbt-tree-item-li-focused',
-            context.isDraggingOver && 'rbt-tree-item-li-dragging-over',
-            context.isSearchMatching && 'rbt-tree-item-li-search-match',
+            'rct-tree-item-li',
+            item.hasChildren && 'rct-tree-item-li-hasChildren',
+            context.isSelected && 'rct-tree-item-li-selected',
+            context.isExpanded && 'rct-tree-item-li-expanded',
+            context.isFocused && 'rct-tree-item-li-focused',
+            context.isDraggingOver && 'rct-tree-item-li-dragging-over',
+            context.isSearchMatching && 'rct-tree-item-li-search-match',
           )}
         >
           <button
@@ -40,13 +40,13 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             tabIndex={context.isFocused ? 0 : -1}
             style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
             className={cx(
-              'rbt-tree-item-button',
-              item.hasChildren && 'rbt-tree-item-button-hasChildren',
-              context.isSelected && 'rbt-tree-item-button-selected',
-              context.isExpanded && 'rbt-tree-item-button-expanded',
-              context.isFocused && 'rbt-tree-item-button-focused',
-              context.isDraggingOver && 'rbt-tree-item-button-dragging-over',
-              context.isSearchMatching && 'rbt-tree-item-button-search-match',
+              'rct-tree-item-button',
+              item.hasChildren && 'rct-tree-item-button-hasChildren',
+              context.isSelected && 'rct-tree-item-button-selected',
+              context.isExpanded && 'rct-tree-item-button-expanded',
+              context.isFocused && 'rct-tree-item-button-focused',
+              context.isDraggingOver && 'rct-tree-item-button-dragging-over',
+              context.isSearchMatching && 'rct-tree-item-button-search-match',
             )}
           >
             { title }
@@ -69,10 +69,10 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         <div
           {...containerProps}
           className={cx(
-            'rbt-tree-root',
-            info.isFocused && 'rbt-tree-root-focus',
-            info.isRenaming && 'rbt-tree-root-renaming',
-            info.areItemsSelected && 'rbt-tree-root-itemsselected',
+            'rct-tree-root',
+            info.isFocused && 'rct-tree-root-focus',
+            info.isRenaming && 'rct-tree-root-renaming',
+            info.areItemsSelected && 'rct-tree-root-itemsselected',
           )}
         >
           { children }
@@ -85,9 +85,9 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           {...lineProps}
           style={{ left: `${draggingPosition.depth * (renderers.renderDepthOffset ?? 10)}px` }}
           className={cx(
-            'rbt-tree-drag-between-line',
-            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'top' && 'rbt-tree-drag-between-line-top',
-            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'bottom' && 'rbt-tree-drag-between-line-bottom',
+            'rct-tree-drag-between-line',
+            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'top' && 'rct-tree-drag-between-line-top',
+            draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'bottom' && 'rct-tree-drag-between-line-bottom',
           )}
         />
       );
@@ -97,7 +97,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         <input
           {...inputProps}
           className={cx(
-            'rbt-tree-search-input',
+            'rct-tree-search-input',
           )}
         />
       )

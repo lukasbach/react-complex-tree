@@ -185,7 +185,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     ref: containerRef,
     style: { position: 'relative' },
     ...({
-      ['data-rbt-tree']: treeId,
+      ['data-rct-tree']: treeId,
     } as any)
   };
 

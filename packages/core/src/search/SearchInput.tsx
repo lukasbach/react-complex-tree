@@ -19,7 +19,7 @@ export const SearchInput: React.FC<{
 
     // Refocus item in tree
     // TODO move logic as reusable method into tree or tree environment
-    const focusItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-focus="true"]`);
+    const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
     (focusItem as HTMLElement)?.focus?.();
   }
 
@@ -48,7 +48,7 @@ export const SearchInput: React.FC<{
       )
     ) {
       setSearch('');
-      (document.querySelector('[data-rbt-search-input="true"]') as any)?.focus?.();
+      (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
     }
   });
 
@@ -64,7 +64,7 @@ export const SearchInput: React.FC<{
       clearSearch();
     },
     ...({
-      ['data-rbt-search-input']: 'true'
+      ['data-rct-search-input']: 'true'
     } as any)
   }) as any;
 };
