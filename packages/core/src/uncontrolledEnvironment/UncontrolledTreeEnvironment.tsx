@@ -92,7 +92,6 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
             if (target.targetItem === parent.index) {
               // NOOP
             } else {
-              console.log(1)
               await dataProvider.onChangeItemChildren(parent.index, parent.children.filter(child => child !== item.index));
               await dataProvider.onChangeItemChildren(target.targetItem, [...currentItems[target.targetItem].children ?? [], item.index]);
             }
@@ -100,18 +99,13 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
             const newParentChildren = [...newParent.children ?? []].filter(child => child !== item.index);
 
             if (target.parentItem === parent.index) {
-              console.log(2)
               const isOldItemPriorToNewItem = ((newParent.children ?? []).findIndex(child => child === item.index) ?? Infinity) < target.childIndex;
               newParentChildren.splice(target.childIndex - (isOldItemPriorToNewItem ? 1 : 0), 0, item.index);
               await dataProvider.onChangeItemChildren(target.parentItem, newParentChildren);
             } else {
-              console.log(3)
-              console.log(target, parent.children, newParent.children)
               newParentChildren.splice(target.childIndex, 0, item.index);
-              console.log(newParentChildren)
               await dataProvider.onChangeItemChildren(parent.index, parent.children.filter(child => child !== item.index));
               await dataProvider.onChangeItemChildren(target.parentItem, newParentChildren);
-              console.log(dataProvider.getTreeItems([parent.index, target.parentItem]))
             }
           }
 
