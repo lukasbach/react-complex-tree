@@ -21,10 +21,11 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   useTreeKeyboardBindings(containerRef.current);
 
   useFocusWithin(containerRef.current, () => {
-    environment.setActiveTree(treeId)
+    environment.setActiveTree(treeId);
+    console.log(`focus in for ${treeId}, previous was ${environment.activeTreeId}`, document.activeElement)
   }, () => {
     if (isActiveTree) {
-      // TODO currently looses focus while dropping in the active tree
+      console.log(`Focusout, is active tree: ${isActiveTree?1:0}, ${environment.activeTreeId} for tree ${treeId}`, document.activeElement)
       environment.setActiveTree(undefined);
     }
   }, [environment.activeTreeId, treeId, isActiveTree]);
@@ -54,7 +55,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
       }
 
       if (e.clientX < 0 || e.clientY < 0) {
-        console.log("Drag aborted due to mouse coords being negative");
+        // console.log("Drag aborted due to mouse coords being negative");
         return; // TODO hotfix
       }
 
@@ -86,7 +87,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
         if (outsideContainer) {
           environment.onDragAtPosition(undefined);
-          console.log("Drag aborted due to being out of container");
+          // console.log("Drag aborted due to being out of container");
           return;
         }
 
@@ -94,7 +95,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
         if (linearIndex < 0 || linearIndex >= linearItems.length) {
           environment.onDragAtPosition(undefined);
-          console.log("Drag aborted due to being out of linear list");
+          // console.log("Drag aborted due to being out of linear list");
           return;
         }
 
@@ -104,19 +105,19 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
         if (!offset && !environment.allowDropOnItemWithoutChildren && !targetItemData.hasChildren) {
           environment.onDragAtPosition(undefined);
-          console.log("Drag aborted due to allowDropOnItemWithoutChildren");
+          // console.log("Drag aborted due to allowDropOnItemWithoutChildren");
           return;
         }
 
         if (!offset && !environment.allowDropOnItemWithChildren && targetItemData.hasChildren) {
           environment.onDragAtPosition(undefined);
-          console.log("Drag aborted due to allowDropOnItemWithChildren");
+          // console.log("Drag aborted due to allowDropOnItemWithChildren");
           return;
         }
 
         if (offset && !environment.allowReorderingItems) {
           environment.onDragAtPosition(undefined);
-          console.log("Drag aborted due to allowReorderingItems");
+          // console.log("Drag aborted due to allowReorderingItems");
           return;
         }
 

@@ -36,14 +36,30 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
     }
   }
 
+  const onFocusHandler: typeof props.onFocusItem = (item, treeId) => {
+    props.onFocusItem?.(item, treeId);
+    const newItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-id="${item.index}"]`);
+
+    if (document.activeElement?.attributes.getNamedItem('data-rbt-search-input')?.value !== 'true') {
+      // Move DOM focus to item if the current focus is not on the search input
+      (newItem as HTMLElement)?.focus?.();
+    } else {
+      // Otherwise just manually scroll into view
+      scrollIntoView(newItem);
+    }
+  };
+
   useEffect(() => {
     const dragEndEventListener = () => {
       setDraggingPosition(undefined);
       setDraggingItems(undefined);
 
-      console.log("DROP", draggingPosition, draggingItems, props.onDrop)
       if (draggingItems && draggingPosition && props.onDrop) {
         props.onDrop(draggingItems, draggingPosition);
+
+        requestAnimationFrame(() => {
+          onFocusHandler(draggingItems[0], draggingPosition.treeId);
+        })
       }
     };
 
@@ -51,25 +67,14 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
 
     return () => {
       window.removeEventListener('dragend', dragEndEventListener);
-    }
+    };
   }, [draggingPosition, draggingItems, props.onDrop]);
 
   return (
     <TreeEnvironmentContext.Provider value={{
       ...createDefaultRenderers(props),
       ...props,
-      onFocusItem: (item, treeId) => {
-        props.onFocusItem?.(item, treeId);
-        const newItem = document.querySelector(`[data-rbt-tree="${treeId}"] [data-rbt-item-id="${item.index}"]`);
-
-        if (document.activeElement?.attributes.getNamedItem('data-rbt-search-input')?.value !== 'true') {
-          // Move DOM focus to item if the current focus is not on the search input
-          (newItem as HTMLElement)?.focus?.();
-        } else {
-          // Otherwise just manually scroll into view
-          scrollIntoView(newItem);
-        }
-      },
+      onFocusItem: onFocusHandler,
       registerTree: (tree) => {
         setTrees(trees => ({...trees, [tree.treeId]: tree}));
         props.onRegisterTree?.(tree);
