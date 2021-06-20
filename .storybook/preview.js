@@ -1,4 +1,4 @@
-require('../src/renderers/style.css');
+require('../packages/core/src/renderers/style.css');
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

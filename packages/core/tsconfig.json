@@ -1,9 +1,9 @@
 {
   "extends": "@lukasbach/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "outDir": "lib"
   },
   "include": [
-    "packages/**/src"
+    "src"
   ]
 }

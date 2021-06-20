@@ -7,7 +7,7 @@ import {
   UncontrolledTreeEnvironmentProps,
 } from '../types';
 import { useEffect, useMemo, useState } from 'react';
-import { ControlledTreeEnvironment, TreeEnvironmentContext } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({
   ...provider,
