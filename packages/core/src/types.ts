@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, ExoticComponent, HTMLProps, InputHTMLAttri
 
 export type TreeItemIndex = string | number;
 
-export type TreeItem<T = any> = {
+export interface TreeItem<T = any> {
   index: TreeItemIndex;
   children?: Array<TreeItemIndex>;
   hasChildren?: boolean;
@@ -12,14 +12,14 @@ export type TreeItem<T = any> = {
   data: T;
 }
 
-export type TreePosition = {
+export interface TreePosition {
   treeId: string;
   parent: TreeItemIndex;
   index: number;
 }
 
 
-export type TreeItemActions = {
+export interface TreeItemActions {
   primaryAction: () => void;
   startRenamingItem: () => void;
   expandItem: () => void;
@@ -36,7 +36,7 @@ export type TreeItemActions = {
   // toggleSelectedState: () => void;
 }
 
-export type TreeItemRenderFlags = {
+export interface TreeItemRenderFlags {
   isSelected?: boolean;
   isExpanded?: boolean;
   isFocused?: boolean;
@@ -44,14 +44,14 @@ export type TreeItemRenderFlags = {
   isDraggingOver?: boolean;
   isDraggingOverParent?: boolean;
   isSearchMatching?: boolean;
-};
+}
 
-export type TreeItemRenderContext = {
+export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFlags {
   interactiveElementProps: HTMLProps<any>;
   itemContainerElementProps: HTMLProps<any>;
-} & TreeItemActions & TreeItemRenderFlags;
+}
 
-export type TreeInformation = {
+export interface TreeInformation {
   areItemsSelected?: boolean;
   isRenaming?: boolean;
   isFocused?: boolean;
@@ -59,7 +59,7 @@ export type TreeInformation = {
   search?: string | null;
 }
 
-export type TreeRenderProps<T = any> = {
+export interface TreeRenderProps<T = any> {
   renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, title: React.ReactNode, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
   renderItemTitle?: (title: string, item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
   renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
@@ -73,7 +73,7 @@ export type TreeRenderProps<T = any> = {
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
 
-export type TreeCapabilities<T = any> = {
+export interface TreeCapabilities<T = any> {
   defaultInteractionMode?: 'click-to-activate' | 'click-to-select';
   allowDragAndDrop?: boolean;
   allowDropOnItemWithChildren?: boolean;
@@ -86,29 +86,29 @@ export type TreeCapabilities<T = any> = {
   doesSearchMatchItem?: (search: string, item: TreeItem<T>, itemTitle: string) => boolean;
 }
 
-export type IndividualTreeViewState = {
+export interface IndividualTreeViewState {
   renamingItem?: TreeItemIndex;
   selectedItems?: TreeItemIndex[];
   expandedItems?: TreeItemIndex[];
   untruncatedItems?: TreeItemIndex[];
   focusedItem?: TreeItemIndex;
-};
+}
 
-export type TreeViewState = {
+export interface TreeViewState {
   [treeId: string]: IndividualTreeViewState | undefined;
-};
+}
 
-export type ExplicitDataSource<T = any> = {
+export interface ExplicitDataSource<T = any> {
   items: Record<TreeItemIndex, TreeItem<T>>;
-};
+}
 
-export type ImplicitDataSource<T = any> = {
+export interface ImplicitDataSource<T = any> {
   dataProvider: TreeDataProvider<T>;
 }
 
 export type DataSource<T = any> = ExplicitDataSource<T> | ImplicitDataSource<T>;
 
-export type TreeChangeHandlers<T = any> = {
+export interface TreeChangeHandlers<T = any> {
   onStartRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
   onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
@@ -124,13 +124,14 @@ export type TreeChangeHandlers<T = any> = {
   onMissingChildren?: (itemIds: TreeItemIndex[]) => void; // TODO
 };
 
-export type TreeEnvironmentConfiguration<T = any> = {
+export interface TreeEnvironmentConfiguration<T = any> extends
+  TreeRenderProps<T>, TreeCapabilities<T>, TreeChangeHandlers<T>, ExplicitDataSource<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
   getItemTitle: (item: TreeItem<T>) => string;
-} & TreeRenderProps<T> & TreeCapabilities<T> & TreeChangeHandlers<T> & ExplicitDataSource<T>;
+}
 
-export type TreeEnvironmentContextProps<T = any> = {
+export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>, AllTreeRenderProps<T> {
   registerTree: (tree: TreeConfiguration<T>) => void;
   unregisterTree: (treeId: string) => void;
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
@@ -140,21 +141,28 @@ export type TreeEnvironmentContextProps<T = any> = {
   draggingPosition?: DraggingPosition;
   activeTreeId?: string;
   setActiveTree: (treeId: string | undefined) => void;
-} & TreeEnvironmentConfiguration<T> & AllTreeRenderProps<T>;
+}
 
-export type DraggingPosition = {
+export type DraggingPosition = DraggingPositionItem | DraggingPositionBetweenItems;
+
+export interface AbstractDraggingPosition {
+  targetType: 'item' | 'between-items';
   treeId: string;
   parentItem: TreeItemIndex;
   linearIndex?: number;
   depth: number;
-} & ({
+}
+
+export interface DraggingPositionItem extends AbstractDraggingPosition {
   targetType: 'item';
   targetItem: TreeItemIndex;
-} | {
+}
+
+export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
   targetType: 'between-items';
   childIndex: number;
   linePosition: 'top' | 'bottom';
-});
+}
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;
 
@@ -164,27 +172,28 @@ export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
   getItemTitle: (item: TreeItem<T>) => string;
 } & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
 
-export type TreeConfiguration<T = any> = {
+export interface TreeConfiguration<T = any> {
   treeId: string;
   rootItem: string;
 }
 
-export type TreeProps<T = any> = TreeConfiguration<T> & Partial<TreeRenderProps<T>>;
+export interface TreeProps<T = any> extends TreeConfiguration<T>, Partial<TreeRenderProps<T>> {
+}
 
-export type TreeContextProps<T = any> = {
+export interface TreeContextProps<T = any> extends TreeConfiguration<T> {
   search: string | null;
   setSearch: (searchValue: string | null) => void;
   renderers: AllTreeRenderProps;
   treeInformation: TreeInformation;
-} & TreeConfiguration;
+}
 
-export type TreeDataProvider<T = any> = {
+export interface TreeDataProvider<T = any> {
   onDidChangeTreeData?: (listener: (changedItemIds: TreeItemIndex[]) => void) => Disposable;
   getTreeItem: (itemId: TreeItemIndex) => Promise<TreeItem>;
   getTreeItems?: (itemIds: TreeItemIndex[]) => Promise<TreeItem[]>;
   onRenameItem?: (item: TreeItem<T>, name: string) => Promise<void>;
   onChangeItemChildren?: (itemId: TreeItemIndex, newChildren: TreeItemIndex[]) => Promise<void>;
-};
+}
 
 export type Disposable = {
   dispose: () => void;
@@ -192,14 +201,14 @@ export type Disposable = {
 
 export type CompleteTreeDataProvider<T = any> = Required<TreeDataProvider<T>>;
 
-export type KeyboardBindings = Partial<{
-  primaryAction: string[];
-  moveFocusToFirstItem: string[];
-  moveFocusToLastItem: string[];
-  expandSiblings: string[];
-  renameItem: string[];
-  toggleSelectItem: string[];
-  moveItems: string[];
-  abortMovingItems: string[];
-  abortSearch: string[];
-}>;
+export interface KeyboardBindings {
+  primaryAction?: string[];
+  moveFocusToFirstItem?: string[];
+  moveFocusToLastItem?: string[];
+  expandSiblings?: string[];
+  renameItem?: string[];
+  toggleSelectItem?: string[];
+  moveItems?: string[];
+  abortMovingItems?: string[];
+  abortSearch?: string[];
+}
