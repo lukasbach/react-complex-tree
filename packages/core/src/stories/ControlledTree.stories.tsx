@@ -19,6 +19,24 @@ const demoRenderers: TreeRenderProps<string> = {
   // },
 };
 
+const shortTreeTemplate = {
+  root: {
+    container: {
+      item0: null,
+      item1: null,
+      item2: null,
+      item3: {
+        inner0: null,
+        inner1: null,
+        inner2: null,
+        inner3: null,
+      },
+      item4: null,
+      item5: null
+    },
+  }
+}
+
 const longTreeTemplate = {
   root: {
     Fruit: {
@@ -90,6 +108,7 @@ const readTemplate = (template: any, data: ExplicitDataSource = { items: {} }) =
 }
 
 const longTree = readTemplate(longTreeTemplate);
+const shortTree = readTemplate(shortTreeTemplate);
 
 const demoContent: { data: ExplicitDataSource } = {
   data: {
@@ -184,6 +203,23 @@ export const SingleTreeAllCollapsed = () => (
     allowDropOnItemWithChildren={true}
     allowReorderingItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
+    viewState={{
+      ['tree-1']: {
+      }
+    }}
+    {...demoRenderers}
+  >
+    <Tree treeId="tree-1" rootItem="root" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const SmallTree = () => (
+  <UncontrolledTreeEnvironment
+    allowDragAndDrop={true}
+    allowDropOnItemWithChildren={true}
+    allowReorderingItems={true}
+    dataProvider={new StaticTreeDataProvider(shortTree.items)}
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
