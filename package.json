@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git@github.com:lukasbach/react-beautiful-tree.git"
+    "url": "git@github.com:lukasbach/react-complex-tree.git",
+    "directory": "packages/docs"
   },
   "author": "Lukas Bach",
   "license": "MIT",

@@ -2,7 +2,11 @@
   "name": "react-complex-tree",
   "version": "1.0.0",
   "main": "lib/index.js",
-  "repository": "https://github.com/lukasbach/react-complex-tree",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lukasbach/react-complex-tree.git",
+    "directory": "packages/core"
+  },
   "author": "Lukas Bach <lbach@outlook.de>",
   "license": "MIT",
   "private": false,
