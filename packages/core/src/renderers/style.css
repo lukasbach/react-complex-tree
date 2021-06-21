@@ -1,21 +1,30 @@
 :root {
-    --rct-color-tree-focus-outline: rgb(118, 221, 246);
-    --rct-color-focustree-item-selected-bg: rgb(12, 181, 252);
-    --rct-color-nonfocustree-item-selected-bg: rgb(161, 161, 161);
-    --rct-color-focustree-item-focused-outline: rgb(43, 191, 255);
-    --rct-color-nonfocustree-item-focused-outline: rgb(219, 219, 219);
-    --rct-color-focustree-item-draggingover-bg: rgb(142, 222, 255);
-    --rct-color-search-highlight-bg: rgb(43, 255, 156);
-    --rct-color-drag-between-line-bg: rgb(142, 222, 255);
+    --rct-color-tree-bg: #ECEFF4;
+    --rct-color-tree-focus-outline: #88C0D0;
+
+    --rct-color-focustree-item-selected-bg: #4C566A;
+    --rct-color-focustree-item-selected-text: #ffffff;
+    --rct-color-focustree-item-focused-border: #88C0D0;
+    --rct-color-focustree-item-draggingover-bg: #81A1C1;
+    --rct-color-focustree-item-draggingover-color: #ffffff;
+
+    --rct-color-nonfocustree-item-selected-bg: #D8DEE9;
+    --rct-color-nonfocustree-item-selected-text: inherit;
+    --rct-color-nonfocustree-item-focused-border: #D8DEE9;
+
+    --rct-color-search-highlight-bg: #A3BE8C;
+    --rct-color-drag-between-line-bg: #81A1C1;
+
+    --rct-item-height: 22px;
 }
 
 .rct-tree-root {
     font-family: sans-serif;
-    overflow-y: auto;
+    background-color: var(--rct-color-tree-bg);
 }
 
 .rct-tree-root-focus {
-    outline: 3px solid var(--rct-color-tree-focus-outline);
+    outline: 1px solid var(--rct-color-tree-focus-outline);
 }
 
 .rct-tree-child-list {
@@ -41,10 +50,11 @@
     font-size: inherit;
     border: none;
     width: 100%;
-    height: 22px;
+    height: var(--rct-item-height);
     text-align: left;
     color: inherit;
-    /*border-bottom: 1px solid black;*/
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 
 .rct-tree-item-li {
@@ -56,21 +66,24 @@
 
 .rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-selected {
     background-color: var(--rct-color-nonfocustree-item-selected-bg);
-    color: #fff;
+    color: var(--rct-color-nonfocustree-item-selected-text);
 }
 .rct-tree-root.rct-tree-root-focus .rct-tree-item-button-selected {
     background-color: var(--rct-color-focustree-item-selected-bg);
-    color: #fff;
+    color: var(--rct-color-focustree-item-selected-text);
 }
 .rct-tree-root.rct-tree-root-focus .rct-tree-item-button-focused {
-    box-shadow: inset 0 0 0 2px var(--rct-color-focustree-item-focused-outline);
+    outline: none;
+    border-color: var(--rct-color-focustree-item-focused-border);
 }
 .rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-focused {
-    box-shadow: inset 0 0 0 2px var(--rct-color-nonfocustree-item-focused-outline);
+    outline: none;
+    border-color: var(--rct-color-nonfocustree-item-focused-border);
 }
 
 .rct-tree-item-button-dragging-over {
     background-color: var(--rct-color-focustree-item-draggingover-bg);
+    color: var(--rct-color-focustree-item-draggingover-color);
 }
 
 .rct-tree-item-button-search-match {
