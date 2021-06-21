@@ -49,10 +49,11 @@ export interface TreeItemRenderFlags {
 
 export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFlags {
   interactiveElementProps: HTMLProps<any>;
-  itemContainerElementProps: HTMLProps<any>;
+  itemContainerWithoutChildrenProps: HTMLProps<any>;
+  itemContainerWithChildrenProps: HTMLProps<any>;
 }
 
-export interface TreeInformation {
+export interface TreeInformation extends TreeConfiguration {
   areItemsSelected?: boolean;
   isRenaming?: boolean;
   isFocused?: boolean;
@@ -66,6 +67,7 @@ export interface TreeRenderProps<T = any> {
   renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
+  renderItemsContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
   renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
   renderDragBetweenLine?: (draggingPosition: DraggingPosition, lineProps: HTMLProps<any>) => React.ReactNode;
   renderSearchInput?: (inputProps: HTMLProps<HTMLInputElement>) => React.ReactNode;
@@ -176,6 +178,8 @@ export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
 export interface TreeConfiguration<T = any> {
   treeId: string;
   rootItem: string;
+  treeLabel?: string;
+  treeLabelledBy?: string;
 }
 
 export interface TreeProps<T = any> extends TreeConfiguration<T>, Partial<TreeRenderProps<T>> {

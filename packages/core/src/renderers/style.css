@@ -21,6 +21,7 @@
 .rct-tree-root {
     font-family: sans-serif;
     background-color: var(--rct-color-tree-bg);
+    padding: 4px 0;
 }
 
 .rct-tree-root-focus {
@@ -55,6 +56,11 @@
     color: inherit;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
+}
+
+.rct-tree-items-container {
+    margin: 0;
+    padding: 0;
 }
 
 .rct-tree-item-li {

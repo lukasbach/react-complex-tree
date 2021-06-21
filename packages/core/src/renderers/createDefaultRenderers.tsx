@@ -2,7 +2,7 @@ import React from 'react';
 import { AllTreeRenderProps, TreeRenderProps } from '../types';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
-// TODO component to render ul element
+
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   return {
     renderItemTitle: (title, item, context, info) => {
@@ -22,6 +22,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderItem: (item, depth, children, title, context, info) => {
       return (
         <li
+          {...context.itemContainerWithChildrenProps as any}
           role="none"
           className={cx(
             'rct-tree-item-li',
@@ -34,10 +35,8 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           )}
         >
           <button
-            {...context.itemContainerElementProps as any}
+            {...context.itemContainerWithoutChildrenProps as any}
             {...context.interactiveElementProps as any}
-            role="treeitem"
-            tabIndex={context.isFocused ? 0 : -1}
             style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
             className={cx(
               'rct-tree-item-button',
@@ -78,6 +77,16 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           { children }
         </div>
       );
+    },
+    renderItemsContainer: (children, containerProps, info) => {
+      return (
+        <ul
+          {...containerProps}
+          className="rct-tree-items-container"
+        >
+          { children }
+        </ul>
+      )
     },
     renderDragBetweenLine: (draggingPosition, lineProps) => {
       return (

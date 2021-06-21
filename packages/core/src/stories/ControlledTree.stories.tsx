@@ -193,7 +193,7 @@ export const SingleTree = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -210,7 +210,7 @@ export const SingleTreeAllCollapsed = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -227,7 +227,7 @@ export const SmallTree = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -246,7 +246,7 @@ export const MultipleTrees = () => (
   >
     <div style={{
       display: 'flex',
-      backgroundColor: '#eee',
+      backgroundColor: '#D8DEE9',
       justifyContent: 'space-evenly',
       alignItems: 'baseline',
       padding: '20px 0',
@@ -255,19 +255,19 @@ export const MultipleTrees = () => (
         width: '28%',
         backgroundColor: 'white',
       }}>
-        <Tree treeId="tree-1" rootItem="root" />
+        <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
       </div>
       <div style={{
         width: '28%',
         backgroundColor: 'white',
       }}>
-        <Tree treeId="tree-2" rootItem="root" />
+        <Tree treeId="tree-2" rootItem="root" treeLabel="Tree 2" />
       </div>
       <div style={{
         width: '28%',
         backgroundColor: 'white',
       }}>
-        <Tree treeId="tree-3" rootItem="root" />
+        <Tree treeId="tree-3" rootItem="root" treeLabel="Tree 3" />
       </div>
     </div>
   </UncontrolledTreeEnvironment>
@@ -290,7 +290,7 @@ export const TreeWithDelayedDataProvider = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -330,7 +330,7 @@ export const NoDragAndDrop = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -347,7 +347,7 @@ export const NoDropOnItemsAllowed = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -364,7 +364,7 @@ export const NoReorderingAllowed = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -384,7 +384,7 @@ export const AllowDraggingOnlyItemsStartingWithA = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
 
@@ -404,6 +404,6 @@ export const AllowDroppingOnlyOnItemsStartingWithA = () => (
     }}
     {...demoRenderers}
   >
-    <Tree treeId="tree-1" rootItem="root" />
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );

@@ -4,7 +4,6 @@ import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from '../tree/useViewState';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { defaultMatcher } from '../search/defaultMatcher';
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
 
 export const TreeItem = <T extends any>(props: {
@@ -12,7 +11,7 @@ export const TreeItem = <T extends any>(props: {
   depth: number;
 }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
-  const { treeId, renderers, search, treeInformation } = useTree();
+  const { renderers, treeInformation } = useTree();
   const environment = useTreeEnvironment();
   const viewState = useViewState();
   const item = environment.items[props.itemIndex];

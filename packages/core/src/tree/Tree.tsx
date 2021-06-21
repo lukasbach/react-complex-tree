@@ -28,7 +28,12 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
 
-  const treeInformation = useCreatedTreeInformation(props.treeId, search);
+  const treeInformation = useCreatedTreeInformation({
+    treeId: props.treeId,
+    rootItem: props.rootItem,
+    treeLabel: props.treeLabel,
+    treeLabelledBy: props.treeLabelledBy,
+  }, search);
 
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);

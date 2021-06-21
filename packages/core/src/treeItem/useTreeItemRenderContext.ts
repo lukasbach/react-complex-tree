@@ -157,6 +157,9 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
       e.preventDefault(); // Allow drop
     },
     draggable: canDrag,
+    role: 'treeitem',
+    'aria-expanded': item.hasChildren ? (renderContext.isExpanded ? 'true' : 'false') : undefined,
+    tabIndex: renderContext.isFocused ? 0 : -1,
     ...({
       ['data-rct-item-interactive']: true,
       ['data-rct-item-focus']: renderContext.isFocused ? 'true' : 'false',
@@ -164,17 +167,22 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     } as any)
   };
 
-  const containerElementProps: HTMLProps<HTMLElement> = {
+  const itemContainerWithoutChildrenProps: HTMLProps<HTMLElement> = {
     ...({
       ['data-rct-item-container']: 'true',
     } as any),
+  };
+
+  const itemContainerWithChildrenProps: HTMLProps<HTMLElement> = {
+    role: 'none',
   };
 
   return {
     ...actions,
     ...renderContext,
     interactiveElementProps,
-    itemContainerElementProps: containerElementProps
+    itemContainerWithChildrenProps,
+    itemContainerWithoutChildrenProps
   };
 };
 

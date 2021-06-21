@@ -49,6 +49,9 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
     ref: containerRef,
     style: { position: 'relative' },
+    role: 'tree',
+    'aria-label': !treeInformation.treeLabelledBy ? treeInformation.treeLabel : undefined,
+    'aria-labelledby': treeInformation.treeLabelledBy,
     ...({
       ['data-rct-tree']: treeId,
     } as any)
