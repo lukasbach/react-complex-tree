@@ -2,7 +2,7 @@ import React from 'react';
 import { AllTreeRenderProps, TreeRenderProps } from '../types';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
-
+// TODO component to render ul element
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   return {
     renderItemTitle: (title, item, context, info) => {
