@@ -55,7 +55,6 @@ export const createOnDragOverHandler = (
     // console.log(outsideContainer, treeBb, e.clientX, e.clientY);
 
     let { linearIndex, offset } = getHoveringPosition(e.clientY, treeBb.top, environment.itemHeight, environment);
-    console.log(linearIndex, offset)
 
     const hoveringCode = outsideContainer ? 'outside' : `${linearIndex}${offset ?? ''}`;
 
@@ -112,6 +111,14 @@ export const createOnDragOverHandler = (
         return;
       }
 
+      console.log(linearItems)
+      console.log(
+        `linearIndex ${linearIndex}, parentLinearIndex ${parentLinearIndex}, offset ${offset}, item ${targetItem.item}, parent ${parent.item}, new ChildIndex`,
+        environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
+      )
+
+      const newChildIndex = environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
+
       if (offset === 'top' && depth === (linearItems[linearIndex - 1]?.depth ?? -1)) {
         offset = 'bottom';
         linearIndex -= 1;
@@ -126,7 +133,9 @@ export const createOnDragOverHandler = (
           parentItem: parent.item,
           depth: targetItem.depth,
           linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
-          childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
+          // childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
+          // childIndex: environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
+          childIndex: newChildIndex,
           linePosition: offset,
         };
       } else {
