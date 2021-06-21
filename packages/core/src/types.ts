@@ -31,6 +31,7 @@ export interface TreeItemActions {
   selectItem: () => void;
   unselectItem: () => void;
   addToSelectedItems: () => void;
+  selectUpTo: () => void;
   startDragging: () => void;
   focusItem: () => void;
   // toggleSelectedState: () => void;

@@ -11,8 +11,9 @@ import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useViewState } from '../tree/useViewState';
+import { getItemsLinearly } from '../tree/getItemsLinearly';
 
-const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean): TreeItemRenderContext => {
+const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean, rootItem: string): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
   const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
@@ -55,6 +56,23 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     },
     unselectItem: () => {
       environment.onSelectItems?.(viewState?.selectedItems?.filter(id => id !== item.index) ?? [], treeId);
+    },
+    selectUpTo: () => {
+      if (viewState && viewState.selectedItems && viewState.selectedItems.length > 0) {
+        const linearItems = getItemsLinearly(rootItem, viewState, environment.items);
+        const selectionStart = linearItems.findIndex(linearItem => viewState.selectedItems?.includes(linearItem.item));
+        const selectionEnd = linearItems.findIndex(linearItem => linearItem.item === item.index);
+
+        if (selectionStart < selectionEnd) {
+          const selection = linearItems.slice(selectionStart, selectionEnd + 1).map(({ item }) => item);
+          environment.onSelectItems?.([...viewState?.selectedItems ?? [], ...selection], treeId);
+        } else {
+          const selection = linearItems.slice(selectionEnd, selectionStart).map(({ item }) => item);
+          environment.onSelectItems?.([...viewState?.selectedItems ?? [], ...selection], treeId);
+        }
+      } else {
+        actions.selectItem();
+      }
     },
     truncateItem: () => {
     },
@@ -99,10 +117,14 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     onClick: (e) => {
       actions.focusItem();
       if (e.ctrlKey) {
-        if (renderContext.isSelected) {
-          actions.unselectItem();
+        if (e.shiftKey) {
+          actions.selectUpTo();
         } else {
-          actions.addToSelectedItems();
+          if (renderContext.isSelected) {
+            actions.unselectItem();
+          } else {
+            actions.addToSelectedItems();
+          }
         }
       } else {
         if (item.hasChildren) {
@@ -166,7 +188,7 @@ const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefine
 ];
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
-  const { treeId, search } = useTree();
+  const { treeId, search, rootItem } = useTree();
   const environment = useTreeEnvironment();
   const itemTitle = item && environment.getItemTitle(item);
 
@@ -176,7 +198,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   }, [search, itemTitle]);
 
   return useMemo(
-    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching),
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, rootItem),
     createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching),
   );
 };
