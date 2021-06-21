@@ -16,6 +16,10 @@
     --rct-color-drag-between-line-bg: #81A1C1;
 
     --rct-item-height: 22px;
+
+    --rct-color-renaming-input-submitbutton-bg: inherit;
+    --rct-color-renaming-input-submitbutton-bg-hover: #88C0D0;
+    --rct-color-renaming-input-submitbutton-bg-active: #76aaba;
 }
 
 .rct-tree-root {
@@ -126,4 +130,25 @@
 .rct-tree-search-input {
     position: fixed;
     width: 120px;
+}
+
+.rct-tree-item-renaming-form {
+    display: inline-flex;
+}
+.rct-tree-item-renaming-input {
+    flex-grow: 1;
+    background-color: inherit;
+    border: none;
+    color: inherit;
+}
+.rct-tree-item-renaming-submit-button {
+    border: none;
+    background-color: var(--rct-color-renaming-input-submitbutton-bg);
+    border-radius: 999px;
+}
+.rct-tree-item-renaming-submit-button:hover {
+    background-color: var(--rct-color-renaming-input-submitbutton-bg-hover);
+}
+.rct-tree-item-renaming-submit-button:active {
+    background-color: var(--rct-color-renaming-input-submitbutton-bg-active);
 }

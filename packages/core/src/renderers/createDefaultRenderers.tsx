@@ -66,7 +66,6 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     renderTreeContainer: (children, containerProps, info) => {
       return (
         <div
-          {...containerProps}
           className={cx(
             'rct-tree-root',
             info.isFocused && 'rct-tree-root-focus',
@@ -74,7 +73,9 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             info.areItemsSelected && 'rct-tree-root-itemsselected',
           )}
         >
-          { children }
+          <div {...containerProps}>
+            { children }
+          </div>
         </div>
       );
     },
