@@ -1,10 +1,21 @@
+:root {
+    --rct-color-tree-focus-outline: rgb(118, 221, 246);
+    --rct-color-focustree-item-selected-bg: rgb(12, 181, 252);
+    --rct-color-nonfocustree-item-selected-bg: rgb(161, 161, 161);
+    --rct-color-focustree-item-focused-outline: rgb(43, 191, 255);
+    --rct-color-nonfocustree-item-focused-outline: rgb(219, 219, 219);
+    --rct-color-focustree-item-draggingover-bg: rgb(142, 222, 255);
+    --rct-color-search-highlight-bg: rgb(43, 255, 156);
+    --rct-color-drag-between-line-bg: rgb(142, 222, 255);
+}
+
 .rct-tree-root {
     font-family: sans-serif;
     overflow-y: auto;
 }
 
 .rct-tree-root-focus {
-    outline: 3px solid rgb(118, 221, 246);
+    outline: 3px solid var(--rct-color-tree-focus-outline);
 }
 
 .rct-tree-child-list {
@@ -44,22 +55,22 @@
 }
 
 .rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-selected {
-    background-color: rgb(161, 161, 161);
+    background-color: var(--rct-color-nonfocustree-item-selected-bg);
     color: #fff;
 }
 .rct-tree-root.rct-tree-root-focus .rct-tree-item-button-selected {
-    background-color: rgb(12, 181, 252);
+    background-color: var(--rct-color-focustree-item-selected-bg);
     color: #fff;
 }
 .rct-tree-root.rct-tree-root-focus .rct-tree-item-button-focused {
-    box-shadow: inset 0 0 0 2px rgb(43, 191, 255);
+    box-shadow: inset 0 0 0 2px var(--rct-color-focustree-item-focused-outline);
 }
 .rct-tree-root:not(.rct-tree-root-focus) .rct-tree-item-button-focused {
-    box-shadow: inset 0 0 0 2px rgb(219, 219, 219);
+    box-shadow: inset 0 0 0 2px var(--rct-color-nonfocustree-item-focused-outline);
 }
 
 .rct-tree-item-button-dragging-over {
-    background-color: rgb(142, 222, 255);
+    background-color: var(--rct-color-focustree-item-draggingover-bg);
 }
 
 .rct-tree-item-button-search-match {
@@ -67,7 +78,7 @@
 }
 
 .rct-tree-item-search-highlight {
-    background-color: rgb(43, 255, 156);
+    background-color: var(--rct-color-search-highlight-bg);
 }
 
 .rct-tree-drag-between-line {
@@ -75,7 +86,7 @@
     right: 0;
     top: -2px;
     height: 4px;
-    background-color: rgb(142, 222, 255);
+    background-color: var(--rct-color-drag-between-line-bg);
 }
 
 .rct-tree-drag-between-line-top {
