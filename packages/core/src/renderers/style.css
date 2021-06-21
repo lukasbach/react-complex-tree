@@ -116,9 +116,14 @@
     top: -4px
 }
 
-.rct-tree-search-input {
-    position: fixed;
+.rct-tree-search-input-container {
+    position: absolute;
     top: 0;
     right: 0;
+    width: 120px;
+}
+
+.rct-tree-search-input {
+    position: fixed;
     width: 120px;
 }

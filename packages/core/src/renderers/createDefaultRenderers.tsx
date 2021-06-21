@@ -103,12 +103,14 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
     },
     renderSearchInput: (inputProps) => {
       return (
-        <input
-          {...inputProps}
-          className={cx(
-            'rct-tree-search-input',
-          )}
-        />
+        <div className={cx('rct-tree-search-input-container')}>
+          <input
+            {...inputProps}
+            className={cx(
+              'rct-tree-search-input',
+            )}
+          />
+        </div>
       )
     },
     renderDepthOffset: 4,
