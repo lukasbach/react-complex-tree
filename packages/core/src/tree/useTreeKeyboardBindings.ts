@@ -67,7 +67,6 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   useHotkey('primaryAction', e => {
     e.preventDefault();
     if (viewState.focusedItem) {
-      console.log(1);
       environment.onSelectItems?.([viewState.focusedItem], treeId);
       environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
     }
@@ -77,10 +76,8 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     e.preventDefault();
     if (viewState.focusedItem) {
       if (viewState.selectedItems && viewState.selectedItems.includes(viewState.focusedItem)) {
-        console.log(2)
         environment.onSelectItems?.(viewState.selectedItems.filter(item => item !== viewState.focusedItem), treeId);
       } else {
-        console.log(3);
         environment.onSelectItems?.([...viewState.selectedItems ?? [], viewState.focusedItem], treeId);
       }
     }
@@ -95,6 +92,13 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
 
     if (selectedItems) {
       // TODO move
+    }
+  }, isActiveTree);
+
+  useHotkey('renameItem', e => {
+    if (viewState.focusedItem) {
+      e.preventDefault();
+      environment.onStartRenamingItem?.(environment.items[viewState.focusedItem], treeId);
     }
   }, isActiveTree);
 }

@@ -25,7 +25,7 @@ export const getHoveringPosition = (clientY: number, treeTop: number, itemHeight
   }
 
   return { linearIndex, offset };
-}
+};
 
 export const createOnDragOverHandler = (
   environment: TreeEnvironmentContextProps,

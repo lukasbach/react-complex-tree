@@ -159,7 +159,7 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     draggable: canDrag,
     role: 'treeitem',
     'aria-expanded': item.hasChildren ? (renderContext.isExpanded ? 'true' : 'false') : undefined,
-    tabIndex: renderContext.isFocused ? 0 : -1,
+    tabIndex: !renderContext.isRenaming ? renderContext.isFocused ? 0 : -1 : undefined,
     ...({
       ['data-rct-item-interactive']: true,
       ['data-rct-item-focus']: renderContext.isFocused ? 'true' : 'false',

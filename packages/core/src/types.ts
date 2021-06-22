@@ -1,4 +1,11 @@
-import React, { ButtonHTMLAttributes, ExoticComponent, HTMLProps, InputHTMLAttributes, PropsWithChildren } from 'react';
+import React, {
+  ButtonHTMLAttributes,
+  ExoticComponent,
+  FormHTMLAttributes,
+  HTMLProps,
+  InputHTMLAttributes,
+  PropsWithChildren, Ref,
+} from 'react';
 
 export type TreeItemIndex = string | number;
 
@@ -64,7 +71,7 @@ export interface TreeInformation extends TreeConfiguration {
 export interface TreeRenderProps<T = any> {
   renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, title: React.ReactNode, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
   renderItemTitle?: (title: string, item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
-  renderRenameInput?: (item: TreeItem<T>, inputProps: Partial<InputHTMLAttributes<HTMLInputElement>>, submitButtonProps: Partial<ButtonHTMLAttributes<HTMLButtonElement>>) => React.ReactNode;
+  renderRenameInput?: (item: TreeItem<T>, inputProps: InputHTMLAttributes<HTMLInputElement>, inputRef: Ref<HTMLInputElement>, submitButtonProps: HTMLProps<any>, formProps: FormHTMLAttributes<HTMLFormElement>) => React.ReactNode;
   renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
   renderItemsContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;

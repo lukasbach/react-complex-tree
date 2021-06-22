@@ -4,12 +4,14 @@ import { useHotkey } from '../hotkeys/useHotkey';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useSearchMatchFocus } from './useSearchMatchFocus';
+import { useViewState } from '../tree/useViewState';
 
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement
 }> = props => {
   const { search, setSearch, treeId, renderers } = useTree();
   const environment = useTreeEnvironment();
+  const viewState = useViewState();
   const isActiveTree = environment.activeTreeId === treeId;
 
   useSearchMatchFocus();
@@ -37,6 +39,7 @@ export const SearchInput: React.FC<{
     if (
       isActiveTree &&
       search === null &&
+      !viewState.renamingItem &&
       !e.ctrlKey &&
       !e.shiftKey &&
       !e.altKey &&
@@ -50,7 +53,7 @@ export const SearchInput: React.FC<{
       setSearch('');
       (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
     }
-  });
+  }, [isActiveTree, search, viewState.renamingItem]);
 
   if (search === null) {
     return null;

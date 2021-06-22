@@ -1,10 +1,11 @@
 import { TreeItemIndex, TreeProps } from '../types';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from '../tree/useViewState';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
+import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 
 export const TreeItem = <T extends any>(props: {
   itemIndex: TreeItemIndex;
@@ -38,7 +39,9 @@ export const TreeItem = <T extends any>(props: {
   );
 
   const title = environment.getItemTitle(item);
-  const titleComponent = renderers.renderItemTitle(title, item, renderContext, treeInformation);
+  const titleComponent = viewState.renamingItem === props.itemIndex
+    ? <TreeItemRenamingInput itemIndex={props.itemIndex} />
+    : renderers.renderItemTitle(title, item, renderContext, treeInformation);
 
   return (
     renderers.renderItem(

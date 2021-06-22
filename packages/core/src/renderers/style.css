@@ -50,6 +50,7 @@
 }
 
 .rct-tree-item-button {
+    box-sizing: border-box;
     background-color: transparent;
     font-family: inherit;
     font-size: inherit;
@@ -140,11 +141,13 @@
     background-color: inherit;
     border: none;
     color: inherit;
+    outline: none;
 }
 .rct-tree-item-renaming-submit-button {
     border: none;
     background-color: var(--rct-color-renaming-input-submitbutton-bg);
     border-radius: 999px;
+    color: inherit;
 }
 .rct-tree-item-renaming-submit-button:hover {
     background-color: var(--rct-color-renaming-input-submitbutton-bg-hover);

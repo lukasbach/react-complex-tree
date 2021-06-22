@@ -20,6 +20,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
       }
     },
     renderItem: (item, depth, children, title, context, info) => {
+      const InnerComponent = context.isRenaming ? 'div' : 'button';
       return (
         <li
           {...context.itemContainerWithChildrenProps as any}
@@ -34,7 +35,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             context.isSearchMatching && 'rct-tree-item-li-search-match',
           )}
         >
-          <button
+          <InnerComponent
             {...context.itemContainerWithoutChildrenProps as any}
             {...context.interactiveElementProps as any}
             style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
@@ -49,13 +50,30 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             )}
           >
             { title }
-          </button>
+          </InnerComponent>
           {children}
         </li>
       );
     },
-    renderRenameInput: (item, inputProps, submitButtonProps) => {
-      return <div />;
+    renderRenameInput: (item, inputProps, inputRef, submitButtonProps, formProps) => {
+      return (
+        <form
+          {...formProps}
+          className="rct-tree-item-renaming-form"
+        >
+          <input
+            {...inputProps}
+            ref={inputRef}
+            className="rct-tree-item-renaming-input"
+          />
+          <input
+            {...submitButtonProps}
+            type="submit"
+            className="rct-tree-item-renaming-submit-button"
+            value="🗸"
+          />
+        </form>
+      );
     },
     renderDraggingItem: items => {
       return <div />;
