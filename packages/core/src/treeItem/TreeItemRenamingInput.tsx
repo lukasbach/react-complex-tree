@@ -15,10 +15,10 @@ export const TreeItemRenamingInput: React.FC<{
   const [title, setTitle] = useState(environment.getItemTitle(item));
 
   const abort = () => {
-    // setRenamingItem(null);
-    // requestAnimationFrame(() => {
-    //   environment.setActiveTree(treeId);
-    // });
+    setRenamingItem(null);
+    requestAnimationFrame(() => {
+      environment.setActiveTree(treeId);
+    });
   };
 
   const confirm = () => {
