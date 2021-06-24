@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  CompleteTreeDataProvider,
   ControlledTreeEnvironmentProps,
   ImplicitDataSource, IndividualTreeViewState,
   TreeConfiguration, TreeDataProvider, TreeItem, TreeItemIndex, TreeViewState,
@@ -8,19 +7,21 @@ import {
 } from '../types';
 import { useEffect, useMemo, useState } from 'react';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
 
-const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({
+/*const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({ // TODO Write class that internally uses provider instead
   ...provider,
-  onDidChangeTreeData: provider.onDidChangeTreeData ?? (() => ({ dispose: () => {} })),
-  getTreeItems: provider.getTreeItems ?? (itemIds => Promise.all(itemIds.map(id => provider.getTreeItem(id)))),
-  onRenameItem: provider.onRenameItem ?? (async () => {}),
-  onChangeItemChildren: provider.onChangeItemChildren ?? (async () => {}),
-});
+  getTreeItem: provider.getTreeItem,
+  onDidChangeTreeData: provider.onDidChangeTreeData?.bind(provider) ?? (() => ({ dispose: () => {} })),
+  getTreeItems: provider.getTreeItems?.bind(provider) ?? (itemIds => Promise.all(itemIds.map(id => provider.getTreeItem(id)))),
+  onRenameItem: provider.onRenameItem?.bind(provider) ?? (async () => {}),
+  onChangeItemChildren: provider.onChangeItemChildren?.bind(provider) ?? (async () => {}),
+});*/
 
 export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTreeEnvironmentProps<T>) => {
   const [currentItems, setCurrentItems] = useState<Record<TreeItemIndex, TreeItem<T>>>({});
   const [viewState, setViewState] = useState(props.viewState);
-  const dataProvider = createCompleteDataProvider(props.dataProvider);
+  const dataProvider = useMemo(() => new CompleteTreeDataProvider(props.dataProvider), [props.dataProvider]);
 
   const writeItems = useMemo(() => (newItems: Record<TreeItemIndex, TreeItem<T>>) => {
     setCurrentItems(oldItems => ({ ...oldItems, ...newItems }));
@@ -71,9 +72,14 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       onStartRenamingItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
       }}
-      onRenameItem={(item, name, treeId) => {
-        dataProvider.onRenameItem(item, name);
+      onRenameItem={async (item, name, treeId) => {
+        console.log(item, name)
+        await dataProvider.onRenameItem(item, name);
+        console.log(dataProvider, dataProvider.getTreeItem)
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
+        const newItem = await dataProvider.getTreeItem(item.index);
+        console.log(newItem)
+        writeItems({ [item.index]: newItem });
       }}
       onDrop={async (items, target) => {
         for (const item of items) {

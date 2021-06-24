@@ -93,11 +93,11 @@ export interface TreeCapabilities<T = any> {
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;
   canSearch?: boolean;
+  canSearchByStartingTyping?: boolean;
   doesSearchMatchItem?: (search: string, item: TreeItem<T>, itemTitle: string) => boolean;
 }
 
 export interface IndividualTreeViewState {
-  renamingItem?: TreeItemIndex;
   selectedItems?: TreeItemIndex[];
   expandedItems?: TreeItemIndex[];
   untruncatedItems?: TreeItemIndex[];
@@ -195,6 +195,8 @@ export interface TreeProps<T = any> extends TreeConfiguration<T>, Partial<TreeRe
 export interface TreeContextProps<T = any> extends TreeConfiguration<T> {
   search: string | null;
   setSearch: (searchValue: string | null) => void;
+  renamingItem: TreeItemIndex | null;
+  setRenamingItem: (item: TreeItemIndex | null) => void;
   renderers: AllTreeRenderProps;
   treeInformation: TreeInformation;
 }
@@ -211,16 +213,17 @@ export type Disposable = {
   dispose: () => void;
 }
 
-export type CompleteTreeDataProvider<T = any> = Required<TreeDataProvider<T>>;
-
 export interface KeyboardBindings {
   primaryAction?: string[];
   moveFocusToFirstItem?: string[];
   moveFocusToLastItem?: string[];
   expandSiblings?: string[];
   renameItem?: string[];
+  abortRenameItem?: string[];
   toggleSelectItem?: string[];
   moveItems?: string[];
   abortMovingItems?: string[];
   abortSearch?: string[];
+  startSearch?: string[];
+  selectAll?: string[];
 }

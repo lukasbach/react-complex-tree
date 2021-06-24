@@ -1,19 +1,19 @@
 :root {
-    --rct-color-tree-bg: #ECEFF4;
-    --rct-color-tree-focus-outline: #88C0D0;
+    --rct-color-tree-bg: #F6F8FA;
+    --rct-color-tree-focus-outline: #0366D6;
 
-    --rct-color-focustree-item-selected-bg: #4C566A;
-    --rct-color-focustree-item-selected-text: #ffffff;
-    --rct-color-focustree-item-focused-border: #88C0D0;
-    --rct-color-focustree-item-draggingover-bg: #81A1C1;
-    --rct-color-focustree-item-draggingover-color: #ffffff;
+    --rct-color-focustree-item-selected-bg: #E8EAED;
+    --rct-color-focustree-item-selected-text: inherit;
+    --rct-color-focustree-item-focused-border: #0366D6;
+    --rct-color-focustree-item-draggingover-bg: #EBF0F4;
+    --rct-color-focustree-item-draggingover-color: inherit;
 
-    --rct-color-nonfocustree-item-selected-bg: #D8DEE9;
+    --rct-color-nonfocustree-item-selected-bg: #E8EAED;
     --rct-color-nonfocustree-item-selected-text: inherit;
-    --rct-color-nonfocustree-item-focused-border: #D8DEE9;
+    --rct-color-nonfocustree-item-focused-border: #dbdbdb;
 
-    --rct-color-search-highlight-bg: #A3BE8C;
-    --rct-color-drag-between-line-bg: #81A1C1;
+    --rct-color-search-highlight-bg: #bcc8ec;
+    --rct-color-drag-between-line-bg: #b0c7de;
 
     --rct-item-height: 22px;
 
@@ -133,6 +133,7 @@
     width: 120px;
 }
 
+/* TODO see renaming form in multiple tree example, wraps around */
 .rct-tree-item-renaming-form {
     display: inline-flex;
 }

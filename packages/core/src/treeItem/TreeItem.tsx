@@ -12,7 +12,7 @@ export const TreeItem = <T extends any>(props: {
   depth: number;
 }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
-  const { renderers, treeInformation } = useTree();
+  const { renderers, treeInformation, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   const viewState = useViewState();
   const item = environment.items[props.itemIndex];
@@ -39,7 +39,7 @@ export const TreeItem = <T extends any>(props: {
   );
 
   const title = environment.getItemTitle(item);
-  const titleComponent = viewState.renamingItem === props.itemIndex
+  const titleComponent = renamingItem === props.itemIndex
     ? <TreeItemRenamingInput itemIndex={props.itemIndex} />
     : renderers.renderItemTitle(title, item, renderContext, treeInformation);
 

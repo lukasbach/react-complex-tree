@@ -3,20 +3,23 @@ import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/Uncontro
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
 import React from 'react';
-import { longTree, shortTree } from './utils/treeData.stories';
-import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { longTree } from './utils/treeData.stories';
 
 export default {
-  title: 'Hardcoded State',
+  title: 'Search Configurability',
 } as Meta;
 
-export const SimpleTree = () => (
-  <ControlledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
-    items={longTree.items}
+
+export const SearchOnlyWithHotkey = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
     getItemTitle={item => item.data}
+    canSearchByStartingTyping={false}
+    keyboardBindings={{
+      startSearch: ['f1']
+      // TODO hotkeys do not overwrite browser default because preventDefault is called on keyup, not keydown
+      // TODO fix by checking whether hotkey is already fulfilled during keydown
+    }}
     viewState={{
       ['tree-1']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
@@ -24,5 +27,5 @@ export const SimpleTree = () => (
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-  </ControlledTreeEnvironment>
+  </UncontrolledTreeEnvironment>
 );

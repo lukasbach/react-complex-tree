@@ -4,12 +4,14 @@ import { useMoveFocusToIndex } from './useMoveFocusToIndex';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useGetLinearItems } from './useGetLinearItems';
 
 export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   const viewState = useViewState();
-  const { treeId } = useTree();
+  const { treeId, setRenamingItem, setSearch } = useTree();
   const environment = useTreeEnvironment();
   const moveFocusToIndex = useMoveFocusToIndex(containerRef);
+  const getLinearItems = useGetLinearItems();
 
   const isActiveTree = environment.activeTreeId === treeId;
 
@@ -83,6 +85,11 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     }
   }, isActiveTree);
 
+  useHotkey('selectAll', e => {
+    e.preventDefault();
+    environment.onSelectItems?.(getLinearItems().map(({ item }) => item), treeId);
+  }, isActiveTree);
+
   useHotkey('moveItems', e => {
     e.preventDefault();
     const selectedItems = viewState.selectedItems?.length ?? 0 > 0
@@ -98,7 +105,15 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   useHotkey('renameItem', e => {
     if (viewState.focusedItem) {
       e.preventDefault();
-      environment.onStartRenamingItem?.(environment.items[viewState.focusedItem], treeId);
+      const item = environment.items[viewState.focusedItem];
+      environment.onStartRenamingItem?.(item, treeId);
+      setRenamingItem(item.index);
     }
+  }, isActiveTree);
+
+  useHotkey('startSearch', e => {
+    e.preventDefault();
+    setSearch('');
+    (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
   }, isActiveTree);
 }

@@ -1,20 +1,30 @@
 import { useMemo } from 'react';
-import { TreeConfiguration, TreeEnvironmentContextProps, TreeInformation } from '../types';
+import { TreeConfiguration, TreeEnvironmentContextProps, TreeInformation, TreeItemIndex } from '../types';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
-const createTreeInformation = <T>(environment: TreeEnvironmentContextProps, treeConfiguration: TreeConfiguration, search: string | null): TreeInformation => ({
+const createTreeInformation = <T>(
+  environment: TreeEnvironmentContextProps,
+  treeConfiguration: TreeConfiguration,
+  search: string | null,
+  renamingItem?: TreeItemIndex | undefined,
+): TreeInformation => ({
   isFocused: environment.activeTreeId === treeConfiguration.treeId,
-  isRenaming: environment.viewState[treeConfiguration.treeId]?.renamingItem !== undefined,
+  isRenaming: !!renamingItem,
   areItemsSelected: (environment.viewState[treeConfiguration.treeId]?.selectedItems?.length ?? 0) > 0,
   isSearching: search !== null,
   search: search,
   ...treeConfiguration
 });
 
-const createTreeInformationDependencies = <T>(environment: TreeEnvironmentContextProps, treeId: string, search: string | null) => [
+const createTreeInformationDependencies = <T>(
+  environment: TreeEnvironmentContextProps,
+  treeId: string,
+  search: string | null,
+  renamingItem?: TreeItemIndex | undefined,
+) => [
   environment.activeTreeId,
-  environment.viewState[treeId]?.renamingItem,
   environment.viewState[treeId]?.selectedItems,
+  renamingItem,
   treeId,
   search,
 ];

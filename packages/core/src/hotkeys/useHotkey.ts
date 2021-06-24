@@ -13,7 +13,7 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
   );
 
   useHtmlElementEventListener(document, 'keydown', e => {
-    if (!active) {
+    if (active === false) {
       return;
     }
 
@@ -23,7 +23,7 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
   }, [active]);
 
   useHtmlElementEventListener(document, 'keyup', e => {
-    if (!active) {
+    if (active === false) {
       return;
     }
 

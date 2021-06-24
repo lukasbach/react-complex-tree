@@ -13,7 +13,14 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useViewState } from '../tree/useViewState';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 
-const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvironmentContextProps, treeId: string, isSearchMatching: boolean, rootItem: string): TreeItemRenderContext => {
+const createTreeItemRenderContext = <T>(
+  item: TreeItem<T>,
+  environment: TreeEnvironmentContextProps,
+  treeId: string,
+  isSearchMatching: boolean,
+  renamingItem: TreeItemIndex | null,
+  rootItem: string,
+): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
   const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
@@ -30,7 +37,7 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
 
   // console.log(canDrag, selectedItems, environment.allowDragAndDrop)
 
-  const actions: TreeItemActions = {
+  const actions: TreeItemActions = { // TODO disable most actions during rename
     primaryAction: () => {
       console.log(`PRIMARY ACTION ON ${item.index}`)
       environment.onPrimaryAction?.(environment.items[item.index], treeId);
@@ -58,6 +65,7 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
       environment.onSelectItems?.(viewState?.selectedItems?.filter(id => id !== item.index) ?? [], treeId);
     },
     selectUpTo: () => {
+      // TODO doesnt work that well if there are spaces between selections
       if (viewState && viewState.selectedItems && viewState.selectedItems.length > 0) {
         const linearItems = getItemsLinearly(rootItem, viewState, environment.items);
         const selectionStart = linearItems.findIndex(linearItem => viewState.selectedItems?.includes(linearItem.item));
@@ -103,7 +111,7 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     isSelected: viewState?.selectedItems?.includes(item.index),
     isExpanded: viewState?.expandedItems?.includes(item.index),
     isFocused: viewState?.focusedItem === item.index,
-    isRenaming: viewState?.renamingItem === item.index,
+    isRenaming: renamingItem === item.index,
     isDraggingOver:
       environment.draggingPosition &&
       environment.draggingPosition.targetType === 'item' &&
@@ -116,15 +124,13 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
   const interactiveElementProps: HTMLProps<HTMLElement> = {
     onClick: (e) => {
       actions.focusItem();
-      if (e.ctrlKey) {
-        if (e.shiftKey) {
-          actions.selectUpTo();
+      if (e.shiftKey) {
+        actions.selectUpTo();
+      } else if (e.ctrlKey) {
+        if (renderContext.isSelected) {
+          actions.unselectItem();
         } else {
-          if (renderContext.isSelected) {
-            actions.unselectItem();
-          } else {
-            actions.addToSelectedItems();
-          }
+          actions.addToSelectedItems();
         }
       } else {
         if (item.hasChildren) {
@@ -156,7 +162,7 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
     onDragOver: e => {
       e.preventDefault(); // Allow drop
     },
-    draggable: canDrag,
+    draggable: canDrag && !renderContext.isRenaming,
     role: 'treeitem',
     'aria-expanded': item.hasChildren ? (renderContext.isExpanded ? 'true' : 'false') : undefined,
     tabIndex: !renderContext.isRenaming ? renderContext.isFocused ? 0 : -1 : undefined,
@@ -186,17 +192,24 @@ const createTreeItemRenderContext = <T>(item: TreeItem<T>, environment: TreeEnvi
   };
 };
 
-const createTreeItemRenderContextDependencies = <T>(item: TreeItem<T> | undefined, environment: TreeEnvironmentConfiguration, treeId: string, isSearchMatching: boolean) => [
+const createTreeItemRenderContextDependencies = <T>(
+  item: TreeItem<T> | undefined,
+  environment: TreeEnvironmentConfiguration,
+  treeId: string,
+  isSearchMatching: boolean,
+  renamingItem: TreeItemIndex | null,
+) => [
   environment,
   environment.viewState[treeId]?.expandedItems,
   environment.viewState[treeId]?.selectedItems,
+  renamingItem && renamingItem === item?.index,
   item?.index ?? '___no_item',
   treeId,
   isSearchMatching,
 ];
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
-  const { treeId, search, rootItem } = useTree();
+  const { treeId, search, rootItem, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   const itemTitle = item && environment.getItemTitle(item);
 
@@ -206,7 +219,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   }, [search, itemTitle]);
 
   return useMemo(
-    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, rootItem),
-    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching),
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, renamingItem, rootItem),
+    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching, renamingItem),
   );
 };

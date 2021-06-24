@@ -9,7 +9,7 @@ import { useViewState } from '../tree/useViewState';
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement
 }> = props => {
-  const { search, setSearch, treeId, renderers } = useTree();
+  const { search, setSearch, treeId, renderers, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   const viewState = useViewState();
   const isActiveTree = environment.activeTreeId === treeId;
@@ -37,9 +37,11 @@ export const SearchInput: React.FC<{
   useHtmlElementEventListener(props.containerRef, 'keydown', e => {
     const unicode = e.key.charCodeAt(0);
     if (
+      (environment.canSearch ?? true) &&
+      (environment.canSearchByStartingTyping ?? true) &&
       isActiveTree &&
       search === null &&
-      !viewState.renamingItem &&
+      !renamingItem &&
       !e.ctrlKey &&
       !e.shiftKey &&
       !e.altKey &&
@@ -53,9 +55,9 @@ export const SearchInput: React.FC<{
       setSearch('');
       (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
     }
-  }, [isActiveTree, search, viewState.renamingItem]);
+  }, [isActiveTree, search, renamingItem, environment.canSearchByStartingTyping, environment.canSearch]);
 
-  if (search === null) {
+  if (!(environment.canSearch ?? true) || search === null) {
     return null;
   }
 

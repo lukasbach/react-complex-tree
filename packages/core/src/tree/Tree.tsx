@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AllTreeRenderProps,
-  ControlledTreeEnvironmentProps, DraggingPosition, TreeConfiguration, TreeContextProps, TreeInformation,
+  ControlledTreeEnvironmentProps, DraggingPosition, TreeConfiguration, TreeContextProps, TreeInformation, TreeItemIndex,
   TreeProps,
 } from '../types';
 import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -18,6 +18,7 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
   const renderers = useMemo<AllTreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
   const rootItem = environment.items[props.rootItem];
   const [search, setSearch] = useState<string | null>(null);
+  const [renamingItem, setRenamingItem] = useState<TreeItemIndex | null>(null);
 
   useEffect(() => {
     environment.registerTree({
@@ -47,6 +48,8 @@ export const Tree = <T extends any>(props: TreeProps<T>) => {
       treeInformation,
       search,
       setSearch,
+      renamingItem,
+      setRenamingItem,
       renderers,
     }}>
       <TreeManager />
