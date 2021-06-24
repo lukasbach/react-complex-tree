@@ -5,7 +5,7 @@ const cx = (...classNames: Array<string | undefined | false>) => classNames.filt
 
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   return {
-    renderItemTitle: (title, item, context, info) => {
+    renderItemTitle: ({title, item, context, info}) => {
       if (!info.isSearching || !context.isSearchMatching) {
         return (<>{title}</>);
       } else {
@@ -19,7 +19,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         );
       }
     },
-    renderItem: (item, depth, children, title, context, info) => {
+    renderItem: ({item, depth, children, title, context, info}) => {
       const InnerComponent = context.isRenaming ? 'div' : 'button';
       return (
         <li
@@ -55,7 +55,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </li>
       );
     },
-    renderRenameInput: (item, inputProps, inputRef, submitButtonProps, formProps) => {
+    renderRenameInput: ({item, inputProps, inputRef, submitButtonProps, formProps}) => {
       return (
         <form
           {...formProps}
@@ -75,13 +75,13 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </form>
       );
     },
-    renderDraggingItem: items => {
+    renderDraggingItem: ({}) => {
       return <div />;
     },
-    renderDraggingItemTitle: items => {
+    renderDraggingItemTitle: ({}) => {
       return <div />;
     },
-    renderTreeContainer: (children, containerProps, info) => {
+    renderTreeContainer: ({children, containerProps, info}) => {
       return (
         <div
           className={cx(
@@ -97,7 +97,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </div>
       );
     },
-    renderItemsContainer: (children, containerProps, info) => {
+    renderItemsContainer: ({children, containerProps, info}) => {
       return (
         <ul
           {...containerProps}
@@ -107,7 +107,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </ul>
       )
     },
-    renderDragBetweenLine: (draggingPosition, lineProps) => {
+    renderDragBetweenLine: ({draggingPosition, lineProps}) => {
       return (
         <div
           {...lineProps}
@@ -120,7 +120,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         />
       );
     },
-    renderSearchInput: (inputProps) => {
+    renderSearchInput: ({inputProps}) => {
       return (
         <div className={cx('rct-tree-search-input-container')}>
           <input

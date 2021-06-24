@@ -69,15 +69,59 @@ export interface TreeInformation extends TreeConfiguration {
 }
 
 export interface TreeRenderProps<T = any> {
-  renderItem?: (item: TreeItem<T>, depth: number, children: React.ReactNode | null, title: React.ReactNode, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
-  renderItemTitle?: (title: string, item: TreeItem<T>, context: TreeItemRenderContext, info: TreeInformation) => React.ReactNode;
-  renderRenameInput?: (item: TreeItem<T>, inputProps: InputHTMLAttributes<HTMLInputElement>, inputRef: Ref<HTMLInputElement>, submitButtonProps: HTMLProps<any>, formProps: FormHTMLAttributes<HTMLFormElement>) => React.ReactNode;
-  renderDraggingItem?: (items: Array<TreeItem<T>>) => React.ReactNode;
-  renderDraggingItemTitle?: (items: Array<TreeItem<T>>) => React.ReactNode;
-  renderItemsContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
-  renderTreeContainer?: (children: React.ReactNode, containerProps: HTMLProps<any>, info: TreeInformation) => React.ReactNode;
-  renderDragBetweenLine?: (draggingPosition: DraggingPosition, lineProps: HTMLProps<any>) => React.ReactNode;
-  renderSearchInput?: (inputProps: HTMLProps<HTMLInputElement>) => React.ReactNode;
+  renderItem?: (props: {
+    item: TreeItem<T>;
+    depth: number;
+    children: React.ReactNode | null;
+    title: React.ReactNode;
+    context: TreeItemRenderContext;
+    info: TreeInformation;
+  }) => React.ReactNode;
+
+  renderItemTitle?: (props: {
+    title: string;
+    item: TreeItem<T>;
+    context: TreeItemRenderContext;
+    info: TreeInformation
+  }) => React.ReactNode;
+
+  renderRenameInput?: (props: {
+    item: TreeItem<T>;
+    inputProps: InputHTMLAttributes<HTMLInputElement>;
+    inputRef: Ref<HTMLInputElement>;
+    submitButtonProps: HTMLProps<any>;
+    formProps: FormHTMLAttributes<HTMLFormElement>;
+  }) => React.ReactNode;
+
+  renderDraggingItem?: (props: {
+    items: Array<TreeItem<T>>;
+  }) => React.ReactNode;
+
+  renderDraggingItemTitle?: (props: {
+    items: Array<TreeItem<T>>;
+  }) => React.ReactNode;
+
+  renderItemsContainer?: (props: {
+    children: React.ReactNode;
+    containerProps: HTMLProps<any>;
+    info: TreeInformation;
+  }) => React.ReactNode;
+
+  renderTreeContainer?: (props: {
+    children: React.ReactNode;
+    containerProps: HTMLProps<any>;
+    info: TreeInformation;
+  }) => React.ReactNode;
+
+  renderDragBetweenLine?: (props: {
+    draggingPosition: DraggingPosition;
+    lineProps: HTMLProps<any>
+  }) => React.ReactNode;
+
+  renderSearchInput?: (props: {
+    inputProps: HTMLProps<HTMLInputElement>;
+  }) => React.ReactNode;
+
   renderDepthOffset?: number;
 }
 

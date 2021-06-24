@@ -41,16 +41,21 @@ export const TreeItem = <T extends any>(props: {
   const title = environment.getItemTitle(item);
   const titleComponent = renamingItem === props.itemIndex
     ? <TreeItemRenamingInput itemIndex={props.itemIndex} />
-    : renderers.renderItemTitle(title, item, renderContext, treeInformation);
+    : renderers.renderItemTitle({
+      info: treeInformation,
+      context: renderContext,
+      title,
+      item,
+    });
 
   return (
-    renderers.renderItem(
-      environment.items[props.itemIndex],
-      props.depth,
-      children,
-      titleComponent,
-      renderContext,
-      treeInformation
-    ) ?? null
+    renderers.renderItem({
+      item: environment.items[props.itemIndex],
+      depth: props.depth,
+      title: titleComponent,
+      context: renderContext,
+      info: treeInformation,
+      children
+    }) ?? null
   ) as any; // Type to use AllTreeRenderProps
 }

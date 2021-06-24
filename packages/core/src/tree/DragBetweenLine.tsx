@@ -30,7 +30,10 @@ export const DragBetweenLine: React.FC<{
       right: '0',
       top: `${((draggingPosition?.linearIndex ?? 0)) * itemHeight}px`
     }}>
-      {renderers.renderDragBetweenLine(draggingPosition!, lineProps)}
+      {renderers.renderDragBetweenLine({
+        draggingPosition: draggingPosition!,
+        lineProps,
+      })}
     </div>
   );
 };

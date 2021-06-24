@@ -30,5 +30,9 @@ export const TreeItemChildren = <T extends any>(props: {
     role: 'group',
   };
 
-  return renderers.renderItemsContainer(childElements, containerProps, treeInformation) as any;
+  return renderers.renderItemsContainer({
+    children: childElements,
+    info: treeInformation,
+    containerProps,
+  }) as any;
 }

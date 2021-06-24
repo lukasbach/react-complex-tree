@@ -57,5 +57,9 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     } as any)
   };
 
-  return renderers.renderTreeContainer(treeChildren, containerProps, treeInformation) as JSX.Element;
+  return renderers.renderTreeContainer({
+    children: treeChildren,
+    info: treeInformation,
+    containerProps,
+  }) as JSX.Element;
 }

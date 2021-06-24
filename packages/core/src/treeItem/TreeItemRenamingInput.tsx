@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TreeItemIndex } from '../types';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, Ref, RefObject, useEffect, useRef, useState } from 'react';
 import { useHotkey } from '../hotkeys/useHotkey';
 
 export const TreeItemRenamingInput: React.FC<{
@@ -39,33 +39,39 @@ export const TreeItemRenamingInput: React.FC<{
     abort();
   });
 
+  const inputProps: InputHTMLAttributes<HTMLInputElement> = {
+    value: title,
+    onChange: e => {
+      setTitle(e.target.value)
+    },
+    onBlur: () => {
+      abort();
+    },
+    'aria-label': `New item name`, // TODO
+    tabIndex: 0
+  };
+
+  const submitButtonProps: HTMLProps<any> = {
+    onClick: e => {
+      e.stopPropagation();
+      confirm();
+    }
+  };
+
+  const formProps: FormHTMLAttributes<HTMLFormElement> = {
+    onSubmit: e => {
+      e.preventDefault();
+      confirm();
+    }
+  }
+
   return (
-    renderers.renderRenameInput(
+    renderers.renderRenameInput({
       item,
-      {
-        value: title,
-        onChange: e => {
-          setTitle(e.target.value)
-        },
-        onBlur: () => {
-          abort();
-        },
-        'aria-label': `New item name`, // TODO
-        tabIndex: 0
-      },
       inputRef,
-      {
-        onClick: e => {
-          e.stopPropagation();
-          confirm();
-        }
-      },
-      {
-        onSubmit: e => {
-          e.preventDefault();
-          confirm();
-        }
-      }
-    )
+      submitButtonProps,
+      formProps,
+      inputProps,
+    })
   ) as JSX.Element;
 };
