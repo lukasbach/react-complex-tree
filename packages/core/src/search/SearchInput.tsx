@@ -62,14 +62,16 @@ export const SearchInput: React.FC<{
   }
 
   return renderers.renderSearchInput({
-    value: search,
-    onChange: (e: any) => setSearch(e.target.value),
-    onBlur: () => {
-      console.log("BLUR")
-      clearSearch();
-    },
-    ...({
-      ['data-rct-search-input']: 'true'
-    } as any)
+    inputProps: {
+      value: search,
+      onChange: (e: any) => setSearch(e.target.value),
+      onBlur: () => {
+        console.log("BLUR")
+        clearSearch();
+      },
+      ...({
+        ['data-rct-search-input']: 'true'
+      } as any)
+    }
   }) as any;
 };
