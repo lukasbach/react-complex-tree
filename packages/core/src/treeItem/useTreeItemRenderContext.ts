@@ -183,12 +183,31 @@ const createTreeItemRenderContext = <T>(
     role: 'none',
   };
 
+  const arrowProps: HTMLProps<HTMLElement> = {
+    onClick: e => {
+      if (item.hasChildren) {
+        actions.toggleExpandedState();
+      }
+      actions.selectItem();
+    },
+    onFocus: () => {
+      actions.focusItem();
+    },
+    onDragOver: e => {
+      e.preventDefault(); // Allow drop
+    },
+    'aria-hidden': true,
+    tabIndex: -1,
+    // TODO alternative interaction modes
+  };
+
   return {
     ...actions,
     ...renderContext,
     interactiveElementProps,
     itemContainerWithChildrenProps,
-    itemContainerWithoutChildrenProps
+    itemContainerWithoutChildrenProps,
+    arrowProps,
   };
 };
 

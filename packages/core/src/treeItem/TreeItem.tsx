@@ -48,11 +48,18 @@ export const TreeItem = <T extends any>(props: {
       item,
     });
 
+  const arrowComponent = renderers.renderItemArrow({
+    info: treeInformation,
+    context: renderContext,
+    item: environment.items[props.itemIndex],
+  });
+
   return (
     renderers.renderItem({
       item: environment.items[props.itemIndex],
       depth: props.depth,
       title: titleComponent,
+      arrow: arrowComponent,
       context: renderContext,
       info: treeInformation,
       children

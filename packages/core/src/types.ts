@@ -58,6 +58,7 @@ export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFl
   interactiveElementProps: HTMLProps<any>;
   itemContainerWithoutChildrenProps: HTMLProps<any>;
   itemContainerWithChildrenProps: HTMLProps<any>;
+  arrowProps: HTMLProps<any>;
 }
 
 export interface TreeInformation extends TreeConfiguration {
@@ -74,6 +75,7 @@ export interface TreeRenderProps<T = any> {
     depth: number;
     children: React.ReactNode | null;
     title: React.ReactNode;
+    arrow: React.ReactNode;
     context: TreeItemRenderContext;
     info: TreeInformation;
   }) => React.ReactNode;
@@ -82,7 +84,13 @@ export interface TreeRenderProps<T = any> {
     title: string;
     item: TreeItem<T>;
     context: TreeItemRenderContext;
-    info: TreeInformation
+    info: TreeInformation;
+  }) => React.ReactNode;
+
+  renderItemArrow?: (props: {
+    item: TreeItem<T>;
+    context: TreeItemRenderContext;
+    info: TreeInformation;
   }) => React.ReactNode;
 
   renderRenameInput?: (props: {
@@ -270,4 +278,18 @@ export interface KeyboardBindings {
   abortSearch?: string[];
   startSearch?: string[];
   selectAll?: string[];
+}
+
+export interface TreeRef<T = any> {
+  viewState: TreeViewState;
+  getItemsLinearly: () => Array<{ item: TreeItem<T>, depth: number }>;
+  focusItemAt: (index: number) => void;
+  moveFocusRelative: (relativeIndex: number) => void;
+  selectItems: (items: TreeItemIndex[]) => void;
+  // TODO
+}
+
+export interface TreeEnvironmentRef<T = any> {
+  treeIds: string[];
+  getTree: (treeId: string) => TreeRef<T>;
 }
