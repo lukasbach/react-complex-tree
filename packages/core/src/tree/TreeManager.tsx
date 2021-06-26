@@ -25,10 +25,9 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     environment.setActiveTree(treeId);
     console.log(`focus in for ${treeId}, previous was ${environment.activeTreeId}`, document.activeElement)
   }, () => {
-    if (isActiveTree) {
-      console.log(`Focusout, is active tree: ${isActiveTree?1:0}, ${environment.activeTreeId} for tree ${treeId}`, document.activeElement)
-      environment.setActiveTree(undefined);
-    }
+    environment.setActiveTree(oldTreeId => {
+      return oldTreeId === treeId ? undefined : oldTreeId;
+    });
   }, [environment.activeTreeId, treeId, isActiveTree]);
 
   const rootChildren = environment.items[rootItem].children;

@@ -214,7 +214,7 @@ export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironme
   onDragAtPosition: (position: DraggingPosition | undefined) => void, // TODO
   draggingPosition?: DraggingPosition;
   activeTreeId?: string;
-  setActiveTree: (treeId: string | undefined) => void;
+  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
   treeIds: string[];
 }
 
