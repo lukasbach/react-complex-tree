@@ -1,4 +1,5 @@
 import {
+  InteractionManager,
   TreeEnvironmentConfiguration,
   TreeEnvironmentContextProps,
   TreeItem,
@@ -12,6 +13,9 @@ import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useViewState } from '../tree/useViewState';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
+import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
+
+// TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
 
 const createTreeItemRenderContext = <T>(
   item: TreeItem<T>,
@@ -20,6 +24,7 @@ const createTreeItemRenderContext = <T>(
   isSearchMatching: boolean,
   renamingItem: TreeItemIndex | null,
   rootItem: string,
+  interactionManager: InteractionManager
 ): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
@@ -107,7 +112,7 @@ const createTreeItemRenderContext = <T>(
     }
   };
 
-  const renderContext: TreeItemRenderFlags = {
+  const renderFlags: TreeItemRenderFlags = {
     isSelected: viewState?.selectedItems?.includes(item.index),
     isExpanded: viewState?.expandedItems?.includes(item.index),
     isFocused: viewState?.focusedItem === item.index,
@@ -119,56 +124,16 @@ const createTreeItemRenderContext = <T>(
       environment.draggingPosition.treeId === treeId,
     isDraggingOverParent: false,
     isSearchMatching: isSearchMatching,
+    canDrag,
   };
 
   const interactiveElementProps: HTMLProps<HTMLElement> = {
-    onClick: (e) => {
-      actions.focusItem();
-      if (e.shiftKey) {
-        actions.selectUpTo();
-      } else if (e.ctrlKey) {
-        if (renderContext.isSelected) {
-          actions.unselectItem();
-        } else {
-          actions.addToSelectedItems();
-        }
-      } else {
-        if (item.hasChildren) {
-          actions.toggleExpandedState();
-        }
-        actions.selectItem();
-
-        if (!item.hasChildren || environment.canInvokePrimaryActionOnItemContainer) {
-          actions.primaryAction();
-        }
-      }
-    },
-    onDoubleClick: () => {
-      if (item.hasChildren) {
-        // actions.toggleExpandedState();
-      } else {
-        environment.onPrimaryAction?.(item, treeId);
-      }
-      // actions.selectItem();
-    },
-    onFocus: () => {
-      actions.focusItem();
-    },
-    onDragStart: e => {
-      e.dataTransfer.dropEffect = 'copy'; // TODO
-      // e.dataTransfer.setDragImage(environment.renderDraggingItem(viewState.selectedItems), 0, 0);
-      actions.startDragging();
-    },
-    onDragOver: e => {
-      e.preventDefault(); // Allow drop
-    },
-    draggable: canDrag && !renderContext.isRenaming,
+    ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
     role: 'treeitem',
-    'aria-expanded': item.hasChildren ? (renderContext.isExpanded ? 'true' : 'false') : undefined,
-    tabIndex: !renderContext.isRenaming ? renderContext.isFocused ? 0 : -1 : undefined,
+    'aria-expanded': item.hasChildren ? (renderFlags.isExpanded ? 'true' : 'false') : undefined,
     ...({
       ['data-rct-item-interactive']: true,
-      ['data-rct-item-focus']: renderContext.isFocused ? 'true' : 'false',
+      ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
       ['data-rct-item-id']: item.index,
     } as any)
   };
@@ -203,7 +168,7 @@ const createTreeItemRenderContext = <T>(
 
   return {
     ...actions,
-    ...renderContext,
+    ...renderFlags,
     interactiveElementProps,
     itemContainerWithChildrenProps,
     itemContainerWithoutChildrenProps,
@@ -230,6 +195,7 @@ const createTreeItemRenderContextDependencies = <T>(
 export const useTreeItemRenderContext = (item?: TreeItem) => {
   const { treeId, search, rootItem, renamingItem } = useTree();
   const environment = useTreeEnvironment();
+  const interactionManager = useInteractionManager();
   const itemTitle = item && environment.getItemTitle(item);
 
   const isSearchMatching = useMemo(() => {
@@ -238,7 +204,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   }, [search, itemTitle]);
 
   return useMemo(
-    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, renamingItem, rootItem),
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, renamingItem, rootItem, interactionManager),
     createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching, renamingItem),
   );
 };

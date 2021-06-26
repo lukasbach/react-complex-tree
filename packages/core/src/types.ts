@@ -52,6 +52,7 @@ export interface TreeItemRenderFlags {
   isDraggingOver?: boolean;
   isDraggingOverParent?: boolean;
   isSearchMatching?: boolean;
+  canDrag?: boolean;
 }
 
 export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFlags {
@@ -135,8 +136,19 @@ export interface TreeRenderProps<T = any> {
 
 export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
 
+export enum InteractionMode {
+  DoubleClickItemToExpand = 'double-click-item-to-expand',
+  ClickItemToExpand = 'click-item-to-expand',
+  ClickArrowToExpand = 'click-arrow-to-expand',
+}
+
+export interface InteractionManager {
+  mode: InteractionMode;
+  createInteractiveElementProps: (item: TreeItem, treeId: string, actions: TreeItemActions, renderFlags: TreeItemRenderFlags) => HTMLProps<HTMLElement>;
+}
+
 export interface TreeCapabilities<T = any> {
-  defaultInteractionMode?: 'click-to-activate' | 'click-to-select';
+  defaultInteractionMode?: InteractionMode;
   allowDragAndDrop?: boolean;
   allowDropOnItemWithChildren?: boolean;
   allowDropOnItemWithoutChildren?: boolean;

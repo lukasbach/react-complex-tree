@@ -1,14 +1,17 @@
 import * as React from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import {
   ControlledTreeEnvironmentProps,
   DraggingPosition,
+  InteractionMode,
   TreeConfiguration,
   TreeEnvironmentContextProps,
   TreeItem,
 } from '../types';
-import { useContext, useEffect, useState } from 'react';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
 import { scrollIntoView } from '../tree/scrollIntoView';
+import { ClickItemToExpandInteractionManager } from '../interactionMode/ClickItemToExpandInteractionManager';
+import { InteractionManagerProvider } from './InteractionManagerProvider';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
@@ -18,7 +21,8 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
   const [draggingItems, setDraggingItems] = useState<TreeItem<T>[]>();
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [itemHeight, setItemHeight] = useState(4);
-  const [activeTree, setActiveTree] = useState<string>();
+  const [activeTreeId, setActiveTreeId] = useState<string>();
+
 
   const viewState = props.viewState;
 
@@ -70,43 +74,47 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
     };
   }, [draggingPosition, draggingItems, props.onDrop]);
 
-  return (
-    <TreeEnvironmentContext.Provider value={{
-      ...createDefaultRenderers(props),
-      ...props,
-      onFocusItem: onFocusHandler,
-      registerTree: (tree) => {
-        setTrees(trees => ({...trees, [tree.treeId]: tree}));
-        props.onRegisterTree?.(tree);
-      },
-      unregisterTree: (treeId) => {
-        props.onUnregisterTree?.(trees[treeId]);
-        delete trees[treeId];
-        setTrees(trees);
-      },
-      onStartDraggingItems: (items, treeId) => {
-        setDraggingItems(items);
-        const height = document.querySelector<HTMLElement>(`[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`)?.offsetHeight ?? 5;
-        setItemHeight(height);
-      },
-      draggingItems: draggingItems,
-      itemHeight: itemHeight,
-      onDragAtPosition: (position) => {
-        setDraggingPosition(position);
-      },
-      draggingPosition: draggingPosition,
-      activeTreeId: activeTree,
-      setActiveTree: treeId => {
-        console.log(`Set active tree to ${treeId}`)
-        setActiveTree(treeId);
+  const environmentContextProps: TreeEnvironmentContextProps = {
+    ...createDefaultRenderers(props),
+    ...props,
+    onFocusItem: onFocusHandler,
+    registerTree: (tree) => {
+      setTrees(trees => ({...trees, [tree.treeId]: tree}));
+      props.onRegisterTree?.(tree);
+    },
+    unregisterTree: (treeId) => {
+      props.onUnregisterTree?.(trees[treeId]);
+      delete trees[treeId];
+      setTrees(trees);
+    },
+    onStartDraggingItems: (items, treeId) => {
+      setDraggingItems(items);
+      const height = document.querySelector<HTMLElement>(`[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`)?.offsetHeight ?? 5;
+      setItemHeight(height);
+    },
+    onDragAtPosition: (position) => {
+      setDraggingPosition(position);
+    },
+    setActiveTree: treeId => {
+      console.log(`Set active tree to ${treeId}`)
+      setActiveTreeId(treeId);
 
-        if (!document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
-          const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
-          (focusItem as HTMLElement)?.focus?.();
-        }
-      },
-    }}>
-      {props.children}
+      if (!document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
+        const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
+        (focusItem as HTMLElement)?.focus?.();
+      }
+    },
+    draggingPosition,
+    activeTreeId,
+    draggingItems,
+    itemHeight,
+  };
+
+  return (
+    <TreeEnvironmentContext.Provider value={environmentContextProps}>
+      <InteractionManagerProvider>
+        {props.children}
+      </InteractionManagerProvider>
     </TreeEnvironmentContext.Provider>
   );
 };
