@@ -215,6 +215,7 @@ export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironme
   draggingPosition?: DraggingPosition;
   activeTreeId?: string;
   setActiveTree: (treeId: string | undefined) => void;
+  treeIds: string[];
 }
 
 export type DraggingPosition = DraggingPositionItem | DraggingPositionBetweenItems;
@@ -263,6 +264,7 @@ export interface TreeContextProps<T = any> extends TreeConfiguration<T> {
   setRenamingItem: (item: TreeItemIndex | null) => void;
   renderers: AllTreeRenderProps;
   treeInformation: TreeInformation;
+  getItemsLinearly: () => Array<{ item: TreeItemIndex, depth: number }>;
 }
 
 export interface TreeDataProvider<T = any> {
@@ -290,18 +292,4 @@ export interface KeyboardBindings {
   abortSearch?: string[];
   startSearch?: string[];
   selectAll?: string[];
-}
-
-export interface TreeRef<T = any> {
-  viewState: TreeViewState;
-  getItemsLinearly: () => Array<{ item: TreeItem<T>, depth: number }>;
-  focusItemAt: (index: number) => void;
-  moveFocusRelative: (relativeIndex: number) => void;
-  selectItems: (items: TreeItemIndex[]) => void;
-  // TODO
-}
-
-export interface TreeEnvironmentRef<T = any> {
-  treeIds: string[];
-  getTree: (treeId: string) => TreeRef<T>;
 }

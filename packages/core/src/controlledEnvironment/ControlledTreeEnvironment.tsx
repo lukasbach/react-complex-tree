@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import {
   ControlledTreeEnvironmentProps,
   DraggingPosition,
@@ -16,9 +16,9 @@ import { InteractionManagerProvider } from './InteractionManagerProvider';
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
 
-export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEnvironmentProps<T>) => {
+export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContextProps, ControlledTreeEnvironmentProps>((props, ref) => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
-  const [draggingItems, setDraggingItems] = useState<TreeItem<T>[]>();
+  const [draggingItems, setDraggingItems] = useState<TreeItem[]>();
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [itemHeight, setItemHeight] = useState(4);
   const [activeTreeId, setActiveTreeId] = useState<string>();
@@ -104,11 +104,14 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
         (focusItem as HTMLElement)?.focus?.();
       }
     },
+    treeIds: Object.keys(trees),
     draggingPosition,
     activeTreeId,
     draggingItems,
     itemHeight,
   };
+
+  useImperativeHandle(ref, () => environmentContextProps);
 
   return (
     <TreeEnvironmentContext.Provider value={environmentContextProps}>
@@ -117,4 +120,4 @@ export const ControlledTreeEnvironment = <T extends any>(props: ControlledTreeEn
       </InteractionManagerProvider>
     </TreeEnvironmentContext.Provider>
   );
-};
+}) as <T = any>(p: ControlledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentContextProps> }) => React.ReactElement;

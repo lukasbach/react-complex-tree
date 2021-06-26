@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   ControlledTreeEnvironmentProps,
   ImplicitDataSource, IndividualTreeViewState,
-  TreeConfiguration, TreeDataProvider, TreeItem, TreeItemIndex, TreeViewState,
+  TreeConfiguration, TreeDataProvider, TreeEnvironmentContextProps, TreeItem, TreeItemIndex, TreeViewState,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,12 +18,12 @@ import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
   onChangeItemChildren: provider.onChangeItemChildren?.bind(provider) ?? (async () => {}),
 });*/
 
-export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTreeEnvironmentProps<T>) => {
-  const [currentItems, setCurrentItems] = useState<Record<TreeItemIndex, TreeItem<T>>>({});
+export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentContextProps, UncontrolledTreeEnvironmentProps>((props, ref) => {
+  const [currentItems, setCurrentItems] = useState<Record<TreeItemIndex, TreeItem>>({});
   const [viewState, setViewState] = useState(props.viewState);
   const dataProvider = useMemo(() => new CompleteTreeDataProvider(props.dataProvider), [props.dataProvider]);
 
-  const writeItems = useMemo(() => (newItems: Record<TreeItemIndex, TreeItem<T>>) => {
+  const writeItems = useMemo(() => (newItems: Record<TreeItemIndex, TreeItem>) => {
     setCurrentItems(oldItems => ({ ...oldItems, ...newItems }));
   }, []);
 
@@ -50,6 +50,7 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
   return (
     <ControlledTreeEnvironment
       {...props}
+      ref={ref}
       viewState={viewState}
       items={currentItems}
       onExpandItem={(item, treeId) => {
@@ -130,4 +131,4 @@ export const UncontrolledTreeEnvironment = <T extends any>(props: UncontrolledTr
       {props.children}
     </ControlledTreeEnvironment>
   );
-};
+}) as <T = any>(p: UncontrolledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentContextProps> }) => React.ReactElement;
