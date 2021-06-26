@@ -66,7 +66,6 @@ export const SearchInput: React.FC<{
       value: search,
       onChange: (e: any) => setSearch(e.target.value),
       onBlur: () => {
-        console.log("BLUR")
         clearSearch();
       },
       ...({

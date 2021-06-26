@@ -44,7 +44,6 @@ const createTreeItemRenderContext = <T>(
 
   const actions: TreeItemActions = { // TODO disable most actions during rename
     primaryAction: () => {
-      console.log(`PRIMARY ACTION ON ${item.index}`)
       environment.onPrimaryAction?.(environment.items[item.index], treeId);
     },
     collapseItem: () => {

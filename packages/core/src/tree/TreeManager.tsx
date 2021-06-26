@@ -23,7 +23,6 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
   useFocusWithin(containerRef.current, () => {
     environment.setActiveTree(treeId);
-    console.log(`focus in for ${treeId}, previous was ${environment.activeTreeId}`, document.activeElement)
   }, () => {
     environment.setActiveTree(oldTreeId => {
       return oldTreeId === treeId ? undefined : oldTreeId;

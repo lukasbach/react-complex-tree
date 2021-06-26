@@ -111,12 +111,6 @@ export const createOnDragOverHandler = (
         return;
       }
 
-      console.log(linearItems)
-      console.log(
-        `linearIndex ${linearIndex}, parentLinearIndex ${parentLinearIndex}, offset ${offset}, item ${targetItem.item}, parent ${parent.item}, new ChildIndex`,
-        environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
-      )
-
       const newChildIndex = environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
 
       if (offset === 'top' && depth === (linearItems[linearIndex - 1]?.depth ?? -1)) {
@@ -153,7 +147,6 @@ export const createOnDragOverHandler = (
       if (environment.canDropAt && (!environment.draggingItems
         || !environment.canDropAt(environment.draggingItems, draggingPosition))) {
         environment.onDragAtPosition(undefined);
-        console.log("Drag aborted due to canDropAt hook");
         return;
       }
 

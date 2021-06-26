@@ -20,8 +20,6 @@ export class StaticTreeDataProvider<T = any> implements TreeDataProvider {
   }
 
   public async onChangeItemChildren(itemId: TreeItemIndex, newChildren: TreeItemIndex[]): Promise<void> {
-    console.log(`Updated item children for ${itemId} with ${newChildren.join(', ')} (old was ${this.data.items[itemId].children?.join(', ')})`);
-
     // if (this.implicitItemOrdering) {
     //   const orderedChildren = (await Promise.all(newChildren
     //     .map(childId => this.getTreeItem(childId))))
@@ -44,7 +42,6 @@ export class StaticTreeDataProvider<T = any> implements TreeDataProvider {
   }
 
   public async onRenameItem(item: TreeItem<any>, name: string): Promise<void> {
-    console.log(this.setItemName, this.setItemName?.(item, name), item, name)
     if (this.setItemName) {
       this.data.items[item.index] = this.setItemName(item, name);
       // this.onDidChangeTreeDataEmitter.emit(item.index);

@@ -108,7 +108,6 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
           const treeId = treeIdOrSetStateFunction(oldValue);
 
           if (treeId !== oldValue) {
-            console.log(`Set active tree to ${treeId}`)
             focusTree(treeId);
           }
 
@@ -116,7 +115,6 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
         });
       } else {
         const treeId = treeIdOrSetStateFunction;
-        console.log(`Set active tree to ${treeId}`)
         setActiveTreeId(treeId);
         focusTree(treeId);
       }

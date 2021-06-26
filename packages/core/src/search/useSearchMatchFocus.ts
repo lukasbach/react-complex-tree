@@ -16,7 +16,6 @@ export const useSearchMatchFocus = () => {
           (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item])));
 
         if (focusItem) {
-          console.log(`SEARCH FOCUS ON ${focusItem.item}`)
           onFocusItem?.(items[focusItem.item], treeId);
         }
       });

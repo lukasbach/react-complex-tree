@@ -74,12 +74,9 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentConte
         amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
       }}
       onRenameItem={async (item, name, treeId) => {
-        console.log(item, name)
         await dataProvider.onRenameItem(item, name);
-        console.log(dataProvider, dataProvider.getTreeItem)
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
         const newItem = await dataProvider.getTreeItem(item.index);
-        console.log(newItem)
         writeItems({ [item.index]: newItem });
       }}
       onDrop={async (items, target) => {
@@ -119,7 +116,6 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentConte
         }
       }}
       onMissingItems={itemIds => {
-        console.log(`Retrieving items ${itemIds.join(', ')}`)
         dataProvider.getTreeItems(itemIds).then(items => {
           writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
         });

@@ -12,7 +12,6 @@ export class CompleteTreeDataProvider<T = any> implements Required<TreeDataProvi
   }
 
   public async getTreeItems(itemIds: TreeItemIndex[]): Promise<TreeItem[]> {
-    console.log(this, this.provider)
     return this.provider.getTreeItems
       ? this.provider.getTreeItems(itemIds)
       : Promise.all(itemIds.map(id => this.provider.getTreeItem(id)));

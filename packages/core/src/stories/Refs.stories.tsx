@@ -16,7 +16,6 @@ export const ControlTreeExternally = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log(treeEnvironment.current, tree.current)
       if (treeEnvironment.current && tree.current) {
         const linearItems = tree.current.getItemsLinearly();
         const currentlyActive = treeEnvironment.current.viewState[tree.current.treeId]?.focusedItem ?? linearItems[0].item;
