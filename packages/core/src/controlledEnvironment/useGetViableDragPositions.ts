@@ -39,7 +39,7 @@ export const useGetViableDragPositions = (draggingItems: TreeItem[] | undefined)
           parentItem: parent.item,
           linePosition: 'bottom',
           linearIndex: linearIndex + 1,
-          childIndex,
+          childIndex: childIndex + 1,
           depth,
           treeId,
         };
