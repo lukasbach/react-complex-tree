@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { HTMLProps, useContext } from 'react';
-import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useTree } from './Tree';
+import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 export const DragBetweenLine: React.FC<{
   treeId: string,
 }> = props => {
-  const { draggingPosition, itemHeight } = useTreeEnvironment();
+  const { draggingPosition, itemHeight } = useDragAndDrop();
   const { renderers } = useTree();
 
   const shouldDisplay =

@@ -9,14 +9,13 @@ import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
 import { SearchInput } from '../search/SearchInput';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { createOnDragOverHandler } from './createOnDragOverHandler';
+import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   const { treeId, rootItem, renderers, treeInformation } = useTree();
   const environment = useTreeEnvironment();
   const containerRef = useRef<HTMLElement>();
-  const lastHoverCode = useRef<string>();
-  const getLinearItems = useGetLinearItems();
+  const dnd = useDragAndDrop();
   const isActiveTree = environment.activeTreeId === treeId;
 
   useTreeKeyboardBindings(containerRef.current);
@@ -45,7 +44,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
   const containerProps: HTMLProps<any> = {
     // onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
-    onDragOver: e => environment.dragAndDropManager.onDrag(e as any, treeId, containerRef),
+    onDragOver: e => dnd.onDragOverTreeHandler(e as any, treeId, containerRef),
     ref: containerRef,
     style: { position: 'relative' },
     role: 'tree',

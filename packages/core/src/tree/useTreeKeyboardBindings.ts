@@ -5,11 +5,13 @@ import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useGetLinearItems } from './useGetLinearItems';
+import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
-  const viewState = useViewState();
-  const { treeId, setRenamingItem, setSearch } = useTree();
   const environment = useTreeEnvironment();
+  const { treeId, setRenamingItem, setSearch } = useTree();
+  const dnd = useDragAndDrop();
+  const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex(containerRef);
   const getLinearItems = useGetLinearItems();
 
@@ -17,8 +19,8 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
 
   useKey('arrowdown', (e) => {
     e.preventDefault();
-    if (environment.isProgrammaticallyDragging) {
-      environment.dragAndDropManager.handleProgrammaticDndArrowDown(treeId);
+    if (dnd.isProgrammaticallyDragging) {
+      dnd.programmaticDragDown();
     } else {
       moveFocusToIndex(currentIndex => currentIndex + 1);
     }
@@ -26,8 +28,8 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
 
   useKey('arrowup', (e) => {
     e.preventDefault();
-    if (environment.isProgrammaticallyDragging) {
-      environment.dragAndDropManager.handleProgrammaticDndArrowUp(treeId);
+    if (dnd.isProgrammaticallyDragging) {
+      dnd.programmaticDragUp();
     } else {
       moveFocusToIndex(currentIndex => currentIndex - 1);
     }
@@ -128,15 +130,15 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
 
   useHotkey('startProgrammaticDnd', e => {
     e.preventDefault();
-    environment.startProgrammaticDrag();
+    dnd.startProgrammaticDrag();
   }, isActiveTree);
   useHotkey('completeProgrammaticDnd', e => {
     e.preventDefault();
-    environment.completeProgrammaticDrag();
+    dnd.completeProgrammaticDrag();
   }, isActiveTree);
   useHotkey('abortProgrammaticDnd', e => {
     e.preventDefault();
-    environment.abortProgrammaticDrag();
+    dnd.abortProgrammaticDrag();
   }, isActiveTree);
 
 }

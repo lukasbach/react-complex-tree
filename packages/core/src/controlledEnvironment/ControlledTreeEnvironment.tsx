@@ -2,28 +2,20 @@ import * as React from 'react';
 import { useContext, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import {
   ControlledTreeEnvironmentProps,
-  DraggingPosition,
-  InteractionMode,
   TreeConfiguration,
   TreeEnvironmentContextProps,
-  TreeItem,
 } from '../types';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
 import { scrollIntoView } from '../tree/scrollIntoView';
 import { InteractionManagerProvider } from './InteractionManagerProvider';
-import { DragAndDropManager } from './DragAndDropManager';
+import { DragAndDropProvider } from './DragAndDropProvider';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
 
 export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContextProps, ControlledTreeEnvironmentProps>((props, ref) => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
-  const [draggingItems, setDraggingItems] = useState<TreeItem[]>();
-  const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
-  const [itemHeight, setItemHeight] = useState(4);
   const [activeTreeId, setActiveTreeId] = useState<string>();
-  const [isProgrammaticallyDragging, setIsProgrammaticallyDragging] = useState(false);
-  const dragAndDropManager = useMemo(() => new DragAndDropManager(), []);
 
   const viewState = props.viewState;
 
@@ -41,42 +33,21 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
     }
   }
 
-  const onFocusHandler: typeof props.onFocusItem = (item, treeId) => {
-    props.onFocusItem?.(item, treeId);
-    const newItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`);
-
-    if (document.activeElement?.attributes.getNamedItem('data-rct-search-input')?.value !== 'true') {
-      // Move DOM focus to item if the current focus is not on the search input
-      (newItem as HTMLElement)?.focus?.();
-    } else {
-      // Otherwise just manually scroll into view
-      scrollIntoView(newItem);
-    }
-  };
-
-
-  const onDropHandler = useMemo(() => () => {
-    setDraggingPosition(undefined);
-    setDraggingItems(undefined);
-
-    if (draggingItems && draggingPosition && props.onDrop) {
-      props.onDrop(draggingItems, draggingPosition);
-
-      requestAnimationFrame(() => {
-        onFocusHandler(draggingItems[0], draggingPosition.treeId);
-      })
-    }
-  }, [draggingPosition, draggingItems, props.onDrop]);
-
-  useEffect(() => {
-    window.addEventListener('dragend', onDropHandler);
-    return () => window.removeEventListener('dragend', onDropHandler);
-  }, [onDropHandler]);
-
   const environmentContextProps: TreeEnvironmentContextProps = {
     ...createDefaultRenderers(props),
     ...props,
-    onFocusItem: onFocusHandler,
+    onFocusItem: (item, treeId) => {
+      props.onFocusItem?.(item, treeId);
+      const newItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`);
+
+      if (document.activeElement?.attributes.getNamedItem('data-rct-search-input')?.value !== 'true') {
+        // Move DOM focus to item if the current focus is not on the search input
+        (newItem as HTMLElement)?.focus?.();
+      } else {
+        // Otherwise just manually scroll into view
+        scrollIntoView(newItem);
+      }
+    },
     registerTree: (tree) => {
       setTrees(trees => ({...trees, [tree.treeId]: tree}));
       props.onRegisterTree?.(tree);
@@ -85,14 +56,6 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
       props.onUnregisterTree?.(trees[treeId]);
       delete trees[treeId];
       setTrees(trees);
-    },
-    onStartDraggingItems: (items, treeId) => {
-      setDraggingItems(items);
-      const height = document.querySelector<HTMLElement>(`[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`)?.offsetHeight ?? 5;
-      setItemHeight(height);
-    },
-    onDragAtPosition: (position) => {
-      setDraggingPosition(position);
     },
     setActiveTree: treeIdOrSetStateFunction => {
       const focusTree = (treeId: string | undefined) => {
@@ -118,38 +81,19 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
         focusTree(treeId);
       }
     },
-    startProgrammaticDrag: () => {
-      setIsProgrammaticallyDragging(true);
-
-      // TODO merge height measuring in shared logic component
-      // TODO this here assumes all trees have equal item heights
-      const height = document.querySelector<HTMLElement>(`[data-rct-item-container="true"]`)?.offsetHeight ?? 5;
-      setItemHeight(height);
-    },
-    abortProgrammaticDrag: () => {
-      setIsProgrammaticallyDragging(false);
-    },
-    completeProgrammaticDrag: () => {
-      setIsProgrammaticallyDragging(false);
-      onDropHandler();
-    },
     treeIds: Object.keys(trees),
     trees,
-    draggingPosition,
     activeTreeId,
-    draggingItems,
-    itemHeight,
-    isProgrammaticallyDragging,
-    dragAndDropManager,
   };
 
   useImperativeHandle(ref, () => environmentContextProps);
-  dragAndDropManager.useUpdatedEnvironmentProps(environmentContextProps);
 
   return (
     <TreeEnvironmentContext.Provider value={environmentContextProps}>
       <InteractionManagerProvider>
-        {props.children}
+        <DragAndDropProvider>
+          {props.children}
+        </DragAndDropProvider>
       </InteractionManagerProvider>
     </TreeEnvironmentContext.Provider>
   );

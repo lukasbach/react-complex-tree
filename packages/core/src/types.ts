@@ -6,7 +6,6 @@ import React, {
   InputHTMLAttributes,
   PropsWithChildren, Ref,
 } from 'react';
-import { DragAndDropManager } from './controlledEnvironment/DragAndDropManager';
 
 export type TreeItemIndex = string | number;
 
@@ -209,6 +208,13 @@ export interface TreeEnvironmentConfiguration<T = any> extends
 export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>, AllTreeRenderProps<T> {
   registerTree: (tree: TreeConfiguration<T>) => void;
   unregisterTree: (treeId: string) => void;
+  activeTreeId?: string;
+  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
+  treeIds: string[];
+  trees: Record<string, TreeConfiguration>;
+}
+
+export interface DragAndDropContextProps<T = any> {
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
   draggingItems?: TreeItem<T>[];
   itemHeight: number;
@@ -216,13 +222,12 @@ export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironme
   startProgrammaticDrag: () => void;
   abortProgrammaticDrag: () => void;
   completeProgrammaticDrag: () => void;
-  onDragAtPosition: (position: DraggingPosition | undefined) => void, // TODO
+  programmaticDragUp: () => void;
+  programmaticDragDown: () => void;
   draggingPosition?: DraggingPosition;
-  activeTreeId?: string;
-  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
-  treeIds: string[];
-  trees: Record<string, TreeConfiguration>;
-  dragAndDropManager: DragAndDropManager;
+  viableDraggingPositions?: DraggingPosition[];
+  linearItems?: Array<{ item: TreeItemIndex, depth: number }>;
+  onDragOverTreeHandler: (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => void;
 }
 
 export type DraggingPosition = DraggingPositionItem | DraggingPositionBetweenItems;

@@ -1,7 +1,7 @@
 import { DraggingPosition, TreeCapabilities, TreeEnvironmentContextProps } from '../types';
 import * as React from 'react';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
-
+/*
 export class DragAndDropManager {
   private environment!: TreeEnvironmentContextProps;
   private lastDragCode = '_nodrag';
@@ -143,7 +143,13 @@ export class DragAndDropManager {
     return nextPosition;
   }
 
-  public handleProgrammaticDndArrowUp(treeId: string) {
+  public handleProgrammaticDndArrowUp() {
+    const treeId = this.environment.activeTreeId;
+
+    if (!treeId) {
+      return;
+    }
+
     const pos = this.getViableDragPositions(treeId);
     let c = 0;
     setInterval(() => {
@@ -153,7 +159,13 @@ export class DragAndDropManager {
     }, 500)
   }
 
-  public handleProgrammaticDndArrowDown(treeId: string) {
+  public handleProgrammaticDndArrowDown() {
+    const treeId = this.environment.activeTreeId;
+
+    if (!treeId) {
+      return;
+    }
+
     const nextPosition = this.getNextProgrammaticDragPosition(treeId);
     this.performDrag(nextPosition);
   }
@@ -280,64 +292,4 @@ export class DragAndDropManager {
     return true;
   }
 
-  public performDrag(draggingPosition: DraggingPosition) {
-    if (!this.canDropAt(draggingPosition)) {
-      return;
-    }
-
-    this.environment.onDragAtPosition(draggingPosition);
-    this.environment.setActiveTree(draggingPosition.treeId);
-
-    if (this.environment.draggingItems && this.environment.activeTreeId !== draggingPosition.treeId) {
-      // TODO maybe do only if draggingItems are different to selectedItems
-      this.environment.onSelectItems?.(this.environment.draggingItems.map(item => item.index), draggingPosition.treeId);
-    }
-  }
-
-  private getParentOfLinearItem(linearItems: ReturnType<typeof DragAndDropManager.prototype.getLinearItems>, itemLinearIndex: number, treeId: string) {
-    const depth = linearItems[itemLinearIndex].depth;
-    let parentLinearIndex = itemLinearIndex;
-    for (; !!linearItems[parentLinearIndex] && linearItems[parentLinearIndex].depth !== depth - 1; parentLinearIndex--);
-    let parent = linearItems[parentLinearIndex];
-
-    if (!parent) {
-      parent = { item: this.environment.trees[treeId].rootItem, depth: 0 };
-      parentLinearIndex = 0;
-    }
-
-    return parent;
-  }
-
-  private isOutsideOfContainer(e: DragEvent, treeBb: DOMRect) {
-    return e.clientX < treeBb.left
-      || e.clientX > treeBb.right
-      || e.clientY < treeBb.top
-      || e.clientY > treeBb.bottom;
-  }
-
-  private getHoveringPosition(clientY: number, treeTop: number, itemHeight: number, capabilities: TreeCapabilities) {
-    const hoveringPosition = (clientY - treeTop) / itemHeight;
-
-    let linearIndex = Math.floor(hoveringPosition);
-    let offset: 'top' | 'bottom' | undefined = undefined;
-
-    const lineThreshold = (capabilities.allowDropOnItemWithChildren || capabilities.allowDropOnItemWithoutChildren) ? .2 : .5;
-
-    if (hoveringPosition % 1 < lineThreshold) {
-      offset = 'top';
-    } else if (hoveringPosition % 1 > 1 - lineThreshold) {
-      offset = 'bottom';
-    } else {
-    }
-
-    return { linearIndex, offset };
-  }
-
-  private getLinearItems(treeId: string) {
-    return getItemsLinearly(
-      this.environment.trees[treeId].rootItem,
-      this.environment.viewState[treeId] ?? {},
-      this.environment.items,
-    );
-  }
-}
+}*/

@@ -1,4 +1,5 @@
 import {
+  DragAndDropContextProps,
   InteractionManager,
   TreeEnvironmentConfiguration,
   TreeEnvironmentContextProps,
@@ -14,6 +15,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useViewState } from '../tree/useViewState';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
+import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 // TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
 
@@ -24,7 +26,8 @@ const createTreeItemRenderContext = <T>(
   isSearchMatching: boolean,
   renamingItem: TreeItemIndex | null,
   rootItem: string,
-  interactionManager: InteractionManager
+  interactionManager: InteractionManager,
+  dnd: DragAndDropContextProps,
 ): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
@@ -106,7 +109,7 @@ const createTreeItemRenderContext = <T>(
       }
 
       if (canDrag) {
-        environment.onStartDraggingItems((selectedItems).map(id => environment.items[id]), treeId);
+        dnd.onStartDraggingItems((selectedItems).map(id => environment.items[id]), treeId);
       }
     }
   };
@@ -117,10 +120,10 @@ const createTreeItemRenderContext = <T>(
     isFocused: viewState?.focusedItem === item.index,
     isRenaming: renamingItem === item.index,
     isDraggingOver:
-      environment.draggingPosition &&
-      environment.draggingPosition.targetType === 'item' &&
-      environment.draggingPosition.targetItem === item.index &&
-      environment.draggingPosition.treeId === treeId,
+      dnd.draggingPosition &&
+      dnd.draggingPosition.targetType === 'item' &&
+      dnd.draggingPosition.targetItem === item.index &&
+      dnd.draggingPosition.treeId === treeId,
     isDraggingOverParent: false,
     isSearchMatching: isSearchMatching,
     canDrag,
@@ -181,6 +184,7 @@ const createTreeItemRenderContextDependencies = <T>(
   treeId: string,
   isSearchMatching: boolean,
   renamingItem: TreeItemIndex | null,
+  dnd: DragAndDropContextProps,
 ) => [
   environment,
   environment.viewState[treeId]?.expandedItems,
@@ -189,12 +193,14 @@ const createTreeItemRenderContextDependencies = <T>(
   item?.index ?? '___no_item',
   treeId,
   isSearchMatching,
+  dnd.draggingPosition,
 ];
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
   const { treeId, search, rootItem, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   const interactionManager = useInteractionManager();
+  const dnd = useDragAndDrop();
   const itemTitle = item && environment.getItemTitle(item);
 
   const isSearchMatching = useMemo(() => {
@@ -203,7 +209,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   }, [search, itemTitle]);
 
   return useMemo(
-    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, renamingItem, rootItem, interactionManager),
-    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching, renamingItem),
+    () => item && createTreeItemRenderContext(item, environment, treeId, isSearchMatching, renamingItem, rootItem, interactionManager, dnd),
+    createTreeItemRenderContextDependencies(item, environment, treeId, isSearchMatching, renamingItem, dnd),
   );
 };
