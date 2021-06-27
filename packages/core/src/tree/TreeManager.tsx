@@ -44,7 +44,8 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   );
 
   const containerProps: HTMLProps<any> = {
-    onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
+    // onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
+    onDragOver: e => environment.dragAndDropManager.onDrag(e as any, treeId, containerRef),
     ref: containerRef,
     style: { position: 'relative' },
     role: 'tree',

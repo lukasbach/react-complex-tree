@@ -12,5 +12,8 @@ export const defaultKeyboardBindings: Required<KeyboardBindings> = {
   toggleSelectItem: ['control+space'],
   abortSearch: ['escape', 'enter'],
   startSearch: [],
-  selectAll: ['control+a']
+  selectAll: ['control+a'],
+  startProgrammaticDnd: ['control+b'],
+  completeProgrammaticDnd: ['enter'],
+  abortProgrammaticDnd: ['escape']
 };

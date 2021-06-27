@@ -6,6 +6,7 @@ import React, {
   InputHTMLAttributes,
   PropsWithChildren, Ref,
 } from 'react';
+import { DragAndDropManager } from './controlledEnvironment/DragAndDropManager';
 
 export type TreeItemIndex = string | number;
 
@@ -211,11 +212,17 @@ export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironme
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
   draggingItems?: TreeItem<T>[];
   itemHeight: number;
+  isProgrammaticallyDragging?: boolean;
+  startProgrammaticDrag: () => void;
+  abortProgrammaticDrag: () => void;
+  completeProgrammaticDrag: () => void;
   onDragAtPosition: (position: DraggingPosition | undefined) => void, // TODO
   draggingPosition?: DraggingPosition;
   activeTreeId?: string;
   setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
   treeIds: string[];
+  trees: Record<string, TreeConfiguration>;
+  dragAndDropManager: DragAndDropManager;
 }
 
 export type DraggingPosition = DraggingPositionItem | DraggingPositionBetweenItems;
@@ -224,7 +231,7 @@ export interface AbstractDraggingPosition {
   targetType: 'item' | 'between-items';
   treeId: string;
   parentItem: TreeItemIndex;
-  linearIndex?: number;
+  linearIndex: number;
   depth: number;
 }
 
@@ -292,4 +299,7 @@ export interface KeyboardBindings {
   abortSearch?: string[];
   startSearch?: string[];
   selectAll?: string[];
+  startProgrammaticDnd?: string[];
+  abortProgrammaticDnd?: string[];
+  completeProgrammaticDnd?: string[];
 }

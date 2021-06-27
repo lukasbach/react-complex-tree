@@ -10,8 +10,8 @@ import {
 } from '../types';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
 import { scrollIntoView } from '../tree/scrollIntoView';
-import { ClickItemToExpandInteractionManager } from '../interactionMode/ClickItemToExpandInteractionManager';
 import { InteractionManagerProvider } from './InteractionManagerProvider';
+import { DragAndDropManager } from './DragAndDropManager';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
@@ -22,7 +22,8 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [itemHeight, setItemHeight] = useState(4);
   const [activeTreeId, setActiveTreeId] = useState<string>();
-
+  const [isProgrammaticallyDragging, setIsProgrammaticallyDragging] = useState(false);
+  const dragAndDropManager = useMemo(() => new DragAndDropManager(), []);
 
   const viewState = props.viewState;
 
@@ -53,26 +54,24 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
     }
   };
 
-  useEffect(() => {
-    const dragEndEventListener = () => {
-      setDraggingPosition(undefined);
-      setDraggingItems(undefined);
 
-      if (draggingItems && draggingPosition && props.onDrop) {
-        props.onDrop(draggingItems, draggingPosition);
+  const onDropHandler = useMemo(() => () => {
+    setDraggingPosition(undefined);
+    setDraggingItems(undefined);
 
-        requestAnimationFrame(() => {
-          onFocusHandler(draggingItems[0], draggingPosition.treeId);
-        })
-      }
-    };
+    if (draggingItems && draggingPosition && props.onDrop) {
+      props.onDrop(draggingItems, draggingPosition);
 
-    window.addEventListener('dragend', dragEndEventListener);
-
-    return () => {
-      window.removeEventListener('dragend', dragEndEventListener);
-    };
+      requestAnimationFrame(() => {
+        onFocusHandler(draggingItems[0], draggingPosition.treeId);
+      })
+    }
   }, [draggingPosition, draggingItems, props.onDrop]);
+
+  useEffect(() => {
+    window.addEventListener('dragend', onDropHandler);
+    return () => window.removeEventListener('dragend', onDropHandler);
+  }, [onDropHandler]);
 
   const environmentContextProps: TreeEnvironmentContextProps = {
     ...createDefaultRenderers(props),
@@ -119,14 +118,33 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
         focusTree(treeId);
       }
     },
+    startProgrammaticDrag: () => {
+      setIsProgrammaticallyDragging(true);
+
+      // TODO merge height measuring in shared logic component
+      // TODO this here assumes all trees have equal item heights
+      const height = document.querySelector<HTMLElement>(`[data-rct-item-container="true"]`)?.offsetHeight ?? 5;
+      setItemHeight(height);
+    },
+    abortProgrammaticDrag: () => {
+      setIsProgrammaticallyDragging(false);
+    },
+    completeProgrammaticDrag: () => {
+      setIsProgrammaticallyDragging(false);
+      onDropHandler();
+    },
     treeIds: Object.keys(trees),
+    trees,
     draggingPosition,
     activeTreeId,
     draggingItems,
     itemHeight,
+    isProgrammaticallyDragging,
+    dragAndDropManager,
   };
 
   useImperativeHandle(ref, () => environmentContextProps);
+  dragAndDropManager.useUpdatedEnvironmentProps(environmentContextProps);
 
   return (
     <TreeEnvironmentContext.Provider value={environmentContextProps}>

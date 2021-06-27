@@ -17,12 +17,20 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
 
   useKey('arrowdown', (e) => {
     e.preventDefault();
-    moveFocusToIndex(currentIndex => currentIndex + 1);
+    if (environment.isProgrammaticallyDragging) {
+      environment.dragAndDropManager.handleProgrammaticDndArrowDown(treeId);
+    } else {
+      moveFocusToIndex(currentIndex => currentIndex + 1);
+    }
   }, isActiveTree);
 
   useKey('arrowup', (e) => {
     e.preventDefault();
-    moveFocusToIndex(currentIndex => currentIndex - 1);
+    if (environment.isProgrammaticallyDragging) {
+      environment.dragAndDropManager.handleProgrammaticDndArrowUp(treeId);
+    } else {
+      moveFocusToIndex(currentIndex => currentIndex - 1);
+    }
   }, isActiveTree);
 
   useHotkey('moveFocusToFirstItem', e => {
@@ -116,4 +124,19 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     setSearch('');
     (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
   }, isActiveTree);
+
+
+  useHotkey('startProgrammaticDnd', e => {
+    e.preventDefault();
+    environment.startProgrammaticDrag();
+  }, isActiveTree);
+  useHotkey('completeProgrammaticDnd', e => {
+    e.preventDefault();
+    environment.completeProgrammaticDrag();
+  }, isActiveTree);
+  useHotkey('abortProgrammaticDnd', e => {
+    e.preventDefault();
+    environment.abortProgrammaticDrag();
+  }, isActiveTree);
+
 }
