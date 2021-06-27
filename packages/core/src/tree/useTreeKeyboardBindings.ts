@@ -38,12 +38,12 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   useHotkey('moveFocusToFirstItem', e => {
     e.preventDefault();
     moveFocusToIndex(() => 0);
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('moveFocusToLastItem', e => {
     e.preventDefault();
     moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useKey('arrowright', (e) => {
     e.preventDefault();
@@ -58,7 +58,7 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
       }
       return currentIndex;
     });
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useKey('arrowleft', (e) => {
     e.preventDefault();
@@ -74,7 +74,7 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
       }
       return currentIndex;
     });
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('primaryAction', e => {
     e.preventDefault();
@@ -82,7 +82,7 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
       environment.onSelectItems?.([viewState.focusedItem], treeId);
       environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
     }
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('toggleSelectItem', e => {
     e.preventDefault();
@@ -93,24 +93,12 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
         environment.onSelectItems?.([...viewState.selectedItems ?? [], viewState.focusedItem], treeId);
       }
     }
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('selectAll', e => {
     e.preventDefault();
     environment.onSelectItems?.(getLinearItems().map(({ item }) => item), treeId);
-  }, isActiveTree);
-
-  useHotkey('moveItems', e => {
-    e.preventDefault();
-    const selectedItems = viewState.selectedItems?.length ?? 0 > 0
-      ? viewState.selectedItems : Object.values(environment.viewState)
-      .find(state => state?.selectedItems?.length ?? 0 > 0)?.selectedItems
-      ?? null;
-
-    if (selectedItems) {
-      // TODO move
-    }
-  }, isActiveTree);
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('renameItem', e => {
     if (viewState.focusedItem) {
@@ -125,8 +113,7 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     e.preventDefault();
     setSearch('');
     (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
-  }, isActiveTree);
-
+  }, isActiveTree && !dnd.isProgrammaticallyDragging);
 
   useHotkey('startProgrammaticDnd', e => {
     e.preventDefault();
@@ -135,10 +122,10 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   useHotkey('completeProgrammaticDnd', e => {
     e.preventDefault();
     dnd.completeProgrammaticDrag();
-  }, isActiveTree);
+  }, isActiveTree && dnd.isProgrammaticallyDragging);
   useHotkey('abortProgrammaticDnd', e => {
     e.preventDefault();
     dnd.abortProgrammaticDrag();
-  }, isActiveTree);
+  }, isActiveTree && dnd.isProgrammaticallyDragging);
 
 }

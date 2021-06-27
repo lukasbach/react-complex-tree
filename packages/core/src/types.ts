@@ -63,11 +63,12 @@ export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFl
 }
 
 export interface TreeInformation extends TreeConfiguration {
-  areItemsSelected?: boolean;
-  isRenaming?: boolean;
-  isFocused?: boolean;
-  isSearching?: boolean;
-  search?: string | null;
+  areItemsSelected: boolean;
+  isRenaming: boolean;
+  isFocused: boolean;
+  isSearching: boolean;
+  search: string | null;
+  isProgrammaticallyDragging: boolean;
 }
 
 export interface TreeRenderProps<T = any> {
@@ -299,8 +300,6 @@ export interface KeyboardBindings {
   renameItem?: string[];
   abortRenameItem?: string[];
   toggleSelectItem?: string[];
-  moveItems?: string[];
-  abortMovingItems?: string[];
   abortSearch?: string[];
   startSearch?: string[];
   selectAll?: string[];

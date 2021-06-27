@@ -37,12 +37,7 @@ export const Tree = React.forwardRef<TreeContextProps, TreeProps>((props, ref) =
     return () => environment.unregisterTree(props.treeId);
   }, [ props.treeId, props.rootItem ]);
 
-  const treeInformation = useCreatedTreeInformation({
-    treeId: props.treeId,
-    rootItem: props.rootItem,
-    treeLabel: props.treeLabel,
-    treeLabelledBy: props.treeLabelledBy,
-  }, search);
+  const treeInformation = useCreatedTreeInformation(props, renamingItem, search);
 
   const treeContextProps: TreeContextProps = {
     treeId: props.treeId,

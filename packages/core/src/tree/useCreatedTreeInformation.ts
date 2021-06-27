@@ -1,38 +1,27 @@
 import { useMemo } from 'react';
-import { TreeConfiguration, TreeEnvironmentContextProps, TreeInformation, TreeItemIndex } from '../types';
+import { TreeInformation, TreeItemIndex, TreeProps } from '../types';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
+import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
-const createTreeInformation = <T>(
-  environment: TreeEnvironmentContextProps,
-  treeConfiguration: TreeConfiguration,
-  search: string | null,
-  renamingItem?: TreeItemIndex | undefined,
-): TreeInformation => ({
-  isFocused: environment.activeTreeId === treeConfiguration.treeId,
-  isRenaming: !!renamingItem,
-  areItemsSelected: (environment.viewState[treeConfiguration.treeId]?.selectedItems?.length ?? 0) > 0,
-  isSearching: search !== null,
-  search: search,
-  ...treeConfiguration
-});
-
-const createTreeInformationDependencies = <T>(
-  environment: TreeEnvironmentContextProps,
-  treeId: string,
-  search: string | null,
-  renamingItem?: TreeItemIndex | undefined,
-) => [
-  environment.activeTreeId,
-  environment.viewState[treeId]?.selectedItems,
-  renamingItem,
-  treeId,
-  search,
-];
-
-export const useCreatedTreeInformation = (treeConfiguration: TreeConfiguration, search: string | null) => {
+export const useCreatedTreeInformation = (tree: TreeProps, renamingItem: TreeItemIndex | null, search: string | null) => {
   const environment = useTreeEnvironment();
-  return useMemo(
-    () => createTreeInformation(environment, treeConfiguration, search),
-    createTreeInformationDependencies(environment, treeConfiguration.treeId, search),
+  const dnd = useDragAndDrop();
+  return useMemo<TreeInformation>(() => ({
+      isFocused: environment.activeTreeId === tree.treeId,
+      isRenaming: !!renamingItem,
+      areItemsSelected: (environment.viewState[tree.treeId]?.selectedItems?.length ?? 0) > 0,
+      isSearching: search !== null,
+      search,
+      isProgrammaticallyDragging: dnd.isProgrammaticallyDragging ?? false,
+      treeId: tree.treeId,
+      rootItem: tree.rootItem,
+    }),
+    [
+      environment.activeTreeId,
+      environment.viewState[tree.treeId]?.selectedItems,
+      renamingItem,
+      tree.treeId,
+      search,
+    ],
   );
 };
