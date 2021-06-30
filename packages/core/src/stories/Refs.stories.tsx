@@ -7,7 +7,7 @@ import { longTree } from './utils/treeData.stories';
 import { TreeContextProps, TreeEnvironmentContextProps, TreeEnvironmentRef, TreeRef } from '../types';
 
 export default {
-  title: 'React Refs',
+  title: 'Core/React Refs',
 } as Meta;
 
 export const ControlTreeExternally = () => {
