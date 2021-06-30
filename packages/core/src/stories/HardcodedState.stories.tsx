@@ -7,7 +7,7 @@ import { longTree, shortTree } from './utils/treeData.stories';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export default {
-  title: 'Hardcoded State',
+  title: 'Core/Hardcoded State',
 } as Meta;
 
 export const SimpleTree = () => (

@@ -6,9 +6,8 @@ import React from 'react';
 import { longTree } from './utils/treeData.stories';
 
 export default {
-  title: 'Search Configurability',
+  title: 'Core/Search Configurability',
 } as Meta;
-
 
 export const SearchOnlyWithHotkey = () => (
   <UncontrolledTreeEnvironment<string>

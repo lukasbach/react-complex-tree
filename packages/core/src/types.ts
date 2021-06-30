@@ -185,9 +185,10 @@ export type DataSource<T = any> = ExplicitDataSource<T> | ImplicitDataSource<T>;
 
 export interface TreeChangeHandlers<T = any> {
   onStartRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
+  onRenameItem?: (item: TreeItem<T>, name: string, treeId: string) => void;
+  onAbortRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
   onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
-  onRenameItem?: (item: TreeItem<T>, name: string, treeId: string) => void;
   onSelectItems?: (items: TreeItemIndex[], treeId: string) => void; // TODO TreeItem instead of just index
   onFocusItem?: (item: TreeItem<T>, treeId: string) => void;
   // onStartDrag?: (items: TreeItemIndex[], treeId: string) => void;
@@ -197,7 +198,34 @@ export interface TreeChangeHandlers<T = any> {
   onUnregisterTree?: (tree: TreeConfiguration) => void;
   onMissingItems?: (itemIds: TreeItemIndex[]) => void;
   onMissingChildren?: (itemIds: TreeItemIndex[]) => void; // TODO
-};
+}
+
+export interface TreeEnvironmentChangeActions<T = any> {
+  focusTree: (treeId: string) => void;
+  renameItem: (itemId: TreeItemIndex, name: string, treeId: string) => void;
+  collapseItem: (itemId: TreeItemIndex, treeId: string) => void;
+  expandItem: (itemId: TreeItemIndex, treeId: string) => void;
+  toggleItemExpandedState: (itemId: TreeItemIndex, treeId: string) => void;
+  selectItems: (itemsIds: TreeItemIndex[], treeId: string) => void;
+  toggleItemSelectStatus: (itemId: TreeItemIndex, treeId: string) => void;
+  invokePrimaryAction: (itemId: TreeItemIndex, treeID: string) => void;
+  focusItem: (itemId: TreeItemIndex, treeId: string) => void;
+  moveFocusUp: (treeId: string) => void;
+  moveFocusDown: (treeId: string) => void;
+  startProgrammaticDrag: () => void;
+  abortProgrammaticDrag: () => void;
+  completeProgrammaticDrag: () => void;
+  moveProgrammaticDragPositionUp: () => void;
+  moveProgrammaticDragPositionDown: () => void;
+}
+
+export interface TreeEnvironmentActionsContextProps extends TreeEnvironmentChangeActions {
+}
+
+export interface TreeEnvironmentRef<T = any> extends TreeEnvironmentChangeActions<T>, Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
+  treeEnvironmentContext: TreeEnvironmentContextProps;
+  dragAndDropContext: DragAndDropContextProps;
+}
 
 export interface TreeEnvironmentConfiguration<T = any> extends
   TreeRenderProps<T>, TreeCapabilities<T>, TreeChangeHandlers<T>, ExplicitDataSource<T> {
@@ -207,7 +235,7 @@ export interface TreeEnvironmentConfiguration<T = any> extends
 }
 
 export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>, AllTreeRenderProps<T> {
-  registerTree: (tree: TreeConfiguration<T>) => void;
+  registerTree: (tree: TreeConfiguration) => void;
   unregisterTree: (treeId: string) => void;
   activeTreeId?: string;
   setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
@@ -260,17 +288,17 @@ export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
   getItemTitle: (item: TreeItem<T>) => string;
 } & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
 
-export interface TreeConfiguration<T = any> {
+export interface TreeConfiguration {
   treeId: string;
   rootItem: string;
   treeLabel?: string;
   treeLabelledBy?: string;
 }
 
-export interface TreeProps<T = any> extends TreeConfiguration<T>, Partial<TreeRenderProps<T>> {
+export interface TreeProps<T = any> extends TreeConfiguration, Partial<TreeRenderProps<T>> {
 }
 
-export interface TreeContextProps<T = any> extends TreeConfiguration<T> {
+export interface TreeContextProps<T = any> extends TreeConfiguration {
   search: string | null;
   setSearch: (searchValue: string | null) => void;
   renamingItem: TreeItemIndex | null;
@@ -278,6 +306,36 @@ export interface TreeContextProps<T = any> extends TreeConfiguration<T> {
   renderers: AllTreeRenderProps;
   treeInformation: TreeInformation;
   getItemsLinearly: () => Array<{ item: TreeItemIndex, depth: number }>;
+}
+
+export interface TreeChangeActions<T = any> {
+  focusTree: () => void;
+  startRenamingItem: (itemId: TreeItemIndex) => void;
+  stopRenamingItem: () => void;
+  completeRenamingItem: () => void;
+  abortRenamingItem: () => void;
+  renameItem: (itemId: TreeItemIndex, name: string) => void;
+  collapseItem: (itemId: TreeItemIndex) => void;
+  expandItem: (itemId: TreeItemIndex) => void;
+  toggleItemExpandedState: (itemId: TreeItemIndex) => void;
+  selectItems: (itemsIds: TreeItemIndex[]) => void;
+  toggleItemSelectStatus: (itemId: TreeItemIndex) => void;
+  focusItem: (itemId: TreeItemIndex) => void;
+  moveFocusUp: () => void;
+  moveFocusDown: () => void;
+  invokePrimaryAction: (itemId: TreeItemIndex) => void;
+  setSearch: (search: string | null) => void;
+  abortSearch: () => void;
+}
+
+export interface TreeChangeActionsContextProps extends TreeChangeActions {
+}
+
+export interface TreeRef<T = any> extends TreeChangeActions<T>, TreeInformation {
+  treeContext: TreeContextProps<T>;
+  treeEnvironmentContext: TreeEnvironmentContextProps<T>;
+  dragAndDropContext: DragAndDropContextProps<T>;
+  search: string | null;
 }
 
 export interface TreeDataProvider<T = any> {

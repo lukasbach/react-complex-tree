@@ -8,19 +8,20 @@ import {
   TreeEnvironmentContextProps,
   TreeInformation,
   TreeItemIndex,
-  TreeProps,
+  TreeProps, TreeRef,
 } from '../types';
 import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
 import { useCreatedTreeInformation } from './useCreatedTreeInformation';
 import { getItemsLinearly } from './getItemsLinearly';
+import { TreeActionsProvider } from '../treeActions/TreeActionsProvider';
 
 const TreeContext = React.createContext<TreeContextProps>(null as any); // TODO default value
 
 export const useTree = () => useContext(TreeContext);
 
-export const Tree = React.forwardRef<TreeContextProps, TreeProps>((props, ref) => {
+export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
   const environment = useTreeEnvironment();
   const renderers = useMemo<AllTreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
   const [search, setSearch] = useState<string | null>(null);
@@ -51,8 +52,6 @@ export const Tree = React.forwardRef<TreeContextProps, TreeProps>((props, ref) =
     renderers,
   };
 
-  useImperativeHandle(ref, () => treeContextProps);
-
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
     return null;
@@ -60,7 +59,9 @@ export const Tree = React.forwardRef<TreeContextProps, TreeProps>((props, ref) =
 
   return (
     <TreeContext.Provider value={treeContextProps}>
-      <TreeManager />
+      <TreeActionsProvider ref={ref}>
+        <TreeManager />
+      </TreeActionsProvider>
     </TreeContext.Provider>
   );
-}) as <T = any>(p: TreeProps<T> & { ref?: React.Ref<TreeContextProps> }) => React.ReactElement;
+}) as <T = any>(p: TreeProps<T> & { ref?: React.Ref<TreeRef<T>> }) => React.ReactElement;

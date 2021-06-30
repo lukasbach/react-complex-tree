@@ -128,6 +128,10 @@ export const DragAndDropProvider: React.FC = props => {
       }
     },
     startProgrammaticDrag: () => {
+      // TODO respect noDragAndDrop option
+      // TODO make sure dnd configurability works
+      // TODO disallow items as viable targets if they have no children and dropping on no-child-items is disallowed...
+
       if (environment.activeTreeId) {
         const draggingItems = environment.viewState[environment.activeTreeId]?.selectedItems
           ?? [environment.viewState[environment.activeTreeId]?.focusedItem] as TreeItemIndex[];

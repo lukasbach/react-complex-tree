@@ -6,7 +6,7 @@ import React from 'react';
 import { longTree, shortTree } from './utils/treeData.stories';
 
 export default {
-  title: 'Basic Examples',
+  title: 'Core/Basic Examples',
 } as Meta;
 
 export const SingleTree = () => (

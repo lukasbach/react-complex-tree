@@ -7,7 +7,7 @@ import { longTree } from './utils/treeData.stories';
 import { InteractionMode } from '../types';
 
 export default {
-  title: 'Interaction Modes',
+  title: 'Core/Interaction Modes',
 } as Meta;
 
 export const ClickItemToExpandInteractionMode = () => (

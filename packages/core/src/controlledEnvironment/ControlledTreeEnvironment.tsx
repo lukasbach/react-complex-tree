@@ -1,19 +1,20 @@
 import * as React from 'react';
 import { useContext, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import {
-  ControlledTreeEnvironmentProps,
+  ControlledTreeEnvironmentProps, TreeEnvironmentChangeActions,
   TreeConfiguration,
-  TreeEnvironmentContextProps,
+  TreeEnvironmentContextProps, TreeEnvironmentRef,
 } from '../types';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';
 import { scrollIntoView } from '../tree/scrollIntoView';
 import { InteractionManagerProvider } from './InteractionManagerProvider';
 import { DragAndDropProvider } from './DragAndDropProvider';
+import { EnvironmentActionsProvider } from '../environmentActions/EnvironmentActionsProvider';
 
 const TreeEnvironmentContext = React.createContext<TreeEnvironmentContextProps>(null as any);
 export const useTreeEnvironment = () => useContext(TreeEnvironmentContext);
 
-export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContextProps, ControlledTreeEnvironmentProps>((props, ref) => {
+export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, ControlledTreeEnvironmentProps>((props, ref) => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
   const [activeTreeId, setActiveTreeId] = useState<string>();
 
@@ -86,15 +87,15 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentContext
     activeTreeId,
   };
 
-  useImperativeHandle(ref, () => environmentContextProps);
-
   return (
     <TreeEnvironmentContext.Provider value={environmentContextProps}>
       <InteractionManagerProvider>
         <DragAndDropProvider>
-          {props.children}
+          <EnvironmentActionsProvider ref={ref}>
+            {props.children}
+          </EnvironmentActionsProvider>
         </DragAndDropProvider>
       </InteractionManagerProvider>
     </TreeEnvironmentContext.Provider>
   );
-}) as <T = any>(p: ControlledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentContextProps> }) => React.ReactElement;
+}) as <T = any>(p: ControlledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentRef<T>> }) => React.ReactElement;

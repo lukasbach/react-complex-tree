@@ -3,6 +3,9 @@
   "compilerOptions": {
     "outDir": "lib"
   },
+  "exclude": [
+    "src/stories"
+  ],
   "include": [
     "src"
   ]

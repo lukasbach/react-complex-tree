@@ -40,7 +40,7 @@ for (let i = 0; i < 1000; i++) {
 }
 
 export default {
-  title: 'Scalability',
+  title: 'Core/Scalability',
 } as Meta;
 
 export const SingleTree = () => (

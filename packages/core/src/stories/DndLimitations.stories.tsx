@@ -6,7 +6,7 @@ import React from 'react';
 import { longTree } from './utils/treeData.stories';
 
 export default {
-  title: 'Drag-and-Drop Configurability',
+  title: 'Core/Drag-and-Drop Configurability',
 } as Meta;
 
 

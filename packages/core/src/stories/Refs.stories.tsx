@@ -4,40 +4,30 @@ import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDat
 import { Tree } from '../tree/Tree';
 import React, { useEffect, useRef } from 'react';
 import { longTree } from './utils/treeData.stories';
-import { TreeContextProps, TreeEnvironmentContextProps } from '../types';
+import { TreeContextProps, TreeEnvironmentContextProps, TreeEnvironmentRef, TreeRef } from '../types';
 
 export default {
   title: 'React Refs',
 } as Meta;
 
 export const ControlTreeExternally = () => {
-  const treeEnvironment = useRef<TreeEnvironmentContextProps>(null);
-  const tree = useRef<TreeContextProps>(null);
+  const treeEnvironment = useRef<TreeEnvironmentRef>(null);
+  const tree = useRef<TreeRef>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (treeEnvironment.current && tree.current) {
-        const linearItems = tree.current.getItemsLinearly();
-        const currentlyActive = treeEnvironment.current.viewState[tree.current.treeId]?.focusedItem ?? linearItems[0].item;
-        let nextActiveIndex = linearItems.findIndex(item => item.item === currentlyActive) + 1;
+        const linearItems = tree.current.treeContext.getItemsLinearly();
+        const focusItem = treeEnvironment.current.viewState[tree.current.treeId]!.focusedItem ?? linearItems[0].item;
 
-        if (nextActiveIndex > linearItems.length - 1) {
-          nextActiveIndex = 0;
+        if (!treeEnvironment.current.viewState[tree.current.treeId]!.expandedItems?.includes(focusItem)) {
+          tree.current.expandItem(focusItem);
+          return;
         }
 
-        const nextActiveItem = linearItems[nextActiveIndex].item;
-
-        if (treeEnvironment.current.items[nextActiveItem].hasChildren) {
-          if (treeEnvironment.current.viewState[tree.current.treeId]?.expandedItems?.includes(nextActiveItem)) {
-            treeEnvironment.current.onCollapseItem?.(treeEnvironment.current.items[nextActiveItem], tree.current.treeId);
-          } else {
-            treeEnvironment.current.onExpandItem?.(treeEnvironment.current.items[nextActiveItem], tree.current.treeId);
-          }
-        }
-
-        treeEnvironment.current.onFocusItem?.(treeEnvironment.current.items[nextActiveItem], tree.current.treeId);
+        tree.current.moveFocusDown();
       }
-    }, 300);
+    }, 500);
 
     return () => clearInterval(interval);
   }, []);
@@ -51,9 +41,6 @@ export const ControlTreeExternally = () => {
       dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
       getItemTitle={item => item.data}
       viewState={{
-        ['tree-1']: {
-          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-        }
       }}
     >
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" ref={tree} />

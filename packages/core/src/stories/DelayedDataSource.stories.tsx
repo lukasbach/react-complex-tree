@@ -5,7 +5,7 @@ import { Meta } from '@storybook/react';
 import { longTree } from './utils/treeData.stories';
 
 export default {
-  title: 'Delayed Data Source',
+  title: 'Core/Delayed Data Source',
 } as Meta;
 
 export const TreeWithDelayedDataProvider = () => (

@@ -1,8 +1,15 @@
 import * as React from 'react';
 import {
   ControlledTreeEnvironmentProps,
-  ImplicitDataSource, IndividualTreeViewState,
-  TreeConfiguration, TreeDataProvider, TreeEnvironmentContextProps, TreeItem, TreeItemIndex, TreeViewState,
+  ImplicitDataSource,
+  IndividualTreeViewState,
+  TreeConfiguration,
+  TreeDataProvider,
+  TreeEnvironmentContextProps,
+  TreeEnvironmentRef,
+  TreeItem,
+  TreeItemIndex,
+  TreeViewState,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,7 +25,7 @@ import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
   onChangeItemChildren: provider.onChangeItemChildren?.bind(provider) ?? (async () => {}),
 });*/
 
-export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentContextProps, UncontrolledTreeEnvironmentProps>((props, ref) => {
+export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, UncontrolledTreeEnvironmentProps>((props, ref) => {
   const [currentItems, setCurrentItems] = useState<Record<TreeItemIndex, TreeItem>>({});
   const [viewState, setViewState] = useState(props.viewState);
   const dataProvider = useMemo(() => new CompleteTreeDataProvider(props.dataProvider), [props.dataProvider]);
@@ -72,6 +79,9 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentConte
       }}
       onStartRenamingItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
+      }}
+      onAbortRenamingItem={(item, treeId) => {
+        amendViewState(treeId, old => ({ ...old, renamingItem: undefined}));
       }}
       onRenameItem={async (item, name, treeId) => {
         await dataProvider.onRenameItem(item, name);
@@ -127,4 +137,4 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentConte
       {props.children}
     </ControlledTreeEnvironment>
   );
-}) as <T = any>(p: UncontrolledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentContextProps> }) => React.ReactElement;
+}) as <T = any>(p: UncontrolledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentRef<T>> }) => React.ReactElement;

@@ -6,7 +6,7 @@ import { Tree } from '../tree/Tree';
 import React from 'react';
 
 export default {
-  title: 'Custom Renderers',
+  title: 'Core/Custom Renderers',
 } as Meta;
 
 export const MinimalRenderers = () => (
