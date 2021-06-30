@@ -12,7 +12,7 @@ import {
   TreeViewState,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
 
@@ -28,6 +28,7 @@ import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
 export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, UncontrolledTreeEnvironmentProps>((props, ref) => {
   const [currentItems, setCurrentItems] = useState<Record<TreeItemIndex, TreeItem>>({});
   const [viewState, setViewState] = useState(props.viewState);
+  const missingItemIds = useRef<TreeItemIndex[]>([]);
   const dataProvider = useMemo(() => new CompleteTreeDataProvider(props.dataProvider), [props.dataProvider]);
 
   const writeItems = useMemo(() => (newItems: Record<TreeItemIndex, TreeItem>) => {
@@ -126,9 +127,17 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
         }
       }}
       onMissingItems={itemIds => {
-        dataProvider.getTreeItems(itemIds).then(items => {
-          writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
-        });
+        // Batch individual fetch-item-calls together
+        if (missingItemIds.current.length === 0) {
+          setTimeout(() => {
+            dataProvider.getTreeItems(missingItemIds.current).then(items => {
+              writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
+            });
+            missingItemIds.current = [];
+          })
+        }
+
+        missingItemIds.current.push(...itemIds);
       }}
       // onRegisterTree={tree => {
       //   dataProvider.getTreeItem(tree.rootItem).then(item => writeItems({ [item.index]: item }));
