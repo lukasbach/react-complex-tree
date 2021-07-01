@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { TreeEnvironmentRef, TreeContextProps, TreeRef } from 'react-complex-tree';
-import { useEffect, useRef, useState } from 'react';
+import {
+  TreeEnvironmentRef,
+  TreeContextProps,
+  TreeRef,
+  UncontrolledTreeEnvironmentProps,
+  StaticTreeDataProvider, ExplicitDataSource,
+} from 'react-complex-tree';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { longTree } from '../../core/src/stories/utils/treeData.stories';
 
 export interface AutomationStoryHelpers {
   wait: (ms: number) => Promise<void>,
@@ -16,17 +23,28 @@ export interface AutomationStoryHelpers {
   renameTo: (tree: TreeRef, newName: string, timeBetweenTypes?: number) => Promise<void>,
 }
 
+export interface ProvidedEnvironmentProps extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider'> {
+  key: string
+}
+
+const localStorageKeySpeed = 'rct-autodemo-speed';
+
 export const AutoDemo = (props: {
-  // initialState: UncontrolledTreeEnvironmentProps,
+  data: ExplicitDataSource,
   children: (
-    environmentProps: { key: string },
+    environmentProps: ProvidedEnvironmentProps,
     environmentRef: React.Ref<TreeEnvironmentRef>, treeRef: React.Ref<TreeRef>,
     treeRef2: React.Ref<TreeRef>, treeRef3: React.Ref<TreeRef>,
     treeRef4: React.Ref<TreeRef>, treeRef5: React.Ref<TreeRef>,
   ) => JSX.Element,
-  storyScript: (story: AutomationStoryHelpers) => Promise<void>
+  storyScript: (story: AutomationStoryHelpers) => Promise<void>,
+  restart?: boolean;
 }) => {
+  const [aborted, setAborted] = useState(false);
+  const abortedRef = useRef(false);
   const [restartKey, setRestartKey] = useState(0);
+  const [speed, setSpeed] = useState(parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1'));
+  const speedRef = useRef(parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1'));
   const environmentRef = useRef<TreeEnvironmentRef>(null);
   const treeRef1 = useRef<TreeRef>(null);
   const treeRef2 = useRef<TreeRef>(null);
@@ -35,12 +53,16 @@ export const AutoDemo = (props: {
   const treeRef5 = useRef<TreeRef>(null);
 
   useEffect(() => {
+    localStorage.setItem(localStorageKeySpeed, `${speed}`);
+    speedRef.current = speed;
+  }, [speed]);
 
-    console.log(treeRef1.current, treeRef2.current, treeRef3.current, treeRef4.current, treeRef5.current, environmentRef.current)
-  }, [treeRef1.current, environmentRef.current])
+  useEffect(() => { abortedRef.current = aborted; }, [aborted]);
 
   useEffect(() => {
-    setTimeout(() => {
+    setAborted(false);
+    abortedRef.current = false;
+    setTimeout(async () => {
       const helpers: AutomationStoryHelpers = {
         env: environmentRef,
         tree: treeRef1,
@@ -74,18 +96,65 @@ export const AutoDemo = (props: {
           }
         },
         wait: async ms => {
-          return new Promise(r => setTimeout(r, ms));
+          if (abortedRef.current) {
+            throw 'abort';
+          }
+          await new Promise(r => setTimeout(r, ms * (1 / speedRef.current)));
+          if (abortedRef.current) {
+            throw 'abort';
+          }
         }
       };
 
-      props.storyScript(helpers);
+      try {
+        await props.storyScript(helpers);
+        if (props.restart) {
+          setRestartKey(oldKey => oldKey + 1);
+        }
+      } catch(e) {
+        if (e !== 'abort') {
+          throw e;
+        }
+      }
     }, 1000);
   }, [restartKey]);
 
+  const envProps: ProvidedEnvironmentProps = useMemo(() => ({
+    key: `k${ restartKey }`,
+    dataProvider: new StaticTreeDataProvider(JSON.parse(JSON.stringify(props.data.items)), (item, data) => ({
+      ...item,
+      data,
+    })),
+  }), [restartKey]);
+
+  const SpeedButton: React.FC<{ speed: number }> = props => (
+    <button className={props.speed === speed ? 'active' : ''} onClick={() => setSpeed(props.speed)}>
+      x{props.speed}
+    </button>
+  );
+
   return (
-    <div>
-      Tree (<button onClick={() => setRestartKey(k => k + 1)}>Restart</button>)<br />
-      {props.children({ key: `k${restartKey}` }, environmentRef, treeRef1, treeRef2, treeRef3, treeRef4, treeRef5)}
+    <div className="rct-autodemo-container">
+      <div className="rct-autodemo-content" onMouseDown={() => setAborted(true)}>
+        {props.children(envProps, environmentRef, treeRef1, treeRef2, treeRef3, treeRef4, treeRef5)}
+      </div>
+      <div className="rct-autodemo-controls">
+        <div className="rct-autodemo-controls-left">
+          <div className="rct-autodemo-controls-header">
+            <h2>{!aborted ? 'Demo is running' : 'Demo was stopped'}</h2>
+            <div className="rct-autodemo-controls-speed" aria-label="Speed control for the demo">
+              <SpeedButton speed={.75} />
+              <SpeedButton speed={1} />
+              <SpeedButton speed={2} />
+              <SpeedButton speed={3} />
+            </div>
+          </div>
+          <p>{!aborted ? 'Click anywhere on the tree to try it yourself!' : ''}</p>
+        </div>
+        <div className="rct-autodemo-controls-right">
+          <button onClick={() => setRestartKey(k => k + 1)}>{!aborted ? 'Restart' : 'Restart'}</button>
+        </div>
+      </div>
     </div>
   );
 };

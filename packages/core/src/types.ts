@@ -282,11 +282,12 @@ export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
 
 export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;
 
-export type UncontrolledTreeEnvironmentProps<T = any> = PropsWithChildren<{
+export interface UncontrolledTreeEnvironmentProps<T = any> extends TreeRenderProps<T>, TreeCapabilities, ImplicitDataSource<T>, TreeChangeHandlers<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
   getItemTitle: (item: TreeItem<T>) => string;
-} & TreeRenderProps<T> & TreeCapabilities & ImplicitDataSource<T>>;
+  children: JSX.Element | JSX.Element[] | null;
+}
 
 export interface TreeConfiguration {
   treeId: string;

@@ -53,7 +53,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
     });
 
     return dispose;
-  })
+  }, [dataProvider])
 
   return (
     <ControlledTreeEnvironment
@@ -63,6 +63,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
       items={currentItems}
       onExpandItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, expandedItems: [...old.expandedItems ?? [], item.index] }));
+        props.onExpandItem?.(item, treeId);
         //const itemsToLoad = item.children?.filter(itemId => currentItems[itemId] === undefined) ?? [];
         //dataProvider.getTreeItems(itemsToLoad).then(items => {
         //  writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
@@ -71,24 +72,30 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
       }}
       onCollapseItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, expandedItems: old.expandedItems?.filter(id => id !== item.index) }));
+        props.onCollapseItem?.(item, treeId);
       }}
       onSelectItems={(items, treeId) => {
         amendViewState(treeId, old => ({ ...old, selectedItems: items }));
+        props.onSelectItems?.(items, treeId);
       }}
       onFocusItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));
+        props.onFocusItem?.(item, treeId);
       }}
       onStartRenamingItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
+        props.onStartRenamingItem?.(item, treeId);
       }}
       onAbortRenamingItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined}));
+        props.onAbortRenamingItem?.(item, treeId);
       }}
       onRenameItem={async (item, name, treeId) => {
         await dataProvider.onRenameItem(item, name);
         amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
         const newItem = await dataProvider.getTreeItem(item.index);
         writeItems({ [item.index]: newItem });
+        props.onRenameItem?.(item, name, treeId);
       }}
       onDrop={async (items, target) => {
         for (const item of items) {
@@ -125,6 +132,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
           }
 
         }
+        props.onDrop?.(items, target);
       }}
       onMissingItems={itemIds => {
         // Batch individual fetch-item-calls together
@@ -138,6 +146,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
         }
 
         missingItemIds.current.push(...itemIds);
+        props.onMissingItems?.(itemIds);
       }}
       // onRegisterTree={tree => {
       //   dataProvider.getTreeItem(tree.rootItem).then(item => writeItems({ [item.index]: item }));
