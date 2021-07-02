@@ -8,7 +8,7 @@ export const StoryEmbed = ({ storyName, iframeProps }) => {
       src={`http://localhost:6006/iframe.html?id=${storyName}&args=&viewMode=story`}
       frameBorder={0}
       allowtransparency="true"
-      style={{ width: '1px', minWidth: '100%'}}
+      style={(!iframeProps.width && !iframeProps.minWidth && !iframeProps.maxWidth) ? { width: '1px', minWidth: '100%' } : {}}
       {...iframeProps ?? {}}
     />
   );

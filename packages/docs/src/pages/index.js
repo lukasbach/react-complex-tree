@@ -17,11 +17,21 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/getstarted">
+            Get Started
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/storybook">
+            More Demos
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/api">
+            API
           </Link>
         </div>
-        <StoryEmbed storyName="auto-demo-autodemo-component--multi-tree-demo" />
+        <StoryEmbed storyName="auto-demo-autodemo-component--multi-tree-demo" iframeProps={{ minHeight: 380, width: 600 }} />
       </div>
     </header>
   );
@@ -31,8 +41,9 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={siteConfig.title}
+      description={siteConfig.tagline}
+    >
       <HomepageHeader />
       <main>
         <HomepageFeatures />

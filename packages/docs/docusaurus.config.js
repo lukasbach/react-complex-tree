@@ -3,20 +3,20 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'React Complex Tree',
+  tagline: 'Unopinionated Accessible Powerful Tree Component for React',
+  url: 'https://rct.lukasbach.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'lukasbach', // Usually your GitHub org/user name.
+  projectName: 'react-complex-tree', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'React Complex Tree',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'React Complex Tree Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -24,9 +24,18 @@ module.exports = {
           type: 'doc',
           docId: 'intro',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Documentation',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {
+          href: '/storybook',
+          label: 'Storybook',
+          position: 'left',
+        },
+        {
+          href: '/storybook',
+          label: 'Playground',
+          position: 'left',
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -67,17 +76,13 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Lukas Bach. Built with Docusaurus.`,
     },
     prism: {
       theme: lightCodeTheme,
