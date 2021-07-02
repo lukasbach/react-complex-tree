@@ -28,3 +28,9 @@ if (process.env.NODE_ENV === 'development') {
 
   });
 }
+
+(() => {
+  const el = document.createElement('script');
+  el.src = 'https://unpkg.com/iframe-resizer@4.3.2/js/iframeResizer.contentWindow.min.js';
+  document.head.append(el);
+})();

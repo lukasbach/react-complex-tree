@@ -32,7 +32,12 @@
     "storybook-addon-react-docgen": "^1.2.42",
     "ts-loader": "^8.0.11"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/html-minifier-terser"
+    ]
+  }
 }

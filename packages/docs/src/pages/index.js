@@ -5,6 +5,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
+import { StoryEmbed } from "../components/StoryEmbed";
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -20,6 +21,7 @@ function HomepageHeader() {
             Docusaurus Tutorial - 5min ⏱️
           </Link>
         </div>
+        <StoryEmbed storyName="auto-demo-autodemo-component--multi-tree-demo" />
       </div>
     </header>
   );
