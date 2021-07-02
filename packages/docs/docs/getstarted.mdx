@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+---
+
+import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
+import { longTree } from 'demodata';
+
+# Get Started
+
+The following document shows how React Complex Tree can be installed and used in your
+web projects.
+
+## Installation
+
+To start using React Complex Table, install it to your project as a dependency via
+
+```
+npm install react-complex-tree
+```
+
+or
+
+```
+yarn add react-complex-tree
+```
+
+## Integrating React Complex Tree into your project
+
+After installation, import the package and start using it by creating a new tree environment that
+contains a tree instance.
+
+```typescript jsx
+import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
+
+<UncontrolledTreeEnvironment<string>
+  dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
+  getItemTitle={item => item.data}
+  viewState={{}}
+>
+  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+</UncontrolledTreeEnvironment>
+```
+
+<UncontrolledTreeEnvironment
+  dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+  getItemTitle={item => item.data}
+  viewState={{}}
+>
+  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+</UncontrolledTreeEnvironment>
+
+The example above uses an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment), which is
+the easiest way to get started as it maintains the tree view state in itself. Inside the environment,
+the [Tree](/docs/react/Tree) itself is added to the DOM structure. You can add multiple trees within one
+environment, that share a common state. Each tree needs to provide
+
+- An individual ID for the tree, which remains unique for that tree.
+- Which item is used as root item for that tree. Different trees may show different items as root.
+- Optionally, a label, which is used as accessibility label for that tree to describe it to screen readers.
+
+Individual trees do not provide their own state, but share the state that is provided by the environment.
+
+For the environment, there are three ways to implement your tree environment:
+
+- Use an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment) and a
+  [StaticTreeDataProvider](/docs/api/classes/StaticTreeDataProvider) that provides the items. This is the easiest
+  approach and is described below.
+- Use an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment) and implement a custom
+  [TreeDataProvider](/docs/api/interfaces/TreeDataProvider). This is similarly easy and provides the ability to
+  directly react to change events and define a lazy item-loading strategy. This approach is most likely the best
+  way to integrate React Complex Tree in realistic scenarios. This approach is described here TODO
+- Use an [StaticTreeDataProvider](/docs/api/classes/StaticTreeDataProvider). This requires you to define your
+  own logic to manage the view state, thus requiring the most effort, but also provides the most customizability.
+  This approach is described here TODO
+
+## Providing the data for the tree
+
+When integrating React Complex Tree with an uncontrolled environment and a static tree data provider, items
+must be provided as [explicit data source](/docs/api/interfaces/explicitdatasource). An example for such
+items looks like this:
+
+```typescript jsx
+const items = {
+  root: {
+    index: 'root',
+    canMove: true,
+    hasChildren: true,
+    children: ['child1', 'child2'],
+    data: 'Root item',
+    canRename: true,
+  },
+  child1: {
+    index: 'child1',
+    canMove: true,
+    hasChildren: false,
+    children: [],
+    data: 'Child item 1',
+    canRename: true,
+  },
+  child2: {
+    index: 'child2',
+    canMove: true,
+    hasChildren: false,
+    children: [],
+    data: 'Child item 2',
+    canRename: true,
+  },
+};
+```
+
+Each item needs to implement the [TreeItem](/docs/api/interfaces/treeitem) interface. The `data` attribute
+is generic and can contain any kind of data such as objects or strings. The environment then also needs to
+implement the `getItemTitle` method, which derives the title of the item given a [TreeItem](/docs/api/interfaces/treeitem)
+instance. In our example, where `data` is just a string that contains the title, we can use the trivial
+implementation of `getItemTitle={item => item.data}`.

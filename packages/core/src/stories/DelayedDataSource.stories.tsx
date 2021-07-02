@@ -2,7 +2,7 @@ import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/Uncontro
 import { Tree } from '../tree/Tree';
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { longTree } from './utils/treeData.stories';
+import { longTree } from 'demodata';
 
 export default {
   title: 'Core/Delayed Data Source',

@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 import { StaticTreeDataProvider, Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
-import { longTree } from '../../../core/src/stories/utils/treeData.stories';
+import { longTree } from 'demodata';
 import { AutoDemo } from '../AutoDemo';
 
 export default {

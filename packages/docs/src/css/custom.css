@@ -6,6 +6,9 @@
  */
 
 /* You can override the default Infima variables here. */
+
+@import "react-complex-tree/lib/style.css";
+
 :root {
   --ifm-color-primary: #0366d6;
   --ifm-color-primary-dark: #035cc1;

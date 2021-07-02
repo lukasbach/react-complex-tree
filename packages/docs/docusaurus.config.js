@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'React Complex Tree',
-  tagline: 'Unopinionated Accessible Powerful Tree Component for React',
+  tagline: 'Unopinionated Accessible Tree Component with Mutli-Select and Drag-And-Drop',
   url: 'https://rct.lukasbach.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -22,22 +22,22 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'intro',
+          docId: 'getstarted',
           position: 'left',
           label: 'Documentation',
         },
         {
-          href: '/storybook',
+          href: 'https://rct.lukasbach.com/storybook',
           label: 'Storybook',
           position: 'left',
         },
         {
-          href: '/storybook',
+          href: 'https://rct.lukasbach.com/todo',
           label: 'Playground',
           position: 'left',
         },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/lukasbach/react-complex-tree',
           label: 'GitHub',
           position: 'right',
         },
@@ -50,8 +50,8 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Get Started',
+              to: '/docs/getstarted',
             },
           ],
         },
@@ -97,16 +97,17 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/lukasbach/react-complex-tree/edit/master/packages/docs/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+            'https://github.com/lukasbach/react-complex-tree/edit/master/packages/docs/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+          packageCss: require.resolve('react-complex-tree/lib/style.css'),
         },
       },
     ],
@@ -138,7 +139,10 @@ module.exports = {
       // Plugin / TypeDoc options
       {
         entryPoints: ['../core/src/index.ts'],
-        tsconfig: '../core/tsconfig.json'
+        tsconfig: '../core/tsconfig.json',
+        sidebar: {
+          categoryLabel: 'API'
+        }
       },
     ],
   ],

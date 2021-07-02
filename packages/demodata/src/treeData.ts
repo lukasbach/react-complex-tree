@@ -1,13 +1,4 @@
-import { ExplicitDataSource } from '../../types';
-import { ControlledTreeEnvironment } from '../../controlledEnvironment/ControlledTreeEnvironment';
-import { Meta } from '@storybook/react';
-
-export default {
-  title: 'treeData',
-  excludeStories: /.*/,
-} as Meta;
-
-const readTemplate = (template: any, data: ExplicitDataSource = { items: {} }) => {
+const readTemplate = (template: any, data: any = { items: {} }) => {
   for (const [key, value] of Object.entries(template)) {
     data.items[key] = {
       index: key,

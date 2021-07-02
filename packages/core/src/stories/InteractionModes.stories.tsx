@@ -3,7 +3,7 @@ import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/Uncontro
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
 import React from 'react';
-import { longTree } from './utils/treeData.stories';
+import { longTree } from 'demodata';
 import { InteractionMode } from '../types';
 
 export default {
