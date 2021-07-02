@@ -20,43 +20,45 @@ You can read more about implementing a custom TreeDataProvider
 
 An example using a StaticTreeDataProvider looks like this:
 
-```typescript jsx
-import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
+```jsx live
+function App() {
+  const items = {
+    root: {
+      index: 'root',
+      canMove: true,
+      hasChildren: true,
+      children: ['child1', 'child2'],
+      data: 'Root item',
+      canRename: true,
+    },
+    child1: {
+      index: 'child1',
+      canMove: true,
+      hasChildren: false,
+      children: [],
+      data: 'Child item 1',
+      canRename: true,
+    },
+    child2: {
+      index: 'child2',
+      canMove: true,
+      hasChildren: false,
+      children: [],
+      data: 'Child item 2',
+      canRename: true,
+    },
+  };
 
-const items = {
-  root: {
-    index: 'root',
-    canMove: true,
-    hasChildren: true,
-    children: ['child1', 'child2'],
-    data: 'Root item',
-    canRename: true,
-  },
-  child1: {
-    index: 'child1',
-    canMove: true,
-    hasChildren: false,
-    children: [],
-    data: 'Child item 1',
-    canRename: true,
-  },
-  child2: {
-    index: 'child2',
-    canMove: true,
-    hasChildren: false,
-    children: [],
-    data: 'Child item 2',
-    canRename: true,
-  },
-};
-
-<UncontrolledTreeEnvironment<string>
-  dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</UncontrolledTreeEnvironment>
+  return (
+    <UncontrolledTreeEnvironment<string>
+      dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
 ```
 
 <UncontrolledTreeEnvironment

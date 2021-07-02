@@ -24,30 +24,33 @@ or
 yarn add react-complex-tree
 ```
 
+## Importing
+
+You can always import any of the entities used in the examples directly as named imports from
+the `react-complex-tree` package.
+
+```typescript
+import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
+```
+
 ## Integrating React Complex Tree into your project
 
 After installation, import the package and start using it by creating a new tree environment that
 contains a tree instance.
 
-```typescript jsx
-import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
-
-<UncontrolledTreeEnvironment<string>
-  dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</UncontrolledTreeEnvironment>
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
 ```
-
-<UncontrolledTreeEnvironment
-  dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</UncontrolledTreeEnvironment>
 
 The example above uses an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment), which is
 the easiest way to get started as it maintains the tree view state in itself. Inside the environment,

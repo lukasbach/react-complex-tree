@@ -114,6 +114,10 @@ module.exports = {
   ],
   plugins: [
     [
+      '@docusaurus/theme-live-codeblock',
+      {}
+    ],
+    [
       'docusaurus-plugin-react-docgen-typescript',
       {
         // pass in a single string or an array of strings

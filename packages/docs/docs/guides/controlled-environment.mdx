@@ -15,32 +15,26 @@ which items are expanded, selected, focused etc.
 Furthermore, you need to provide all items directly and, if not all items are available at the start,
 implement custom logic to asynchronously load items if they need to be displayed.
 
-```typescript jsx
-import { ControlledTreeEnvironment, Tree } from 'react-complex-tree';
-
-<ControlledTreeEnvironment<string>
-  items={items}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</ControlledTreeEnvironment>
+```jsx live
+function App() {
+  return (
+    <ControlledTreeEnvironment
+      items={longTree.items}
+      getItemTitle={item => item.data}
+      viewState={{}}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </ControlledTreeEnvironment>
+  );
+}
 ```
-
-<ControlledTreeEnvironment
-  items={longTree.items}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</ControlledTreeEnvironment>
 
 As you can see from the example, you can focus the tree and even search for items, but not change
 the focused or selected item.
 
 To implement this, provide an implementation for the [TreeChangeHandlers](/docs/api/interfaces/treechangehandlers)
 interface and provide it as spreaded props to the controlled environment, then provide a
-[viewState](/docs/api/interfaces/treeviewstate) prop that defines the visual state of each tree by providing 
+[viewState](/docs/api/interfaces/treeviewstate) prop that defines the visual state of each tree by providing
 
 ## Component Props
 
