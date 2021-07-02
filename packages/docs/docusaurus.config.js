@@ -97,13 +97,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/lukasbach/react-complex-tree/edit/master/packages/docs/',
+            'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/lukasbach/react-complex-tree/edit/master/packages/docs/blog/',
+            'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
