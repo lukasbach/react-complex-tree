@@ -12,6 +12,13 @@
   overflow: hidden;
 }
 
+.heroBannerText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white !important;
+}
+
 @media screen and (max-width: 966px) {
   .heroBanner {
     padding: 2rem;
@@ -28,3 +35,4 @@
 .buttons a, .buttons button {
   margin: 0 10px;
 }
+
