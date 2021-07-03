@@ -14,7 +14,8 @@ jobs:
           yarn build
           yarn build-storybook
           # mv ./storybook-static/index.html ./storybook-static/index.htm
-          mv ./storybook-static ./packages/docs/build
+          mv ./storybook-static ./packages/docs/build/storybook
+          echo 'rct.lukasbach.com' >> ./packages/docs/build/CNAME
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
