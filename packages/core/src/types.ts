@@ -201,7 +201,7 @@ export interface TreeChangeHandlers<T = any> {
 }
 
 export interface TreeEnvironmentChangeActions<T = any> {
-  focusTree: (treeId: string) => void;
+  focusTree: (treeId: string, autoFocus?: boolean) => void;
   renameItem: (itemId: TreeItemIndex, name: string, treeId: string) => void;
   collapseItem: (itemId: TreeItemIndex, treeId: string) => void;
   expandItem: (itemId: TreeItemIndex, treeId: string) => void;
@@ -238,7 +238,7 @@ export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironme
   registerTree: (tree: TreeConfiguration) => void;
   unregisterTree: (treeId: string) => void;
   activeTreeId?: string;
-  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined)) => void;
+  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined), autoFocus?: boolean) => void;
   treeIds: string[];
   trees: Record<string, TreeConfiguration>;
 }
@@ -310,7 +310,7 @@ export interface TreeContextProps<T = any> extends TreeConfiguration {
 }
 
 export interface TreeChangeActions<T = any> {
-  focusTree: () => void;
+  focusTree: (autoFocus?: boolean) => void;
   startRenamingItem: (itemId: TreeItemIndex) => void;
   stopRenamingItem: () => void;
   completeRenamingItem: () => void;
@@ -341,7 +341,7 @@ export interface TreeRef<T = any> extends TreeChangeActions<T>, TreeInformation 
 
 export interface TreeDataProvider<T = any> {
   onDidChangeTreeData?: (listener: (changedItemIds: TreeItemIndex[]) => void) => Disposable;
-  getTreeItem: (itemId: TreeItemIndex) => Promise<TreeItem>;
+  getTreeItem: (itemId: TreeItemIndex) => Promise<TreeItem<T>>;
   getTreeItems?: (itemIds: TreeItemIndex[]) => Promise<TreeItem[]>;
   onRenameItem?: (item: TreeItem<T>, name: string) => Promise<void>;
   onChangeItemChildren?: (itemId: TreeItemIndex, newChildren: TreeItemIndex[]) => Promise<void>;

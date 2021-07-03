@@ -42,8 +42,8 @@ export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<{
     focusItem(itemId: TreeItemIndex): void {
       envActions.focusItem(itemId, tree.treeId);
     },
-    focusTree(): void {
-      envActions.focusTree(tree.treeId);
+    focusTree(autoFocus: boolean = true): void {
+      envActions.focusTree(tree.treeId, autoFocus);
     },
     invokePrimaryAction(itemId: TreeItemIndex): void {
       envActions.invokePrimaryAction(itemId, tree.treeId);

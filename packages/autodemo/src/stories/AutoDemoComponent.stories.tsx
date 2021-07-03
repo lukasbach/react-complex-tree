@@ -16,7 +16,7 @@ export const SingleTreeDemo = () => (
   <AutoDemo
     data={ longTree }
     storyScript={ async (story) => {
-      await story.tree.current!.focusTree();
+      await story.tree.current!.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
       await story.tree.current!.moveFocusDown();
@@ -78,7 +78,7 @@ export const MultiTreeDemo = () => (
     restart={ true }
     data={ longTree }
     storyScript={ async (story) => {
-      await story.tree.current!.focusTree();
+      await story.tree.current!.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
       await story.tree.current!.moveFocusUp();
@@ -89,7 +89,7 @@ export const MultiTreeDemo = () => (
       await story.wait(500);
       await story.tree.current!.moveFocusUp();
       await story.wait(1000);
-      await story.tree2.current!.focusTree();
+      await story.tree2.current!.focusTree(false);
       await story.wait(500);
       await story.tree2.current!.moveFocusDown();
       await story.wait(500);
@@ -99,7 +99,7 @@ export const MultiTreeDemo = () => (
       await story.wait(1000);
       await story.tree2.current!.expandItem(story.env.current!.viewState[treeId2]!.focusedItem!);
       await story.wait(1000);
-      await story.tree.current!.focusTree();
+      await story.tree.current!.focusTree(false);
       await story.wait(500);
       await story.tree.current!.moveFocusDown();
       await story.wait(500);
@@ -117,7 +117,7 @@ export const MultiTreeDemo = () => (
       await story.wait(1000);
       await story.env.current!.startProgrammaticDrag();
       await story.wait(1000);
-      await story.tree2.current!.focusTree();
+      await story.tree2.current!.focusTree(false);
       await story.wait(500);
       await story.programmaticMove('down', 4);
       await story.wait(500);
@@ -167,13 +167,13 @@ export const MultiTreeDemo = () => (
       await story.programmaticMove('down', 8);
       await story.env.current!.completeProgrammaticDrag();
       await story.wait(1000);
-      await story.tree.current!.focusTree();
+      await story.tree.current!.focusTree(false);
       await story.wait(200);
       await story.searchFor(story.tree.current!, 'meals');
       await story.wait(500);
       await story.tree.current!.collapseItem(story.env.current!.viewState[treeId1]!.focusedItem!);
       await story.wait(1000);
-      await story.tree2.current!.focusTree();
+      await story.tree2.current!.focusTree(false);
       await story.wait(200);
       await story.env.current!.startProgrammaticDrag();
       await story.wait(1300);

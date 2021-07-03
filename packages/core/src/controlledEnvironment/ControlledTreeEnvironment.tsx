@@ -58,9 +58,9 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, Co
       delete trees[treeId];
       setTrees(trees);
     },
-    setActiveTree: treeIdOrSetStateFunction => {
+    setActiveTree: (treeIdOrSetStateFunction, autoFocus = true) => {
       const focusTree = (treeId: string | undefined) => {
-        if (treeId && !document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
+        if (autoFocus && treeId && !document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
           const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
           (focusItem as HTMLElement)?.focus?.();
         }

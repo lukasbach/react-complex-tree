@@ -7,7 +7,6 @@ import {
   StaticTreeDataProvider, ExplicitDataSource,
 } from 'react-complex-tree';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { longTree } from '../../core/src/stories/utils/treeData.stories';
 
 export interface AutomationStoryHelpers {
   wait: (ms: number) => Promise<void>,
