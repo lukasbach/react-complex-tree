@@ -2,7 +2,10 @@
 
 ![Demo for React Complex Tree](http://i.imgur.com/KQ90KEs.gif)
 
-> An Unopinionated Accessible Tree Component with Mutli-Select and Drag-And-Drop
+> An Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop
+
+Look into the [official documentation](https://rct.lukasbach.com/) to see more examples
+and a more comprehensive documentation.
 
 ## Installation
 
@@ -26,7 +29,7 @@ import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react
 </UncontrolledTreeEnvironment>
 ```
 
-More details at [TODO]
+More details at [the Get-Started Guide](https://rct.lukasbach.com/docs/getstarted).
 
 ## Features
 

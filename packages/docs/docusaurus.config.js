@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'React Complex Tree',
-  tagline: 'Unopinionated Accessible Tree Component with Mutli-Select and Drag-And-Drop',
+  tagline: 'Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop',
   url: 'https://rct.lukasbach.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -32,7 +32,7 @@ module.exports = {
           position: 'left',
         },
         {
-          href: 'https://rct.lukasbach.com/todo',
+          href: 'https://codesandbox.io/s/react-complex-tree-playground-u5tjs',
           label: 'Playground',
           position: 'left',
         },
