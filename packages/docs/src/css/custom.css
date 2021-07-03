@@ -35,6 +35,10 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   --ifm-hero-background-color: #374e6c;
 }
 
+.footer a:not(.footer__link-item) {
+  color: var(--ifm-color-primary-lightest);
+}
+
 div[class^="playgroundEditor"] {
   max-height: 500px;
   overflow-y: auto !important;

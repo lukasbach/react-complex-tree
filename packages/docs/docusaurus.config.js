@@ -1,6 +1,12 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
+const links = {
+  storybook: 'https://rct.lukasbach.com/storybook',
+  sandbox: 'https://codesandbox.io/s/react-complex-tree-playground-u5tjs',
+  github: 'https://github.com/lukasbach/react-complex-tree',
+}
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'React Complex Tree',
@@ -27,17 +33,17 @@ module.exports = {
           label: 'Documentation',
         },
         {
-          href: 'https://rct.lukasbach.com/storybook',
+          href: links.storybook,
           label: 'Storybook',
           position: 'left',
         },
         {
-          href: 'https://codesandbox.io/s/react-complex-tree-playground-u5tjs',
+          href: links.sandbox,
           label: 'Playground',
           position: 'left',
         },
         {
-          href: 'https://github.com/lukasbach/react-complex-tree',
+          href: links.github,
           label: 'GitHub',
           position: 'right',
         },
@@ -53,36 +59,60 @@ module.exports = {
               label: 'Get Started',
               to: '/docs/getstarted',
             },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Guides',
+              to: '/docs/guides/uncontrolled-environment',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'API Specification',
+              to: '/docs/api',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'Project',
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: links.github,
+            },
+            {
+              label: 'Storybook',
+              href: links.storybook,
+            },
+            {
+              label: 'Code Sandbox',
+              href: links.sandbox,
+            },
+          ],
+        },
+        {
+          title: 'More from me',
+          items: [
+            {
+              label: 'My GitHub profile',
+              href: 'https://github.com/lukasbach',
+            },
+            {
+              label: 'My personal homepage',
+              href: 'https://github.com/lukasbach',
+            },
+            {
+              label: 'Yana',
+              href: 'https://yana.js.org',
+            },
+            {
+              label: 'DevSession',
+              href: 'https://devsession.js.org',
+            },
+            {
+              label: 'Orion',
+              href: 'https://orion.lukasbach.com',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Lukas Bach. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} <a href="https://lukasbach.com" target="_blank">Lukas Bach</a>. Built with Docusaurus.`,
     },
     prism: {
       theme: lightCodeTheme,
