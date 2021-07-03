@@ -95,7 +95,7 @@ module.exports = {
             },
             {
               label: 'My personal homepage',
-              href: 'https://github.com/lukasbach',
+              href: 'https://lukasbach.com',
             },
             {
               label: 'Yana',
