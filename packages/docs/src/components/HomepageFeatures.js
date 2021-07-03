@@ -54,7 +54,7 @@ const FeatureList = [
       <>
         We know how annoying it is to add a package and end up with hundreds of peer dependencies. Because
         React Complex Tree does not make any assumptions on your any dependencies, we also do not need to
-        cluster your project with further packages. When adding React Complex Tree to your package, you
+        clutter your project with further packages. When adding React Complex Tree to your package, you
         add only that and no other dependencies.
       </>
     ),
