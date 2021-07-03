@@ -39,3 +39,13 @@ div[class^="playgroundEditor"] {
   max-height: 500px;
   overflow-y: auto !important;
 }
+
+.rct-tree-root {
+  color: #000;
+}
+.rct-tree-root li {
+  margin-top: 0 !important;
+}
+.rct-tree-item-arrow {
+  display: contents !important;
+}
