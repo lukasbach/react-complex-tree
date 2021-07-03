@@ -1,5 +1,140 @@
 ---
-sidebar_position: 3
+sidebar_position: 3.5
 ---
 
 # Custom Render Hooks
+
+React Complex Tree is completely unopinionated and allows you to customize every single node written to the DOM
+tree.
+
+:::caution
+React Complex Tree provides default renderers that fulfill
+[the accessibility requirements for tree structures as specified by W3C](https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-2/treeview-2a.html).
+This may no longer hold if you implement your own renderers instead.
+
+If you provide custom renderers, make sure to create a DOM structure that fulfills the
+accessibility requirements by W3C.
+:::
+
+:::note
+If you only want to make small adjustments to the styling of the tree like adaptions to spacing, fonts or colors,
+you can look into the [styling guide](styling) to see how you can use custom CSS variables and rules to adapt how
+the tree rendered by the default render hooks looks like.
+:::
+
+## Example for custom render hooks
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      allowDragAndDrop={true}
+      allowDropOnItemWithChildren={true}
+      allowReorderingItems={true}
+      dataProvider={new StaticTreeDataProvider(
+        shortTree.items,
+        (item, data) => ({...item, data})
+      )}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-1']: {
+          expandedItems: ['container']
+        }
+      }}
+      renderItemTitle={({title}) => <span>{title}</span>}
+      renderItemArrow={({item, context}) => item.hasChildren
+        ? context.isExpanded ? <span>{'v '}</span>
+        : <span>{'> '}</span> : null}
+      renderItem={({ title, arrow, depth, context, children }) => (
+        <li
+          {...context.itemContainerWithChildrenProps}
+          style={{
+            margin: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start'
+          }}
+        >
+          <button
+            {...context.itemContainerWithoutChildrenProps}
+            {...context.interactiveElementProps}
+          >
+            { arrow }
+            { title }
+          </button>
+          {children}
+        </li>
+      )}
+      renderTreeContainer={({ children, containerProps }) => (
+        <div {...containerProps}>
+          {children}
+        </div>
+      )}
+      renderItemsContainer={({ children, containerProps }) => (
+        <ul {...containerProps}>
+          {children}
+        </ul>
+      )}
+    >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+  )
+}
+```
+
+:::info
+
+All currently available render hooks are documented in the
+[TreeRenderProps interface](/docs/api/interfaces/treerenderprops).
+
+:::
+
+## Customizing the render logic for tree items
+
+The most interesting hook is probably the [renderItem](/docs/api/interfaces/treerenderprops#renderitem) hook,
+which allows you to customize how individual tree items are rendered.
+When using this hook to render an item, you can use the provided
+[TreeItemRenderContext](/docs/api/interfaces/treeitemrendercontext) to access the render details of the item
+(e.g. whether the user currently drags over this item, or whether it is selected), and directly alter the
+tree state (i.e. [`context.addtoselecteditems()`](/docs/api/interfaces/treeitemrendercontext#addtoselecteditems)).
+
+The `props.children` prop contains the child nodes of the tree item. You need to render this so that children
+are displayed. In the above example, children are rendered as child nodes for the item node itself, according
+to W3C accessibility specifications. If you want to render a linear list of items, independent of item depth,
+for example because you want to implement a virtualized list, you can do so by rendering the children outside the
+item container:
+
+```jsx
+renderItem={({ title, arrow, depth, context, children }) => (
+  <>
+    <li
+      {...context.itemContainerWithChildrenProps}
+    >
+      <button
+        {...context.itemContainerWithoutChildrenProps}
+        {...context.interactiveElementProps}
+      >
+        { arrow }
+        { title }
+      </button>
+    </li>
+    {children}
+  <>
+)}
+```
+
+Make sure to provide the props-objects `context.itemContainerWithoutChildrenProps` and
+`context.itemContainerWithChildrenProps` to the respective elements in your DOM structure, the first to the node
+that contains the item and its children, and the second to the node that only contains the item without
+its children. This is necessary to compute sizing information during drags.
+
+Furthermore, the `context.interactiveElementProps` props can be spread to the interactive element to
+implement default interaction handlers, so that clicking on an element invokes its primary actions,
+it is selected and focused etc. Those props implement the most common DOM interaction hooks and attach them
+to the tree state, meaning that you need to provide minimal implementation effort for custom renderers. You
+can omit those props if you want to implement custom interaction logic.
+
+Note that, if you want to customize the way how mouse clicks interact with the tree state (i.e. whether
+clicking on a parent node should expand it or just focus it) should not be changed by providing custom
+DOM hooks, but by choosing a different interaction mode.
+[Read more on interaction modes here](/docs/guides/interaction-modes).

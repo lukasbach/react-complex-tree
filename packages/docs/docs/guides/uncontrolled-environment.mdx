@@ -25,32 +25,30 @@ function App() {
   const items = {
     root: {
       index: 'root',
-      canMove: true,
       hasChildren: true,
       children: ['child1', 'child2'],
       data: 'Root item',
-      canRename: true,
     },
     child1: {
       index: 'child1',
-      canMove: true,
-      hasChildren: false,
       children: [],
       data: 'Child item 1',
-      canRename: true,
     },
     child2: {
       index: 'child2',
-      canMove: true,
-      hasChildren: false,
-      children: [],
+      hasChildren: true,
+      children: ['child3'],
       data: 'Child item 2',
-      canRename: true,
+    },
+    child3: {
+      index: 'child3',
+      children: [],
+      data: 'Child item 3',
     },
   };
 
   return (
-    <UncontrolledTreeEnvironment<string>
+    <UncontrolledTreeEnvironment
       dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
       getItemTitle={item => item.data}
       viewState={{}}
@@ -60,14 +58,6 @@ function App() {
   );
 }
 ```
-
-<UncontrolledTreeEnvironment
-  dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
-  getItemTitle={item => item.data}
-  viewState={{}}
->
-  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
-</UncontrolledTreeEnvironment>
 
 ## Component Props
 

@@ -3,3 +3,145 @@ sidebar_position: 4
 ---
 
 # Managing a tree's view state
+
+Both the controlled and uncontrolled environment define a `viewState` prop which specifies the visual
+state of each tree, i.e. which items are focused, selected and expanded. For the controlled environment,
+this always reflects the current visual state, and needs to be manually updated if the user interacts
+with the tree. For the uncontrolled environment, the value supplied is used as initial state.
+
+## Providing a static state for controlled environments
+
+When providing a view state for a controlled environment, that state remains static independent of user
+actions.
+
+```jsx live
+function App() {
+  return (
+    <ControlledTreeEnvironment
+      items={longTree.items}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-1']: {
+          focusedItem: 'America',
+          selectedItems: ['America', 'Europe', 'Asia'],
+          expandedItems: ['Meals', 'Drinks']
+        }
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </ControlledTreeEnvironment>
+  );
+}
+```
+
+## Updating the state for controlled environments
+
+You can implement change hooks to the environment to update the view state dependent
+on user actions.
+
+Read [the Documentation on controlled environments](/docs/guides/controlled-environment#managing-the-view-state-of-the-tree)
+for more details.
+
+```jsx live
+function App() {
+  const [focusedItem, setFocusedItem] = useState();
+  const [expandedItems, setExpandedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  return (
+    <ControlledTreeEnvironment
+      items={longTree.items}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-2']: {
+          focusedItem, expandedItems, selectedItems
+        }
+      }}
+      onFocusItem={item => setFocusedItem(item.index)}
+      onExpandItem={item => setExpandedItems([...expandedItems, item.index])}
+      onCollapseItem={item => setExpandedItems(
+        expandedItems.filter(expandedItemIndex => expandedItemIndex !== item.index)
+      )}
+      onSelectItems={items => setSelectedItems(items)}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </ControlledTreeEnvironment>
+  );
+}
+```
+
+## Providing an initial view state for uncontrolled environments
+
+For uncontrolled environments, the viewState prop defines the initial visual state of the tree, but
+user interactions will change the state. You can still implement update hooks to get notified
+about changes to the state.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-3']: {
+          focusedItem: 'America',
+          selectedItems: ['America', 'Europe', 'Asia'],
+          expandedItems: ['Meals', 'Drinks']
+        }
+      }}
+    >
+      <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Maintaining the state of multiple trees
+
+When you have several trees in your environment, you need to maintain
+their states as respective objects within the environment viewState.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items,
+        (item, data) => ({...item, data}))}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['multi-tree-1']: {
+          focusedItem: 'America',
+          selectedItems: ['America', 'Europe', 'Asia'],
+          expandedItems: ['Meals', 'Drinks']
+        },
+        ['multi-tree-2']: {
+          focusedItem: 'Drinks',
+          expandedItems: ['Drinks']
+        },
+        // No initial state for multi-tree-3
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'baseline',
+      }}>
+        <Tree
+          treeId="multi-tree-1"
+          rootItem="root"
+          treeLabel="Tree Example"
+        />
+        <Tree
+          treeId="multi-tree-2"
+          rootItem="root"
+          treeLabel="Tree Example"
+        />
+        <Tree
+          treeId="multi-tree-3"
+          rootItem="root"
+          treeLabel="Tree Example"
+        />
+      </div>
+    </UncontrolledTreeEnvironment>
+  );
+}
+```

@@ -1,5 +1,29 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Custom Data Provider
+
+When using an uncontrolled environment, you need to provide your data by supplying a data provider.
+This provider must implement the [TreeDataProvider interface](/docs/api/interfaces/TreeDataProvider), i.e.
+
+```typescript
+export interface TreeDataProvider<T = any> {
+  onDidChangeTreeData?: (listener: (changedItemIds: TreeItemIndex[]) => void) => Disposable;
+  getTreeItem: (itemId: TreeItemIndex) => Promise<TreeItem<T>>;
+  getTreeItems?: (itemIds: TreeItemIndex[]) => Promise<TreeItem[]>;
+  onRenameItem?: (item: TreeItem<T>, name: string) => Promise<void>;
+  onChangeItemChildren?: (itemId: TreeItemIndex, newChildren: TreeItemIndex[]) => Promise<void>;
+}
+```
+
+At least the `getTreeItem` method must be implemented, to declare how data can be made available
+to the tree structure. `getTreeItems` allows you to make loading more efficient if multiple entries
+need to be loaded at once. If you do not implement `getTreeItems`, they are loaded sequentially
+using `getTreeItem`.
+
+The methods `onRenameItem` and `onChangeItemChildren` allow you to declare how updates to the
+tree structure should be handled, i.e. by renaming an item or moving items from one parent to
+another. You still need to enable this functionality in the environment by providing the respective
+flags. Look into the [TreeCapabilities interface](/docs/api/interfaces/treecapabilities) for more details
+on the necessary flags.

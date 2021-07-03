@@ -1,0 +1,148 @@
+---
+sidebar_position: 3
+---
+
+# Styling Customizability
+
+You can change how the rendered tree looks like by providing custom CSS rules or changing CSS variables to
+customize its looks.
+
+:::info
+The default styles are declared
+[here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/style.css).
+:::
+
+You can further customize how the tree looks like by providing custom render hooks to provide
+logic for rendering the individual DOM nodes. This customizability is further documented in the
+[Render Hook Guide](rendering).
+
+## CSS Variables
+
+The following CSS variables are used by React Complex Tree and can be customized by replacing individual
+values:
+
+```css
+:root {
+    --rct-color-tree-bg: #F6F8FA;
+    --rct-color-tree-focus-outline: #0366D6;
+
+    --rct-color-focustree-item-selected-bg: #E8EAED;
+    --rct-color-focustree-item-selected-text: inherit;
+    --rct-color-focustree-item-focused-border: #0366D6;
+    --rct-color-focustree-item-draggingover-bg: #EBF0F4;
+    --rct-color-focustree-item-draggingover-color: inherit;
+
+    --rct-color-nonfocustree-item-selected-bg: #E8EAED;
+    --rct-color-nonfocustree-item-selected-text: inherit;
+    --rct-color-nonfocustree-item-focused-border: #dbdbdb;
+
+    --rct-color-search-highlight-bg: #a2aed2;
+    --rct-color-drag-between-line-bg: #0366D6;
+    --rct-color-arrow: #9aa5b3;
+
+    --rct-item-height: 22px;
+
+    --rct-color-renaming-input-submitbutton-bg: inherit;
+    --rct-color-renaming-input-submitbutton-bg-hover: #0366D6;
+    --rct-color-renaming-input-submitbutton-bg-active: #095fc1;
+
+    --rct-color-renaming-input-submitbutton-text: inherit;
+    --rct-color-renaming-input-submitbutton-text-hover: #ffffff;
+    --rct-color-renaming-input-submitbutton-text-active: #ffffff;
+}
+```
+
+:::note
+This may not reflect the current possibilities. Look into the
+[CSS source file](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/style.css)
+to see all available variables.
+:::
+
+### Example
+
+```jsx live
+function App() {
+  return (
+    <>
+      <style>{`
+        :root {
+          --rct-color-tree-bg: #F6F8FA;
+          --rct-color-tree-focus-outline: #d60303;
+          --rct-color-focustree-item-selected-bg: #e2d3d3;
+          --rct-color-focustree-item-focused-border: #d60303;
+          --rct-color-focustree-item-draggingover-bg: #ecdede;
+          --rct-color-focustree-item-draggingover-color: inherit;
+          --rct-color-search-highlight-bg: #7821e2;
+          --rct-color-drag-between-line-bg: #cf03d6;
+          --rct-color-arrow: #b48689;
+          --rct-item-height: 30px;
+        }
+      `}</style>
+      <UncontrolledTreeEnvironment
+        allowDragAndDrop={true}
+        allowDropOnItemWithChildren={true}
+        allowReorderingItems={true}
+        dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+        getItemTitle={item => item.data}
+        viewState={{ ['tree-1']: { focusedItem: 'Meals' } }}
+      >
+        <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+      </UncontrolledTreeEnvironment>
+    </>
+  );
+}
+```
+
+## CSS Class Names
+
+:::info
+The default render logic is declared
+[here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/renderers/createDefaultRenderers.tsx).
+Look into that file to see which classes are used where exactly.
+:::
+
+The following classes are defined by the default renderers and attached to DOM nodes if the respective conditions
+are met:
+
+### Tree Container
+- `rct-tree-root`
+- `rct-tree-root-focus`
+- `rct-tree-root-renaming`
+- `rct-tree-root-itemsselected`
+
+### Tree Items
+- `rct-tree-item-search-highlight`
+- `rct-tree-item-arrow`
+- `rct-tree-item-arrow-hasChildren`
+- `rct-tree-item-li`
+- `rct-tree-item-li-hasChildren`
+- `rct-tree-item-li-selected`
+- `rct-tree-item-li-expanded`
+- `rct-tree-item-li-focused`
+- `rct-tree-item-li-dragging-over`
+- `rct-tree-item-li-search-match`
+- `rct-tree-item-title-container`
+- `rct-tree-item-button`
+
+### Tree Item Renaming Form
+- `rct-tree-item-renaming-form`
+- `rct-tree-item-renaming-input`
+- `rct-tree-item-renaming-submit-button`
+
+### Container for Tree Items
+- `rct-tree-items-container`
+
+### Drag-Between Line
+- `rct-tree-drag-between-line`
+- `rct-tree-drag-between-line-top`
+- `rct-tree-drag-between-line-bottom`
+
+### Search Input
+- `rct-tree-search-input-container`
+- `rct-tree-search-input`
+
+:::note
+This may not reflect the current possibilities. Look into the
+[JS source file](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/renderers/createDefaultRenderers.tsx)
+to see all available classes.
+:::
