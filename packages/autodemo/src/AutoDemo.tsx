@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
   TreeEnvironmentRef,
-  TreeContextProps,
   TreeRef,
   UncontrolledTreeEnvironmentProps,
   StaticTreeDataProvider, ExplicitDataSource,
 } from 'react-complex-tree';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createDefaultRenderers } from 'react-complex-tree/lib/renderers/createDefaultRenderers';
 
 export interface AutomationStoryHelpers {
   wait: (ms: number) => Promise<void>,
@@ -22,7 +22,7 @@ export interface AutomationStoryHelpers {
   renameTo: (tree: TreeRef, newName: string, timeBetweenTypes?: number) => Promise<void>,
 }
 
-export interface ProvidedEnvironmentProps extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider'> {
+export interface ProvidedEnvironmentProps extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider' | 'renderItem'> {
   key: string
 }
 
@@ -118,13 +118,24 @@ export const AutoDemo = (props: {
     }, 1000);
   }, [restartKey]);
 
-  const envProps: ProvidedEnvironmentProps = useMemo(() => ({
+  const envProps: ProvidedEnvironmentProps = useMemo<ProvidedEnvironmentProps>(() => ({
     key: `k${ restartKey }`,
+    autoFocus: aborted,
     dataProvider: new StaticTreeDataProvider(JSON.parse(JSON.stringify(props.data.items)), (item, data) => ({
       ...item,
       data,
     })),
-  }), [restartKey]);
+    renderItem: p => createDefaultRenderers({}).renderItem({
+      ...p,
+      context: {
+        ...p.context,
+        interactiveElementProps: {
+          ...p.context.interactiveElementProps,
+          tabIndex: aborted ? p.context.interactiveElementProps.tabIndex : -2,
+        }
+      }
+    })
+  }), [restartKey, aborted]);
 
   const SpeedButton: React.FC<{ speed: number }> = props => (
     <button className={props.speed === speed ? 'active' : ''} onClick={() => setSpeed(props.speed)}>
@@ -151,7 +162,17 @@ export const AutoDemo = (props: {
           <p>{!aborted ? 'Click anywhere on the tree to try it yourself!' : ''}</p>
         </div>
         <div className="rct-autodemo-controls-right">
-          <button onClick={() => setRestartKey(k => k + 1)}>{!aborted ? 'Restart' : 'Restart'}</button>
+          <button
+            onClick={() => {
+              if (aborted) {
+                setRestartKey(k => k + 1);
+              } else {
+                setAborted(true);
+              }
+            }}
+          >
+            {aborted ? 'Restart' : 'Abort'}
+          </button>
         </div>
       </div>
     </div>

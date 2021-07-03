@@ -41,12 +41,14 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, Co
       props.onFocusItem?.(item, treeId);
       const newItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`);
 
-      if (document.activeElement?.attributes.getNamedItem('data-rct-search-input')?.value !== 'true') {
-        // Move DOM focus to item if the current focus is not on the search input
-        (newItem as HTMLElement)?.focus?.();
-      } else {
-        // Otherwise just manually scroll into view
-        scrollIntoView(newItem);
+      if (props.autoFocus ?? true) {
+        if (document.activeElement?.attributes.getNamedItem('data-rct-search-input')?.value !== 'true') {
+          // Move DOM focus to item if the current focus is not on the search input
+          (newItem as HTMLElement)?.focus?.();
+        } else {
+          // Otherwise just manually scroll into view
+          scrollIntoView(newItem);
+        }
       }
     },
     registerTree: (tree) => {
@@ -60,7 +62,7 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, Co
     },
     setActiveTree: (treeIdOrSetStateFunction, autoFocus = true) => {
       const focusTree = (treeId: string | undefined) => {
-        if (autoFocus && treeId && !document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
+        if (autoFocus && (props.autoFocus ?? true) && treeId && !document.querySelector(`[data-rct-tree="${treeId}"]`)?.contains(document.activeElement)) {
           const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
           (focusItem as HTMLElement)?.focus?.();
         }

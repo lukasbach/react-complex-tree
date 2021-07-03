@@ -30,9 +30,12 @@ export const TreeItemRenamingInput: React.FC<{
   };
 
   useEffect(() => {
-    inputRef.current?.focus();
-    inputRef.current?.select();
     environment.setActiveTree(treeId);
+
+    if (environment.autoFocus) {
+      inputRef.current?.select();
+      inputRef.current?.focus();
+    }
   }, [inputRef.current]);
 
   useHotkey('abortRenameItem', e => {

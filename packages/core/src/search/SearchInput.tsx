@@ -19,10 +19,12 @@ export const SearchInput: React.FC<{
   const clearSearch = () => {
     setSearch(null);
 
-    // Refocus item in tree
-    // TODO move logic as reusable method into tree or tree environment
-    const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
-    (focusItem as HTMLElement)?.focus?.();
+    if (environment.autoFocus ?? true) {
+      // Refocus item in tree
+      // TODO move logic as reusable method into tree or tree environment
+      const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
+      (focusItem as HTMLElement)?.focus?.();
+    }
   }
 
   useHotkey('abortSearch', e => {
@@ -53,6 +55,7 @@ export const SearchInput: React.FC<{
       )
     ) {
       setSearch('');
+
       (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
     }
   }, [isActiveTree, search, renamingItem, environment.canSearchByStartingTyping, environment.canSearch]);
