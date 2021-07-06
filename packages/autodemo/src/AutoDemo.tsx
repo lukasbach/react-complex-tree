@@ -145,7 +145,18 @@ export const AutoDemo = (props: {
 
   return (
     <div className="rct-autodemo-container">
-      <div className="rct-autodemo-content" onMouseDown={() => setAborted(true)}>
+      <div
+        className={[
+          'rct-autodemo-content',
+          treeRef1.current !== null ? 'rct-autodemo-content-childcount-1' : '',
+          treeRef2.current !== null ? 'rct-autodemo-content-childcount-2' : '',
+          treeRef3.current !== null ? 'rct-autodemo-content-childcount-3' : '',
+          treeRef4.current !== null ? 'rct-autodemo-content-childcount-4' : '',
+          treeRef5.current !== null ? 'rct-autodemo-content-childcount-5' : '',
+        ].join(' ')}
+        onMouseDown={() => setAborted(true)}
+        onKeyDown={() => setAborted(true)}
+      >
         {props.children(envProps, environmentRef, treeRef1, treeRef2, treeRef3, treeRef4, treeRef5)}
       </div>
       <div className="rct-autodemo-controls">

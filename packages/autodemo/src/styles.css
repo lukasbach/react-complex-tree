@@ -6,6 +6,22 @@
     display: flex;
 }
 
+.rct-autodemo-content-childcount-1 > * {
+    width: 100%;
+}
+.rct-autodemo-content-childcount-2 > * {
+    width: 50%;
+}
+.rct-autodemo-content-childcount-3 > * {
+    width: 33%;
+}
+.rct-autodemo-content-childcount-4 > * {
+    width: 25%;
+}
+.rct-autodemo-content-childcount-5 > * {
+    width: 20%;
+}
+
 .rct-autodemo-content > * {
     flex-grow: 1;
     margin: 5px;
