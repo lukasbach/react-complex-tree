@@ -71,6 +71,7 @@ export const SearchInput: React.FC<{
       onBlur: () => {
         clearSearch();
       },
+      'aria-label': 'Search for items', // TODO
       ...({
         ['data-rct-search-input']: 'true'
       } as any)

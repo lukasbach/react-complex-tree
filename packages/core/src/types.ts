@@ -150,10 +150,10 @@ export interface InteractionManager {
 
 export interface TreeCapabilities<T = any> {
   defaultInteractionMode?: InteractionMode;
-  allowDragAndDrop?: boolean;
-  allowDropOnItemWithChildren?: boolean;
-  allowDropOnItemWithoutChildren?: boolean;
-  allowReorderingItems?: boolean;
+  canDragAndDrop?: boolean;
+  canDropOnItemWithChildren?: boolean;
+  canDropOnItemWithoutChildren?: boolean;
+  canReorderItems?: boolean;
   canDrag?: (items: TreeItem<T>[]) => boolean; // TODO not working with first drag before focus
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;

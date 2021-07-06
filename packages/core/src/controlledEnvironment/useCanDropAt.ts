@@ -5,11 +5,11 @@ export const useCanDropAt = (draggingItems: TreeItem[] | undefined) => {
   const environment = useTreeEnvironment();
 
   return (draggingPosition: DraggingPosition) => {
-    if (!environment.allowReorderingItems && draggingPosition.targetType === 'between-items') {
+    if (!environment.canReorderItems && draggingPosition.targetType === 'between-items') {
       return false;
     }
 
-    // TODO test for allowDropOnItemWithChildren
+    // TODO test for canDropOnItemWithChildren
 
     if (environment.canDropAt && (!draggingItems
       || !environment.canDropAt(draggingItems, draggingPosition))) {

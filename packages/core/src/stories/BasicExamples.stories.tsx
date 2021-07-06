@@ -11,9 +11,9 @@ export default {
 
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     viewState={{
@@ -28,9 +28,9 @@ export const SingleTree = () => (
 
 export const SingleTreeAllCollapsed = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     viewState={{
@@ -44,9 +44,9 @@ export const SingleTreeAllCollapsed = () => (
 
 export const SmallTree = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(shortTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     viewState={{
@@ -60,9 +60,9 @@ export const SmallTree = () => (
 
 export const MultipleTrees = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     viewState={{

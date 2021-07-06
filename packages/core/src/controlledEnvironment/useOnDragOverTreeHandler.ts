@@ -17,7 +17,7 @@ const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: numbe
   let linearIndex = Math.floor(hoveringPosition);
   let offset: 'top' | 'bottom' | undefined = undefined;
 
-  const lineThreshold = (capabilities.allowDropOnItemWithChildren || capabilities.allowDropOnItemWithoutChildren) ? .2 : .5;
+  const lineThreshold = (capabilities.canDropOnItemWithChildren || capabilities.canDropOnItemWithoutChildren) ? .2 : .5;
 
   if (hoveringPosition % 1 < lineThreshold) {
     offset = 'top';
@@ -41,7 +41,7 @@ export const useOnDragOverTreeHandler = (
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
   return (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
-    if (!environment.allowDragAndDrop) {
+    if (!environment.canDragAndDrop) {
       return;
     }
 
@@ -85,21 +85,21 @@ export const useOnDragOverTreeHandler = (
     const depth = targetItem.depth;
     const targetItemData = environment.items[targetItem.item];
 
-    if (!offset && !environment.allowDropOnItemWithoutChildren && !targetItemData.hasChildren) {
+    if (!offset && !environment.canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowDropOnItemWithoutChildren");
+      // console.log("Drag aborted due to canDropOnItemWithoutChildren");
       return;
     }
 
-    if (!offset && !environment.allowDropOnItemWithChildren && targetItemData.hasChildren) {
+    if (!offset && !environment.canDropOnItemWithChildren && targetItemData.hasChildren) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowDropOnItemWithChildren");
+      // console.log("Drag aborted due to canDropOnItemWithChildren");
       return;
     }
 
-    if (offset && !environment.allowReorderingItems) {
+    if (offset && !environment.canReorderItems) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowReorderingItems");
+      // console.log("Drag aborted due to canReorderItems");
       return;
     }
 

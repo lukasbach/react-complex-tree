@@ -171,7 +171,7 @@ export class DragAndDropManager {
   }
 
   public onDrag(e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) {
-    if (!this.environment.allowDragAndDrop) {
+    if (!this.environment.canDragAndDrop) {
       return;
     }
 
@@ -217,21 +217,21 @@ export class DragAndDropManager {
     const depth = targetItem.depth;
     const targetItemData = this.environment.items[targetItem.item];
 
-    if (!offset && !this.environment.allowDropOnItemWithoutChildren && !targetItemData.hasChildren) {
+    if (!offset && !this.environment.canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
       this.environment.onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowDropOnItemWithoutChildren");
+      // console.log("Drag aborted due to canDropOnItemWithoutChildren");
       return;
     }
 
-    if (!offset && !this.environment.allowDropOnItemWithChildren && targetItemData.hasChildren) {
+    if (!offset && !this.environment.canDropOnItemWithChildren && targetItemData.hasChildren) {
       this.environment.onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowDropOnItemWithChildren");
+      // console.log("Drag aborted due to canDropOnItemWithChildren");
       return;
     }
 
-    if (offset && !this.environment.allowReorderingItems) {
+    if (offset && !this.environment.canReorderItems) {
       this.environment.onDragAtPosition(undefined);
-      // console.log("Drag aborted due to allowReorderingItems");
+      // console.log("Drag aborted due to canReorderItems");
       return;
     }
 
@@ -277,11 +277,11 @@ export class DragAndDropManager {
   }
 
   public canDropAt(draggingPosition: DraggingPosition) {
-    if (!this.environment.allowReorderingItems && draggingPosition.targetType === 'between-items') {
+    if (!this.environment.canReorderItems && draggingPosition.targetType === 'between-items') {
       return false;
     }
 
-    // TODO test allowDropOnItemWithChildren
+    // TODO test canDropOnItemWithChildren
 
     if (this.environment.canDropAt && (!this.environment.draggingItems
       || !this.environment.canDropAt(this.environment.draggingItems, draggingPosition))) {

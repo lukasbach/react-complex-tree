@@ -11,9 +11,9 @@ export default {
 
 export const StaticState = () => (
   <ControlledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     items={longTree.items}
     getItemTitle={item => item.data}
     viewState={{}}

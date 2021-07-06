@@ -35,7 +35,7 @@ const createTreeItemRenderContext = <T>(
 
   const canDrag = //selectedItems &&
     //  selectedItems.length > 0 &&
-    environment.allowDragAndDrop &&
+    environment.canDragAndDrop &&
     (environment.canDrag?.(selectedItems) ?? true) &&
     (
       selectedItems
@@ -43,7 +43,7 @@ const createTreeItemRenderContext = <T>(
         .reduce((a, b) => a && b, true)
     );
 
-  // console.log(canDrag, selectedItems, environment.allowDragAndDrop)
+  // console.log(canDrag, selectedItems, environment.canDragAndDrop)
 
   const actions: TreeItemActions = { // TODO disable most actions during rename
     primaryAction: () => {

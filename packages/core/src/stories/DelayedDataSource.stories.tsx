@@ -10,9 +10,9 @@ export default {
 
 export const TreeWithDelayedDataProvider = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={{
       getTreeItem: itemId => {
         return new Promise(res => setTimeout(() => res(longTree.items[itemId]), 750));

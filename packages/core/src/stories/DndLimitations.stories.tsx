@@ -27,8 +27,8 @@ export const NoDragAndDrop = () => (
 export const NoDropOnItemsAllowed = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
-    allowDragAndDrop={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canReorderItems={true}
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
@@ -43,8 +43,8 @@ export const NoDropOnItemsAllowed = () => (
 export const NoReorderingAllowed = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
@@ -59,9 +59,9 @@ export const NoReorderingAllowed = () => (
 export const AllowDraggingOnlyItemsStartingWithA = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     canDrag={items => items.map(item => (item.data as string).startsWith('A'))
       .reduce((a, b) => a && b, true)}
     getItemTitle={item => item.data}
@@ -78,9 +78,9 @@ export const AllowDraggingOnlyItemsStartingWithA = () => (
 export const AllowDroppingOnlyOnItemsStartingWithA = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     canDropAt={(items, target) => target.targetType === 'between-items'
       ? (target.parentItem as string).startsWith('A') : (target.targetItem as string).startsWith('A')}
     getItemTitle={item => item.data}

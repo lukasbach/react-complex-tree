@@ -12,9 +12,9 @@ export default {
 
 export const ClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickItemToExpand}
@@ -30,9 +30,9 @@ export const ClickItemToExpandInteractionMode = () => (
 
 export const DoubleClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.DoubleClickItemToExpand}
@@ -48,9 +48,9 @@ export const DoubleClickItemToExpandInteractionMode = () => (
 
 export const ClickArrowToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    allowDragAndDrop={true}
-    allowDropOnItemWithChildren={true}
-    allowReorderingItems={true}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickArrowToExpand}
