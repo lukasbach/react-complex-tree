@@ -128,6 +128,10 @@ export const DragAndDropProvider: React.FC = props => {
       }
     },
     startProgrammaticDrag: () => {
+      if (!environment.canDragAndDrop) {
+        return;
+      }
+
       // TODO respect noDragAndDrop option
       // TODO make sure dnd configurability works
       // TODO disallow items as viable targets if they have no children and dropping on no-child-items is disallowed...
@@ -140,7 +144,13 @@ export const DragAndDropProvider: React.FC = props => {
           return;
         }
 
-        dnd.onStartDraggingItems(draggingItems.map(id => environment.items[id]), environment.activeTreeId);
+        const resolvedDraggingItems = draggingItems.map(id => environment.items[id]);
+
+        if (environment.canDrag && !environment.canDrag(resolvedDraggingItems)) {
+          return;
+        }
+
+        dnd.onStartDraggingItems(resolvedDraggingItems, environment.activeTreeId);
         setTimeout(() => {
           setIsProgrammaticallyDragging(true);
           // Needs to be done after onStartDraggingItems was called, so that viableDragPositions is populated
