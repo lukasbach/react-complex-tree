@@ -1,15 +1,23 @@
 import { DraggingPosition, TreeItem } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 
-export const useCanDropAt = (draggingItems: TreeItem[] | undefined) => {
+export const useCanDropAt = () => {
   const environment = useTreeEnvironment();
 
-  return (draggingPosition: DraggingPosition) => {
-    if (!environment.canReorderItems && draggingPosition.targetType === 'between-items') {
-      return false;
+  return (draggingPosition: DraggingPosition, draggingItems: TreeItem[]) => {
+    if (draggingPosition.targetType === 'between-items') {
+      if (!environment.canReorderItems) {
+        return false;
+      }
+    } else {
+      const resolvedItem = environment.items[draggingPosition.targetItem];
+      if ((
+        (!environment.canDropOnItemWithChildren && resolvedItem.hasChildren)
+        || (!environment.canDropOnItemWithoutChildren && !resolvedItem.hasChildren)
+      )) {
+        return false;
+      }
     }
-
-    // TODO test for canDropOnItemWithChildren
 
     if (environment.canDropAt && (!draggingItems
       || !environment.canDropAt(draggingItems, draggingPosition))) {

@@ -29,9 +29,9 @@ export const DragAndDropProvider: React.FC = props => {
   const [dragCode, setDragCode] = useState('_nodrag');
 
   const resetProgrammaticDragIndexForCurrentTree = (viableDragPositions: DraggingPosition[], linearItems: ReturnType<typeof getItemsLinearly>) => {
-    if (environment.activeTreeId && environment.viewState[environment.activeTreeId]?.focusedItem && linearItems) {
-      const treeDragPositions = getViableDragPositions(environment.activeTreeId, linearItems);
+    if (environment.activeTreeId && environment.viewState[environment.activeTreeId]?.focusedItem && linearItems && draggingItems) {
       const focusItem = environment.viewState[environment.activeTreeId]!.focusedItem;
+      const treeDragPositions = getViableDragPositions(environment.activeTreeId, draggingItems, linearItems);
       const newPos = treeDragPositions
         .findIndex(pos => {
           if (pos.targetType === 'item') {
@@ -74,10 +74,10 @@ export const DragAndDropProvider: React.FC = props => {
     }
   }, [programmaticDragIndex, environment.activeTreeId]);
 
-  const canDropAt = useCanDropAt(draggingItems);
+  const canDropAt = useCanDropAt();
 
   const performDrag = (draggingPosition: DraggingPosition) => {
-    if (!canDropAt(draggingPosition)) {
+    if (draggingItems && !canDropAt(draggingPosition, draggingItems)) {
       return;
     }
 
@@ -91,7 +91,7 @@ export const DragAndDropProvider: React.FC = props => {
   };
 
   const onDragOverTreeHandler = useOnDragOverTreeHandler(dragCode, setDragCode, itemHeight, linearItems, setDraggingPosition, performDrag);
-  const getViableDragPositions = useGetViableDragPositions(draggingItems);
+  const getViableDragPositions = useGetViableDragPositions();
 
   const onDropHandler = useMemo(() => () => {
     if (draggingItems && draggingPosition && environment.onDrop) {
@@ -114,7 +114,7 @@ export const DragAndDropProvider: React.FC = props => {
       const treeLinearItems = buildMapForTrees(environment.treeIds, treeId => getItemsLinearly(
         environment.trees[treeId].rootItem, environment.viewState[treeId] ?? {}, environment.items));
       const treeViableDragPositions = buildMapForTrees(environment.treeIds, treeId =>
-        getViableDragPositions(treeId, treeLinearItems[treeId]));
+        getViableDragPositions(treeId, items, treeLinearItems[treeId]));
 
       // TODO what if trees have different heights and drag target changes?
       const height = document.querySelector<HTMLElement>(`[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`)?.offsetHeight ?? 5;
@@ -131,10 +131,6 @@ export const DragAndDropProvider: React.FC = props => {
       if (!environment.canDragAndDrop) {
         return;
       }
-
-      // TODO respect noDragAndDrop option
-      // TODO make sure dnd configurability works
-      // TODO disallow items as viable targets if they have no children and dropping on no-child-items is disallowed...
 
       if (environment.activeTreeId) {
         const draggingItems = environment.viewState[environment.activeTreeId]?.selectedItems
