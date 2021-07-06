@@ -31,14 +31,15 @@ const createTreeItemRenderContext = <T>(
 ): TreeItemRenderContext => {
   const viewState = environment.viewState[treeId];
 
-  const selectedItems = viewState?.selectedItems?.map(item => environment.items[item]) ?? [];
+  const itemsToDrag = viewState?.selectedItems?.map(item => environment.items[item])
+    ?? (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : []);
 
   const canDrag = //selectedItems &&
     //  selectedItems.length > 0 &&
     environment.canDragAndDrop &&
-    (environment.canDrag?.(selectedItems) ?? true) &&
+    (environment.canDrag?.(itemsToDrag) ?? true) &&
     (
-      selectedItems
+      itemsToDrag
         .map(item => item.canMove ?? true)
         .reduce((a, b) => a && b, true)
     );

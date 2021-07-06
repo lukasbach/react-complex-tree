@@ -154,7 +154,7 @@ export interface TreeCapabilities<T = any> {
   canDropOnItemWithChildren?: boolean;
   canDropOnItemWithoutChildren?: boolean;
   canReorderItems?: boolean;
-  canDrag?: (items: TreeItem<T>[]) => boolean; // TODO not working with first drag before focus
+  canDrag?: (items: TreeItem<T>[]) => boolean;
   canDropAt?: (items: TreeItem<T>[], target: DraggingPosition) => boolean;
   canInvokePrimaryActionOnItemContainer?: boolean;
   canSearch?: boolean;
