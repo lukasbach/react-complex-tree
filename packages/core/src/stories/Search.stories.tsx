@@ -9,6 +9,21 @@ export default {
   title: 'Core/Search Configurability',
 } as Meta;
 
+export const SearchByStartTyping = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
+    canSearchByStartingTyping={true}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
 export const SearchOnlyWithHotkey = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
@@ -27,4 +42,50 @@ export const SearchOnlyWithHotkey = () => (
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
+);
+
+export const NoSearch = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    getItemTitle={item => item.data}
+    canSearch={false}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const CustomSearchEvaluation = () => (
+  <>
+    <p>
+      In the following example, the search evaluates only the children of an item, not the items title itself.
+      This means that searching for "Orange" will match its parent "Fruit".
+    </p>
+    <UncontrolledTreeEnvironment<string>
+      dataProvider={new StaticTreeDataProvider(longTree.items)}
+      getItemTitle={item => item.data}
+      doesSearchMatchItem={(search, item) =>
+        !!item.children?.join(' ').toLowerCase().includes(search.toLowerCase())}
+      renderItemTitle={props => (
+        props.info.isSearching && props.context.isSearchMatching ? (
+          <span className="rct-tree-item-search-highlight">
+            {props.title}
+          </span>
+        ) : (
+          props.title
+        )
+      )}
+      viewState={{
+        ['tree-1']: {
+          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+        }
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  </>
 );

@@ -40,6 +40,38 @@ export const NoDropOnItemsAllowed = () => (
   </UncontrolledTreeEnvironment>
 );
 
+export const OnlyDropOnItemsWithChildren = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    getItemTitle={item => item.data}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const OnlyDropOnItemsWithoutChildren = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items)}
+    canDragAndDrop={true}
+    canDropOnItemWithoutChildren={true}
+    getItemTitle={item => item.data}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
+      }
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
 export const NoReorderingAllowed = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
