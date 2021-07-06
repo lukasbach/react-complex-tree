@@ -1,6 +1,6 @@
 import React from 'react';
 import { TreeRenderProps } from 'react-complex-tree';
-import { Button, Classes, Colors, Icon, InputGroup } from '@blueprintjs/core';
+import { Button, Classes, Collapse, Colors, Icon, InputGroup } from '@blueprintjs/core';
 import { Tick, ChevronRight, Document, FolderClose, FolderOpen} from '@blueprintjs/icons';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
@@ -57,21 +57,13 @@ export const renderers: TreeRenderProps = {
           transition: 'none 0s ease 0s',
         } : {}}
       >
-        <div
-          aria-hidden={!props.context.isExpanded}
-          className={cx(
-            Classes.COLLAPSE_BODY,
-            Classes.FIXED_POSITIONING_CONTAINING_BLOCK,
-          )}
-          style={props.context.isExpanded ? {
-            transform: 'translateY(0px)',
-            transition: 'none 0s ease 0s',
-          } : {
-            transform: 'translateY(-90px)',
-          }}
+        <Collapse
+          className={Classes.FIXED_POSITIONING_CONTAINING_BLOCK}
+          isOpen={props.context.isExpanded}
+          transitionDuration={0}
         >
           {props.children}
-        </div>
+        </Collapse>
       </div>
     </li>
   ),
