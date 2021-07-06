@@ -16,6 +16,8 @@ export const useMoveFocusToIndex = (containerRef?: HTMLElement) => {
     const currentIndex = linearItems.findIndex(item => item.item === viewState.focusedItem) ?? 0;
     const newIndex = computeNewIndex(currentIndex, linearItems);
     const newIndexBounded = Math.max(0, Math.min(linearItems.length - 1, newIndex));
-    environment.onFocusItem?.(environment.items[linearItems[newIndexBounded].item], treeId);
+    const newFocusItem = environment.items[linearItems[newIndexBounded].item];
+    environment.onFocusItem?.(newFocusItem, treeId);
+    return newFocusItem;
   }
 }

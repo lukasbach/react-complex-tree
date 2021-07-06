@@ -6,6 +6,7 @@ import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useSelectUpTo } from './useSelectUpTo';
 
 export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   const environment = useTreeEnvironment();
@@ -14,6 +15,7 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
   const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex(containerRef);
   const getLinearItems = useGetLinearItems();
+  const selectUpTo = useSelectUpTo();
 
   const isActiveTree = environment.activeTreeId === treeId;
 
@@ -22,7 +24,11 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     if (dnd.isProgrammaticallyDragging) {
       dnd.programmaticDragDown();
     } else {
-      moveFocusToIndex(currentIndex => currentIndex + 1);
+      const newFocusItem = moveFocusToIndex(currentIndex => currentIndex + 1);
+
+      if (e.shiftKey) {
+        selectUpTo(newFocusItem);
+      }
     }
   }, isActiveTree);
 
@@ -31,7 +37,11 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     if (dnd.isProgrammaticallyDragging) {
       dnd.programmaticDragUp();
     } else {
-      moveFocusToIndex(currentIndex => currentIndex - 1);
+      const newFocusItem = moveFocusToIndex(currentIndex => currentIndex - 1);
+
+      if (e.shiftKey) {
+        selectUpTo(newFocusItem);
+      }
     }
   }, isActiveTree);
 
