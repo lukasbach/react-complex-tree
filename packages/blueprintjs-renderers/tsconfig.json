@@ -1,0 +1,12 @@
+{
+  "extends": "@lukasbach/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib"
+  },
+  "exclude": [
+    "src/stories"
+  ],
+  "include": [
+    "src"
+  ]
+}

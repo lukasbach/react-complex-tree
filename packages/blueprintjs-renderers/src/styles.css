@@ -1,0 +1,80 @@
+.rct-autodemo-container {
+    position: relative;
+}
+
+.rct-autodemo-content {
+    display: flex;
+}
+
+.rct-autodemo-content > * {
+    flex-grow: 1;
+    margin: 5px;
+}
+
+.rct-autodemo-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    color: #444;
+    opacity: .5;
+}
+
+.rct-autodemo-controls:hover {
+    opacity: 1;
+}
+
+.rct-autodemo-controls-header {
+    display: flex;
+}
+
+.rct-autodemo-controls h2 {
+    font-size: 16px;
+    margin: 0;
+}
+.rct-autodemo-controls p {
+    margin: 0;
+}
+
+.rct-autodemo-controls-left {
+    flex-grow: 1;
+    align-self: center;
+}
+.rct-autodemo-controls-right {
+    align-self: center;
+    margin-left: 10px;
+}
+
+.rct-autodemo-controls button {
+    background-color: #ffffff;
+    color: inherit;
+    border: 1px solid #cbcbcb;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.rct-autodemo-controls button:hover {
+    background-color: #ececec;
+}
+
+.rct-autodemo-controls-speed {
+    margin-left: 8px;
+
+}
+
+.rct-autodemo-controls-speed button {
+    border: none;
+    padding: 0 4px;
+}
+
+.rct-autodemo-controls-speed button.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
