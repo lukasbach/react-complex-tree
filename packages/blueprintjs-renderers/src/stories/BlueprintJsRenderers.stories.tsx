@@ -28,9 +28,9 @@ export const BlueprintJsTree = () => (
     onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
   >
     <UncontrolledTreeEnvironment<string>
-      allowDragAndDrop={true}
-      allowDropOnItemWithChildren={true}
-      allowReorderingItems={true}
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+      canReorderItems={true}
       dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{

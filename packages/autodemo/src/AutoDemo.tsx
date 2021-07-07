@@ -7,7 +7,7 @@ import {
   ExplicitDataSource,
 } from 'react-complex-tree';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { createDefaultRenderers } from 'react-complex-tree/lib/renderers/createDefaultRenderers';
+import { createDefaultRenderers } from 'react-complex-tree';
 
 export interface AutomationStoryHelpers {
   wait: (ms: number) => Promise<void>;

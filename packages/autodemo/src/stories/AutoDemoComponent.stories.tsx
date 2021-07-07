@@ -53,9 +53,9 @@ export const SingleTreeDemo = () => (
   >
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        allowDragAndDrop={true}
-        allowDropOnItemWithChildren={true}
-        allowReorderingItems={true}
+        canDragAndDrop={true}
+        canDropOnItemWithChildren={true}
+        canReorderItems={true}
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -192,9 +192,9 @@ export const MultiTreeDemo = () => (
   >
     {(environmentProps, environmentRef, treeRef, treeRef2) => (
       <UncontrolledTreeEnvironment<string>
-        allowDragAndDrop={true}
-        allowDropOnItemWithChildren={true}
-        allowReorderingItems={true}
+        canDragAndDrop={true}
+        canDropOnItemWithChildren={true}
+        canReorderItems={true}
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
