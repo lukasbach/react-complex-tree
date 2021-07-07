@@ -2,6 +2,8 @@
 sidebar_position: 3.5
 ---
 
+import { StoryEmbed } from "../../src/components/StoryEmbed";
+
 # Custom Render Hooks
 
 React Complex Tree is completely unopinionated and allows you to customize every single node written to the DOM
@@ -22,7 +24,7 @@ you can look into the [styling guide](styling) to see how you can use custom CSS
 the tree rendered by the default render hooks looks like.
 :::
 
-## Example for custom render hooks
+## Minimalistic Example for custom render hooks
 
 ```jsx live
 function App() {
@@ -74,6 +76,18 @@ All currently available render hooks are documented in the
 [TreeRenderProps interface](/docs/api/interfaces/treerenderprops).
 
 :::
+
+## Complex Example for custom render hooks
+
+As part of the `react-complex-tree` monorepo, we maintain official render logic that generates a tree according
+to the UI framework [BlueprintJS](https://blueprintjs.com/docs/#core/components/tree) by Palantir.
+You can find the code for the custom render implementation
+[here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/blueprintjs-renderers/src/renderers.tsx).
+
+<StoryEmbed
+  storyName="blueprintjs-renderers-blueprintjs-renderers--short-blueprint-js-tree"
+  iframeProps={{ width: 600 }}
+/>
 
 ## Customizing the render logic for tree items
 

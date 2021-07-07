@@ -210,3 +210,75 @@ export const MultiTreeDemo = () => (
     )}
   </AutoDemo>
 );
+
+export const SearchDemo = () => (
+  <AutoDemo
+    data={longTree}
+    storyScript={async story => {
+          await story.tree.current!.focusTree(false);
+          await story.searchFor(story.tree.current!, 'an');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'banana');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'burger');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'ssert');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'berries');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'orange');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'e');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'drinks');
+          await story.wait(1000);
+          await story.searchFor(story.tree.current!, 'a');
+          await story.wait(1000);
+    }}
+  >
+        {(environmentProps, environmentRef, treeRef) => (
+          <UncontrolledTreeEnvironment<string>
+            canDragAndDrop={true}
+            canDropOnItemWithChildren={true}
+            canReorderItems={true}
+            getItemTitle={item => item.data}
+            viewState={{
+                  [treeId1]: {
+                        expandedItems: ['Fruit', 'Meals', 'America'],
+                  },
+            }}
+            ref={environmentRef}
+            {...environmentProps}
+          >
+                <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+          </UncontrolledTreeEnvironment>
+        )}
+  </AutoDemo>
+);
+
+export const SingleTreeEmptyTemplate = () => (
+  <AutoDemo
+    data={longTree}
+    storyScript={async story => {
+          await story.tree.current!.focusTree(false);
+    }}
+  >
+        {(environmentProps, environmentRef, treeRef) => (
+          <UncontrolledTreeEnvironment<string>
+            canDragAndDrop={true}
+            canDropOnItemWithChildren={true}
+            canReorderItems={true}
+            getItemTitle={item => item.data}
+            viewState={{
+                  [treeId1]: {
+                        expandedItems: ['Fruit', 'Meals'],
+                  },
+            }}
+            ref={environmentRef}
+            {...environmentProps}
+          >
+                <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+          </UncontrolledTreeEnvironment>
+        )}
+  </AutoDemo>
+);

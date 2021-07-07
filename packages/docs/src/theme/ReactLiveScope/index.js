@@ -13,6 +13,8 @@ import {
   UncontrolledTreeEnvironment,
 } from 'react-complex-tree';
 import { longTree, shortTree } from 'demodata';
+import { renderers as bpRenderers } from 'react-complex-tree-blueprintjs-renderers';
+import { AutoDemo } from 'react-complex-tree-autodemo';
 
 // Add react-live imports you need here
 const ReactLiveScope = {
@@ -24,6 +26,8 @@ const ReactLiveScope = {
   longTree,
   shortTree,
   StaticTreeDataProvider,
+  AutoDemo,
+  bpRenderers,
 };
 
 export default ReactLiveScope;

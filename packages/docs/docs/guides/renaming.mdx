@@ -4,6 +4,119 @@ sidebar_position: 7
 
 # Renaming Functionality
 
-:::note
-Documentation coming soon...
-:::
+React Complex Tree provides native renaming capabilities which are enabled by default. They an be disabled
+by providing the `canRename` prop with the value `false`.
+
+If renaming is enabled, the user can hit the hotkey `F2`, and the title component of the focused item
+is replaced with an input. The rendering of that component can be customized with
+[custom render hooks](/docs/guides/rendering). The hotkey [can also be customized](/docs/guides/keyboard).
+
+When the input is blurred, i.e. the user clicks on somewhere else, or presses `escape`, the renaming is aborted,
+the input is replaced with the title component again and changes made to the title are omitted. If the user clicks
+on the submit button or submits the input by pressing enter, the name of the item is changed.
+
+## Example
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-1': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Example with disabled renaming
+
+If `canRename` is set to false, renaming is disabled.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-2': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+      canRename={false}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Reacting to rename events
+
+### Via `onRenameProp`
+
+Both the `UncontrolledTreeEnvironment` and `ControlledTreeEnvironment` provide a `onRenameItem` prop
+to which can be reacted to.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-3': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+      canRename={false}
+      onRenameItem={(item, name) => alert(`${item.data} renamed to ${name}`)}
+    >
+      <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+### Via `StaticTreeDataProvider`
+
+The `StaticTreeDataProvider` also defines a method that is provided as the second argument to the constructor,
+which is invoked if a item is renamed. This method is expected to return the renamed item.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(
+        longTree.items,
+        (item, newName) => {
+          alert(`${item.data} renamed to ${newName}`);
+          return { ...item, data: newName };
+        }
+      )}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-4': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+      canRename={false}
+    >
+      <Tree treeId="tree-4" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+### Via a custom tree data provider
+
+When implementing a custom tree data provider, a method `onRenameItem` can be implemented to react to rename
+events. [Read more on implementing custom tree data providers](/docs/guides/custom-data-provider)
+for more details.

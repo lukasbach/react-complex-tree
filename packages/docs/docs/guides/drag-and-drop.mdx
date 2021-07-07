@@ -4,6 +4,197 @@ sidebar_position: 5
 
 # Drag and Drop Customizability
 
-:::note
-Documentation coming soon...
+React Complex Tree provides advanced drag-and-drop capabilities that can easily be enabled via props on
+the tree environment. Once they are enabled, drag works natively between as many trees as are rendered
+within the environment. The user can also select multiple items (by pressing CTRL + left click on an item)
+and drag all of them at once to a new location. See [Keyboard Bindings](/docs/guides/keyboard)
+for more details on ways to select one or several items.
+
+Also, drag and drop works also by only using the keyboard. This can be triggered by selecting one or several
+items, then pressing `CTRL + D`, pressing `UP` or `DOWN` to find a target location and pressing `ENTER` to drop or
+`ESCAPE` to abort drag. The user can also tab to a different tree within the same tree environment to drop the items
+on that tree. The key bindings can be changed via props, see [Keyboard Bindings](/docs/guides/keyboard)
+for more details.
+
+:::info
+All props that can be provided to the tree environment to control drag and drop capabilities are documented
+in the [TreeCapabilities interface](/docs/api/interfaces/treecapabilities).
 :::
+
+## Disabled Drag and Drop
+
+By default, drag and drop is disabled. Clicking on items or attempting to drag them will just set the focus
+and selected item state on the item clicked on.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Only reordering of items allowed
+
+Supplying the `canDragAndDrop` with the value `true` alongside the `canReorderItems` allows the user
+to reorder items by clicking on them and dragging them to a new location in the tree.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      canDragAndDrop={true}
+      canReorderItems={true}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Only dropping on items with children allowed
+
+Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithChildren` allows the user
+to drop items on other nodes that have the property `hasChildren` set to `true`. Note that this includes empty
+containers that have this property set as well. Reordering of items within a parent is not possible without
+providing the `canReorderItems` prop.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+    >
+      <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Only dropping on items without children allowed
+
+Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithoutChildren` allows the user
+to drop items on other nodes that have the property `hasChildren` set to `false`. Note that, in this example,
+items dropped on other nodes immediately disappear as target nodes continue to not show any children because
+their property `hasChildren` being false.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      canDragAndDrop={true}
+      canDropOnItemWithoutChildren={true}
+    >
+      <Tree treeId="tree-4" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Dropping everywhere is allowed
+
+Supplying the props `canDragAndDrop`, `canReorderItems`, `canDropOnItemWithChildren` and `canDropOnItemWithoutChildren`
+all with the value `true` allows all possible drop positions to be viable targets.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      canDragAndDrop={true}
+      canReorderItems={true}
+      canDropOnItemWithChildren={true}
+      canDropOnItemWithoutChildren={true}
+    >
+      <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Specifying which items can be dragged
+
+With the `canDrag`, a method can be provided to evaluate whether a certain item can be dragged or not.
+The method takes an array of all items currently selected, which are attempted to be dragged. If the method
+returns false, the drag is not initiated.
+
+In the following example, only items whose name starts with the letter __A__ are allowed to be dragged.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-6': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+      canDragAndDrop={true}
+      canReorderItems={true}
+      canDropOnItemWithChildren={true}
+      canDrag={items => items.map(item => item.data.startsWith('A')).reduce((a, b) => a && b, true)}
+    >
+      <Tree treeId="tree-6" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Specifying on which items can be dropped
+
+With the `canDropAt`, a method can be provided to evaluate whether a certain item is a viable drop target.
+The method takes an array of all items that are being dragged, as well as the drop target on which a drop
+was attempted. If the method returns `false`, the drop event is aborted. The method is evaluated for every
+drop location at the time when the drag is initiated, and is also visually shown when the user attempts
+to drag over possible targets.
+
+Note that, when reordering is allowed, the user can also reorder items within parents that succeed the evaluation
+of the `canDropAt` method, but not within parents that do not.
+
+In the following example, only items whose name starts with the letter __A__ are considered viable drop targets.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-7': {
+          expandedItems: ['Fruit', 'Meals']
+        }
+      }}
+      canDragAndDrop={true}
+      canReorderItems={true}
+      canDropOnItemWithChildren={true}
+      canDropAt={(items, target) =>
+        target.targetType === 'between-items'
+          ? target.parentItem.startsWith('A')
+          : target.targetItem.startsWith('A')
+      }
+    >
+      <Tree treeId="tree-7" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
