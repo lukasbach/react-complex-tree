@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  EmptyObject,
   TreeChangeActionsContextProps,
   TreeItemIndex, TreeRef,
 } from '../types';
@@ -14,7 +13,7 @@ import { useEnvironmentActions } from '../environmentActions/EnvironmentActionsP
 const EnvironmentActionsContext = React.createContext<TreeChangeActionsContextProps>(null as any);
 export const useTreeActions = () => React.useContext(EnvironmentActionsContext);
 
-export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<EmptyObject>>((props, ref) => {
+export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<Record<string, unknown>>>((props, ref) => {
   useTreeEnvironment();
   const tree = useTree();
   useDragAndDrop();

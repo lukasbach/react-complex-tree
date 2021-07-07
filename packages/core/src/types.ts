@@ -2,7 +2,7 @@ import React, {
   FormHTMLAttributes,
   HTMLProps,
   InputHTMLAttributes,
-  PropsWithChildren, Ref,
+  Ref,
 } from 'react';
 
 export type TreeItemIndex = string | number;
@@ -278,7 +278,9 @@ export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
   linePosition: 'top' | 'bottom';
 }
 
-export type ControlledTreeEnvironmentProps<T = any> = PropsWithChildren<TreeEnvironmentConfiguration<T>>;
+export interface ControlledTreeEnvironmentProps<T = any> extends TreeEnvironmentConfiguration<T> {
+  children?: JSX.Element | JSX.Element[] | null;
+}
 
 export interface UncontrolledTreeEnvironmentProps<T = any> extends TreeRenderProps<T>, TreeCapabilities, ImplicitDataSource<T>, TreeChangeHandlers<T> {
   viewState: TreeViewState;
@@ -363,5 +365,3 @@ export interface KeyboardBindings {
   abortProgrammaticDnd?: string[];
   completeProgrammaticDnd?: string[];
 }
-
-export type EmptyObject = Record<string, never>;
