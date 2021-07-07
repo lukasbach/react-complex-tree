@@ -14,7 +14,8 @@
     "build": "lerna run build --npm-client=yarn",
     "test": "lerna run test --npm-client=yarn --stream",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prepublish": "lerna run build --npm-client=yarn"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
