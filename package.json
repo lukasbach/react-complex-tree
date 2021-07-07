@@ -15,9 +15,11 @@
     "test": "lerna run test --npm-client=yarn --stream",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepublishOnly": "lerna run build --npm-client=yarn",
+    "prepublishOnly": "yarn lint && yarn prettier && yarn build",
     "lint": "eslint --ext .ts,.tsx packages/",
-    "lint:fix": "eslint --ext .ts,.tsx packages/ --fix"
+    "lint:fix": "eslint --ext .ts,.tsx packages/ --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.11",
@@ -34,6 +36,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "lerna": "^3.22.1",
+    "prettier": "^2.3.2",
     "react-docgen": "^5.3.1",
     "react-docgen-typescript": "^1.20.5",
     "react-docgen-typescript-loader": "^3.7.2",
