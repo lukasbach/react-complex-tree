@@ -1,5 +1,5 @@
-import { TreeItemIndex, TreeProps } from '../types';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { TreeItemIndex} from '../types';
+import React, { useMemo, useState } from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from '../tree/useViewState';
 import { useTree } from '../tree/Tree';

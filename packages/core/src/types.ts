@@ -1,6 +1,4 @@
 import React, {
-  ButtonHTMLAttributes,
-  ExoticComponent,
   FormHTMLAttributes,
   HTMLProps,
   InputHTMLAttributes,

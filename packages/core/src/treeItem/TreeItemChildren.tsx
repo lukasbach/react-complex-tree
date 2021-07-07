@@ -1,6 +1,6 @@
-import React, { HTMLProps, useContext } from 'react';
+import React, { HTMLProps} from 'react';
 import { TreeItem } from './TreeItem';
-import { TreeItemIndex, TreeProps } from '../types';
+import { TreeItemIndex} from '../types';
 import { useTree } from '../tree/Tree';
 
 export const TreeItemChildren = <T extends any>(props: {

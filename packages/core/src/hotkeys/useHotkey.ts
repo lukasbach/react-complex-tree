@@ -1,5 +1,5 @@
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
-import { useContext, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { KeyboardBindings } from '../types';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';

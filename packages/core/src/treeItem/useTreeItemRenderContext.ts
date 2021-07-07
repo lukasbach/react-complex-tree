@@ -1,19 +1,11 @@
 import {
-  DragAndDropContextProps,
-  InteractionManager,
-  TreeEnvironmentConfiguration,
-  TreeEnvironmentContextProps,
   TreeItem,
-  TreeItemActions, TreeItemIndex,
-  TreeItemRenderContext,
-  TreeItemRenderFlags,
+  TreeItemActions, TreeItemRenderFlags,
 } from '../types';
 import { HTMLProps, useMemo } from 'react';
 import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useViewState } from '../tree/useViewState';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from '../tree/useSelectUpTo';

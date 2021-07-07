@@ -1,14 +1,11 @@
 import * as React from 'react';
 import {
   TreeChangeActionsContextProps,
-  TreeEnvironmentActionsContextProps,
-  TreeEnvironmentRef,
   TreeItemIndex, TreeRef,
 } from '../types';
-import { PropsWithChildren, useImperativeHandle } from 'react';
+import { PropsWithChildren} from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useCreatedTreeRef } from './useCreatedTreeRef';
 import { useTree } from '../tree/Tree';
 import { useEnvironmentActions } from '../environmentActions/EnvironmentActionsProvider';

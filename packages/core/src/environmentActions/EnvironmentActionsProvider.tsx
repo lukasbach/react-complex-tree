@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItemIndex } from '../types';
-import { PropsWithChildren, useImperativeHandle } from 'react';
+import { PropsWithChildren} from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { getItemsLinearly } from '../tree/getItemsLinearly';

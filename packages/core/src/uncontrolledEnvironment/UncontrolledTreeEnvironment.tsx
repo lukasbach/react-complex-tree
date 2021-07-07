@@ -1,15 +1,9 @@
 import * as React from 'react';
 import {
-  ControlledTreeEnvironmentProps,
-  ImplicitDataSource,
   IndividualTreeViewState,
-  TreeConfiguration,
-  TreeDataProvider,
-  TreeEnvironmentContextProps,
   TreeEnvironmentRef,
   TreeItem,
   TreeItemIndex,
-  TreeViewState,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
 import { useEffect, useMemo, useRef, useState } from 'react';

@@ -4,7 +4,7 @@ import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDat
 import { Tree } from '../tree/Tree';
 import React, { useEffect, useRef } from 'react';
 import { longTree } from 'demodata';
-import { TreeContextProps, TreeEnvironmentContextProps, TreeEnvironmentRef, TreeRef } from '../types';
+import { TreeEnvironmentRef, TreeRef } from '../types';
 
 export default {
   title: 'Core/React Refs',

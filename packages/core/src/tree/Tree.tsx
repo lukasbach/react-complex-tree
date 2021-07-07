@@ -1,16 +1,11 @@
 import * as React from 'react';
 import {
   AllTreeRenderProps,
-  ControlledTreeEnvironmentProps,
-  DraggingPosition,
-  TreeConfiguration,
   TreeContextProps,
-  TreeEnvironmentContextProps,
-  TreeInformation,
   TreeItemIndex,
   TreeProps, TreeRef,
 } from '../types';
-import { HTMLProps, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
 import { useCreatedTreeInformation } from './useCreatedTreeInformation';

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useContext, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
-  ControlledTreeEnvironmentProps, TreeEnvironmentChangeActions,
-  TreeConfiguration,
+  ControlledTreeEnvironmentProps, TreeConfiguration,
   TreeEnvironmentContextProps, TreeEnvironmentRef,
 } from '../types';
 import { createDefaultRenderers } from '../renderers/createDefaultRenderers';

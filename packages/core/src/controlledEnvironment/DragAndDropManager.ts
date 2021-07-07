@@ -1,6 +1,3 @@
-import { DraggingPosition, TreeCapabilities, TreeEnvironmentContextProps } from '../types';
-import * as React from 'react';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 /*
 export class DragAndDropManager {
   private environment!: TreeEnvironmentContextProps;

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { DragAndDropContextProps, DraggingPosition, TreeCapabilities, TreeItem, TreeItemIndex } from '../types';
+import { DragAndDropContextProps, DraggingPosition, TreeItem, TreeItemIndex } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
-import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { useOnDragOverTreeHandler } from './useOnDragOverTreeHandler';
 import { useCanDropAt } from './useCanDropAt';
 import { useGetViableDragPositions } from './useGetViableDragPositions';

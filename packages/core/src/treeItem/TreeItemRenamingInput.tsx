@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TreeItemIndex } from '../types';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, Ref, RefObject, useEffect, useRef, useState } from 'react';
+import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { useHotkey } from '../hotkeys/useHotkey';
 
 export const TreeItemRenamingInput: React.FC<{

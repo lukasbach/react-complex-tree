@@ -1,5 +1,4 @@
 import type { getItemsLinearly } from './getItemsLinearly';
-import { useContext } from 'react';
 import { useGetLinearItems } from './useGetLinearItems';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';

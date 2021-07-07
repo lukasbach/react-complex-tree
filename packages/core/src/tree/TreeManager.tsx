@@ -1,10 +1,8 @@
-import { DraggingPosition } from '../types';
 import * as React from 'react';
 import { TreeItemChildren } from '../treeItem/TreeItemChildren';
 import { DragBetweenLine } from './DragBetweenLine';
-import { HTMLProps, useContext, useMemo, useRef } from 'react';
+import { HTMLProps, useRef } from 'react';
 import { useFocusWithin } from './useFocusWithin';
-import { useGetLinearItems } from './useGetLinearItems';
 import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
 import { SearchInput } from '../search/SearchInput';
 import { useTree } from './Tree';
