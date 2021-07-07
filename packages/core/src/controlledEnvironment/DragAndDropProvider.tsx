@@ -28,7 +28,7 @@ export const DragAndDropProvider: React.FC = props => {
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [dragCode, setDragCode] = useState('_nodrag');
 
-  const resetProgrammaticDragIndexForCurrentTree = (viableDragPositions: DraggingPosition[], linearItems: ReturnType<typeof getItemsLinearly>) => {
+  const resetProgrammaticDragIndexForCurrentTree = (viableDragPositions: DraggingPosition[], linearItems: ReturnType<typeof getItemsLinearly>, draggingItems: TreeItem[] | undefined) => {
     if (environment.activeTreeId && environment.viewState[environment.activeTreeId]?.focusedItem && linearItems && draggingItems) {
       const focusItem = environment.viewState[environment.activeTreeId]!.focusedItem;
       const treeDragPositions = getViableDragPositions(environment.activeTreeId, draggingItems, linearItems);
@@ -64,7 +64,7 @@ export const DragAndDropProvider: React.FC = props => {
 
   useEffect(() => {
     if (environment.activeTreeId && linearItems[environment.activeTreeId] && viableDragPositions[environment.activeTreeId]) {
-      resetProgrammaticDragIndexForCurrentTree(viableDragPositions[environment.activeTreeId], linearItems[environment.activeTreeId]);
+      resetProgrammaticDragIndexForCurrentTree(viableDragPositions[environment.activeTreeId], linearItems[environment.activeTreeId], draggingItems);
     }
   }, [environment.activeTreeId]);
 
@@ -124,7 +124,7 @@ export const DragAndDropProvider: React.FC = props => {
       setViableDragPositions(treeViableDragPositions);
 
       if (environment.activeTreeId) {
-        resetProgrammaticDragIndexForCurrentTree(treeViableDragPositions[environment.activeTreeId], treeLinearItems[environment.activeTreeId]);
+        resetProgrammaticDragIndexForCurrentTree(treeViableDragPositions[environment.activeTreeId], treeLinearItems[environment.activeTreeId], items);
       }
     },
     startProgrammaticDrag: () => {
