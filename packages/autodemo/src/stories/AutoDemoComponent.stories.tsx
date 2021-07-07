@@ -214,6 +214,7 @@ export const MultiTreeDemo = () => (
 export const SearchDemo = () => (
   <AutoDemo
     data={longTree}
+    restart={true}
     storyScript={async story => {
       await story.tree.current!.focusTree(false);
       await story.searchFor(story.tree.current!, 'an');
@@ -259,6 +260,7 @@ export const SearchDemo = () => (
 export const SingleTreeEmptyTemplate = () => (
   <AutoDemo
     data={longTree}
+    restart={true}
     storyScript={async story => {
       await story.tree.current!.focusTree(false);
     }}
