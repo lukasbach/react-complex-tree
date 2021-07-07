@@ -15,10 +15,11 @@
     "test": "lerna run test --npm-client=yarn --stream",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepublish": "lerna run build --npm-client=yarn"
+    "prepublishOnly": "lerna run build --npm-client=yarn",
+    "lint": "eslint --ext .ts,.tsx packages/",
+    "lint:fix": "eslint --ext .ts,.tsx packages/ --fix"
   },
   "devDependencies": {
-    "lerna": "^3.22.1",
     "@storybook/addon-actions": "^6.1.11",
     "@storybook/addon-docs": "^6.1.11",
     "@storybook/addon-essentials": "^6.1.11",
@@ -27,6 +28,12 @@
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.1.11",
     "@types/storybook__react": "^5.2.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.24.0",
+    "lerna": "^3.22.1",
     "react-docgen": "^5.3.1",
     "react-docgen-typescript": "^1.20.5",
     "react-docgen-typescript-loader": "^3.7.2",
