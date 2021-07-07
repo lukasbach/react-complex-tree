@@ -45,7 +45,6 @@ export const BlueprintJsTree = () => (
   </div>
 );
 
-
 export const ShortBlueprintJsTree = () => (
   <div
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
@@ -59,7 +58,7 @@ export const ShortBlueprintJsTree = () => (
       getItemTitle={item => item.data}
       viewState={{
         ['tree-1']: {
-          expandedItems: ['container']
+          expandedItems: ['container'],
         },
       }}
       {...renderers}

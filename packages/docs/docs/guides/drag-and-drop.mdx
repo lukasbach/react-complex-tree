@@ -136,7 +136,7 @@ With the `canDrag`, a method can be provided to evaluate whether a certain item 
 The method takes an array of all items currently selected, which are attempted to be dragged. If the method
 returns false, the drag is not initiated.
 
-In the following example, only items whose name starts with the letter __A__ are allowed to be dragged.
+In the following example, only items whose name starts with the letter **A** are allowed to be dragged.
 
 ```jsx live
 function App() {
@@ -146,8 +146,8 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         'tree-6': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
       canDragAndDrop={true}
       canReorderItems={true}
@@ -171,7 +171,7 @@ to drag over possible targets.
 Note that, when reordering is allowed, the user can also reorder items within parents that succeed the evaluation
 of the `canDropAt` method, but not within parents that do not.
 
-In the following example, only items whose name starts with the letter __A__ are considered viable drop targets.
+In the following example, only items whose name starts with the letter **A** are considered viable drop targets.
 
 ```jsx live
 function App() {
@@ -181,16 +181,14 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         'tree-7': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
       canDragAndDrop={true}
       canReorderItems={true}
       canDropOnItemWithChildren={true}
       canDropAt={(items, target) =>
-        target.targetType === 'between-items'
-          ? target.parentItem.startsWith('A')
-          : target.targetItem.startsWith('A')
+        target.targetType === 'between-items' ? target.parentItem.startsWith('A') : target.targetItem.startsWith('A')
       }
     >
       <Tree treeId="tree-7" rootItem="root" treeLabel="Tree Example" />

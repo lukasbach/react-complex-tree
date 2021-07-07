@@ -4,10 +4,7 @@ import { KeyboardBindings } from '../types';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
-const elementsThatCanTakeText = [
-  'input',
-  'textarea'
-]
+const elementsThatCanTakeText = ['input', 'textarea'];
 
 export const useHotkey = (
   combinationName: keyof KeyboardBindings,
@@ -34,8 +31,11 @@ export const useHotkey = (
         return;
       }
 
-      if ((elementsThatCanTakeText.includes((e.target as HTMLElement).tagName.toLowerCase())
-        || (e.target as HTMLElement).isContentEditable) && !activatableWhileFocusingInput) {
+      if (
+        (elementsThatCanTakeText.includes((e.target as HTMLElement).tagName.toLowerCase()) ||
+          (e.target as HTMLElement).isContentEditable) &&
+        !activatableWhileFocusingInput
+      ) {
         // Skip if an input is selected
         return;
       }

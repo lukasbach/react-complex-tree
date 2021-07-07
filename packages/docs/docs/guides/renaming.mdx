@@ -25,8 +25,8 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         'tree-1': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
     >
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -47,8 +47,8 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         'tree-2': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
       canRename={false}
     >
@@ -73,8 +73,8 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         'tree-3': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
       canRename={false}
       onRenameItem={(item, name) => alert(`${item.data} renamed to ${name}`)}
@@ -94,18 +94,17 @@ which is invoked if a item is renamed. This method is expected to return the ren
 function App() {
   return (
     <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(
-        longTree.items,
-        (item, newName) => {
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, newName) => {
           alert(`${item.data} renamed to ${newName}`);
           return { ...item, data: newName };
-        }
-      )}
+        })
+      }
       getItemTitle={item => item.data}
       viewState={{
         'tree-4': {
-          expandedItems: ['Fruit', 'Meals']
-        }
+          expandedItems: ['Fruit', 'Meals'],
+        },
       }}
       canRename={false}
     >
