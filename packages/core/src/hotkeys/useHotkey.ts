@@ -36,6 +36,7 @@ export const useHotkey = (
 
       if ((elementsThatCanTakeText.includes((e.target as HTMLElement).tagName.toLowerCase())
         || (e.target as HTMLElement).isContentEditable) && !activatableWhileFocusingInput) {
+        // Skip if an input is selected
         return;
       }
 
@@ -50,7 +51,10 @@ export const useHotkey = (
           .reduce((a, b) => a || b, false);
 
         if (partialMatch) {
-          e.preventDefault();
+          if (pressedKeys.current.length > 1 || !/^[a-zA-Z]$/.test(e.key)) {
+            // Prevent default, but not if this is the first input and a letter (which should trigger a search)
+            e.preventDefault();
+          }
         }
       }
     },
