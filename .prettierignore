@@ -2,3 +2,5 @@ node_modules
 packages/*/lib
 packages/*/node_modules
 storybook-static
+packages/docs/.docusaurus
+packages/docs/build
