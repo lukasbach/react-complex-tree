@@ -8,7 +8,8 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
   const environment = useTreeEnvironment();
   const pressedKeys = useRef<string[]>([]);
   const possibleCombinations = useMemo(
-    () => environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName],
+    () => (environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName])
+      .map(combination => combination.split('+')),
     [combinationName, environment.keyboardBindings]
   );
 
@@ -19,6 +20,19 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
 
     if (!pressedKeys.current.includes(e.key)) {
       pressedKeys.current.push(e.key);
+      const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
+
+      const partialMatch = possibleCombinations
+        .map(combination =>
+          pressedKeysLowercase
+            .map(key => combination.includes(key.toLowerCase()))
+            .reduce((a, b) => a && b, true)
+        )
+        .reduce((a, b) => a || b, false);
+
+      if (partialMatch) {
+        e.preventDefault();
+      }
     }
   }, [active]);
 
@@ -29,7 +43,6 @@ export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: Ke
 
     const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
     const match = possibleCombinations.map(combination => combination
-      .split('+')
       .map(key => pressedKeysLowercase.includes(key.toLowerCase()))
       .reduce((a, b) => a && b, true)).reduce((a, b) => a || b, false);
 
