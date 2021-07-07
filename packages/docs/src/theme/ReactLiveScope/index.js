@@ -10,9 +10,9 @@ import {
   ControlledTreeEnvironment,
   StaticTreeDataProvider,
   Tree,
-  UncontrolledTreeEnvironment
-} from "react-complex-tree";
-import { longTree, shortTree } from "demodata";
+  UncontrolledTreeEnvironment,
+} from 'react-complex-tree';
+import { longTree, shortTree } from 'demodata';
 
 // Add react-live imports you need here
 const ReactLiveScope = {
@@ -23,7 +23,7 @@ const ReactLiveScope = {
   Tree,
   longTree,
   shortTree,
-  StaticTreeDataProvider
+  StaticTreeDataProvider,
 };
 
 export default ReactLiveScope;

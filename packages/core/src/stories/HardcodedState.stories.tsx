@@ -17,8 +17,8 @@ export const SimpleTree = () => (
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-      }
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />

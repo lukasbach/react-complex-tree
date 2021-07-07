@@ -7,7 +7,7 @@
 
 /* You can override the default Infima variables here. */
 
-@import "react-complex-tree/lib/style.css";
+@import 'react-complex-tree/lib/style.css';
 
 :root {
   --ifm-color-primary: #0366d6;
@@ -39,7 +39,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
   color: var(--ifm-color-primary-lightest);
 }
 
-div[class^="playgroundEditor"] {
+div[class^='playgroundEditor'] {
   max-height: 500px;
   overflow-y: auto !important;
 }

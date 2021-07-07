@@ -3,7 +3,8 @@ import {
   InteractionManager,
   TreeEnvironmentContextProps,
   TreeItem,
-  TreeItemActions, TreeItemRenderFlags,
+  TreeItemActions,
+  TreeItemRenderFlags,
 } from '../types';
 import { HTMLProps } from 'react';
 
@@ -15,9 +16,14 @@ export class ClickArrowToExpandInteractionManager implements InteractionManager 
     this.environment = environment;
   }
 
-  createInteractiveElementProps(item: TreeItem, treeId: string, actions: TreeItemActions, renderFlags: TreeItemRenderFlags): HTMLProps<HTMLElement> {
+  createInteractiveElementProps(
+    item: TreeItem,
+    treeId: string,
+    actions: TreeItemActions,
+    renderFlags: TreeItemRenderFlags
+  ): HTMLProps<HTMLElement> {
     return {
-      onClick: (e) => {
+      onClick: e => {
         actions.focusItem();
         if (e.shiftKey) {
           actions.selectUpTo();
@@ -45,7 +51,7 @@ export class ClickArrowToExpandInteractionManager implements InteractionManager 
         e.preventDefault(); // Allow drop
       },
       draggable: renderFlags.canDrag && !renderFlags.isRenaming,
-      tabIndex: !renderFlags.isRenaming ? renderFlags.isFocused ? 0 : -1 : undefined,
+      tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
     };
-  };
+  }
 }

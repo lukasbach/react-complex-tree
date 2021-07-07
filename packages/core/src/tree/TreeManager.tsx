@@ -18,13 +18,18 @@ export const TreeManager = (): JSX.Element => {
 
   useTreeKeyboardBindings();
 
-  useFocusWithin(containerRef.current, () => {
-    environment.setActiveTree(treeId);
-  }, () => {
-    environment.setActiveTree(oldTreeId => {
-      return oldTreeId === treeId ? undefined : oldTreeId;
-    });
-  }, [environment.activeTreeId, treeId, isActiveTree]);
+  useFocusWithin(
+    containerRef.current,
+    () => {
+      environment.setActiveTree(treeId);
+    },
+    () => {
+      environment.setActiveTree(oldTreeId => {
+        return oldTreeId === treeId ? undefined : oldTreeId;
+      });
+    },
+    [environment.activeTreeId, treeId, isActiveTree]
+  );
 
   const rootChildren = environment.items[rootItem].children;
 
@@ -53,7 +58,7 @@ export const TreeManager = (): JSX.Element => {
     'aria-labelledby': treeInformation.treeLabelledBy,
     ...({
       ['data-rct-tree']: treeId,
-    } as any)
+    } as any),
   };
 
   return renderers.renderTreeContainer({

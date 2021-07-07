@@ -1,7 +1,4 @@
-import {
-  TreeItem,
-  TreeItemActions, TreeItemRenderFlags,
-} from '../types';
+import { TreeItem, TreeItemActions, TreeItemRenderFlags } from '../types';
 import { HTMLProps, useMemo } from 'react';
 import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
@@ -11,7 +8,6 @@ import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from '../tree/useSelectUpTo';
 
 // TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
-
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
   const { treeId, search, renamingItem } = useTree();
@@ -23,158 +19,153 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
 
   const isSearchMatching = useMemo(() => {
     return search === null || search.length === 0 || !item || !itemTitle
-      ? false : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
+      ? false
+      : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
   }, [search, itemTitle]);
 
-  return useMemo(
-    () => {
-      if (!item) {
-        return undefined;
-      }
+  return useMemo(() => {
+    if (!item) {
+      return undefined;
+    }
 
-      const viewState = environment.viewState[treeId];
+    const viewState = environment.viewState[treeId];
 
-      const itemsToDrag = viewState?.selectedItems?.map(item => environment.items[item])
-        ?? (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : []);
+    const itemsToDrag =
+      viewState?.selectedItems?.map(item => environment.items[item]) ??
+      (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : []);
 
-      const canDrag = //selectedItems &&
-        //  selectedItems.length > 0 &&
-        environment.canDragAndDrop &&
-        (environment.canDrag?.(itemsToDrag) ?? true) &&
-        (
-          itemsToDrag
-            .map(item => item.canMove ?? true)
-            .reduce((a, b) => a && b, true)
-        );
+    const canDrag = //selectedItems &&
+      //  selectedItems.length > 0 &&
+      environment.canDragAndDrop &&
+      (environment.canDrag?.(itemsToDrag) ?? true) &&
+      itemsToDrag.map(item => item.canMove ?? true).reduce((a, b) => a && b, true);
 
-      // console.log(canDrag, selectedItems, environment.canDragAndDrop)
+    // console.log(canDrag, selectedItems, environment.canDragAndDrop)
 
-      const actions: TreeItemActions = { // TODO disable most actions during rename
-        primaryAction: () => {
-          environment.onPrimaryAction?.(environment.items[item.index], treeId);
-        },
-        collapseItem: () => {
+    const actions: TreeItemActions = {
+      // TODO disable most actions during rename
+      primaryAction: () => {
+        environment.onPrimaryAction?.(environment.items[item.index], treeId);
+      },
+      collapseItem: () => {
+        environment.onCollapseItem?.(item, treeId);
+      },
+      expandItem: () => {
+        environment.onExpandItem?.(item, treeId);
+      },
+      toggleExpandedState: () => {
+        if (viewState?.expandedItems?.includes(item.index)) {
           environment.onCollapseItem?.(item, treeId);
-        },
-        expandItem: () => {
+        } else {
           environment.onExpandItem?.(item, treeId);
-        },
-        toggleExpandedState: () => {
-          if (viewState?.expandedItems?.includes(item.index)) {
-            environment.onCollapseItem?.(item, treeId);
-          } else {
-            environment.onExpandItem?.(item, treeId);
-          }
-        },
-        selectItem: () => {
-          environment.onSelectItems?.([item.index], treeId);
-        },
-        addToSelectedItems: () => {
-          environment.onSelectItems?.([...viewState?.selectedItems ?? [], item.index], treeId);
-        },
-        unselectItem: () => {
-          environment.onSelectItems?.(viewState?.selectedItems?.filter(id => id !== item.index) ?? [], treeId);
-        },
-        selectUpTo: () => {
-          selectUpTo(item);
-        },
-        truncateItem: () => {
-        },
-        untruncateItem: () => {
-        },
-        toggleTruncatedState: () => {
-        },
-        startRenamingItem: () => {
-        },
-        focusItem: () => {
-          environment.onFocusItem?.(item, treeId);
-        },
-        startDragging: () => {
-          let selectedItems = viewState?.selectedItems ?? [];
-
-          if (!selectedItems.includes(item.index)) {
-            selectedItems = [item.index];
-            environment.onSelectItems?.(selectedItems, treeId);
-          }
-
-          if (canDrag) {
-            dnd.onStartDraggingItems((selectedItems).map(id => environment.items[id]), treeId);
-          }
         }
-      };
+      },
+      selectItem: () => {
+        environment.onSelectItems?.([item.index], treeId);
+      },
+      addToSelectedItems: () => {
+        environment.onSelectItems?.([...(viewState?.selectedItems ?? []), item.index], treeId);
+      },
+      unselectItem: () => {
+        environment.onSelectItems?.(viewState?.selectedItems?.filter(id => id !== item.index) ?? [], treeId);
+      },
+      selectUpTo: () => {
+        selectUpTo(item);
+      },
+      truncateItem: () => {},
+      untruncateItem: () => {},
+      toggleTruncatedState: () => {},
+      startRenamingItem: () => {},
+      focusItem: () => {
+        environment.onFocusItem?.(item, treeId);
+      },
+      startDragging: () => {
+        let selectedItems = viewState?.selectedItems ?? [];
 
-      const renderFlags: TreeItemRenderFlags = {
-        isSelected: viewState?.selectedItems?.includes(item.index),
-        isExpanded: viewState?.expandedItems?.includes(item.index),
-        isFocused: viewState?.focusedItem === item.index,
-        isRenaming: renamingItem === item.index,
-        isDraggingOver:
-          dnd.draggingPosition &&
-          dnd.draggingPosition.targetType === 'item' &&
-          dnd.draggingPosition.targetItem === item.index &&
-          dnd.draggingPosition.treeId === treeId,
-        isDraggingOverParent: false,
-        isSearchMatching: isSearchMatching,
-        canDrag,
-      };
+        if (!selectedItems.includes(item.index)) {
+          selectedItems = [item.index];
+          environment.onSelectItems?.(selectedItems, treeId);
+        }
 
-      const interactiveElementProps: HTMLProps<HTMLElement> = {
-        ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
-        role: 'treeitem',
-        'aria-expanded': item.hasChildren ? (renderFlags.isExpanded ? 'true' : 'false') : undefined,
-        ...({
-          ['data-rct-item-interactive']: true,
-          ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
-          ['data-rct-item-id']: item.index,
-        } as any)
-      };
+        if (canDrag) {
+          dnd.onStartDraggingItems(
+            selectedItems.map(id => environment.items[id]),
+            treeId
+          );
+        }
+      },
+    };
 
-      const itemContainerWithoutChildrenProps: HTMLProps<HTMLElement> = {
-        ...({
-          ['data-rct-item-container']: 'true',
-        } as any),
-      };
+    const renderFlags: TreeItemRenderFlags = {
+      isSelected: viewState?.selectedItems?.includes(item.index),
+      isExpanded: viewState?.expandedItems?.includes(item.index),
+      isFocused: viewState?.focusedItem === item.index,
+      isRenaming: renamingItem === item.index,
+      isDraggingOver:
+        dnd.draggingPosition &&
+        dnd.draggingPosition.targetType === 'item' &&
+        dnd.draggingPosition.targetItem === item.index &&
+        dnd.draggingPosition.treeId === treeId,
+      isDraggingOverParent: false,
+      isSearchMatching: isSearchMatching,
+      canDrag,
+    };
 
-      const itemContainerWithChildrenProps: HTMLProps<HTMLElement> = {
-        role: 'none',
-      };
+    const interactiveElementProps: HTMLProps<HTMLElement> = {
+      ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
+      role: 'treeitem',
+      'aria-expanded': item.hasChildren ? (renderFlags.isExpanded ? 'true' : 'false') : undefined,
+      ...({
+        ['data-rct-item-interactive']: true,
+        ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
+        ['data-rct-item-id']: item.index,
+      } as any),
+    };
 
-      const arrowProps: HTMLProps<HTMLElement> = {
-        onClick: () => {
-          if (item.hasChildren) {
-            actions.toggleExpandedState();
-          }
-          actions.selectItem();
-        },
-        onFocus: () => {
-          actions.focusItem();
-        },
-        onDragOver: e => {
-          e.preventDefault(); // Allow drop
-        },
-        'aria-hidden': true,
-        tabIndex: -1,
-        // TODO alternative interaction modes
-      };
+    const itemContainerWithoutChildrenProps: HTMLProps<HTMLElement> = {
+      ...({
+        ['data-rct-item-container']: 'true',
+      } as any),
+    };
 
-      return {
-        ...actions,
-        ...renderFlags,
-        interactiveElementProps,
-        itemContainerWithChildrenProps,
-        itemContainerWithoutChildrenProps,
-        arrowProps,
-      };
-    },
-    [
-      environment,
-      environment.viewState[treeId]?.expandedItems,
-      environment.viewState[treeId]?.selectedItems,
-      renamingItem && renamingItem === item?.index,
-      item?.index ?? '___no_item',
-      treeId,
-      isSearchMatching,
-      dnd.draggingPosition,
-    ],
-  );
+    const itemContainerWithChildrenProps: HTMLProps<HTMLElement> = {
+      role: 'none',
+    };
+
+    const arrowProps: HTMLProps<HTMLElement> = {
+      onClick: () => {
+        if (item.hasChildren) {
+          actions.toggleExpandedState();
+        }
+        actions.selectItem();
+      },
+      onFocus: () => {
+        actions.focusItem();
+      },
+      onDragOver: e => {
+        e.preventDefault(); // Allow drop
+      },
+      'aria-hidden': true,
+      tabIndex: -1,
+      // TODO alternative interaction modes
+    };
+
+    return {
+      ...actions,
+      ...renderFlags,
+      interactiveElementProps,
+      itemContainerWithChildrenProps,
+      itemContainerWithoutChildrenProps,
+      arrowProps,
+    };
+  }, [
+    environment,
+    environment.viewState[treeId]?.expandedItems,
+    environment.viewState[treeId]?.selectedItems,
+    renamingItem && renamingItem === item?.index,
+    item?.index ?? '___no_item',
+    treeId,
+    isSearchMatching,
+    dnd.draggingPosition,
+  ]);
 };

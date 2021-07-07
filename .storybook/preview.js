@@ -9,14 +9,14 @@ export const parameters = {
   options: {
     storySort: sortStories(storyOrder),
   },
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
   },
-}
+};
 
 if (process.env.NODE_ENV === 'development') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === 'development') {
     trackHooks: true,
     logOnDifferentValues: true,
     collapseGroups: true,
-
   });
 }
 

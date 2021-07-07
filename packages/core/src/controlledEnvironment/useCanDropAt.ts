@@ -11,16 +11,15 @@ export const useCanDropAt = () => {
       }
     } else {
       const resolvedItem = environment.items[draggingPosition.targetItem];
-      if ((
-        (!environment.canDropOnItemWithChildren && resolvedItem.hasChildren)
-        || (!environment.canDropOnItemWithoutChildren && !resolvedItem.hasChildren)
-      )) {
+      if (
+        (!environment.canDropOnItemWithChildren && resolvedItem.hasChildren) ||
+        (!environment.canDropOnItemWithoutChildren && !resolvedItem.hasChildren)
+      ) {
         return false;
       }
     }
 
-    if (environment.canDropAt && (!draggingItems
-      || !environment.canDropAt(draggingItems, draggingPosition))) {
+    if (environment.canDropAt && (!draggingItems || !environment.canDropAt(draggingItems, draggingPosition))) {
       // setDraggingPosition(undefined);
       return false;
     }

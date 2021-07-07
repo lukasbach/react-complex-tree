@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import { Tree } from '../tree/Tree';
 import React from 'react';
-import { longTree} from 'demodata';
+import { longTree } from 'demodata';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export default {

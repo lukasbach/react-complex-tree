@@ -2,9 +2,8 @@
 sidebar_position: 3
 ---
 
-
 import { longTree } from 'demodata';
-import { PropTable } from "../../src/components/PropTable";
+import { PropTable } from '../../src/components/PropTable';
 
 # Controlled Environment
 
@@ -18,11 +17,7 @@ implement custom logic to asynchronously load items if they need to be displayed
 ```jsx live
 function App() {
   return (
-    <ControlledTreeEnvironment
-      items={longTree.items}
-      getItemTitle={item => item.data}
-      viewState={{}}
-    >
+    <ControlledTreeEnvironment items={longTree.items} getItemTitle={item => item.data} viewState={{}}>
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
     </ControlledTreeEnvironment>
   );
@@ -39,7 +34,6 @@ interface and provide it as spreaded props to the controlled environment, then p
 [viewState](/docs/api/interfaces/treeviewstate) prop that defines the visual state of each tree by providing
 a [individual viewState](/docs/api/interfaces/individualtreeviewstate) for every tree in your environment.
 
-
 ```jsx live
 function App() {
   const [focusedItem, setFocusedItem] = useState();
@@ -51,14 +45,16 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         ['tree-2']: {
-          focusedItem, expandedItems, selectedItems
-        }
+          focusedItem,
+          expandedItems,
+          selectedItems,
+        },
       }}
       onFocusItem={item => setFocusedItem(item.index)}
       onExpandItem={item => setExpandedItems([...expandedItems, item.index])}
-      onCollapseItem={item => setExpandedItems(
-        expandedItems.filter(expandedItemIndex => expandedItemIndex !== item.index)
-      )}
+      onCollapseItem={item =>
+        setExpandedItems(expandedItems.filter(expandedItemIndex => expandedItemIndex !== item.index))
+      }
       onSelectItems={items => setSelectedItems(items)}
     >
       <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
@@ -102,8 +98,9 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         ['tree-3']: {
-          focusedItem, expandedItems
-        }
+          focusedItem,
+          expandedItems,
+        },
       }}
       onFocusItem={item => setFocusedItem(item.index)}
       onExpandItem={item => setExpandedItems([...expandedItems, item.index])}

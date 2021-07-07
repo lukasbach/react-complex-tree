@@ -18,22 +18,25 @@ export default {
         <link href="https://unpkg.com/@blueprintjs/core@^4.0.0-alpha.0/lib/css/blueprint.css" rel="stylesheet" />
         <Story />
       </>
-    )
-  ]
+    ),
+  ],
 } as Meta;
 
 export const BlueprintJsTree = () => (
-  <div onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()} onKeyDown={() => FocusStyleManager.alwaysShowFocus()}>
+  <div
+    onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
+    onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
+  >
     <UncontrolledTreeEnvironment<string>
       allowDragAndDrop={true}
       allowDropOnItemWithChildren={true}
       allowReorderingItems={true}
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{
         ['tree-1']: {
-          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-        }
+          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        },
       }}
       {...renderers}
     >

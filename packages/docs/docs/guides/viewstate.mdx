@@ -24,8 +24,8 @@ function App() {
         ['tree-1']: {
           focusedItem: 'America',
           selectedItems: ['America', 'Europe', 'Asia'],
-          expandedItems: ['Meals', 'Drinks']
-        }
+          expandedItems: ['Meals', 'Drinks'],
+        },
       }}
     >
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -53,14 +53,16 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{
         ['tree-2']: {
-          focusedItem, expandedItems, selectedItems
-        }
+          focusedItem,
+          expandedItems,
+          selectedItems,
+        },
       }}
       onFocusItem={item => setFocusedItem(item.index)}
       onExpandItem={item => setExpandedItems([...expandedItems, item.index])}
-      onCollapseItem={item => setExpandedItems(
-        expandedItems.filter(expandedItemIndex => expandedItemIndex !== item.index)
-      )}
+      onCollapseItem={item =>
+        setExpandedItems(expandedItems.filter(expandedItemIndex => expandedItemIndex !== item.index))
+      }
       onSelectItems={items => setSelectedItems(items)}
     >
       <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
@@ -79,14 +81,14 @@ about changes to the state.
 function App() {
   return (
     <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{
         ['tree-3']: {
           focusedItem: 'America',
           selectedItems: ['America', 'Europe', 'Asia'],
-          expandedItems: ['Meals', 'Drinks']
-        }
+          expandedItems: ['Meals', 'Drinks'],
+        },
       }}
     >
       <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
@@ -104,42 +106,31 @@ their states as respective objects within the environment viewState.
 function App() {
   return (
     <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(longTree.items,
-        (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{
         ['multi-tree-1']: {
           focusedItem: 'America',
           selectedItems: ['America', 'Europe', 'Asia'],
-          expandedItems: ['Meals', 'Drinks']
+          expandedItems: ['Meals', 'Drinks'],
         },
         ['multi-tree-2']: {
           focusedItem: 'Drinks',
-          expandedItems: ['Drinks']
+          expandedItems: ['Drinks'],
         },
         // No initial state for multi-tree-3
       }}
     >
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'baseline',
-      }}>
-        <Tree
-          treeId="multi-tree-1"
-          rootItem="root"
-          treeLabel="Tree Example"
-        />
-        <Tree
-          treeId="multi-tree-2"
-          rootItem="root"
-          treeLabel="Tree Example"
-        />
-        <Tree
-          treeId="multi-tree-3"
-          rootItem="root"
-          treeLabel="Tree Example"
-        />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          alignItems: 'baseline',
+        }}
+      >
+        <Tree treeId="multi-tree-1" rootItem="root" treeLabel="Tree Example" />
+        <Tree treeId="multi-tree-2" rootItem="root" treeLabel="Tree Example" />
+        <Tree treeId="multi-tree-3" rootItem="root" treeLabel="Tree Example" />
       </div>
     </UncontrolledTreeEnvironment>
   );

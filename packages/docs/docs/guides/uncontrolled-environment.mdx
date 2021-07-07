@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 
 import { StaticTreeDataProvider } from 'react-complex-tree';
-import { PropTable } from "../../src/components/PropTable";
+import { PropTable } from '../../src/components/PropTable';
 
 # Uncontrolled Environment
 
@@ -48,7 +48,7 @@ function App() {
 
   return (
     <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(items, (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{}}
     >

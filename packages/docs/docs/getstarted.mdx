@@ -42,7 +42,7 @@ contains a tree instance.
 function App() {
   return (
     <UncontrolledTreeEnvironment
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
       viewState={{}}
     >

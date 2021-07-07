@@ -8,14 +8,13 @@ export default {
   title: 'Auto Demo/AutoDemo Component',
 } as Meta;
 
-
 const treeId1 = 'tree-1';
 const treeId2 = 'tree-2';
 
 export const SingleTreeDemo = () => (
   <AutoDemo
-    data={ longTree }
-    storyScript={ async (story) => {
+    data={longTree}
+    storyScript={async story => {
       await story.tree.current!.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
@@ -50,34 +49,33 @@ export const SingleTreeDemo = () => (
       await story.programmaticMove('down', 2, 500);
       await story.wait(1000);
       await story.env.current!.completeProgrammaticDrag();
-    } }
+    }}
   >
-    { (environmentProps, environmentRef, treeRef) => (
+    {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        allowDragAndDrop={ true }
-        allowDropOnItemWithChildren={ true }
-        allowReorderingItems={ true }
-        getItemTitle={ item => item.data }
-        viewState={ {
+        allowDragAndDrop={true}
+        allowDropOnItemWithChildren={true}
+        allowReorderingItems={true}
+        getItemTitle={item => item.data}
+        viewState={{
           [treeId1]: {
             expandedItems: ['Fruit', 'Meals'],
           },
-        } }
-        ref={ environmentRef }
-        { ...environmentProps }
+        }}
+        ref={environmentRef}
+        {...environmentProps}
       >
-        <Tree treeId={ treeId1 } rootItem="root" treeLabel="Tree Example" ref={ treeRef }/>
+        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
       </UncontrolledTreeEnvironment>
-    ) }
+    )}
   </AutoDemo>
 );
 
-
 export const MultiTreeDemo = () => (
   <AutoDemo
-    restart={ true }
-    data={ longTree }
-    storyScript={ async (story) => {
+    restart={true}
+    data={longTree}
+    storyScript={async story => {
       await story.tree.current!.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
@@ -190,25 +188,25 @@ export const MultiTreeDemo = () => (
       await story.wait(1000);
       await story.env.current!.completeProgrammaticDrag();
       await story.wait(5000);
-    } }
+    }}
   >
-    { (environmentProps, environmentRef, treeRef, treeRef2) => (
+    {(environmentProps, environmentRef, treeRef, treeRef2) => (
       <UncontrolledTreeEnvironment<string>
-        allowDragAndDrop={ true }
-        allowDropOnItemWithChildren={ true }
-        allowReorderingItems={ true }
-        getItemTitle={ item => item.data }
-        viewState={ {
+        allowDragAndDrop={true}
+        allowDropOnItemWithChildren={true}
+        allowReorderingItems={true}
+        getItemTitle={item => item.data}
+        viewState={{
           [treeId1]: {
             expandedItems: ['Fruit', 'Meals'],
           },
-        } }
-        ref={ environmentRef }
-        { ...environmentProps }
+        }}
+        ref={environmentRef}
+        {...environmentProps}
       >
-        <Tree treeId={ treeId1 } rootItem="root" treeLabel="Tree Example" ref={ treeRef }/>
-        <Tree treeId={ treeId2 } rootItem="root" treeLabel="Tree Example" ref={ treeRef2 }/>
+        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+        <Tree treeId={treeId2} rootItem="root" treeLabel="Tree Example" ref={treeRef2} />
       </UncontrolledTreeEnvironment>
-    ) }
+    )}
   </AutoDemo>
 );

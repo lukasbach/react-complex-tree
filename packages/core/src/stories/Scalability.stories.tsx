@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
-import { ExplicitDataSource} from '../types';
+import { ExplicitDataSource } from '../types';
 import { Tree } from '../tree/Tree';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
@@ -23,7 +23,7 @@ const itemsWithManyChildren: ExplicitDataSource = {
       canMove: true,
       canRename: true,
     },
-  }
+  },
 };
 
 for (let i = 0; i < 1000; i++) {
@@ -49,8 +49,7 @@ export const SingleTree = () => (
     canReorderItems={true}
     dataProvider={new StaticTreeDataProvider(itemsWithManyChildren.items)}
     getItemTitle={item => item.data}
-    viewState={{
-    }}
+    viewState={{}}
   >
     <Tree treeId="tree-1" rootItem="root" />
   </UncontrolledTreeEnvironment>

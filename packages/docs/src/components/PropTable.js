@@ -3,7 +3,7 @@ import { useDynamicImport } from 'docusaurus-plugin-react-docgen-typescript/pkg/
 
 export const PropTable = ({ name }) => {
   const props = useDynamicImport(name);
-  console.log(props, name)
+  console.log(props, name);
 
   if (!props) {
     return null;
@@ -12,34 +12,30 @@ export const PropTable = ({ name }) => {
   return (
     <table>
       <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default Value</th>
-        <th>Required</th>
-        <th>Description</th>
-      </tr>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Default Value</th>
+          <th>Required</th>
+          <th>Description</th>
+        </tr>
       </thead>
       <tbody>
-      {Object.keys(props).map(key => {
-        return (
-          <tr key={key}>
-            <td>
-              <code>{key}</code>
-            </td>
-            <td>
-              <code>{props[key].type?.name}</code>
-            </td>
-            <td>
-              {props[key].defaultValue && (
-                <code>{props[key].defaultValue.value}</code>
-              )}
-            </td>
-            <td>{props[key].required ? 'Yes' : 'No'}</td>
-            <td>{props[key].description}</td>
-          </tr>
-        );
-      })}
+        {Object.keys(props).map(key => {
+          return (
+            <tr key={key}>
+              <td>
+                <code>{key}</code>
+              </td>
+              <td>
+                <code>{props[key].type?.name}</code>
+              </td>
+              <td>{props[key].defaultValue && <code>{props[key].defaultValue.value}</code>}</td>
+              <td>{props[key].required ? 'Yes' : 'No'}</td>
+              <td>{props[key].description}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

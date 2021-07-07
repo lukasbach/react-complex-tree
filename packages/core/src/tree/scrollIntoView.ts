@@ -7,12 +7,11 @@ export const scrollIntoView = (element: Element | undefined | null) => {
     (element as any).scrollIntoViewIfNeeded();
   } else {
     const boundingBox = element.getBoundingClientRect();
-    const isElementInViewport = (
+    const isElementInViewport =
       boundingBox.top >= 0 &&
       boundingBox.left >= 0 &&
       boundingBox.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      boundingBox.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+      boundingBox.right <= (window.innerWidth || document.documentElement.clientWidth);
     if (!isElementInViewport) {
       element.scrollIntoView();
     }

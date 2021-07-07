@@ -1,4 +1,4 @@
-import { TreeItemIndex} from '../types';
+import { TreeItemIndex } from '../types';
 import React, { useMemo, useState } from 'react';
 import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from '../tree/useViewState';
@@ -7,10 +7,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
 import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 
-export const TreeItem = (props: {
-  itemIndex: TreeItemIndex;
-  depth: number;
-}): JSX.Element => {
+export const TreeItem = (props: { itemIndex: TreeItemIndex; depth: number }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const { renderers, treeInformation, renamingItem } = useTree();
   const environment = useTreeEnvironment();
@@ -41,14 +38,17 @@ export const TreeItem = (props: {
   );
 
   const title = environment.getItemTitle(item);
-  const titleComponent = renamingItem === props.itemIndex
-    ? <TreeItemRenamingInput itemIndex={props.itemIndex} />
-    : renderers.renderItemTitle({
-      info: treeInformation,
-      context: renderContext,
-      title,
-      item,
-    });
+  const titleComponent =
+    renamingItem === props.itemIndex ? (
+      <TreeItemRenamingInput itemIndex={props.itemIndex} />
+    ) : (
+      renderers.renderItemTitle({
+        info: treeInformation,
+        context: renderContext,
+        title,
+        item,
+      })
+    );
 
   const arrowComponent = renderers.renderItemArrow({
     info: treeInformation,
@@ -56,15 +56,13 @@ export const TreeItem = (props: {
     item: environment.items[props.itemIndex],
   });
 
-  return (
-    renderers.renderItem({
-      item: environment.items[props.itemIndex],
-      depth: props.depth,
-      title: titleComponent,
-      arrow: arrowComponent,
-      context: renderContext,
-      info: treeInformation,
-      children
-    }) ?? null
-  ) as any; // Type to use AllTreeRenderProps
+  return (renderers.renderItem({
+    item: environment.items[props.itemIndex],
+    depth: props.depth,
+    title: titleComponent,
+    arrow: arrowComponent,
+    context: renderContext,
+    info: treeInformation,
+    children,
+  }) ?? null) as any; // Type to use AllTreeRenderProps
 };

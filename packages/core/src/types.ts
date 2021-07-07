@@ -1,9 +1,4 @@
-import React, {
-  FormHTMLAttributes,
-  HTMLProps,
-  InputHTMLAttributes,
-  Ref,
-} from 'react';
+import React, { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, Ref } from 'react';
 
 export type TreeItemIndex = string | number;
 
@@ -22,7 +17,6 @@ export interface TreePosition {
   parent: TreeItemIndex;
   index: number;
 }
-
 
 export interface TreeItemActions {
   primaryAction: () => void;
@@ -101,13 +95,9 @@ export interface TreeRenderProps<T = any> {
     formProps: FormHTMLAttributes<HTMLFormElement>;
   }) => React.ReactNode;
 
-  renderDraggingItem?: (props: {
-    items: Array<TreeItem<T>>;
-  }) => React.ReactNode;
+  renderDraggingItem?: (props: { items: Array<TreeItem<T>> }) => React.ReactNode;
 
-  renderDraggingItemTitle?: (props: {
-    items: Array<TreeItem<T>>;
-  }) => React.ReactNode;
+  renderDraggingItemTitle?: (props: { items: Array<TreeItem<T>> }) => React.ReactNode;
 
   renderItemsContainer?: (props: {
     children: React.ReactNode;
@@ -121,14 +111,9 @@ export interface TreeRenderProps<T = any> {
     info: TreeInformation;
   }) => React.ReactNode;
 
-  renderDragBetweenLine?: (props: {
-    draggingPosition: DraggingPosition;
-    lineProps: HTMLProps<any>
-  }) => React.ReactNode;
+  renderDragBetweenLine?: (props: { draggingPosition: DraggingPosition; lineProps: HTMLProps<any> }) => React.ReactNode;
 
-  renderSearchInput?: (props: {
-    inputProps: HTMLProps<HTMLInputElement>;
-  }) => React.ReactNode;
+  renderSearchInput?: (props: { inputProps: HTMLProps<HTMLInputElement> }) => React.ReactNode;
 
   renderDepthOffset?: number;
 }
@@ -143,7 +128,12 @@ export enum InteractionMode {
 
 export interface InteractionManager {
   mode: InteractionMode;
-  createInteractiveElementProps: (item: TreeItem, treeId: string, actions: TreeItemActions, renderFlags: TreeItemRenderFlags) => HTMLProps<HTMLElement>;
+  createInteractiveElementProps: (
+    item: TreeItem,
+    treeId: string,
+    actions: TreeItemActions,
+    renderFlags: TreeItemRenderFlags
+  ) => HTMLProps<HTMLElement>;
 }
 
 export interface TreeCapabilities<T = any> {
@@ -218,25 +208,35 @@ export interface TreeEnvironmentChangeActions {
   moveProgrammaticDragPositionDown: () => void;
 }
 
-export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions
+export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions;
 
-export interface TreeEnvironmentRef<T = any> extends TreeEnvironmentChangeActions, Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
+export interface TreeEnvironmentRef<T = any>
+  extends TreeEnvironmentChangeActions,
+    Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
   treeEnvironmentContext: TreeEnvironmentContextProps;
   dragAndDropContext: DragAndDropContextProps;
 }
 
-export interface TreeEnvironmentConfiguration<T = any> extends
-  TreeRenderProps<T>, TreeCapabilities<T>, TreeChangeHandlers<T>, ExplicitDataSource<T> {
+export interface TreeEnvironmentConfiguration<T = any>
+  extends TreeRenderProps<T>,
+    TreeCapabilities<T>,
+    TreeChangeHandlers<T>,
+    ExplicitDataSource<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
   getItemTitle: (item: TreeItem<T>) => string;
 }
 
-export interface TreeEnvironmentContextProps<T = any> extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>, AllTreeRenderProps<T> {
+export interface TreeEnvironmentContextProps<T = any>
+  extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>,
+    AllTreeRenderProps<T> {
   registerTree: (tree: TreeConfiguration) => void;
   unregisterTree: (treeId: string) => void;
   activeTreeId?: string;
-  setActiveTree: (treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined), autoFocus?: boolean) => void;
+  setActiveTree: (
+    treeIdOrSetStateFunction: string | undefined | ((prevState: string | undefined) => string | undefined),
+    autoFocus?: boolean
+  ) => void;
   treeIds: string[];
   trees: Record<string, TreeConfiguration>;
 }
@@ -253,8 +253,12 @@ export interface DragAndDropContextProps<T = any> {
   programmaticDragDown: () => void;
   draggingPosition?: DraggingPosition;
   viableDraggingPositions?: DraggingPosition[];
-  linearItems?: Array<{ item: TreeItemIndex, depth: number }>;
-  onDragOverTreeHandler: (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => void;
+  linearItems?: Array<{ item: TreeItemIndex; depth: number }>;
+  onDragOverTreeHandler: (
+    e: DragEvent,
+    treeId: string,
+    containerRef: React.MutableRefObject<HTMLElement | undefined>
+  ) => void;
 }
 
 export type DraggingPosition = DraggingPositionItem | DraggingPositionBetweenItems;
@@ -282,7 +286,11 @@ export interface ControlledTreeEnvironmentProps<T = any> extends TreeEnvironment
   children?: JSX.Element | JSX.Element[] | null;
 }
 
-export interface UncontrolledTreeEnvironmentProps<T = any> extends TreeRenderProps<T>, TreeCapabilities, ImplicitDataSource<T>, TreeChangeHandlers<T> {
+export interface UncontrolledTreeEnvironmentProps<T = any>
+  extends TreeRenderProps<T>,
+    TreeCapabilities,
+    ImplicitDataSource<T>,
+    TreeChangeHandlers<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
   getItemTitle: (item: TreeItem<T>) => string;
@@ -296,8 +304,7 @@ export interface TreeConfiguration {
   treeLabelledBy?: string;
 }
 
-export interface TreeProps<T = any> extends TreeConfiguration, Partial<TreeRenderProps<T>> {
-}
+export interface TreeProps<T = any> extends TreeConfiguration, Partial<TreeRenderProps<T>> {}
 
 export interface TreeContextProps extends TreeConfiguration {
   search: string | null;
@@ -306,7 +313,7 @@ export interface TreeContextProps extends TreeConfiguration {
   setRenamingItem: (item: TreeItemIndex | null) => void;
   renderers: AllTreeRenderProps;
   treeInformation: TreeInformation;
-  getItemsLinearly: () => Array<{ item: TreeItemIndex, depth: number }>;
+  getItemsLinearly: () => Array<{ item: TreeItemIndex; depth: number }>;
 }
 
 export interface TreeChangeActions {
@@ -329,7 +336,7 @@ export interface TreeChangeActions {
   abortSearch: () => void;
 }
 
-export type TreeChangeActionsContextProps = TreeChangeActions
+export type TreeChangeActionsContextProps = TreeChangeActions;
 
 export interface TreeRef<T = any> extends TreeChangeActions, TreeInformation {
   treeContext: TreeContextProps;
@@ -348,7 +355,7 @@ export interface TreeDataProvider<T = any> {
 
 export type Disposable = {
   dispose: () => void;
-}
+};
 
 export interface KeyboardBindings {
   primaryAction?: string[];

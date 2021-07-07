@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItemIndex } from '../types';
-import { PropsWithChildren} from 'react';
+import { PropsWithChildren } from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
@@ -9,7 +9,10 @@ import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
 const EnvironmentActionsContext = React.createContext<TreeEnvironmentActionsContextProps>(null as any);
 export const useEnvironmentActions = () => React.useContext(EnvironmentActionsContext);
 
-export const EnvironmentActionsProvider = React.forwardRef<TreeEnvironmentRef, PropsWithChildren<Record<string, unknown>>>((props, ref) => {
+export const EnvironmentActionsProvider = React.forwardRef<
+  TreeEnvironmentRef,
+  PropsWithChildren<Record<string, unknown>>
+>((props, ref) => {
   const environment = useTreeEnvironment();
   const dnd = useDragAndDrop();
 
@@ -36,7 +39,9 @@ export const EnvironmentActionsProvider = React.forwardRef<TreeEnvironmentRef, P
     moveFocusDown(treeId: string): void {
       const tree = environment.trees[treeId];
       const linearItems = getItemsLinearly(tree.rootItem, environment.viewState[treeId] ?? {}, environment.items);
-      const currentFocusIndex = linearItems.findIndex(({ item }) => item === environment.viewState[treeId]?.focusedItem);
+      const currentFocusIndex = linearItems.findIndex(
+        ({ item }) => item === environment.viewState[treeId]?.focusedItem
+      );
       const newIndex = currentFocusIndex !== undefined ? Math.min(linearItems.length - 1, currentFocusIndex + 1) : 0;
       const newItem = environment.items[linearItems[newIndex].item];
       environment.onFocusItem?.(newItem, treeId);
@@ -44,7 +49,9 @@ export const EnvironmentActionsProvider = React.forwardRef<TreeEnvironmentRef, P
     moveFocusUp(treeId: string): void {
       const tree = environment.trees[treeId];
       const linearItems = getItemsLinearly(tree.rootItem, environment.viewState[treeId] ?? {}, environment.items);
-      const currentFocusIndex = linearItems.findIndex(({ item }) => item === environment.viewState[treeId]?.focusedItem);
+      const currentFocusIndex = linearItems.findIndex(
+        ({ item }) => item === environment.viewState[treeId]?.focusedItem
+      );
       const newIndex = currentFocusIndex !== undefined ? Math.max(0, currentFocusIndex - 1) : 0;
       const newItem = environment.items[linearItems[newIndex].item];
       environment.onFocusItem?.(newItem, treeId);
@@ -73,21 +80,20 @@ export const EnvironmentActionsProvider = React.forwardRef<TreeEnvironmentRef, P
     },
     toggleItemSelectStatus(itemId: TreeItemIndex, treeId: string): void {
       if (environment.viewState[treeId]?.selectedItems?.includes(itemId)) {
-        environment.onSelectItems?.(environment.viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ?? [], treeId);
+        environment.onSelectItems?.(
+          environment.viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ?? [],
+          treeId
+        );
       } else {
-        environment.onSelectItems?.([...environment.viewState[treeId]!.selectedItems ?? [], itemId], treeId);
+        environment.onSelectItems?.([...(environment.viewState[treeId]!.selectedItems ?? []), itemId], treeId);
       }
     },
     invokePrimaryAction(itemId, treeId) {
       environment.onPrimaryAction?.(environment.items[itemId], treeId);
-    }
+    },
   };
 
   useCreatedEnvironmentRef(ref, actions);
 
-  return (
-    <EnvironmentActionsContext.Provider value={actions}>
-      { props.children }
-    </EnvironmentActionsContext.Provider>
-  );
+  return <EnvironmentActionsContext.Provider value={actions}>{props.children}</EnvironmentActionsContext.Provider>;
 });

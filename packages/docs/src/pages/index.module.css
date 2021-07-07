@@ -32,7 +32,7 @@
   margin-bottom: 30px;
 }
 
-.buttons a, .buttons button {
+.buttons a,
+.buttons button {
   margin: 0 10px;
 }
-

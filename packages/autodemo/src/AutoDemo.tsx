@@ -3,40 +3,45 @@ import {
   TreeEnvironmentRef,
   TreeRef,
   UncontrolledTreeEnvironmentProps,
-  StaticTreeDataProvider, ExplicitDataSource,
+  StaticTreeDataProvider,
+  ExplicitDataSource,
 } from 'react-complex-tree';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createDefaultRenderers } from 'react-complex-tree/lib/renderers/createDefaultRenderers';
 
 export interface AutomationStoryHelpers {
-  wait: (ms: number) => Promise<void>,
-  env: React.RefObject<TreeEnvironmentRef>,
-  tree: React.RefObject<TreeRef>,
-  tree1: React.RefObject<TreeRef>,
-  tree2: React.RefObject<TreeRef>,
-  tree3: React.RefObject<TreeRef>,
-  tree4: React.RefObject<TreeRef>,
-  tree5: React.RefObject<TreeRef>,
-  searchFor: (tree: TreeRef, search: string, timeBetweenTypes?: number) => Promise<void>,
+  wait: (ms: number) => Promise<void>;
+  env: React.RefObject<TreeEnvironmentRef>;
+  tree: React.RefObject<TreeRef>;
+  tree1: React.RefObject<TreeRef>;
+  tree2: React.RefObject<TreeRef>;
+  tree3: React.RefObject<TreeRef>;
+  tree4: React.RefObject<TreeRef>;
+  tree5: React.RefObject<TreeRef>;
+  searchFor: (tree: TreeRef, search: string, timeBetweenTypes?: number) => Promise<void>;
   programmaticMove: (direction: 'up' | 'down', times: number, timeBetweenMoves?: number) => Promise<void>;
-  renameTo: (tree: TreeRef, newName: string, timeBetweenTypes?: number) => Promise<void>,
+  renameTo: (tree: TreeRef, newName: string, timeBetweenTypes?: number) => Promise<void>;
 }
 
-export interface ProvidedEnvironmentProps extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider' | 'renderItem'> {
-  key: string
+export interface ProvidedEnvironmentProps
+  extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider' | 'renderItem'> {
+  key: string;
 }
 
 const localStorageKeySpeed = 'rct-autodemo-speed';
 
 export const AutoDemo = (props: {
-  data: ExplicitDataSource,
+  data: ExplicitDataSource;
   children: (
     environmentProps: ProvidedEnvironmentProps,
-    environmentRef: React.Ref<TreeEnvironmentRef>, treeRef: React.Ref<TreeRef>,
-    treeRef2: React.Ref<TreeRef>, treeRef3: React.Ref<TreeRef>,
-    treeRef4: React.Ref<TreeRef>, treeRef5: React.Ref<TreeRef>,
-  ) => JSX.Element,
-  storyScript: (story: AutomationStoryHelpers) => Promise<void>,
+    environmentRef: React.Ref<TreeEnvironmentRef>,
+    treeRef: React.Ref<TreeRef>,
+    treeRef2: React.Ref<TreeRef>,
+    treeRef3: React.Ref<TreeRef>,
+    treeRef4: React.Ref<TreeRef>,
+    treeRef5: React.Ref<TreeRef>
+  ) => JSX.Element;
+  storyScript: (story: AutomationStoryHelpers) => Promise<void>;
   restart?: boolean;
 }) => {
   const [aborted, setAborted] = useState(false);
@@ -56,7 +61,9 @@ export const AutoDemo = (props: {
     speedRef.current = speed;
   }, [speed]);
 
-  useEffect(() => { abortedRef.current = aborted; }, [aborted]);
+  useEffect(() => {
+    abortedRef.current = aborted;
+  }, [aborted]);
 
   useEffect(() => {
     setAborted(false);
@@ -91,7 +98,7 @@ export const AutoDemo = (props: {
             } else {
               environmentRef.current!.moveProgrammaticDragPositionDown();
             }
-            await helpers.wait(i < times * .2 || i > times * .8 ? timeBetweenMoves * 2 : timeBetweenMoves);
+            await helpers.wait(i < times * 0.2 || i > times * 0.8 ? timeBetweenMoves * 2 : timeBetweenMoves);
           }
         },
         wait: async ms => {
@@ -102,7 +109,7 @@ export const AutoDemo = (props: {
           if (abortedRef.current) {
             throw 'abort';
           }
-        }
+        },
       };
 
       try {
@@ -110,7 +117,7 @@ export const AutoDemo = (props: {
         if (props.restart) {
           setRestartKey(oldKey => oldKey + 1);
         }
-      } catch(e) {
+      } catch (e) {
         if (e !== 'abort') {
           throw e;
         }
@@ -118,24 +125,28 @@ export const AutoDemo = (props: {
     }, 1000);
   }, [restartKey]);
 
-  const envProps: ProvidedEnvironmentProps = useMemo<ProvidedEnvironmentProps>(() => ({
-    key: `k${ restartKey }`,
-    autoFocus: aborted,
-    dataProvider: new StaticTreeDataProvider(JSON.parse(JSON.stringify(props.data.items)), (item, data) => ({
-      ...item,
-      data,
-    })),
-    renderItem: p => createDefaultRenderers({}).renderItem({
-      ...p,
-      context: {
-        ...p.context,
-        interactiveElementProps: {
-          ...p.context.interactiveElementProps,
-          tabIndex: aborted ? p.context.interactiveElementProps.tabIndex : -2,
-        }
-      }
-    })
-  }), [restartKey, aborted]);
+  const envProps: ProvidedEnvironmentProps = useMemo<ProvidedEnvironmentProps>(
+    () => ({
+      key: `k${restartKey}`,
+      autoFocus: aborted,
+      dataProvider: new StaticTreeDataProvider(JSON.parse(JSON.stringify(props.data.items)), (item, data) => ({
+        ...item,
+        data,
+      })),
+      renderItem: p =>
+        createDefaultRenderers({}).renderItem({
+          ...p,
+          context: {
+            ...p.context,
+            interactiveElementProps: {
+              ...p.context.interactiveElementProps,
+              tabIndex: aborted ? p.context.interactiveElementProps.tabIndex : -2,
+            },
+          },
+        }),
+    }),
+    [restartKey, aborted]
+  );
 
   const SpeedButton: React.FC<{ speed: number }> = props => (
     <button className={props.speed === speed ? 'active' : ''} onClick={() => setSpeed(props.speed)}>
@@ -164,7 +175,7 @@ export const AutoDemo = (props: {
           <div className="rct-autodemo-controls-header">
             <h2>{!aborted ? 'Demo is running' : 'Demo was stopped'}</h2>
             <div className="rct-autodemo-controls-speed" aria-label="Speed control for the demo">
-              <SpeedButton speed={.75} />
+              <SpeedButton speed={0.75} />
               <SpeedButton speed={1} />
               <SpeedButton speed={2} />
               <SpeedButton speed={3} />

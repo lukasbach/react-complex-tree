@@ -23,32 +23,32 @@ values:
 
 ```css
 :root {
-    --rct-color-tree-bg: #F6F8FA;
-    --rct-color-tree-focus-outline: #0366D6;
+  --rct-color-tree-bg: #f6f8fa;
+  --rct-color-tree-focus-outline: #0366d6;
 
-    --rct-color-focustree-item-selected-bg: #E8EAED;
-    --rct-color-focustree-item-selected-text: inherit;
-    --rct-color-focustree-item-focused-border: #0366D6;
-    --rct-color-focustree-item-draggingover-bg: #EBF0F4;
-    --rct-color-focustree-item-draggingover-color: inherit;
+  --rct-color-focustree-item-selected-bg: #e8eaed;
+  --rct-color-focustree-item-selected-text: inherit;
+  --rct-color-focustree-item-focused-border: #0366d6;
+  --rct-color-focustree-item-draggingover-bg: #ebf0f4;
+  --rct-color-focustree-item-draggingover-color: inherit;
 
-    --rct-color-nonfocustree-item-selected-bg: #E8EAED;
-    --rct-color-nonfocustree-item-selected-text: inherit;
-    --rct-color-nonfocustree-item-focused-border: #dbdbdb;
+  --rct-color-nonfocustree-item-selected-bg: #e8eaed;
+  --rct-color-nonfocustree-item-selected-text: inherit;
+  --rct-color-nonfocustree-item-focused-border: #dbdbdb;
 
-    --rct-color-search-highlight-bg: #a2aed2;
-    --rct-color-drag-between-line-bg: #0366D6;
-    --rct-color-arrow: #9aa5b3;
+  --rct-color-search-highlight-bg: #a2aed2;
+  --rct-color-drag-between-line-bg: #0366d6;
+  --rct-color-arrow: #9aa5b3;
 
-    --rct-item-height: 22px;
+  --rct-item-height: 22px;
 
-    --rct-color-renaming-input-submitbutton-bg: inherit;
-    --rct-color-renaming-input-submitbutton-bg-hover: #0366D6;
-    --rct-color-renaming-input-submitbutton-bg-active: #095fc1;
+  --rct-color-renaming-input-submitbutton-bg: inherit;
+  --rct-color-renaming-input-submitbutton-bg-hover: #0366d6;
+  --rct-color-renaming-input-submitbutton-bg-active: #095fc1;
 
-    --rct-color-renaming-input-submitbutton-text: inherit;
-    --rct-color-renaming-input-submitbutton-text-hover: #ffffff;
-    --rct-color-renaming-input-submitbutton-text-active: #ffffff;
+  --rct-color-renaming-input-submitbutton-text: inherit;
+  --rct-color-renaming-input-submitbutton-text-hover: #ffffff;
+  --rct-color-renaming-input-submitbutton-text-active: #ffffff;
 }
 ```
 
@@ -82,7 +82,7 @@ function App() {
         canDragAndDrop={true}
         canDropOnItemWithChildren={true}
         canReorderItems={true}
-        dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+        dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
         getItemTitle={item => item.data}
         viewState={{ ['tree-1']: { focusedItem: 'Meals' } }}
       >
@@ -105,12 +105,14 @@ The following classes are defined by the default renderers and attached to DOM n
 are met:
 
 ### Tree Container
+
 - `rct-tree-root`
 - `rct-tree-root-focus`
 - `rct-tree-root-renaming`
 - `rct-tree-root-itemsselected`
 
 ### Tree Items
+
 - `rct-tree-item-search-highlight`
 - `rct-tree-item-arrow`
 - `rct-tree-item-arrow-hasChildren`
@@ -125,19 +127,23 @@ are met:
 - `rct-tree-item-button`
 
 ### Tree Item Renaming Form
+
 - `rct-tree-item-renaming-form`
 - `rct-tree-item-renaming-input`
 - `rct-tree-item-renaming-submit-button`
 
 ### Container for Tree Items
+
 - `rct-tree-items-container`
 
 ### Drag-Between Line
+
 - `rct-tree-drag-between-line`
 - `rct-tree-drag-between-line-top`
 - `rct-tree-drag-between-line-bottom`
 
 ### Search Input
+
 - `rct-tree-search-input-container`
 - `rct-tree-search-input`
 

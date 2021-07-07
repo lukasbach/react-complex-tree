@@ -13,5 +13,5 @@ export const defaultKeyboardBindings: Required<KeyboardBindings> = {
   selectAll: ['control+a'],
   startProgrammaticDnd: ['control+d'],
   completeProgrammaticDnd: ['enter'],
-  abortProgrammaticDnd: ['escape']
+  abortProgrammaticDnd: ['escape'],
 };

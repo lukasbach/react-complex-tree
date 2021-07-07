@@ -1,19 +1,16 @@
 import * as React from 'react';
-import { HTMLProps} from 'react';
+import { HTMLProps } from 'react';
 import { useTree } from './Tree';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 export const DragBetweenLine: React.FC<{
-  treeId: string,
+  treeId: string;
 }> = props => {
   const { draggingPosition, itemHeight } = useDragAndDrop();
   const { renderers } = useTree();
 
   const shouldDisplay =
-    draggingPosition &&
-    draggingPosition.targetType === 'between-items' &&
-    draggingPosition.treeId === props.treeId;
-
+    draggingPosition && draggingPosition.targetType === 'between-items' && draggingPosition.treeId === props.treeId;
 
   if (!shouldDisplay) {
     return null;
@@ -24,12 +21,14 @@ export const DragBetweenLine: React.FC<{
   };
 
   return (
-    <div style={{
-      position: 'absolute',
-      left: '0',
-      right: '0',
-      top: `${((draggingPosition?.linearIndex ?? 0)) * itemHeight}px`
-    }}>
+    <div
+      style={{
+        position: 'absolute',
+        left: '0',
+        right: '0',
+        top: `${(draggingPosition?.linearIndex ?? 0) * itemHeight}px`,
+      }}
+    >
       {renderers.renderDragBetweenLine({
         draggingPosition: draggingPosition!,
         lineProps,

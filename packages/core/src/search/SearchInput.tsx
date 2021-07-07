@@ -7,7 +7,7 @@ import { useSearchMatchFocus } from './useSearchMatchFocus';
 import { useViewState } from '../tree/useViewState';
 
 export const SearchInput: React.FC<{
-  containerRef?: HTMLElement
+  containerRef?: HTMLElement;
 }> = props => {
   const { search, setSearch, treeId, renderers, renamingItem } = useTree();
   const environment = useTreeEnvironment();
@@ -27,38 +27,46 @@ export const SearchInput: React.FC<{
     }
   };
 
-  useHotkey('abortSearch', () => {
-    // Without the requestAnimationFrame, hitting enter to abort
-    // and then moving focus weirdly moves the selected item along
-    // with the focused item.
-    requestAnimationFrame(() => {
-      clearSearch();
-    });
-  }, isActiveTree && search !== null, [search, isActiveTree]);
+  useHotkey(
+    'abortSearch',
+    () => {
+      // Without the requestAnimationFrame, hitting enter to abort
+      // and then moving focus weirdly moves the selected item along
+      // with the focused item.
+      requestAnimationFrame(() => {
+        clearSearch();
+      });
+    },
+    isActiveTree && search !== null,
+    [search, isActiveTree]
+  );
 
-  useHtmlElementEventListener(props.containerRef, 'keydown', e => {
-    const unicode = e.key.charCodeAt(0);
-    if (
-      (environment.canSearch ?? true) &&
-      (environment.canSearchByStartingTyping ?? true) &&
-      isActiveTree &&
-      search === null &&
-      !renamingItem &&
-      !e.ctrlKey &&
-      !e.shiftKey &&
-      !e.altKey &&
-      !e.metaKey &&
-      (
-        (unicode >= 48 && unicode <= 57) || // number
-        // (unicode >= 65 && unicode <= 90) || // uppercase letter
-        (unicode >= 97 && unicode <= 122) // lowercase letter
-      )
-    ) {
-      setSearch('');
+  useHtmlElementEventListener(
+    props.containerRef,
+    'keydown',
+    e => {
+      const unicode = e.key.charCodeAt(0);
+      if (
+        (environment.canSearch ?? true) &&
+        (environment.canSearchByStartingTyping ?? true) &&
+        isActiveTree &&
+        search === null &&
+        !renamingItem &&
+        !e.ctrlKey &&
+        !e.shiftKey &&
+        !e.altKey &&
+        !e.metaKey &&
+        ((unicode >= 48 && unicode <= 57) || // number
+          // (unicode >= 65 && unicode <= 90) || // uppercase letter
+          (unicode >= 97 && unicode <= 122)) // lowercase letter
+      ) {
+        setSearch('');
 
-      (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
-    }
-  }, [isActiveTree, search, renamingItem, environment.canSearchByStartingTyping, environment.canSearch]);
+        (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
+      }
+    },
+    [isActiveTree, search, renamingItem, environment.canSearchByStartingTyping, environment.canSearch]
+  );
 
   if (!(environment.canSearch ?? true) || search === null) {
     return null;
@@ -73,8 +81,8 @@ export const SearchInput: React.FC<{
       },
       'aria-label': 'Search for items', // TODO
       ...({
-        ['data-rct-search-input']: 'true'
-      } as any)
-    }
+        ['data-rct-search-input']: 'true',
+      } as any),
+    },
   }) as any;
 };

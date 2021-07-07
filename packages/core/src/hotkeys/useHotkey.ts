@@ -4,52 +4,69 @@ import { KeyboardBindings } from '../types';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
-export const useHotkey = (combinationName: keyof KeyboardBindings, onHit: (e: KeyboardEvent) => void, active?: boolean, deps?: any[]) => {
+export const useHotkey = (
+  combinationName: keyof KeyboardBindings,
+  onHit: (e: KeyboardEvent) => void,
+  active?: boolean,
+  deps?: any[]
+) => {
   const environment = useTreeEnvironment();
   const pressedKeys = useRef<string[]>([]);
   const possibleCombinations = useMemo(
-    () => (environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName])
-      .map(combination => combination.split('+')),
+    () =>
+      (environment.keyboardBindings?.[combinationName] ?? defaultKeyboardBindings[combinationName]).map(combination =>
+        combination.split('+')
+      ),
     [combinationName, environment.keyboardBindings]
   );
 
-  useHtmlElementEventListener(document, 'keydown', e => {
-    if (active === false) {
-      return;
-    }
+  useHtmlElementEventListener(
+    document,
+    'keydown',
+    e => {
+      if (active === false) {
+        return;
+      }
 
-    if (!pressedKeys.current.includes(e.key)) {
-      pressedKeys.current.push(e.key);
+      if (!pressedKeys.current.includes(e.key)) {
+        pressedKeys.current.push(e.key);
+        const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
+
+        const partialMatch = possibleCombinations
+          .map(combination =>
+            pressedKeysLowercase.map(key => combination.includes(key.toLowerCase())).reduce((a, b) => a && b, true)
+          )
+          .reduce((a, b) => a || b, false);
+
+        if (partialMatch) {
+          e.preventDefault();
+        }
+      }
+    },
+    [active]
+  );
+
+  useHtmlElementEventListener(
+    document,
+    'keyup',
+    e => {
+      if (active === false) {
+        return;
+      }
+
       const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
-
-      const partialMatch = possibleCombinations
+      const match = possibleCombinations
         .map(combination =>
-          pressedKeysLowercase
-            .map(key => combination.includes(key.toLowerCase()))
-            .reduce((a, b) => a && b, true)
+          combination.map(key => pressedKeysLowercase.includes(key.toLowerCase())).reduce((a, b) => a && b, true)
         )
         .reduce((a, b) => a || b, false);
 
-      if (partialMatch) {
-        e.preventDefault();
+      if (match) {
+        onHit(e);
       }
-    }
-  }, [active]);
 
-  useHtmlElementEventListener(document, 'keyup', e => {
-    if (active === false) {
-      return;
-    }
-
-    const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
-    const match = possibleCombinations.map(combination => combination
-      .map(key => pressedKeysLowercase.includes(key.toLowerCase()))
-      .reduce((a, b) => a && b, true)).reduce((a, b) => a || b, false);
-
-    if (match) {
-      onHit(e);
-    }
-
-    pressedKeys.current = pressedKeys.current.filter(key => key !== e.key);
-  }, [possibleCombinations, onHit, active, ...deps ?? []]);
+      pressedKeys.current = pressedKeys.current.filter(key => key !== e.key);
+    },
+    [possibleCombinations, onHit, active, ...(deps ?? [])]
+  );
 };

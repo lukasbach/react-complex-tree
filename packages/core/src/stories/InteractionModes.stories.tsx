@@ -15,13 +15,13 @@ export const ClickItemToExpandInteractionMode = () => (
     canDragAndDrop={true}
     canDropOnItemWithChildren={true}
     canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickItemToExpand}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-      }
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -33,13 +33,13 @@ export const DoubleClickItemToExpandInteractionMode = () => (
     canDragAndDrop={true}
     canDropOnItemWithChildren={true}
     canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.DoubleClickItemToExpand}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-      }
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -51,13 +51,13 @@ export const ClickArrowToExpandInteractionMode = () => (
     canDragAndDrop={true}
     canDropOnItemWithChildren={true}
     canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickArrowToExpand}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts']
-      }
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />

@@ -11,7 +11,7 @@ export const useGetViableDragPositions = () => {
 
   return (treeId: string, draggingItems: TreeItem[], linearItems: ReturnType<typeof getItemsLinearly>) => {
     return linearItems
-      .map<DraggingPosition[]>(({item, depth}, linearIndex) => {
+      .map<DraggingPosition[]>(({ item, depth }, linearIndex) => {
         const parent = getParentOfLinearItem(linearItems, linearIndex, treeId);
         const childIndex = environment.items[parent.item].children!.indexOf(item);
 
@@ -53,6 +53,6 @@ export const useGetViableDragPositions = () => {
         }
       })
       .reduce((a, b) => [...a, ...b], [])
-      .filter((position) => canDropAt(position, draggingItems));
+      .filter(position => canDropAt(position, draggingItems));
   };
 };

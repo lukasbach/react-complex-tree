@@ -18,10 +18,10 @@ export const useSelectUpTo = () => {
 
       if (selectionStart < selectionEnd) {
         const selection = linearItems.slice(selectionStart, selectionEnd + 1).map(({ item }) => item);
-        environment.onSelectItems?.([...viewState?.selectedItems ?? [], ...selection], treeId);
+        environment.onSelectItems?.([...(viewState?.selectedItems ?? []), ...selection], treeId);
       } else {
         const selection = linearItems.slice(selectionEnd, selectionStart).map(({ item }) => item);
-        environment.onSelectItems?.([...viewState?.selectedItems ?? [], ...selection], treeId);
+        environment.onSelectItems?.([...(viewState?.selectedItems ?? []), ...selection], treeId);
       }
     } else {
       environment.onSelectItems?.([item.index], treeId);

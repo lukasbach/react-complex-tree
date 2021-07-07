@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  AllTreeRenderProps,
-  TreeContextProps,
-  TreeItemIndex,
-  TreeProps, TreeRef,
-} from '../types';
+import { AllTreeRenderProps, TreeContextProps, TreeItemIndex, TreeProps, TreeRef } from '../types';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
@@ -27,11 +22,11 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
   useEffect(() => {
     environment.registerTree({
       treeId: props.treeId,
-      rootItem: props.rootItem
+      rootItem: props.rootItem,
     });
 
     return () => environment.unregisterTree(props.treeId);
-  }, [ props.treeId, props.rootItem ]);
+  }, [props.treeId, props.rootItem]);
 
   const treeInformation = useCreatedTreeInformation(props, renamingItem, search);
 

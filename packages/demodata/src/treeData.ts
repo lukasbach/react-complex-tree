@@ -29,9 +29,9 @@ const shortTreeTemplate = {
         inner3: null,
       },
       item4: null,
-      item5: null
+      item5: null,
     },
-  }
+  },
 };
 
 const longTreeTemplate = {
@@ -44,7 +44,7 @@ const longTreeTemplate = {
         Strawberry: null,
         Blueberry: null,
       },
-      Banana: null
+      Banana: null,
     },
     Meals: {
       America: {
@@ -72,7 +72,7 @@ const longTreeTemplate = {
         PokeBowl: null,
         LemonCurd: null,
         KumaraFries: null,
-      }
+      },
     },
     Desserts: {
       Cookies: null,
@@ -83,7 +83,7 @@ const longTreeTemplate = {
       Cola: null,
       Juice: null,
     },
-  }
+  },
 };
 
 export const longTree = readTemplate(longTreeTemplate);

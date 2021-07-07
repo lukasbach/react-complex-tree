@@ -13,7 +13,8 @@ export const useSearchMatchFocus = () => {
     if (search && search.length > 0) {
       requestAnimationFrame(() => {
         const focusItem = getLinearItems().find(({ item }) =>
-          (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item])));
+          (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item]))
+        );
 
         if (focusItem) {
           onFocusItem?.(items[focusItem.item], treeId);

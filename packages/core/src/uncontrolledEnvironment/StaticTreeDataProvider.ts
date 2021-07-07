@@ -8,7 +8,7 @@ export class StaticTreeDataProvider<T = any> implements TreeDataProvider {
 
   constructor(
     items: Record<TreeItemIndex, TreeItem<T>>,
-    setItemName?: (item: TreeItem<T>, newName: string) => TreeItem<T>,
+    setItemName?: (item: TreeItem<T>, newName: string) => TreeItem<T>
     // private implicitItemOrdering?: (itemA: TreeItem<T>, itemB: TreeItem<T>) => number,
   ) {
     this.data = { items };

@@ -5,7 +5,7 @@ const links = {
   storybook: 'https://rct.lukasbach.com/storybook',
   sandbox: 'https://codesandbox.io/s/react-complex-tree-playground-u5tjs',
   github: 'https://github.com/lukasbach/react-complex-tree',
-}
+};
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
@@ -126,14 +126,12 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/',
+          editUrl: 'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/blog/',
+          editUrl: 'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -143,22 +141,19 @@ module.exports = {
     ],
   ],
   plugins: [
-    [
-      '@docusaurus/theme-live-codeblock',
-      {}
-    ],
+    ['@docusaurus/theme-live-codeblock', {}],
     [
       'docusaurus-plugin-react-docgen-typescript',
       {
         // pass in a single string or an array of strings
-        src: ['../core/src/**/*.tsx', ], //'!../core/src/**/*test.*', '!../core/src/**/*stories.*'],
+        src: ['../core/src/**/*.tsx'], //'!../core/src/**/*test.*', '!../core/src/**/*stories.*'],
         tsconfig: '../core/tsconfig.json',
         // global: true,
         parserOptions: {
           // pass parserOptions to react-docgen-typescript
           // here is a good starting point which filters out all
           // types from react
-          propFilter: (prop) => {
+          propFilter: prop => {
             if (prop.parent) {
               return !prop.parent.fileName.includes('@types/react');
             }
@@ -175,8 +170,8 @@ module.exports = {
         entryPoints: ['../core/src/index.ts'],
         tsconfig: '../core/tsconfig.json',
         sidebar: {
-          categoryLabel: 'API'
-        }
+          categoryLabel: 'API',
+        },
       },
     ],
   ],

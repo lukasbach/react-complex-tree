@@ -1,6 +1,6 @@
 # React Complex Tree - BlueprintJS Renderers
 
-> Render methods for `react-complex-tree` that style the tree like 
+> Render methods for `react-complex-tree` that style the tree like
 > [BlueprintJS's](https://blueprintjs.com/docs/#core/components/tree)
 > trees.
 

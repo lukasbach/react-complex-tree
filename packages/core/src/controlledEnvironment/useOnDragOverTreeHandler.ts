@@ -5,10 +5,7 @@ import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 
 const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) => {
-  return e.clientX < treeBb.left
-    || e.clientX > treeBb.right
-    || e.clientY < treeBb.top
-    || e.clientY > treeBb.bottom;
+  return e.clientX < treeBb.left || e.clientX > treeBb.right || e.clientY < treeBb.top || e.clientY > treeBb.bottom;
 };
 
 const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: number, capabilities: TreeCapabilities) => {
@@ -17,7 +14,7 @@ const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: numbe
   const linearIndex = Math.floor(hoveringPosition);
   let offset: 'top' | 'bottom' | undefined = undefined;
 
-  const lineThreshold = (capabilities.canDropOnItemWithChildren || capabilities.canDropOnItemWithoutChildren) ? .2 : .5;
+  const lineThreshold = capabilities.canDropOnItemWithChildren || capabilities.canDropOnItemWithoutChildren ? 0.2 : 0.5;
 
   if (hoveringPosition % 1 < lineThreshold) {
     offset = 'top';
@@ -34,7 +31,7 @@ export const useOnDragOverTreeHandler = (
   itemHeight: number,
   linearItems: { [treeId: string]: ReturnType<typeof getItemsLinearly> },
   onDragAtPosition: (draggingPosition: DraggingPosition | undefined) => void,
-  onPerformDrag: (draggingPosition: DraggingPosition) => void,
+  onPerformDrag: (draggingPosition: DraggingPosition) => void
 ) => {
   const environment = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
@@ -108,7 +105,8 @@ export const useOnDragOverTreeHandler = (
       return;
     }
 
-    const newChildIndex = environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
+    const newChildIndex =
+      environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
 
     if (offset === 'top' && depth === (linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
       offset = 'bottom';

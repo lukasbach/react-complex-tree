@@ -38,10 +38,9 @@ export const ControlTreeExternally = () => {
       canDragAndDrop={true}
       canDropOnItemWithChildren={true}
       canReorderItems={true}
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({...item, data}))}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}
-      viewState={{
-      }}
+      viewState={{}}
     >
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" ref={tree} />
     </UncontrolledTreeEnvironment>

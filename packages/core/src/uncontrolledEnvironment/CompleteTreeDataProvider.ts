@@ -22,9 +22,7 @@ export class CompleteTreeDataProvider<T = any> implements Required<TreeDataProvi
   }
 
   public onDidChangeTreeData(listener: (changedItemIds: TreeItemIndex[]) => void): Disposable {
-    return this.provider.onDidChangeTreeData
-      ? this.provider.onDidChangeTreeData(listener)
-      : { dispose: () => {} };
+    return this.provider.onDidChangeTreeData ? this.provider.onDidChangeTreeData(listener) : { dispose: () => {} };
   }
 
   public async onRenameItem(item: TreeItem<T>, name: string): Promise<void> {

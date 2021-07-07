@@ -51,30 +51,28 @@ export const TreeItemRenamingInput: React.FC<{
       abort();
     },
     'aria-label': 'New item name', // TODO
-    tabIndex: 0
+    tabIndex: 0,
   };
 
   const submitButtonProps: HTMLProps<any> = {
     onClick: e => {
       e.stopPropagation();
       confirm();
-    }
+    },
   };
 
   const formProps: FormHTMLAttributes<HTMLFormElement> = {
     onSubmit: e => {
       e.preventDefault();
       confirm();
-    }
+    },
   };
 
-  return (
-    renderers.renderRenameInput({
-      item,
-      inputRef,
-      submitButtonProps,
-      formProps,
-      inputProps,
-    })
-  ) as JSX.Element;
+  return renderers.renderRenameInput({
+    item,
+    inputRef,
+    submitButtonProps,
+    formProps,
+    inputProps,
+  }) as JSX.Element;
 };
