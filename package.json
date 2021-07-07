@@ -15,7 +15,7 @@
     "test": "lerna run test --npm-client=yarn --stream",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepublishOnly": "yarn lint && yarn prettier && yarn build",
+    "prepublishOnly": "yarn build",
     "lint": "eslint --ext .ts,.tsx packages/",
     "lint:fix": "eslint --ext .ts,.tsx packages/ --fix",
     "prettier": "prettier --check .",
