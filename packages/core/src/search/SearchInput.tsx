@@ -38,6 +38,7 @@ export const SearchInput: React.FC<{
       });
     },
     isActiveTree && search !== null,
+    true,
     [search, isActiveTree]
   );
 

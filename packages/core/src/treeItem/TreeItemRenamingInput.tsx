@@ -40,7 +40,7 @@ export const TreeItemRenamingInput: React.FC<{
 
   useHotkey('abortRenameItem', () => {
     abort();
-  });
+  }, true, true);
 
   const inputProps: InputHTMLAttributes<HTMLInputElement> = {
     value: title,

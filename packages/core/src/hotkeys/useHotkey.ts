@@ -4,10 +4,16 @@ import { KeyboardBindings } from '../types';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
+const elementsThatCanTakeText = [
+  'input',
+  'textarea'
+]
+
 export const useHotkey = (
   combinationName: keyof KeyboardBindings,
   onHit: (e: KeyboardEvent) => void,
   active?: boolean,
+  activatableWhileFocusingInput = false,
   deps?: any[]
 ) => {
   const environment = useTreeEnvironment();
@@ -25,6 +31,11 @@ export const useHotkey = (
     'keydown',
     e => {
       if (active === false) {
+        return;
+      }
+
+      if ((elementsThatCanTakeText.includes((e.target as HTMLElement).tagName.toLowerCase())
+        || (e.target as HTMLElement).isContentEditable) && !activatableWhileFocusingInput) {
         return;
       }
 
