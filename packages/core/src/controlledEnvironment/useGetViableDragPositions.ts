@@ -55,4 +55,4 @@ export const useGetViableDragPositions = () => {
       .reduce((a, b) => [...a, ...b], [])
       .filter((position) => canDropAt(position, draggingItems));
   };
-}
+};

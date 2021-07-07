@@ -8,4 +8,4 @@ export const useGetLinearItems = () => {
   const viewState = useViewState();
   const environment = useTreeEnvironment();
   return () => getItemsLinearly(rootItem, viewState, environment.items);
-}
+};

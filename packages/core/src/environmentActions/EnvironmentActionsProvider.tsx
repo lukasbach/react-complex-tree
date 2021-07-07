@@ -30,7 +30,7 @@ export const EnvironmentActionsProvider = React.forwardRef<TreeEnvironmentRef, P
     focusItem(itemId: TreeItemIndex, treeId: string): void {
       environment.onFocusItem?.(environment.items[itemId], treeId);
     },
-    focusTree(treeId: string, autoFocus: boolean = true): void {
+    focusTree(treeId: string, autoFocus = true): void {
       environment.setActiveTree(treeId, autoFocus);
     },
     moveFocusDown(treeId: string): void {

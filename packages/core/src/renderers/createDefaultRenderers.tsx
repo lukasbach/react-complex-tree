@@ -32,7 +32,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
           {item.hasChildren && (
             context.isExpanded ? (
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 16 16" enableBackground="new 0 0 16 16" xmlSpace="preserve">
+                viewBox="0 0 16 16" enableBackground="new 0 0 16 16" xmlSpace="preserve">
                 <g id="chevron_down">
                   <g>
                     <path fillRule="evenodd" clipRule="evenodd" d="M12,5c-0.28,0-0.53,0.11-0.71,0.29L8,8.59L4.71,5.29C4.53,5.11,4.28,5,4,5
@@ -43,7 +43,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
               </svg>
             ) : (
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                   viewBox="0 0 16 16" enableBackground="new 0 0 16 16" xmlSpace="preserve">
+                viewBox="0 0 16 16" enableBackground="new 0 0 16 16" xmlSpace="preserve">
                 <g id="chevron_right">
                   <g>
                     <path fillRule="evenodd" clipRule="evenodd" d="M10.71,7.29l-4-4C6.53,3.11,6.28,3,6,3C5.45,3,5,3.45,5,4
@@ -157,7 +157,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         >
           { children }
         </ul>
-      )
+      );
     },
     renderDragBetweenLine: ({draggingPosition, lineProps}) => {
       return (
@@ -182,7 +182,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
             )}
           />
         </div>
-      )
+      );
     },
     renderDepthOffset: 4,
   };

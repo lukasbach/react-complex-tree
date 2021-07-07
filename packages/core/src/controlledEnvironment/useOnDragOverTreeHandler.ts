@@ -14,7 +14,7 @@ const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) => {
 const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: number, capabilities: TreeCapabilities) => {
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
-  let linearIndex = Math.floor(hoveringPosition);
+  const linearIndex = Math.floor(hoveringPosition);
   let offset: 'top' | 'bottom' | undefined = undefined;
 
   const lineThreshold = (capabilities.canDropOnItemWithChildren || capabilities.canDropOnItemWithoutChildren) ? .2 : .5;
@@ -103,7 +103,7 @@ export const useOnDragOverTreeHandler = (
       return;
     }
 
-    let parent = getParentOfLinearItem(linearItems[treeId], linearIndex, treeId);
+    const parent = getParentOfLinearItem(linearItems[treeId], linearIndex, treeId);
 
     if (environment.viewState[treeId]?.selectedItems?.includes(targetItem.item)) {
       return;
@@ -143,4 +143,4 @@ export const useOnDragOverTreeHandler = (
 
     onPerformDrag(draggingPosition);
   };
-}
+};

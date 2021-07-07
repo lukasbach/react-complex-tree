@@ -10,4 +10,4 @@ export const useKey = (key: string, onHit: (e: KeyboardEvent) => void, active?: 
       onHit(e);
     }
   }, [active, key, ...deps ?? []]);
-}
+};

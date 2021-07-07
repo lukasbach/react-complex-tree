@@ -17,4 +17,4 @@ export const useGetGetParentOfLinearItem = () => {
 
     return parent;
   };
-}
+};

@@ -65,4 +65,4 @@ export const TreeItem = <T extends any>(props: {
       children
     }) ?? null
   ) as any; // Type to use AllTreeRenderProps
-}
+};

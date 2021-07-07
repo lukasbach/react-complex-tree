@@ -15,14 +15,14 @@ export const InteractionManagerProvider: React.FC = props => {
 
   const interactionManager = useMemo(() => {
     switch (environment.defaultInteractionMode ?? InteractionMode.ClickItemToExpand) {
-      case InteractionMode.DoubleClickItemToExpand:
-        return new DoubleClickItemToExpandInteractionManager(environment);
-      case InteractionMode.ClickItemToExpand:
-        return new ClickItemToExpandInteractionManager(environment);
-      case InteractionMode.ClickArrowToExpand:
-        return new ClickArrowToExpandInteractionManager(environment);
-      default:
-        throw Error(`Unknown interaction mode ${environment.defaultInteractionMode}`);
+    case InteractionMode.DoubleClickItemToExpand:
+      return new DoubleClickItemToExpandInteractionManager(environment);
+    case InteractionMode.ClickItemToExpand:
+      return new ClickItemToExpandInteractionManager(environment);
+    case InteractionMode.ClickArrowToExpand:
+      return new ClickArrowToExpandInteractionManager(environment);
+    default:
+      throw Error(`Unknown interaction mode ${environment.defaultInteractionMode}`);
     }
   }, []); // TODO make sure that environment does not need to be refreshed
 

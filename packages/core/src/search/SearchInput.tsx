@@ -25,7 +25,7 @@ export const SearchInput: React.FC<{
       const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
       (focusItem as HTMLElement)?.focus?.();
     }
-  }
+  };
 
   useHotkey('abortSearch', e => {
     // Without the requestAnimationFrame, hitting enter to abort
@@ -33,7 +33,7 @@ export const SearchInput: React.FC<{
     // with the focused item.
     requestAnimationFrame(() => {
       clearSearch();
-    })
+    });
   }, isActiveTree && search !== null, [search, isActiveTree]);
 
   useHtmlElementEventListener(props.containerRef, 'keydown', e => {

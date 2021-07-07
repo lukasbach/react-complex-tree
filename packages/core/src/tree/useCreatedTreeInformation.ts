@@ -7,21 +7,21 @@ export const useCreatedTreeInformation = (tree: TreeProps, renamingItem: TreeIte
   const environment = useTreeEnvironment();
   const dnd = useDragAndDrop();
   return useMemo<TreeInformation>(() => ({
-      isFocused: environment.activeTreeId === tree.treeId,
-      isRenaming: !!renamingItem,
-      areItemsSelected: (environment.viewState[tree.treeId]?.selectedItems?.length ?? 0) > 0,
-      isSearching: search !== null,
-      search,
-      isProgrammaticallyDragging: dnd.isProgrammaticallyDragging ?? false,
-      treeId: tree.treeId,
-      rootItem: tree.rootItem,
-    }),
-    [
-      environment.activeTreeId,
-      environment.viewState[tree.treeId]?.selectedItems,
-      renamingItem,
-      tree.treeId,
-      search,
-    ],
+    isFocused: environment.activeTreeId === tree.treeId,
+    isRenaming: !!renamingItem,
+    areItemsSelected: (environment.viewState[tree.treeId]?.selectedItems?.length ?? 0) > 0,
+    isSearching: search !== null,
+    search,
+    isProgrammaticallyDragging: dnd.isProgrammaticallyDragging ?? false,
+    treeId: tree.treeId,
+    rootItem: tree.rootItem,
+  }),
+  [
+    environment.activeTreeId,
+    environment.viewState[tree.treeId]?.selectedItems,
+    renamingItem,
+    tree.treeId,
+    search,
+  ],
   );
 };

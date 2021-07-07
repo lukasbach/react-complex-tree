@@ -10,7 +10,7 @@ export const TreeItemChildren = <T extends any>(props: {
 }): JSX.Element => {
   const { renderers, treeInformation } = useTree();
 
-  let childElements: JSX.Element[] = [];
+  const childElements: JSX.Element[] = [];
 
   for (const child of props.children) {
     childElements.push(
@@ -35,4 +35,4 @@ export const TreeItemChildren = <T extends any>(props: {
     info: treeInformation,
     containerProps,
   }) as any;
-}
+};

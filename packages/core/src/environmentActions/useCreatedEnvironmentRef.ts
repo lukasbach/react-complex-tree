@@ -13,4 +13,4 @@ export const useCreatedEnvironmentRef = (ref: Ref<TreeEnvironmentRef>, actions: 
     treeEnvironmentContext: environment,
     dragAndDropContext: dnd,
   }));
-}
+};

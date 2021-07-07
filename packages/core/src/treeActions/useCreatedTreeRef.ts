@@ -16,4 +16,4 @@ export const useCreatedTreeRef = (ref: Ref<TreeRef>, actions: TreeChangeActions)
     treeContext: tree,
     ...tree.treeInformation,
   }));
-}
+};

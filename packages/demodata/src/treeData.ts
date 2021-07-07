@@ -7,7 +7,7 @@ const readTemplate = (template: any, data: any = { items: {} }) => {
       children: value !== null ? Object.keys(value as object) : undefined,
       data: key,
       canRename: true,
-    }
+    };
 
     if (value !== null) {
       readTemplate(value, data);
@@ -32,7 +32,7 @@ const shortTreeTemplate = {
       item5: null
     },
   }
-}
+};
 
 const longTreeTemplate = {
   root: {

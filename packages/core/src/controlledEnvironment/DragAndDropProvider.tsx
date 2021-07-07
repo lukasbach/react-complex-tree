@@ -100,7 +100,7 @@ export const DragAndDropProvider: React.FC = props => {
       requestAnimationFrame(() => {
         environment.onFocusItem?.(draggingItems[0], draggingPosition.treeId);
         resetState();
-      })
+      });
     }
   }, [draggingPosition, draggingItems, environment.onDrop, environment.onFocusItem]);
 
@@ -150,7 +150,7 @@ export const DragAndDropProvider: React.FC = props => {
         setTimeout(() => {
           setIsProgrammaticallyDragging(true);
           // Needs to be done after onStartDraggingItems was called, so that viableDragPositions is populated
-        })
+        });
       }
     },
     abortProgrammaticDrag: () => {

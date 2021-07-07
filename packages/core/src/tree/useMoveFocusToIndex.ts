@@ -19,5 +19,5 @@ export const useMoveFocusToIndex = (containerRef?: HTMLElement) => {
     const newFocusItem = environment.items[linearItems[newIndexBounded].item];
     environment.onFocusItem?.(newFocusItem, treeId);
     return newFocusItem;
-  }
-}
+  };
+};

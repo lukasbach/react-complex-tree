@@ -220,8 +220,7 @@ export interface TreeEnvironmentChangeActions<T = any> {
   moveProgrammaticDragPositionDown: () => void;
 }
 
-export interface TreeEnvironmentActionsContextProps extends TreeEnvironmentChangeActions {
-}
+export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions
 
 export interface TreeEnvironmentRef<T = any> extends TreeEnvironmentChangeActions<T>, Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
   treeEnvironmentContext: TreeEnvironmentContextProps;
@@ -330,8 +329,7 @@ export interface TreeChangeActions<T = any> {
   abortSearch: () => void;
 }
 
-export interface TreeChangeActionsContextProps extends TreeChangeActions {
-}
+export type TreeChangeActionsContextProps = TreeChangeActions
 
 export interface TreeRef<T = any> extends TreeChangeActions<T>, TreeInformation {
   treeContext: TreeContextProps<T>;

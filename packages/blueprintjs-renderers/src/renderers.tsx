@@ -113,11 +113,11 @@ export const renderers: TreeRenderProps = {
   renderRenameInput: props => (
     <form {...props.formProps} style={{ display: 'contents' }}>
       <span className={Classes.TREE_NODE_LABEL}>
-          <input
-            {...props.inputProps}
-            ref={props.inputRef}
-            className="rct-tree-item-renaming-input"
-          />
+        <input
+          {...props.inputProps}
+          ref={props.inputRef}
+          className="rct-tree-item-renaming-input"
+        />
       </span>
       <span className={Classes.TREE_NODE_SECONDARY_LABEL}>
         <Button icon={<Tick />} {...props.submitButtonProps as any} type="submit" minimal={true} small={true} />
@@ -135,4 +135,4 @@ export const renderers: TreeRenderProps = {
   ),
 
   renderDepthOffset: 1,
-}
+};

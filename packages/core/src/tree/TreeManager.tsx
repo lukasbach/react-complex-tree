@@ -61,4 +61,4 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
     info: treeInformation,
     containerProps,
   }) as JSX.Element;
-}
+};

@@ -3,7 +3,7 @@ import React from 'react';
 import { StaticTreeDataProvider, Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
 import { longTree } from 'demodata';
 import { renderers } from '../renderers';
-import { FocusStyleManager } from "@blueprintjs/core";
+import { FocusStyleManager } from '@blueprintjs/core';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 

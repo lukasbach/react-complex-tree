@@ -27,4 +27,4 @@ export const useSelectUpTo = () => {
       environment.onSelectItems?.([item.index], treeId);
     }
   };
-}
+};

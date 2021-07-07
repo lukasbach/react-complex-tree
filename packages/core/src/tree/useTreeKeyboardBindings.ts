@@ -138,4 +138,4 @@ export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
     dnd.abortProgrammaticDrag();
   }, isActiveTree && dnd.isProgrammaticallyDragging);
 
-}
+};

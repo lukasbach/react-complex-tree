@@ -43,7 +43,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
         ...constructNewState(oldState[treeId] ?? {}),
       }
     }));
-  }
+  };
 
   useEffect(() => {
     const { dispose } = dataProvider.onDidChangeTreeData(changedItemIds => {
@@ -53,7 +53,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
     });
 
     return dispose;
-  }, [dataProvider])
+  }, [dataProvider]);
 
   return (
     <ControlledTreeEnvironment
@@ -142,7 +142,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
               writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
             });
             missingItemIds.current = [];
-          })
+          });
         }
 
         missingItemIds.current.push(...itemIds);

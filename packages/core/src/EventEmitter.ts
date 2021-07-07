@@ -19,8 +19,8 @@ export class EventEmitter<EventPayload> {
 
     this.options?.logger?.('emit', payload);
 
-    for (let handler of this.handlers) {
-      if (!!handler) {
+    for (const handler of this.handlers) {
+      if (handler) {
         const res = handler(payload) as Promise<void>;
         if (typeof res?.then === 'function') {
           promises.push(res);

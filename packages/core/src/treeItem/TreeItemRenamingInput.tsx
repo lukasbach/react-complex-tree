@@ -45,12 +45,12 @@ export const TreeItemRenamingInput: React.FC<{
   const inputProps: InputHTMLAttributes<HTMLInputElement> = {
     value: title,
     onChange: e => {
-      setTitle(e.target.value)
+      setTitle(e.target.value);
     },
     onBlur: () => {
       abort();
     },
-    'aria-label': `New item name`, // TODO
+    'aria-label': 'New item name', // TODO
     tabIndex: 0
   };
 
@@ -66,7 +66,7 @@ export const TreeItemRenamingInput: React.FC<{
       e.preventDefault();
       confirm();
     }
-  }
+  };
 
   return (
     renderers.renderRenameInput({

@@ -20,5 +20,5 @@ export const useSearchMatchFocus = () => {
         }
       });
     }
-  }, [search])
-}
+  }, [search]);
+};

@@ -21,7 +21,7 @@ export const DragBetweenLine: React.FC<{
 
   const lineProps: HTMLProps<any> = {
     onDragOver: e => e.preventDefault(), // Allow dropping
-  }
+  };
 
   return (
     <div style={{

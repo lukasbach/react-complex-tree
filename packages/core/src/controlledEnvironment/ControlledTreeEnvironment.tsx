@@ -30,7 +30,7 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, Co
       viewState[treeId] = {
         ...viewState[treeId],
         focusedItem: props.items[trees[treeId].rootItem]?.children?.[0]
-      }
+      };
     }
   }
 
