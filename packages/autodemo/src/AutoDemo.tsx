@@ -5,9 +5,9 @@ import {
   UncontrolledTreeEnvironmentProps,
   StaticTreeDataProvider,
   ExplicitDataSource,
+  createDefaultRenderers,
 } from 'react-complex-tree';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { createDefaultRenderers } from 'react-complex-tree';
 
 export interface AutomationStoryHelpers {
   wait: (ms: number) => Promise<void>;
