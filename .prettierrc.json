@@ -7,6 +7,6 @@
   "tabWidth": 2,
   "useTabs": false,
   "arrowParens": "avoid",
-  "endOfLine": "crlf",
+  "endOfLine": "lf",
   "trailingComma": "es5"
 }
