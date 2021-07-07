@@ -147,6 +147,7 @@ export interface TreeCapabilities<T = any> {
   canInvokePrimaryActionOnItemContainer?: boolean;
   canSearch?: boolean;
   canSearchByStartingTyping?: boolean;
+  canRename?: boolean;
   autoFocus?: boolean;
   doesSearchMatchItem?: (search: string, item: TreeItem<T>, itemTitle: string) => boolean;
 }

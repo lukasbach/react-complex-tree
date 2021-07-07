@@ -162,7 +162,7 @@ export const useTreeKeyboardBindings = () => {
         setRenamingItem(item.index);
       }
     },
-    isActiveTree
+    isActiveTree && (environment.canRename ?? true)
   );
 
   useHotkey(
