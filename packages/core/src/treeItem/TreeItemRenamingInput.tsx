@@ -38,7 +38,7 @@ export const TreeItemRenamingInput: React.FC<{
     }
   }, [inputRef.current]);
 
-  useHotkey('abortRenameItem', e => {
+  useHotkey('abortRenameItem', () => {
     abort();
   });
 

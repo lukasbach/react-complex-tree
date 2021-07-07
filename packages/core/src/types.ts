@@ -199,7 +199,7 @@ export interface TreeChangeHandlers<T = any> {
   onMissingChildren?: (itemIds: TreeItemIndex[]) => void; // TODO
 }
 
-export interface TreeEnvironmentChangeActions<T = any> {
+export interface TreeEnvironmentChangeActions {
   focusTree: (treeId: string, autoFocus?: boolean) => void;
   renameItem: (itemId: TreeItemIndex, name: string, treeId: string) => void;
   collapseItem: (itemId: TreeItemIndex, treeId: string) => void;
@@ -220,7 +220,7 @@ export interface TreeEnvironmentChangeActions<T = any> {
 
 export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions
 
-export interface TreeEnvironmentRef<T = any> extends TreeEnvironmentChangeActions<T>, Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
+export interface TreeEnvironmentRef<T = any> extends TreeEnvironmentChangeActions, Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
   treeEnvironmentContext: TreeEnvironmentContextProps;
   dragAndDropContext: DragAndDropContextProps;
 }
@@ -297,7 +297,7 @@ export interface TreeConfiguration {
 export interface TreeProps<T = any> extends TreeConfiguration, Partial<TreeRenderProps<T>> {
 }
 
-export interface TreeContextProps<T = any> extends TreeConfiguration {
+export interface TreeContextProps extends TreeConfiguration {
   search: string | null;
   setSearch: (searchValue: string | null) => void;
   renamingItem: TreeItemIndex | null;
@@ -307,7 +307,7 @@ export interface TreeContextProps<T = any> extends TreeConfiguration {
   getItemsLinearly: () => Array<{ item: TreeItemIndex, depth: number }>;
 }
 
-export interface TreeChangeActions<T = any> {
+export interface TreeChangeActions {
   focusTree: (autoFocus?: boolean) => void;
   startRenamingItem: (itemId: TreeItemIndex) => void;
   stopRenamingItem: () => void;
@@ -329,8 +329,8 @@ export interface TreeChangeActions<T = any> {
 
 export type TreeChangeActionsContextProps = TreeChangeActions
 
-export interface TreeRef<T = any> extends TreeChangeActions<T>, TreeInformation {
-  treeContext: TreeContextProps<T>;
+export interface TreeRef<T = any> extends TreeChangeActions, TreeInformation {
+  treeContext: TreeContextProps;
   treeEnvironmentContext: TreeEnvironmentContextProps<T>;
   dragAndDropContext: DragAndDropContextProps<T>;
   search: string | null;

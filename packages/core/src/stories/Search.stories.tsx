@@ -63,7 +63,7 @@ export const CustomSearchEvaluation = () => (
   <>
     <p>
       In the following example, the search evaluates only the children of an item, not the items title itself.
-      This means that searching for "Orange" will match its parent "Fruit".
+      This means that searching for &quot;Orange&quot; will match its parent &quot;Fruit&quot;.
     </p>
     <UncontrolledTreeEnvironment<string>
       dataProvider={new StaticTreeDataProvider(longTree.items)}

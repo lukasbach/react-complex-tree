@@ -21,7 +21,7 @@ export const useFocusWithin = (
     }
   }, [focusWithin, onFocusIn, ...deps]);
 
-  useHtmlElementEventListener(element, 'focusout', (e) => {
+  useHtmlElementEventListener(element, 'focusout', () => {
     isLoosingFocusFlag.current = true;
 
     requestAnimationFrame(() => {

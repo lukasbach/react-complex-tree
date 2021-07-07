@@ -15,9 +15,9 @@ const EnvironmentActionsContext = React.createContext<TreeChangeActionsContextPr
 export const useTreeActions = () => React.useContext(EnvironmentActionsContext);
 
 export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<EmptyObject>>((props, ref) => {
-  const environment = useTreeEnvironment();
+  useTreeEnvironment();
   const tree = useTree();
-  const dnd = useDragAndDrop();
+  useDragAndDrop();
   const envActions = useEnvironmentActions();
 
   // TODO change tree childs to use actions rather than output events where possible

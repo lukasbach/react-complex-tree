@@ -158,7 +158,7 @@ module.exports = {
           // pass parserOptions to react-docgen-typescript
           // here is a good starting point which filters out all
           // types from react
-          propFilter: (prop, component) => {
+          propFilter: (prop) => {
             if (prop.parent) {
               return !prop.parent.fileName.includes('@types/react');
             }

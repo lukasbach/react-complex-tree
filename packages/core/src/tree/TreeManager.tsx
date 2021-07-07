@@ -9,14 +9,14 @@ import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
-export const TreeManager = <T extends any>(props: {}): JSX.Element => {
+export const TreeManager = (): JSX.Element => {
   const { treeId, rootItem, renderers, treeInformation } = useTree();
   const environment = useTreeEnvironment();
   const containerRef = useRef<HTMLElement>();
   const dnd = useDragAndDrop();
   const isActiveTree = environment.activeTreeId === treeId;
 
-  useTreeKeyboardBindings(containerRef.current);
+  useTreeKeyboardBindings();
 
   useFocusWithin(containerRef.current, () => {
     environment.setActiveTree(treeId);
@@ -34,7 +34,9 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
 
   const treeChildren = (
     <React.Fragment>
-      <TreeItemChildren children={rootChildren} depth={0} parentId={treeId} />
+      <TreeItemChildren depth={0} parentId={treeId}>
+        {rootChildren}
+      </TreeItemChildren>
       <DragBetweenLine treeId={treeId} />
       <SearchInput containerRef={containerRef.current} />
     </React.Fragment>
@@ -43,7 +45,7 @@ export const TreeManager = <T extends any>(props: {}): JSX.Element => {
   const containerProps: HTMLProps<any> = {
     // onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
     onDragOver: e => dnd.onDragOverTreeHandler(e as any, treeId, containerRef),
-    onMouseDown: e => dnd.abortProgrammaticDrag(),
+    onMouseDown: () => dnd.abortProgrammaticDrag(),
     ref: containerRef,
     style: { position: 'relative' },
     role: 'tree',

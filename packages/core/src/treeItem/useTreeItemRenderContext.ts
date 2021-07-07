@@ -14,7 +14,7 @@ import { useSelectUpTo } from '../tree/useSelectUpTo';
 
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
-  const { treeId, search, rootItem, renamingItem } = useTree();
+  const { treeId, search, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   const interactionManager = useInteractionManager();
   const dnd = useDragAndDrop();
@@ -140,7 +140,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       };
 
       const arrowProps: HTMLProps<HTMLElement> = {
-        onClick: e => {
+        onClick: () => {
           if (item.hasChildren) {
             actions.toggleExpandedState();
           }

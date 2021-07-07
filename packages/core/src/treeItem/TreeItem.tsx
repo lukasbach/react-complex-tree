@@ -7,7 +7,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
 import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 
-export const TreeItem = <T extends any>(props: {
+export const TreeItem = (props: {
   itemIndex: TreeItemIndex;
   depth: number;
 }): JSX.Element => {
@@ -35,7 +35,9 @@ export const TreeItem = <T extends any>(props: {
   }
 
   const children = item.hasChildren && isExpanded && item.children && (
-    <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex} children={item.children} />
+    <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex}>
+      {item.children}
+    </TreeItemChildren>
   );
 
   const title = environment.getItemTitle(item);

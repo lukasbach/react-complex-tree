@@ -8,12 +8,12 @@ import { useGetLinearItems } from './useGetLinearItems';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from './useSelectUpTo';
 
-export const useTreeKeyboardBindings = (containerRef?: HTMLElement) => {
+export const useTreeKeyboardBindings = () => {
   const environment = useTreeEnvironment();
   const { treeId, setRenamingItem, setSearch } = useTree();
   const dnd = useDragAndDrop();
   const viewState = useViewState();
-  const moveFocusToIndex = useMoveFocusToIndex(containerRef);
+  const moveFocusToIndex = useMoveFocusToIndex();
   const getLinearItems = useGetLinearItems();
   const selectUpTo = useSelectUpTo();
 

@@ -24,7 +24,7 @@ export const MinimalRenderers = () => (
     renderItemTitle={({title}) => <span>{title}</span>}
     renderItemArrow={({item, context}) => item.hasChildren
       ? context.isExpanded ? <span>{'>'}</span> : <span>{'v'}</span> : null}
-    renderItem={({ title, arrow, depth, context, children }) => (
+    renderItem={({ title, arrow, context, children }) => (
       <li {...context.itemContainerWithChildrenProps}>
         <button
           {...context.itemContainerWithoutChildrenProps}

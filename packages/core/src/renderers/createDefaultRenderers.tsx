@@ -5,7 +5,7 @@ const cx = (...classNames: Array<string | undefined | false>) => classNames.filt
 
 export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
   const newRenderers: AllTreeRenderProps = {
-    renderItemTitle: ({title, item, context, info}) => {
+    renderItemTitle: ({title, context, info}) => {
       if (!info.isSearching || !context.isSearchMatching) {
         return (<>{title}</>);
       } else {
@@ -107,7 +107,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </li>
       );
     },
-    renderRenameInput: ({item, inputProps, inputRef, submitButtonProps, formProps}) => {
+    renderRenameInput: ({inputProps, inputRef, submitButtonProps, formProps}) => {
       return (
         <form
           {...formProps}
@@ -127,10 +127,10 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </form>
       );
     },
-    renderDraggingItem: ({}) => {
+    renderDraggingItem: () => {
       return <div />;
     },
-    renderDraggingItemTitle: ({}) => {
+    renderDraggingItemTitle: () => {
       return <div />;
     },
     renderTreeContainer: ({children, containerProps, info}) => {
@@ -149,7 +149,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </div>
       );
     },
-    renderItemsContainer: ({children, containerProps, info}) => {
+    renderItemsContainer: ({children, containerProps}) => {
       return (
         <ul
           {...containerProps}

@@ -11,7 +11,7 @@ export const SearchInput: React.FC<{
 }> = props => {
   const { search, setSearch, treeId, renderers, renamingItem } = useTree();
   const environment = useTreeEnvironment();
-  const viewState = useViewState();
+  useViewState();
   const isActiveTree = environment.activeTreeId === treeId;
 
   useSearchMatchFocus();
@@ -27,7 +27,7 @@ export const SearchInput: React.FC<{
     }
   };
 
-  useHotkey('abortSearch', e => {
+  useHotkey('abortSearch', () => {
     // Without the requestAnimationFrame, hitting enter to abort
     // and then moving focus weirdly moves the selected item along
     // with the focused item.
