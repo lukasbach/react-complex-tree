@@ -363,3 +363,5 @@ export interface KeyboardBindings {
   abortProgrammaticDnd?: string[];
   completeProgrammaticDnd?: string[];
 }
+
+export type EmptyObject = Record<string, never>;

@@ -31,7 +31,7 @@ export class DoubleClickItemToExpandInteractionManager implements InteractionMan
           actions.selectItem();
         }
       },
-      onDoubleClick: (e) => {
+      onDoubleClick: () => {
         actions.focusItem();
         actions.selectItem();
 

@@ -23,7 +23,6 @@ const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: numbe
     offset = 'top';
   } else if (hoveringPosition % 1 > 1 - lineThreshold) {
     offset = 'bottom';
-  } else {
   }
 
   return { linearIndex, offset };

@@ -77,7 +77,7 @@ export const renderers: TreeRenderProps = {
     />
   ),
 
-  renderItemTitle: ({title, item, context, info}) => {
+  renderItemTitle: ({title, context, info}) => {
     if (!info.isSearching || !context.isSearchMatching) {
       return (<span className={Classes.TREE_NODE_LABEL}>{title}</span>);
     } else {
