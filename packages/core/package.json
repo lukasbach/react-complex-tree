@@ -1,6 +1,6 @@
 {
   "name": "react-complex-tree",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
