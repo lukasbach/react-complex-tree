@@ -6,6 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
 import { StoryEmbed } from '../components/StoryEmbed';
+import CampaignBar from '../components/CampaignBar';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -44,6 +45,7 @@ export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
+      <CampaignBar />
       <HomepageHeader />
       <main>
         <HomepageFeatures />

@@ -2752,6 +2752,20 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
+"@lukasbach/campaigns-fetch@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lukasbach/campaigns-fetch/-/campaigns-fetch-0.1.0.tgz#ee15636179c7a1a22ec959afb3c0fa55d2be16d9"
+  integrity sha512-V3kN4BD0KDMf22s39gzgCco71uHz6lvYH2tmmIfBWpxcXLnll722kaY2wRm4oD6z9NGWMf0SazDdbeb0X/p94Q==
+  dependencies:
+    typescript "^4.2.4"
+
+"@lukasbach/campaigns-react@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lukasbach/campaigns-react/-/campaigns-react-0.1.0.tgz#e5e5115bfe3d3366b916f69d67fec3acef578fe5"
+  integrity sha512-rKHP44PKiDCj/kYBkiahUzLnaNaCn5ZDAONZwBPSP1MuYiLUfPW51AI5nvUQCKqM2TMKxINFNipGuT1F8uMWcw==
+  dependencies:
+    "@lukasbach/campaigns-fetch" "^0.1.0"
+
 "@lukasbach/tsconfig@^0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@lukasbach/tsconfig/-/tsconfig-0.1.0.tgz"
@@ -14180,6 +14194,11 @@ react-colorful@^5.0.1:
   resolved "https://registry.npmjs.org/react-colorful/-/react-colorful-5.2.2.tgz"
   integrity sha512-Xdb1Rl6lZ5SMdNBH59eE0lGqR1g2LVD8IgPlw0WeMDrOC65lYI8fgMEwj/0dDpVRVMh5qp73ciISDst/t2O2iQ==
 
+react-complex-tree-autodemo@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-complex-tree-autodemo/-/react-complex-tree-autodemo-0.1.0.tgz#e8bb45cf851122ba1fa8df57cf7ddacc87060e23"
+  integrity sha512-Pl9w18oqaBkvg9A135QlkgQc6VO8j2YnZ2DHYmHV+qgtfB1HtJpVafG46vnw7BA/trU9nTkET7567BM+uV3VEw==
+
 react-dev-utils@^11.0.1, react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
@@ -16793,6 +16812,11 @@ typedoc@^0.21.0:
     progress "^2.0.3"
     shiki "^0.9.3"
     typedoc-default-themes "^0.12.10"
+
+typescript@^4.2.4:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 typescript@^4.3.4:
   version "4.3.4"

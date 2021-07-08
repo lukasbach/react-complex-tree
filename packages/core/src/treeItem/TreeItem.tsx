@@ -14,10 +14,10 @@ export const TreeItem = (props: { itemIndex: TreeItemIndex; depth: number }): JS
   const viewState = useViewState();
   const item = environment.items[props.itemIndex];
 
-  const isExpanded = useMemo(
-    () => viewState.expandedItems?.includes(props.itemIndex),
-    [props.itemIndex, viewState.expandedItems]
-  );
+  const isExpanded = useMemo(() => viewState.expandedItems?.includes(props.itemIndex), [
+    props.itemIndex,
+    viewState.expandedItems,
+  ]);
 
   // Safely assume that renderContext exists, because if not, item also does not exist and the
   // component will exit early anyways

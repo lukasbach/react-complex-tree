@@ -1,0 +1,45 @@
+.bar {
+  display: flex;
+  background-color: #597bac;
+  color: white;
+  font-size: 0.8em;
+  padding: 6px 80px;
+}
+
+.bar:hover {
+  background-color: #5273a3;
+}
+
+.bar a {
+  color: inherit;
+}
+
+.content {
+  display: flex;
+  align-self: center;
+  flex-grow: 1;
+}
+
+.alsocheckout {
+  margin-right: 30px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.title {
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.description {
+}
+
+.close {
+  font-weight: bold;
+  font-size: 1.4em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.close:hover {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 1);
+}
