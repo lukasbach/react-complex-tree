@@ -4,6 +4,56 @@ sidebar_position: 11
 
 # External Interaction via Refs
 
-:::note
-Documentation coming soon...
+React Complex Tree provides comprehensive imperative interaction capabilities via React Refs.
+You can pull a Ref either from the environment or the tree, and act on those to manipulate the
+state of the trees.
+
+:::info
+
+- A ref on the environment provides a [`TreeEnvironmentRef`](/docs/api/interfaces/treeenvironmentref).
+- A ref on the tree provides a [`TreeRef`](/docs/api/interfaces/treeref).
+
+Look into the respective interfaces via the links above to see all capabilities.
 :::
+
+Note: Both the `UncontrolledTreeEnvironment` and the `ControlledTreeEnvironment` yield a
+[`TreeEnvironmentRef`](/docs/api/interfaces/treeenvironmentref).
+
+## Example
+
+```jsx live
+function App() {
+  const environment = useRef();
+  const tree = useRef();
+  const getFocus = () => environment.current.viewState['tree-1'].focusedItem || 'Fruit';
+  console.log(environment);
+
+  return (
+    <UncontrolledTreeEnvironment
+      ref={environment}
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+      canReorderItems={true}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-1': {
+          expandedItems: ['Fruit'],
+        },
+      }}
+    >
+      <button onClick={() => tree.current.focusTree()}>Focus Tree</button>
+      <button onClick={() => tree.current.focusItem('Orange')}>Focus item Orange</button>
+      <button onClick={() => tree.current.moveFocusUp()}>Move Focus up</button>
+      <button onClick={() => tree.current.moveFocusDown()}>Move Focus down</button>
+      <button onClick={() => tree.current.expandItem(getFocus())}>Expand focused Item</button>
+      <button onClick={() => tree.current.collapseItem(getFocus())}>Collapse focused Item</button>
+      <button onClick={() => tree.current.toggleItemExpandedState(getFocus())}>Toggle item expanded-state</button>
+      <button onClick={() => tree.current.toggleItemSelectStatus(getFocus())}>Toggle item selected-state</button>
+      <button onClick={() => tree.current.selectItems(['Apple', 'Orange'])}>Select items Apple and Orange</button>
+      <br />
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" ref={tree} />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```

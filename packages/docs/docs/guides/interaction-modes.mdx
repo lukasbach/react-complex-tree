@@ -4,6 +4,98 @@ sidebar_position: 10
 
 # Interaction Modes
 
+The interaction mode for a tree environment refers to how mouse inputs should interact with the tree.
+The interaction mode can be provided as prop to the tree environment with the name `interactionMode` and needs
+to follow [the `InteractionMode` enum](docs/api/enums/interactionmode)
+The following interaction modes are provided by default:
+
+## `InteractionMode.ClickArrowToExpand`
+
 :::note
-Documentation coming soon...
+See [the implementation of that interaction mode](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/ClickArrowToExpandInteractionManager.ts)
+for more details.
 :::
+
+Clicking on items only moves focus. Pressing the CTRL key while clicking toggles the select state of the
+clicked item. Expanding items is only possible by clicking on the arrow or via keyboard interactions.
+Clicking on an item without children invokes the primary action for that item.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      defaultInteractionMode={'click-arrow-to-expand'}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## `InteractionMode.ClickItemToExpand`
+
+:::note
+See [the implementation of that interaction mode](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/ClickItemToExpandInteractionManager.ts)
+for more details.
+:::
+
+This is the default interaction mode. Clicking on items changes the select state to only the clicked item,
+focuses the item and expands or collapses the item if it has children. Pressing the CTRL key while clicking toggles
+the select state of the clicked item.
+Clicking on an item without children invokes the primary action for that item.
+
+This resembles the way how VSCode provides interactions with its tree view.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      defaultInteractionMode={'click-item-to-expand'}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## `InteractionMode.DoubleClickItemToExpand`
+
+:::note
+See [the implementation of that interaction mode](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/DoubleClickItemToExpandInteractionManager.ts)
+for more details.
+:::
+
+This is the default interaction mode. Clicking on items changes the select state to only the clicked item, but
+does not expand or collapse parents or execute primary actions.
+Double clicking an item expands or collapses parents and invokes primary actions on items without children.
+Pressing the CTRL key while clicking toggles the select state of the clicked item.
+
+This resembles the way of IntelliJ or other Jetbrain IDEs provides interactions with its tree view.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      defaultInteractionMode={'double-click-item-to-expand'}
+    >
+      <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Custom interactions
+
+The interaction mode defines, how the `interactiveElementProps` prop is created for rendering the interactive
+element of an tree item. While it currently is not possible to define custom interaction modes, the prop can
+easily be omitted in custom render implementations and individual DOM interactions can be defined instead.
+[Look into the documentation on custom render hooks](/docs/guides/rendering) to find out more.

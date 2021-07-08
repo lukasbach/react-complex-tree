@@ -4,6 +4,120 @@ sidebar_position: 8
 
 # Multiple Trees
 
-:::note
-Documentation coming soon...
-:::
+Multiple tree components can be added to a web app that can interact with one another. Drag and drop is possible
+across several tree components such that items can be dragged from one tree to another. Although trees maintain
+their own state on search and renaming, only one search input or renaming input is active at once across several
+trees. Furthermore, trees maintain a shared state which makes synchronisation easier.
+
+The requirement for multiple trees sharing drag-and-drop capabilities and state is that they are placed within the
+same tree environment, i.e. either a shared `ControlledTreeEnvironment` or an `UncontrolledTreeEnvironment`.
+
+## Example
+
+```jsx live
+<UncontrolledTreeEnvironment
+  canDragAndDrop={true}
+  canDropOnItemWithChildren={true}
+  canReorderItems={true}
+  dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+  getItemTitle={item => item.data}
+  viewState={{}}
+>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      alignItems: 'baseline',
+      padding: '20px 0',
+    }}
+  >
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
+    </div>
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree 2" />
+    </div>
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-3" rootItem="root" treeLabel="Tree 3" />
+    </div>
+  </div>
+</UncontrolledTreeEnvironment>
+```
+
+## Different root items per tree
+
+It is not possible for several trees within the same environment to keep distinct states.
+However, each tree can use a different item as root item, meaning that the trees can
+still show different contents.
+
+```jsx live
+<UncontrolledTreeEnvironment
+  canDragAndDrop={true}
+  canDropOnItemWithChildren={true}
+  canReorderItems={true}
+  dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+  getItemTitle={item => item.data}
+  viewState={{}}
+>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      alignItems: 'baseline',
+      padding: '20px 0',
+    }}
+  >
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-4" rootItem="Fruit" treeLabel="Tree 1" />
+    </div>
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-5" rootItem="Meals" treeLabel="Tree 2" />
+    </div>
+    <div
+      style={{
+        width: '28%',
+        backgroundColor: 'white',
+      }}
+    >
+      <Tree treeId="tree-6" rootItem="Drinks" treeLabel="Tree 3" />
+    </div>
+  </div>
+</UncontrolledTreeEnvironment>
+```
+
+## More than one environment
+
+If you want several tree environments on one page that do not share state and dnd capabilities,
+you can do that if several restrictions are obliged.
+
+Each tree must have a unique tree ID which is even unique to trees in other environments
+within the page.
+
+Furthermore, an environment may not contain another tree environment. If this may cause problems
+to your anticipated DOM structure, you can leverage React Portals to render the environments
+disjunct from one another and still be free in the DOM structure you want to achieve.

@@ -6,12 +6,13 @@ import { StoryEmbed } from '../../src/components/StoryEmbed';
 
 # BlueprintJS Renderers
 
-:::note
-Documentation coming soon...
-:::
+We also provide default renderers to achieve a visual styling according to the BlueprintJS
+React framework.
 
-```typescript
+```typescript jsx
 import { renderers as bpRenderers } from 'react-complex-tree-blueprintjs-renderers';
+
+<UncontrolledTreeEnvironment {...bpRenderers}>{/* trees etc... */}</UncontrolledTreeEnvironment>;
 ```
 
 <StoryEmbed
