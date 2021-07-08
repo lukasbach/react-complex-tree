@@ -1,13 +1,17 @@
 import styles from './CampaignBar.module.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Campaign } from '@lukasbach/campaigns-react';
 
 const localStorageKey = 'hide-campaign-bar';
 const days = 1000 * 60 * 60 * 24;
 
 export default function CampaignBar() {
-  const hideDate = localStorage?.getItem(localStorageKey);
-  const [hide, setHide] = useState(!!hideDate && parseInt(hideDate) > Date.now() - days * 3);
+  const [hide, setHide] = useState(true);
+
+  useEffect(() => {
+    const hideDate = localStorage.getItem(localStorageKey);
+    setHide(!!hideDate && parseInt(hideDate) > Date.now() - days * 3);
+  }, []);
 
   if (hide) {
     return null;
@@ -32,7 +36,7 @@ export default function CampaignBar() {
               className={styles.close}
               onClick={() => {
                 setHide(true);
-                localStorage?.setItem(localStorageKey, `${Date.now()}`);
+                localStorage.setItem(localStorageKey, `${Date.now()}`);
               }}
             >
               ×
