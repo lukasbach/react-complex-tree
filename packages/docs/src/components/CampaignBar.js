@@ -6,7 +6,7 @@ const localStorageKey = 'hide-campaign-bar';
 const days = 1000 * 60 * 60 * 24;
 
 export default function CampaignBar() {
-  const hideDate = localStorage.getItem(localStorageKey);
+  const hideDate = localStorage?.getItem(localStorageKey);
   const [hide, setHide] = useState(!!hideDate && parseInt(hideDate) > Date.now() - days * 3);
 
   if (hide) {
@@ -32,7 +32,7 @@ export default function CampaignBar() {
               className={styles.close}
               onClick={() => {
                 setHide(true);
-                localStorage.setItem(localStorageKey, `${Date.now()}`);
+                localStorage?.setItem(localStorageKey, `${Date.now()}`);
               }}
             >
               ×
