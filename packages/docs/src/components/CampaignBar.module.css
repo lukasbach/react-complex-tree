@@ -14,6 +14,10 @@
   color: inherit;
 }
 
+.bar a:hover {
+  color: white !important;
+}
+
 .content {
   display: flex;
   align-self: center;
