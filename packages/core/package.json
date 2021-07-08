@@ -2,11 +2,14 @@
   "name": "react-complex-tree",
   "version": "0.2.2",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:lukasbach/react-complex-tree.git",
     "directory": "packages/core"
   },
+  "description": "Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop",
+  "homepage": "https://rct.lukasbach.com/",
   "author": "Lukas Bach <lbach@outlook.de>",
   "license": "MIT",
   "private": false,

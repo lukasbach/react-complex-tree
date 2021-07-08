@@ -2,12 +2,15 @@
   "name": "react-complex-tree-autodemo",
   "version": "0.2.2",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:lukasbach/react-complex-tree.git",
     "directory": "packages/autodemo"
   },
   "author": "Lukas Bach <lbach@outlook.de>",
+  "description": "Autodemo component for the react-complex-tree package",
+  "homepage": "https://rct.lukasbach.com/docs/guides/autodemo",
   "license": "MIT",
   "private": false,
   "devDependencies": {
