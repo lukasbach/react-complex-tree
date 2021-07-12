@@ -3,6 +3,8 @@
 ![](https://badgen.net/npm/v/react-complex-tree)
 ![](https://badgen.net/npm/types/react-complex-tree)
 [![](https://badgen.net/bundlephobia/dependency-count/react-complex-tree)](https://bundlephobia.com/package/react-complex-tree)
+[![](https://badgen.net/bundlephobia/minzip/react-complex-tree)](https://bundlephobia.com/package/react-complex-tree)
+[![](https://badgen.net/bundlephobia/tree-shaking/react-complex-tree)](https://bundlephobia.com/package/react-complex-tree)
 
 ![Demo for React Complex Tree](http://i.imgur.com/KQ90KEs.gif)
 
