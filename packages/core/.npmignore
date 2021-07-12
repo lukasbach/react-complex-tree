@@ -2,3 +2,4 @@ src
 babel.config.js
 tsconfig.json
 node_modules
+webpack.config.ts
