@@ -1,6 +1,12 @@
 {
   "name": "react-complex-tree",
   "version": "0.2.3",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "esnext": "lib/esnext/index.js",
+  "typings": "lib/esm/index.d.ts",
+  "style": "lib/style.css",
+  "unpkg": "lib/bundle.js",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -36,10 +42,19 @@
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "webpack-cli": "^4.7.2",
+    "ts-loader": "^8.3.0",
+    "npm-run-all": "^4.1.5",
+    "loader-utils": "^2.0.0"
   },
   "scripts": {
-    "build": "tsc && cpy ./src/style.css ./lib && cpy ../../readme.md ./",
+    "build": "run-p \"build:*\"",
+    "build:cjs": "tsc -m commonjs --outDir lib/esm",
+    "build:esm": "tsc -m es2015 --outDir lib/cjs",
+    "build:esnext": "tsc -m esnext --outDir lib/esnext",
+    "build:bundle": "webpack",
+    "build:prepare": "cpy ./src/style.css ./lib && cpy ../../readme.md ./",
     "test": "../../node_modules/.bin/jest"
   }
 }
