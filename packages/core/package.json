@@ -7,8 +7,6 @@
   "typings": "lib/esm/index.d.ts",
   "style": "lib/style.css",
   "unpkg": "lib/bundle.js",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:lukasbach/react-complex-tree.git",

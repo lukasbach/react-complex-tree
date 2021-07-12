@@ -14246,11 +14246,6 @@ react-colorful@^5.0.1:
   resolved "https://registry.npmjs.org/react-colorful/-/react-colorful-5.2.2.tgz"
   integrity sha512-Xdb1Rl6lZ5SMdNBH59eE0lGqR1g2LVD8IgPlw0WeMDrOC65lYI8fgMEwj/0dDpVRVMh5qp73ciISDst/t2O2iQ==
 
-react-complex-tree-autodemo@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/react-complex-tree-autodemo/-/react-complex-tree-autodemo-0.1.0.tgz#e8bb45cf851122ba1fa8df57cf7ddacc87060e23"
-  integrity sha512-Pl9w18oqaBkvg9A135QlkgQc6VO8j2YnZ2DHYmHV+qgtfB1HtJpVafG46vnw7BA/trU9nTkET7567BM+uV3VEw==
-
 react-dev-utils@^11.0.1, react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-11.0.4.tgz"
