@@ -8,7 +8,7 @@
 
 > An Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop
 
-<a href="https://www.producthunt.com/posts/react-complex-tree?utm_source=badge-review&utm_medium=badge&utm_souce=badge-react-complex-tree#discussion-body" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/review.svg?post_id=303494&theme=light" alt="React Complex Tree - Unopinionated Accessible Tree Component with Drag and Drop | Product Hunt" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/react-complex-tree?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-react-complex-tree" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=303494&theme=light" alt="React Complex Tree - Unopinionated accessible tree component with drag and drop | Product Hunt" width="250" height="54" /></a>
 
 Look into the [official documentation](https://rct.lukasbach.com/) to see more examples
 and a more comprehensive documentation.
