@@ -30,6 +30,45 @@ the `react-complex-tree` package.
 import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react-complex-tree';
 ```
 
+Make sure to also import the CSS file that defines the default styling of React Complex Tree, if
+you do not intent do provide manual CSS declarations. More on the default stylings and possibilities
+to modify those are given [in the guide on styling customizability](/docs/guides/styling). Import the
+CSS in one of the following ways:
+
+- Import it directly in your JS code, if you use Webpack with a loader that can load CSS files:
+  ```js
+  import 'react-complex-tree/lib/style.css';
+  ```
+- Import it from within a CSS file with node-style package resolution:
+  ```css
+  @import "~react-complex-tree/lib/style.css";
+  ```
+- Import it in your HTML by linking to the CSS file in your `node_modules` or on unpkg:
+  ```html
+  <head>
+      <link href="https://unpkg.com/react-complex-tree/lib/style.css" rel="stylesheet" />
+  </head>
+  ```
+
+React Complex Tree comes compiled as CommonJS package, ESM package and ESNext package.
+
+## Using CDNs
+
+The package is also available as UMD bundle which can be consumed from the [unpkg CDN](https://unpkg.com).
+You can import it in your HTML by copying the following snippet:
+
+```html
+<head>
+    <link href="https://unpkg.com/react-complex-tree/lib/style.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react-complex-tree/lib/bundle.js"></script>
+</head>
+```
+
+Importing the file `https://unpkg.com/react-complex-tree/lib/bundle.js` will make the variable `ReactComplexTree`
+available to the global scope. All exports from the package are then available as children of that variable,
+i.e. `ReactComplexTree.UncontrolledTreeEnvironment` can be used to reference the react component of an uncontrolled
+tree environment.
+
 ## Integrating React Complex Tree into your project
 
 After installation, import the package and start using it by creating a new tree environment that
