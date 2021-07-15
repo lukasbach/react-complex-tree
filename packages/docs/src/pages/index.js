@@ -7,6 +7,7 @@ import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
 import { StoryEmbed } from '../components/StoryEmbed';
 import CampaignBar from '../components/CampaignBar';
+import Head from '@docusaurus/Head';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -50,6 +51,31 @@ export default function Home() {
       <main>
         <HomepageFeatures />
       </main>
+      <Head>
+        <title>React Complex Tree</title>
+        <meta name="title" content="React Complex Tree" />
+        <meta
+          name="keywords"
+          content="react, search, dnd, keyboard, tree, typescript, javascript, js, component, types, drag-and-drop, rename, hotkeys, accessible, unopinionated, draggable, drag"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://rct.lukasbach.com" />
+        <meta property="og:title" content="React Complex Tree" />
+        <meta
+          property="og:description"
+          content="Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop"
+        />
+        <meta property="og:image" content="https://rct.lukasbach.com/static/img/example/06.png" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://rct.lukasbach.com" />
+        <meta property="twitter:title" content="React Complex Tree" />
+        <meta
+          property="twitter:description"
+          content="Unopinionated Accessible Tree Component with Multi-Select and Drag-And-Drop"
+        />
+        <meta property="twitter:image" content="https://rct.lukasbach.com/static/img/example/06.png" />
+        <meta name="robots" content="index, follow, max-snippet:[120], max-image-preview:[large]" />
+      </Head>
     </Layout>
   );
 }
