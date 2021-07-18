@@ -15,40 +15,40 @@ export const SingleTreeDemo = () => (
   <AutoDemo
     data={longTree}
     storyScript={async story => {
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.expandItem(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.expandItem(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(500);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(1000);
       await story.searchFor(story.tree.current!, 'cheese');
       await story.wait(200);
-      await story.tree.current!.abortSearch();
+      await story.tree.current?.abortSearch();
       await story.wait(1000);
-      await story.tree.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(1000);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(1000);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.wait(500);
       await story.programmaticMove('up', 16);
       await story.wait(1000);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
       await story.wait(1000);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.wait(500);
       await story.programmaticMove('down', 2, 500);
       await story.wait(1000);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
     }}
   >
     {(environmentProps, environmentRef, treeRef) => (
@@ -76,117 +76,117 @@ export const MultiTreeDemo = () => (
     restart={true}
     data={longTree}
     storyScript={async story => {
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
       await story.wait(1000);
-      await story.tree.current!.moveFocusUp();
+      await story.tree.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree.current!.moveFocusUp();
+      await story.tree.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree.current!.moveFocusUp();
+      await story.tree.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree.current!.moveFocusUp();
+      await story.tree.current?.moveFocusUp();
       await story.wait(1000);
-      await story.tree2.current!.focusTree(false);
+      await story.tree2.current?.focusTree(false);
       await story.wait(500);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(1000);
-      await story.tree2.current!.expandItem(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(1000);
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
       await story.wait(500);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(500);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(500);
-      await story.tree.current!.moveFocusDown();
+      await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(1000);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.wait(1000);
-      await story.tree2.current!.focusTree(false);
+      await story.tree2.current?.focusTree(false);
       await story.wait(500);
       await story.programmaticMove('down', 4);
       await story.wait(500);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
       await story.wait(1000);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(1000);
-      await story.tree2.current!.collapseItem(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.collapseItem(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(1000);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current!.moveFocusUp();
+      await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current!.expandItem(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(500);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree2.current!.expandItem(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(200);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(200);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(200);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(200);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(200);
-      await story.tree2.current!.moveFocusDown();
+      await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current!.toggleItemSelectStatus(story.env.current!.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
       await story.wait(1000);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.programmaticMove('down', 8);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
       await story.wait(1000);
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
       await story.wait(200);
       await story.searchFor(story.tree.current!, 'meals');
       await story.wait(500);
-      await story.tree.current!.collapseItem(story.env.current!.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.collapseItem(story.env.current?.viewState[treeId1]!.focusedItem!);
       await story.wait(1000);
-      await story.tree2.current!.focusTree(false);
+      await story.tree2.current?.focusTree(false);
       await story.wait(200);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.wait(1300);
       await story.programmaticMove('down', 2);
       await story.wait(1300);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
       await story.wait(1500);
       await story.searchFor(story.tree2.current!, 'drinks');
       await story.wait(1000);
-      await story.tree2.current!.selectItems([story.env.current!.viewState[treeId2]!.focusedItem!]);
+      await story.tree2.current?.selectItems([story.env.current?.viewState[treeId2]!.focusedItem!]);
       await story.wait(500);
-      await story.env.current!.startProgrammaticDrag();
+      await story.env.current?.startProgrammaticDrag();
       await story.programmaticMove('up', 26);
       await story.wait(1000);
-      await story.env.current!.completeProgrammaticDrag();
+      await story.env.current?.completeProgrammaticDrag();
       await story.wait(5000);
     }}
   >
@@ -216,7 +216,7 @@ export const SearchDemo = () => (
     data={longTree}
     restart={true}
     storyScript={async story => {
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'an');
       await story.wait(1000);
       await story.searchFor(story.tree.current!, 'banana');
@@ -262,7 +262,7 @@ export const SingleTreeEmptyTemplate = () => (
     data={longTree}
     restart={true}
     storyScript={async story => {
-      await story.tree.current!.focusTree(false);
+      await story.tree.current?.focusTree(false);
     }}
   >
     {(environmentProps, environmentRef, treeRef) => (
