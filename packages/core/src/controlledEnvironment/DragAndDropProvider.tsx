@@ -211,6 +211,7 @@ export const DragAndDropProvider: React.FC = props => {
     itemHeight,
     isProgrammaticallyDragging,
     onDragOverTreeHandler,
+    viableDragPositions,
   };
 
   return <DragAndDropContext.Provider value={dnd}>{props.children}</DragAndDropContext.Provider>;

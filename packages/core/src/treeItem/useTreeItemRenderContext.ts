@@ -40,7 +40,9 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       (environment.canDrag?.(itemsToDrag) ?? true) &&
       itemsToDrag.map(item => item.canMove ?? true).reduce((a, b) => a && b, true);
 
-    // console.log(canDrag, selectedItems, environment.canDragAndDrop)
+    const canDropOn =
+      environment.canDragAndDrop &&
+      !!dnd.viableDragPositions?.[treeId]?.find(position => position.targetType === 'item' && position.targetItem === item.index);
 
     const actions: TreeItemActions = {
       // TODO disable most actions during rename
@@ -109,6 +111,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       isDraggingOverParent: false,
       isSearchMatching: isSearchMatching,
       canDrag,
+      canDropOn
     };
 
     const interactiveElementProps: HTMLProps<HTMLElement> = {

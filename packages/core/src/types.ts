@@ -45,6 +45,7 @@ export interface TreeItemRenderFlags {
   isDraggingOverParent?: boolean;
   isSearchMatching?: boolean;
   canDrag?: boolean;
+  canDropOn?: boolean;
 }
 
 export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFlags {
@@ -253,7 +254,7 @@ export interface DragAndDropContextProps<T = any> {
   programmaticDragUp: () => void;
   programmaticDragDown: () => void;
   draggingPosition?: DraggingPosition;
-  viableDraggingPositions?: DraggingPosition[];
+  viableDragPositions?: { [treeId: string]: DraggingPosition[] };
   linearItems?: Array<{ item: TreeItemIndex; depth: number }>;
   onDragOverTreeHandler: (
     e: DragEvent,
