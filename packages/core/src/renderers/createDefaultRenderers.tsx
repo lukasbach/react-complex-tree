@@ -42,7 +42,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
                 enableBackground="new 0 0 16 16"
                 xmlSpace="preserve"
               >
-                <g id="chevron_down">
+                <g>
                   <g>
                     <path
                       fillRule="evenodd"
@@ -66,7 +66,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
                 enableBackground="new 0 0 16 16"
                 xmlSpace="preserve"
               >
-                <g id="chevron_right">
+                <g>
                   <g>
                     <path
                       fillRule="evenodd"
@@ -89,7 +89,6 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
       return (
         <li
           {...(context.itemContainerWithChildrenProps as any)}
-          role="none"
           className={cx(
             'rct-tree-item-li',
             item.hasChildren && 'rct-tree-item-li-hasChildren',

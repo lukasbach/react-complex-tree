@@ -80,7 +80,7 @@ export interface TreeRenderProps<T = any> {
     item: TreeItem<T>;
     context: TreeItemRenderContext;
     info: TreeInformation;
-  }) => React.ReactElement | null;
+  }) => React.ReactElement | null | string;
 
   renderItemArrow?: (props: {
     item: TreeItem<T>;

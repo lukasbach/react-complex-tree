@@ -16,6 +16,9 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  a11y: {
+    manual: true,
+  }
 };
 
 if (process.env.NODE_ENV === 'development') {
