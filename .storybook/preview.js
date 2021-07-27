@@ -18,7 +18,7 @@ export const parameters = {
   },
   a11y: {
     manual: true,
-  }
+  },
 };
 
 if (process.env.NODE_ENV === 'development') {
