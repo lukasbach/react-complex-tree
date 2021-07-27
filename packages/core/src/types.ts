@@ -151,6 +151,7 @@ export interface TreeCapabilities<T = any> {
   canRename?: boolean;
   autoFocus?: boolean;
   doesSearchMatchItem?: (search: string, item: TreeItem<T>, itemTitle: string) => boolean;
+  showLiveDescription?: boolean;
 }
 
 export interface IndividualTreeViewState {
@@ -226,6 +227,7 @@ export interface TreeEnvironmentConfiguration<T = any>
     ExplicitDataSource<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
+  liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
 }
 
@@ -295,6 +297,7 @@ export interface UncontrolledTreeEnvironmentProps<T = any>
     TreeChangeHandlers<T> {
   viewState: TreeViewState;
   keyboardBindings?: KeyboardBindings;
+  liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
   children: JSX.Element | JSX.Element[] | null;
 }
@@ -373,4 +376,50 @@ export interface KeyboardBindings {
   startProgrammaticDnd?: string[];
   abortProgrammaticDnd?: string[];
   completeProgrammaticDnd?: string[];
+}
+
+/**
+ * Live descriptors are written in an aria live region describing the state of the
+ * tree to accessibility readers. They are displayed in a visually hidden area at the
+ * bottom of the tree. Each descriptor composes a HTML string. Variables in the form
+ * of {variableName} can be used.
+ *
+ * The {keybinding:bindingname} variable referns to a specific keybinding, i.e. {keybinding:primaryAction}
+ * is a valid variable.
+ *
+ * See the implementation of the `defaultLiveDescriptors` for more details.
+ */
+export interface LiveDescriptors {
+  /**
+   * Supports the following variables:
+   * {treeLabel} {keybinding:bindingname}
+   */
+  introduction: string;
+
+  /**
+   * Supports the following variables:
+   * {renamingItem} {keybinding:bindingname}
+   */
+  renamingItem: string;
+
+  /**
+   * Supports the following variables:
+   * {keybinding:bindingname}
+   */
+  searching: string;
+
+  /**
+   * Supports the following variables:
+   * {dropTarget} {dragItems} {keybinding:bindingname}
+   */
+  programmaticallyDragging: string;
+
+  /**
+   * Will be displayed in addition to the programmaticallyDragging description,
+   * but with the aria-live attribute assertive.
+   *
+   * Supports the following variables:
+   * {dropTarget} {dragItems} {keybinding:bindingname}
+   */
+  programmaticallyDraggingTarget: string;
 }

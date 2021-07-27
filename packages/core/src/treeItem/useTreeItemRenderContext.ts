@@ -117,6 +117,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     const interactiveElementProps: HTMLProps<HTMLElement> = {
       ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
       role: 'treeitem',
+      'aria-selected': renderFlags.isSelected,
       'aria-expanded': item.hasChildren ? (renderFlags.isExpanded ? 'true' : 'false') : undefined,
       ...({
         ['data-rct-item-interactive']: true,
