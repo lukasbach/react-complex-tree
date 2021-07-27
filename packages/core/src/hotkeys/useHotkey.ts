@@ -77,7 +77,7 @@ export const useHotkey = (
         .reduce((a, b) => a || b, false);
 
       if (match) {
-        onHit(e);
+        requestAnimationFrame(() => onHit(e));
       }
 
       pressedKeys.current = pressedKeys.current.filter(key => key !== e.key);
