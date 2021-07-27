@@ -34,5 +34,5 @@ export const defaultLiveDescriptors: LiveDescriptors = {
 
   programmaticallyDraggingTarget: `
     <p>Drop target is {dropTarget}.</p>
-  `
+  `,
 };

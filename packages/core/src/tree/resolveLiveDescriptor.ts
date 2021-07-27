@@ -11,14 +11,14 @@ export const resolveLiveDescriptor = (
   descriptor: string,
   environment: TreeEnvironmentContextProps,
   dnd: DragAndDropContextProps,
-  tree: TreeContextProps,
+  tree: TreeContextProps
 ) => {
   const getItemTitle = (index: TreeItemIndex) => {
-    console.log(index, environment.items, dnd.draggingPosition)
+    console.log(index, environment.items, dnd.draggingPosition);
     return environment.getItemTitle(environment.items[index]);
-  }
+  };
 
-  return descriptor.replace(/(\{[^\s\}]+)\}/g, (variableNameWithBrackets) => {
+  return descriptor.replace(/(\{[^\s\}]+)\}/g, variableNameWithBrackets => {
     const variableName = variableNameWithBrackets.slice(1, -1);
     switch (variableName) {
       case 'treeLabel':
@@ -39,15 +39,19 @@ export const resolveLiveDescriptor = (
           if (dnd.draggingPosition.childIndex === 0) {
             return `within ${parentTitle} at the start`;
           } else {
-            return `within ${parentTitle} after ${getItemTitle(parentItem.children![dnd.draggingPosition.childIndex - 1])}`;
+            return `within ${parentTitle} after ${getItemTitle(
+              parentItem.children![dnd.draggingPosition.childIndex - 1]
+            )}`;
           }
         }
       default:
         if (variableName.startsWith('keybinding:')) {
-          return (environment.keyboardBindings ?? defaultKeyboardBindings)[variableName.slice(11) as keyof KeyboardBindings]![0];
+          return (environment.keyboardBindings ?? defaultKeyboardBindings)[
+            variableName.slice(11) as keyof KeyboardBindings
+          ]![0];
         } else {
           throw Error(`Unknown live descriptor variable {${variableName}}`);
         }
     }
-  })
-}
+  });
+};

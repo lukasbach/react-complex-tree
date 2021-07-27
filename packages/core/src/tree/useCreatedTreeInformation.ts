@@ -21,6 +21,13 @@ export const useCreatedTreeInformation = (
       treeId: tree.treeId,
       rootItem: tree.rootItem,
     }),
-    [environment.activeTreeId, environment.viewState[tree.treeId]?.selectedItems, renamingItem, tree.treeId, search, dnd.isProgrammaticallyDragging]
+    [
+      environment.activeTreeId,
+      environment.viewState[tree.treeId]?.selectedItems,
+      renamingItem,
+      tree.treeId,
+      search,
+      dnd.isProgrammaticallyDragging,
+    ]
   );
 };

@@ -73,20 +73,20 @@ export interface TreeRenderProps<T = any> {
     arrow: React.ReactNode;
     context: TreeItemRenderContext;
     info: TreeInformation;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
   renderItemTitle?: (props: {
     title: string;
     item: TreeItem<T>;
     context: TreeItemRenderContext;
     info: TreeInformation;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
   renderItemArrow?: (props: {
     item: TreeItem<T>;
     context: TreeItemRenderContext;
     info: TreeInformation;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
   renderRenameInput?: (props: {
     item: TreeItem<T>;
@@ -94,27 +94,35 @@ export interface TreeRenderProps<T = any> {
     inputRef: Ref<HTMLInputElement>;
     submitButtonProps: HTMLProps<any>;
     formProps: FormHTMLAttributes<HTMLFormElement>;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
-  renderDraggingItem?: (props: { items: Array<TreeItem<T>> }) => React.ReactNode;
+  renderDraggingItem?: (props: { items: Array<TreeItem<T>> }) => React.ReactElement | null;
 
-  renderDraggingItemTitle?: (props: { items: Array<TreeItem<T>> }) => React.ReactNode;
+  renderDraggingItemTitle?: (props: { items: Array<TreeItem<T>> }) => React.ReactElement | null;
 
   renderItemsContainer?: (props: {
     children: React.ReactNode;
     containerProps: HTMLProps<any>;
     info: TreeInformation;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
   renderTreeContainer?: (props: {
     children: React.ReactNode;
     containerProps: HTMLProps<any>;
     info: TreeInformation;
-  }) => React.ReactNode;
+  }) => React.ReactElement | null;
 
-  renderDragBetweenLine?: (props: { draggingPosition: DraggingPosition; lineProps: HTMLProps<any> }) => React.ReactNode;
+  renderDragBetweenLine?: (props: {
+    draggingPosition: DraggingPosition;
+    lineProps: HTMLProps<any>;
+  }) => React.ReactElement | null;
 
-  renderSearchInput?: (props: { inputProps: HTMLProps<HTMLInputElement> }) => React.ReactNode;
+  renderSearchInput?: (props: { inputProps: HTMLProps<HTMLInputElement> }) => React.ReactElement | null;
+
+  renderLiveDescriptorContainer?: (props: {
+    children: React.ReactNode;
+    tree: TreeConfiguration;
+  }) => React.ReactElement | null;
 
   renderDepthOffset?: number;
 }

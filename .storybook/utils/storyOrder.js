@@ -1,4 +1,4 @@
 export const storyOrder = {
-  Core: [],
+  Core: ['Basic Examples', 'Controlled Environment'],
   AutoDemo: [],
 };

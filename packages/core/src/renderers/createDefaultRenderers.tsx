@@ -192,6 +192,24 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </div>
       );
     },
+    renderLiveDescriptorContainer: ({ tree, children }) => {
+      return (
+        <div
+          id={`rct-livedescription-${tree.treeId}`}
+          style={{
+            clip: 'rect(0 0 0 0)',
+            clipPath: 'inset(50%)',
+            height: '1px',
+            overflow: 'hidden',
+            position: 'absolute',
+            whiteSpace: 'nowrap',
+            width: '1px',
+          }}
+        >
+          {children}
+        </div>
+      );
+    },
     renderDepthOffset: 4,
     ...renderers,
   };

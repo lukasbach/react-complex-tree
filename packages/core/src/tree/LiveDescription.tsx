@@ -11,54 +11,36 @@ export const LiveDescription: React.FC<{}> = props => {
   const tree = useTree();
   const dnd = useDragAndDrop();
 
-  if (!(env.liveDescriptors ?? true)) {
+  if (!(env.showLiveDescription ?? true)) {
     return null;
   }
 
   const descriptors = useMemo(() => env.liveDescriptors ?? defaultLiveDescriptors, []);
 
-  const MainWrapper = useMemo<React.FC>(() => props => (
-    <div
-      id={`rct-livedescription-${tree.treeId}`}
-      style={{ // TODO
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-        width: '250px',
-        fontSize: '10px',
-        backgroundColor: 'rgba(255, 255, 255, .5)'
-      }}
-    >
-      {props.children}
-    </div>
-  ), []);
+  const LiveWrapper = useMemo(
+    () =>
+      ({ children, live }: { children: string; live: 'off' | 'assertive' | 'polite' }) =>
+        <div aria-live={live} dangerouslySetInnerHTML={{ __html: children }} />,
+    []
+  );
 
-  const LiveWrapper = useMemo(() => ({ children, live }: { children: string, live: 'off' | 'assertive' | 'polite' }) => (
-    <div
-      aria-live={live}
-      dangerouslySetInnerHTML={{ __html: children }}
-    />
-  ), []);
+  const MainWrapper = tree.renderers.renderLiveDescriptorContainer;
 
   if (tree.treeInformation.isRenaming) {
     return (
-      <MainWrapper>
-        <LiveWrapper live="polite">
-          {resolveLiveDescriptor(descriptors.renamingItem, env, dnd, tree)}
-        </LiveWrapper>
+      <MainWrapper tree={tree}>
+        <LiveWrapper live="polite">{resolveLiveDescriptor(descriptors.renamingItem, env, dnd, tree)}</LiveWrapper>
       </MainWrapper>
     );
   } else if (tree.treeInformation.isSearching) {
     return (
-      <MainWrapper>
-        <LiveWrapper live="polite">
-          {resolveLiveDescriptor(descriptors.searching, env, dnd, tree)}
-        </LiveWrapper>
+      <MainWrapper tree={tree}>
+        <LiveWrapper live="polite">{resolveLiveDescriptor(descriptors.searching, env, dnd, tree)}</LiveWrapper>
       </MainWrapper>
     );
   } else if (tree.treeInformation.isProgrammaticallyDragging) {
     return (
-      <MainWrapper>
+      <MainWrapper tree={tree}>
         <LiveWrapper live="polite">
           {resolveLiveDescriptor(descriptors.programmaticallyDragging, env, dnd, tree)}
         </LiveWrapper>
@@ -69,10 +51,8 @@ export const LiveDescription: React.FC<{}> = props => {
     );
   } else {
     return (
-      <MainWrapper>
-        <LiveWrapper live="off">
-          {resolveLiveDescriptor(descriptors.introduction, env, dnd, tree)}
-        </LiveWrapper>
+      <MainWrapper tree={tree}>
+        <LiveWrapper live="off">{resolveLiveDescriptor(descriptors.introduction, env, dnd, tree)}</LiveWrapper>
       </MainWrapper>
     );
   }
