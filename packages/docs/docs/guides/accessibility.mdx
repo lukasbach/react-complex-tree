@@ -1,0 +1,59 @@
+---
+sidebar_position: 11.5
+---
+
+import { StoryEmbed } from '../../src/components/StoryEmbed';
+
+# Accessibility
+
+React Complex Tree provides several features to make the tree component accessible to all users.
+
+## DOM structure compliant with W3C's recommendations
+
+The W3C defines specific
+[guidelines for how a tree view should be structured to be accessible](https://www.w3.org/TR/wai-aria-practices-1.1/examples/treeview/treeview-2/treeview-2a.html).
+The guideline is fulfilled by the default render methods that are provided by React Complex Tree. If you
+implement custom render methods, you will need to make sure that the general DOM structure still complies
+to the guidelines (i.e. by using nested `ul`-lists), however even then React Complex Tree does most of the work
+for you by providing most DOM attributes such as `aria`-tags, role attributes and event handlers as props for
+the render methods. [Look into the documentation on custom render hooks to find out more](/docs/guides/rendering).
+
+## Complete Control via keybindings
+
+All features can be accessed via keybindings, including
+[drag and drop](/docs/guides/keyboard#keyboard-bound-drag-and-drop-sequences), searching and renaming.
+[Find out more in the documentation on keyboard bindings.](/docs/guides/keyboard)
+
+## Live descriptors
+
+A visually hidden live section is rendered at the top of the tree that explains the state of the tree
+to screen readers. Screen readers are notified about updates to the state of the tree. This is particularly
+important when using drag-and-drop features via keyboard interactions.
+
+<StoryEmbed storyName="auto-demo-autodemo-component--visible-live-descriptors" iframeProps={{ width: 600 }} />
+
+Live descriptors are displayed by default. They can be turned off by providing a `showLiveDescription` prop to
+the environment with the value `false`. They can be further customized via additional props.
+
+### Custom descriptor texts
+
+Provide a `liveDescriptors` prop to the environment to define custom descriptor texts. How descriptors are named
+is described [in the respective API document](/docs/api/interfaces/livedescriptors). This is helpful for
+localizing the descriptors to different languages.
+
+When defining descriptors, the following substrings can be used as variables that are replaced during runtime:
+
+- `{treeLabel}`: the label provided to the tree component
+- `{keybinding:bindingname}`: a specific keybinding. `bindingname` needs to be a key of the [`KeyboardBindings` interface](/docs/api/interfaces/keyboardbindings).
+- `{dragTarget}`: If currently dragging, a description of the drag target.
+- `{dragItems}`: A list of item titles of items that are currently being dragged, seperated by commas.
+- `{renamingItem}`: If currently renaming an item, the title of the item that is being renamed.
+
+<StoryEmbed storyName="core-accessibility--custom-descriptors" iframeProps={{ width: 600 }} />
+
+### Custom Keybindings
+
+If custom keybindings are provided to the tree environment, live descriptors do not need to be updated as they
+automatically include the correct bindings.
+
+<StoryEmbed storyName="core-accessibility--custom-hotkeys" iframeProps={{ width: 600 }} />

@@ -257,6 +257,58 @@ export const SearchDemo = () => (
   </AutoDemo>
 );
 
+const VisibleLiveDescriptorContainer = ({ children, tree }: any) => (
+  <div
+    id={`rct-livedescription-${tree.treeId}`}
+    style={{
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      width: '250px',
+      fontSize: '10px',
+      backgroundColor: 'rgba(255, 255, 255, .5)',
+    }}
+  >
+    {children}
+  </div>
+);
+
+export const VisibleLiveDescriptors = () => (
+  <AutoDemo
+    data={longTree}
+    restart={true}
+    storyScript={async story => {
+      await story.tree.current?.focusTree(false);
+      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.wait(500);
+      await story.env.current?.startProgrammaticDrag();
+      await story.wait(500);
+      await story.programmaticMove('down', 10, 1000);
+      await story.wait(500);
+      await story.env.current?.completeProgrammaticDrag();
+    }}
+  >
+    {(environmentProps, environmentRef, treeRef) => (
+      <UncontrolledTreeEnvironment<string>
+        canDragAndDrop={true}
+        canDropOnItemWithChildren={true}
+        canReorderItems={true}
+        getItemTitle={item => item.data}
+        viewState={{
+          [treeId1]: {
+            expandedItems: ['Fruit', 'Meals'],
+          },
+        }}
+        ref={environmentRef}
+        renderLiveDescriptorContainer={VisibleLiveDescriptorContainer}
+        {...environmentProps}
+      >
+        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+      </UncontrolledTreeEnvironment>
+    )}
+  </AutoDemo>
+);
+
 export const SingleTreeEmptyTemplate = () => (
   <AutoDemo
     data={longTree}

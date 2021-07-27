@@ -53,7 +53,7 @@ export const CustomHotkeys = () => (
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
     keyboardBindings={{
@@ -79,7 +79,7 @@ export const CustomDescriptors = () => (
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
     liveDescriptors={{
@@ -104,7 +104,7 @@ export const NoDescriptors = () => (
     getItemTitle={item => item.data}
     viewState={{
       ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
     showLiveDescription={false}
