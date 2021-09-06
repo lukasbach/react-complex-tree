@@ -34,6 +34,7 @@ export class ClickArrowToExpandInteractionManager implements InteractionManager 
             actions.addToSelectedItems();
           }
         } else {
+          actions.selectItem();
           if (!item.hasChildren || this.environment.canInvokePrimaryActionOnItemContainer) {
             actions.primaryAction();
           }
