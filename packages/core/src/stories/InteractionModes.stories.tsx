@@ -63,3 +63,30 @@ export const ClickArrowToExpandInteractionMode = () => (
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
+
+export const CustomInteractionMode = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    getItemTitle={item => item.data}
+    defaultInteractionMode={{
+      mode: 'custom',
+      createInteractiveElementProps: (item, treeId, actions, renderFlags) => ({
+        onClick: e => {
+          actions.focusItem();
+        },
+        onFocus: () => {
+          actions.focusItem();
+        },
+        draggable: renderFlags.canDrag && !renderFlags.isRenaming,
+        tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
+      })
+    }}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);

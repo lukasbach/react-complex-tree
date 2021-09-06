@@ -93,9 +93,57 @@ function App() {
 }
 ```
 
-## Custom interactions
+## Custom interaction modes
+
+Instead of providing a string referring to the desired interaction mode, you can also provide a custom
+interaction manager implementation which implements the [InteractionManager](/docs/api/interfaces/interactionmanager)
+implementation.
+
+Essentially, it needs to implement a `createInteractiveElementProps` method which provides HTML props for
+a interactive tree item node. Look [into the API](/docs/api/interfaces/interactionmanager) to see which
+parameters are available as arguments.
+
+The best way to get started is to look into the
+[implementations of existing interaction modes](https://github.com/lukasbach/react-complex-tree/tree/main/packages/core/src/interactionMode),
+to see which props you should implement.
+
+The following example shows a custom very simple interaction mode which only focuses items when clicking on them,
+but never selects them.
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      defaultInteractionMode={{
+        mode: 'custom',
+        createInteractiveElementProps: (item, treeId, actions, renderFlags) => ({
+          onClick: e => {
+            actions.focusItem();
+          },
+          onFocus: () => {
+            actions.focusItem();
+          },
+          tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
+        })
+      }}
+      viewState={{
+        ['tree-1']: {
+          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        },
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Completely omitting interaction modes
 
 The interaction mode defines, how the `interactiveElementProps` prop is created for rendering the interactive
-element of an tree item. While it currently is not possible to define custom interaction modes, the prop can
-easily be omitted in custom render implementations and individual DOM interactions can be defined instead.
+element of an tree item. The prop can also easily be omitted in custom render implementations and individual DOM
+interactions can be defined instead.
 [Look into the documentation on custom render hooks](/docs/guides/rendering) to find out more.
+

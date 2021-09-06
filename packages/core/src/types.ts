@@ -136,7 +136,7 @@ export enum InteractionMode {
 }
 
 export interface InteractionManager {
-  mode: InteractionMode;
+  mode: InteractionMode | string;
   createInteractiveElementProps: (
     item: TreeItem,
     treeId: string,
@@ -146,7 +146,7 @@ export interface InteractionManager {
 }
 
 export interface TreeCapabilities<T = any> {
-  defaultInteractionMode?: InteractionMode;
+  defaultInteractionMode?: InteractionMode | InteractionManager;
   canDragAndDrop?: boolean;
   canDropOnItemWithChildren?: boolean;
   canDropOnItemWithoutChildren?: boolean;

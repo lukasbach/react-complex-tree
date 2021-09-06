@@ -13,6 +13,10 @@ export const InteractionManagerProvider: React.FC = props => {
   const environment = useTreeEnvironment();
 
   const interactionManager = useMemo(() => {
+    if (environment.defaultInteractionMode && typeof environment.defaultInteractionMode !== 'string') {
+      return environment.defaultInteractionMode;
+    }
+
     switch (environment.defaultInteractionMode ?? InteractionMode.ClickItemToExpand) {
       case InteractionMode.DoubleClickItemToExpand:
         return new DoubleClickItemToExpandInteractionManager(environment);
