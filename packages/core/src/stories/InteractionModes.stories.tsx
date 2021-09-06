@@ -79,7 +79,7 @@ export const CustomInteractionMode = () => (
         },
         draggable: renderFlags.canDrag && !renderFlags.isRenaming,
         tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
-      })
+      }),
     }}
     viewState={{
       ['tree-1']: {

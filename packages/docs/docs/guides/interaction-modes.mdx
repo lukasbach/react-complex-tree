@@ -126,7 +126,7 @@ function App() {
             actions.focusItem();
           },
           tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
-        })
+        }),
       }}
       viewState={{
         ['tree-1']: {
@@ -146,4 +146,3 @@ The interaction mode defines, how the `interactiveElementProps` prop is created 
 element of an tree item. The prop can also easily be omitted in custom render implementations and individual DOM
 interactions can be defined instead.
 [Look into the documentation on custom render hooks](/docs/guides/rendering) to find out more.
-
