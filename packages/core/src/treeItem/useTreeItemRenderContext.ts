@@ -30,15 +30,22 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
 
     const viewState = environment.viewState[treeId];
 
-    const itemsToDrag =
+    const currentlySelectedItems =
       viewState?.selectedItems?.map(item => environment.items[item]) ??
       (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : []);
 
-    const canDrag = //selectedItems &&
-      //  selectedItems.length > 0 &&
+    const isItemPartOfSelectedItems = !!currentlySelectedItems.find(selectedItem => selectedItem.index === item.index);
+
+    const canDragCurrentlySelectedItems =
+      currentlySelectedItems &&
+      (environment.canDrag?.(currentlySelectedItems) ?? true) &&
+      currentlySelectedItems.map(item => item.canMove ?? true).reduce((a, b) => a && b, true);
+
+    const canDragThisItem = (environment.canDrag?.([item]) ?? true) && (item.canMove ?? true);
+
+    const canDrag =
       environment.canDragAndDrop &&
-      (environment.canDrag?.(itemsToDrag) ?? true) &&
-      itemsToDrag.map(item => item.canMove ?? true).reduce((a, b) => a && b, true);
+      ((isItemPartOfSelectedItems && canDragCurrentlySelectedItems) || (!isItemPartOfSelectedItems && canDragThisItem));
 
     const canDropOn =
       environment.canDragAndDrop &&
