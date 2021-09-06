@@ -13,10 +13,7 @@ export const resolveLiveDescriptor = (
   dnd: DragAndDropContextProps,
   tree: TreeContextProps
 ) => {
-  const getItemTitle = (index: TreeItemIndex) => {
-    console.log(index, environment.items, dnd.draggingPosition);
-    return environment.getItemTitle(environment.items[index]);
-  };
+  const getItemTitle = (index: TreeItemIndex) => environment.getItemTitle(environment.items[index]);
 
   return descriptor.replace(/(\{[^\s\}]+)\}/g, variableNameWithBrackets => {
     const variableName = variableNameWithBrackets.slice(1, -1);
