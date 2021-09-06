@@ -46,14 +46,11 @@ export const useOnDragOverTreeHandler = (
     }
 
     if (e.clientX < 0 || e.clientY < 0) {
-      // console.log("Drag aborted due to mouse coords being negative");
       return; // TODO hotfix
     }
 
     const treeBb = containerRef.current.getBoundingClientRect();
     const outsideContainer = isOutsideOfContainer(e, treeBb);
-
-    // console.log(outsideContainer, treeBb, e.clientX, e.clientY);
 
     let { linearIndex, offset } = getHoveringPosition(e.clientY, treeBb.top, itemHeight, environment);
 
@@ -67,13 +64,11 @@ export const useOnDragOverTreeHandler = (
 
     if (outsideContainer) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to being out of container");
       return;
     }
 
     if (linearIndex < 0 || linearIndex >= linearItems[treeId].length) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to being out of linear list");
       return;
     }
 
@@ -83,19 +78,16 @@ export const useOnDragOverTreeHandler = (
 
     if (!offset && !environment.canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to canDropOnItemWithoutChildren");
       return;
     }
 
     if (!offset && !environment.canDropOnItemWithChildren && targetItemData.hasChildren) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to canDropOnItemWithChildren");
       return;
     }
 
     if (offset && !environment.canReorderItems) {
       onDragAtPosition(undefined);
-      // console.log("Drag aborted due to canReorderItems");
       return;
     }
 
