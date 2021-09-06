@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
-import { StaticTreeDataProvider, Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
+import { InteractionMode, StaticTreeDataProvider, Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
 import { longTree, shortTree } from 'demodata';
 import { renderers } from '../renderers';
 import { FocusStyleManager } from '@blueprintjs/core';
@@ -60,6 +60,28 @@ export const ShortBlueprintJsTree = () => (
         ['tree-1']: {
           expandedItems: ['container'],
         },
+      }}
+      {...renderers}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  </div>
+);
+
+export const BlueprintJsTreeWithClickArrowToExpand = () => (
+  <div
+    onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
+    onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
+  >
+    <UncontrolledTreeEnvironment<string>
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+      canReorderItems={true}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      defaultInteractionMode={InteractionMode.ClickArrowToExpand}
+      viewState={{
+        ['tree-1']: {},
       }}
       {...renderers}
     >

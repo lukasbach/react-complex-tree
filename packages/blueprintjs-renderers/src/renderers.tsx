@@ -1,7 +1,7 @@
 import React from 'react';
 import { TreeRenderProps } from 'react-complex-tree';
 import { Button, Classes, Collapse, Colors, Icon, InputGroup } from '@blueprintjs/core';
-import { Tick, ChevronRight, Document, FolderClose, FolderOpen } from '@blueprintjs/icons';
+import { Tick, ChevronRight, Document, FolderClose, FolderOpen, SVGIconProps } from '@blueprintjs/icons';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
 
@@ -79,6 +79,7 @@ export const renderers: TreeRenderProps = {
         Classes.TREE_NODE_CARET,
         props.context.isExpanded ? Classes.TREE_NODE_CARET_OPEN : Classes.TREE_NODE_CARET_CLOSED
       )}
+      {...(props.context.arrowProps as SVGIconProps)}
     />
   ),
 
