@@ -7,7 +7,7 @@ const config: webpack.Configuration = {
     mainFields: ['main', 'module', 'browser'],
   },
   entry: './src/index.ts',
-  target: 'electron-renderer',
+  target: 'web',
   devtool: 'source-map',
   mode: 'production',
   module: {
