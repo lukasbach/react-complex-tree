@@ -51,8 +51,8 @@
   },
   "scripts": {
     "build": "run-p \"build:*\"",
-    "build:cjs": "tsc -m commonjs --outDir lib/esm",
-    "build:esm": "tsc -m es2015 --outDir lib/cjs",
+    "build:cjs": "tsc -m commonjs --outDir lib/cjs",
+    "build:esm": "tsc -m es2015 --outDir lib/esm",
     "build:esnext": "tsc -m esnext --outDir lib/esnext",
     "build:bundle": "webpack",
     "build:prepare": "cpy ./src/style.css ./lib && cpy ../../readme.md ./",
