@@ -25,6 +25,10 @@ const config: webpack.Configuration = {
     library: 'ReactComplexTree',
     libraryTarget: 'umd',
   },
+  externals: {
+    'react': 'react',
+    'react-dom' : 'reactDOM'
+  },
 };
 
 export default config;
