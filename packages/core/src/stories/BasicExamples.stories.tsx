@@ -38,7 +38,7 @@ export const PredefinedViewState = () => (
         expandedItems: ['Fruit'],
         focusedItem: 'Apple',
         selectedItems: ['Apple', 'Lemon', 'Berries'],
-      }
+      },
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />

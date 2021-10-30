@@ -26,8 +26,8 @@ const config: webpack.Configuration = {
     libraryTarget: 'umd',
   },
   externals: {
-    'react': 'react',
-    'react-dom' : 'reactDOM'
+    react: 'react',
+    'react-dom': 'reactDOM',
   },
 };
 

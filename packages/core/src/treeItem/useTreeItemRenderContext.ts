@@ -31,8 +31,8 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     const viewState = environment.viewState[treeId];
 
     const currentlySelectedItems = (
-      viewState?.selectedItems?.map(item => environment.items[item])
-      ?? (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : [])
+      viewState?.selectedItems?.map(item => environment.items[item]) ??
+      (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : [])
     ).filter(item => !!item);
 
     const isItemPartOfSelectedItems = !!currentlySelectedItems.find(selectedItem => selectedItem.index === item.index);
