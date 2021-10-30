@@ -21,7 +21,7 @@ export const resolveLiveDescriptor = (
       case 'treeLabel':
         return tree.treeLabel ?? '';
       case 'renamingItem':
-        return !!tree.renamingItem ? getItemTitle(tree.renamingItem) : 'None';
+        return tree.renamingItem ? getItemTitle(tree.renamingItem) : 'None';
       case 'dragItems':
         return dnd.draggingItems?.map(item => environment.getItemTitle(item)).join(', ') ?? 'None';
       case 'dropTarget':

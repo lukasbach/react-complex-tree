@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultLiveDescriptors } from './defaultLiveDescriptors';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTree } from './Tree';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { resolveLiveDescriptor } from './resolveLiveDescriptor';
 
-export const LiveDescription: React.FC<{}> = props => {
+export const LiveDescription: React.FC = () => {
   const env = useTreeEnvironment();
   const tree = useTree();
   const dnd = useDragAndDrop();

@@ -84,10 +84,10 @@ export const CustomDescriptors = () => (
     }}
     liveDescriptors={{
       ...defaultLiveDescriptors,
-      introduction: `<em>Custom live descriptor for tree {treeLabel}</em>`,
-      renamingItem: `<em>Renaming {renamingItem}`,
-      programmaticallyDragging: `<em>Dragging {dragItems}</em>`,
-      programmaticallyDraggingTarget: `<em>Target is {dropTarget}</em>`,
+      introduction: '<em>Custom live descriptor for tree {treeLabel}</em>',
+      renamingItem: '<em>Renaming {renamingItem}',
+      programmaticallyDragging: '<em>Dragging {dragItems}</em>',
+      programmaticallyDraggingTarget: '<em>Target is {dropTarget}</em>',
     }}
     renderLiveDescriptorContainer={VisibleLiveDescriptorContainer}
   >
