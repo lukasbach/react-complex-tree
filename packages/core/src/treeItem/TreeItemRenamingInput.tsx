@@ -11,10 +11,12 @@ export const TreeItemRenamingInput: React.FC<{
   const { renderers, treeInformation, setRenamingItem, treeId } = useTree();
   const environment = useTreeEnvironment();
   const inputRef = useRef<HTMLInputElement>(null);
+  const submitButtonRef = useRef<any>(null);
   const item = environment.items[props.itemIndex];
   const [title, setTitle] = useState(environment.getItemTitle(item));
 
   const abort = () => {
+    environment.onAbortRenamingItem?.(item, treeInformation.treeId);
     setRenamingItem(null);
     requestAnimationFrame(() => {
       environment.setActiveTree(treeId);
@@ -52,14 +54,16 @@ export const TreeItemRenamingInput: React.FC<{
     onChange: e => {
       setTitle(e.target.value);
     },
-    onBlur: () => {
-      abort();
+    onBlur: e => {
+      if (e.relatedTarget !== submitButtonRef.current) {
+        abort();
+      }
     },
     'aria-label': 'New item name', // TODO
     tabIndex: 0,
   };
 
-  const submitButtonProps: HTMLProps<any> = {
+  const submitButtonProps: HTMLProps<HTMLButtonElement | HTMLInputElement> = {
     onClick: e => {
       e.stopPropagation();
       confirm();
@@ -77,6 +81,7 @@ export const TreeItemRenamingInput: React.FC<{
     item,
     inputRef,
     submitButtonProps,
+    submitButtonRef,
     formProps,
     inputProps,
   }) as JSX.Element;

@@ -4,6 +4,7 @@ import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDat
 import { Tree } from '../tree/Tree';
 import React from 'react';
 import { longTree, shortTree } from 'demodata';
+import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Core/Basic Examples',
@@ -42,6 +43,39 @@ export const PredefinedViewState = () => (
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const Actions = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    getItemTitle={item => item.data}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
+    }}
+    onStartRenamingItem={action('onStartRenamingItem')}
+    onRenameItem={action('onRenameItem')}
+    onAbortRenamingItem={action('onAbortRenamingItem')}
+    onCollapseItem={action('onCollapseItem')}
+    onExpandItem={action('onExpandItem')}
+    onSelectItems={action('onSelectItems')}
+    onFocusItem={action('onFocusItem')}
+    onDrop={action('onDrop')}
+    onPrimaryAction={action('onPrimaryAction')}
+    onRegisterTree={action('onRegisterTree')}
+    onUnregisterTree={action('onUnregisterTree')}
+    onMissingItems={action('onMissingItems')}
+    onMissingChildren={action('onMissingChildren')}
+  >
+    <>
+      <p>In this example, action hooks trigger Storybook actions in the "Actions" tab below.</p>
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </>
   </UncontrolledTreeEnvironment>
 );
 

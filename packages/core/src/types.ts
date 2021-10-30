@@ -93,6 +93,7 @@ export interface TreeRenderProps<T = any> {
     inputProps: InputHTMLAttributes<HTMLInputElement>;
     inputRef: Ref<HTMLInputElement>;
     submitButtonProps: HTMLProps<any>;
+    submitButtonRef: Ref<any>;
     formProps: FormHTMLAttributes<HTMLFormElement>;
   }) => React.ReactElement | null;
 
@@ -191,7 +192,6 @@ export interface TreeChangeHandlers<T = any> {
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
   onSelectItems?: (items: TreeItemIndex[], treeId: string) => void; // TODO TreeItem instead of just index
   onFocusItem?: (item: TreeItem<T>, treeId: string) => void;
-  // onStartDrag?: (items: TreeItemIndex[], treeId: string) => void;
   onDrop?: (items: TreeItem<T>[], target: DraggingPosition) => void;
   onPrimaryAction?: (items: TreeItem<T>, treeId: string) => void;
   onRegisterTree?: (tree: TreeConfiguration) => void;

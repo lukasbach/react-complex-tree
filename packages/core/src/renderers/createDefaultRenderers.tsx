@@ -132,11 +132,17 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </li>
       );
     },
-    renderRenameInput: ({ inputProps, inputRef, submitButtonProps, formProps }) => {
+    renderRenameInput: ({ inputProps, inputRef, submitButtonProps, submitButtonRef, formProps }) => {
       return (
         <form {...formProps} className="rct-tree-item-renaming-form">
           <input {...inputProps} ref={inputRef} className="rct-tree-item-renaming-input" />
-          <input {...submitButtonProps} type="submit" className="rct-tree-item-renaming-submit-button" value="🗸" />
+          <input
+            {...submitButtonProps}
+            ref={submitButtonRef}
+            type="submit"
+            className="rct-tree-item-renaming-submit-button"
+            value="🗸"
+          />
         </form>
       );
     },
