@@ -5,13 +5,13 @@ import {
   TreeEnvironmentContextProps,
   TreeItemIndex,
 } from '../types';
-import { defaultKeyboardBindings } from '../hotkeys/defaultKeyboardBindings';
 
 export const resolveLiveDescriptor = (
   descriptor: string,
   environment: TreeEnvironmentContextProps,
   dnd: DragAndDropContextProps,
-  tree: TreeContextProps
+  tree: TreeContextProps,
+  keyboardBindings: Required<KeyboardBindings>
 ) => {
   const getItemTitle = (index: TreeItemIndex) => environment.getItemTitle(environment.items[index]);
 
@@ -43,9 +43,7 @@ export const resolveLiveDescriptor = (
         }
       default:
         if (variableName.startsWith('keybinding:')) {
-          return (environment.keyboardBindings ?? defaultKeyboardBindings)[
-            variableName.slice(11) as keyof KeyboardBindings
-          ]![0];
+          return keyboardBindings[variableName.slice(11) as keyof KeyboardBindings]![0];
         } else {
           throw Error(`Unknown live descriptor variable {${variableName}}`);
         }
