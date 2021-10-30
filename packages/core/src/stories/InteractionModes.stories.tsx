@@ -5,6 +5,7 @@ import { Tree } from '../tree/Tree';
 import React from 'react';
 import { longTree } from 'demodata';
 import { InteractionMode } from '../types';
+import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Core/Interaction Modes',
@@ -88,5 +89,36 @@ export const CustomInteractionMode = () => (
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const CustomExtendingInteractionMode = () => (
+  <UncontrolledTreeEnvironment<string>
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    getItemTitle={item => item.data}
+    defaultInteractionMode={{
+      mode: 'custom',
+      extends: InteractionMode.DoubleClickItemToExpand,
+      createInteractiveElementProps: (item, treeId, actions, renderFlags) => ({
+        onMouseOver: () => {
+          document
+            .querySelectorAll(`[data-rct-tree="tree-5"] [data-rct-item-id]`)
+            .forEach(element => ((element as any).style.background = 'transparent'));
+          (
+            document.querySelector(`[data-rct-tree="tree-5"]  [data-rct-item-id="${item.index}"]`) as any
+          ).style.background = 'red';
+        },
+      }),
+    }}
+    viewState={{
+      ['tree-1']: {
+        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      },
+    }}
+  >
+    <>
+      <p>This interaction mode extends the "Double Click Item To Expand" mode, but adds a mouse hover effect.</p>
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </>
   </UncontrolledTreeEnvironment>
 );

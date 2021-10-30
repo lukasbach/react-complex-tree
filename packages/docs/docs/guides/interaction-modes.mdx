@@ -130,11 +130,45 @@ function App() {
       }}
       viewState={{
         ['tree-4']: {
-          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+          expandedItems: ['Fruit', 'Meals'],
         },
       }}
     >
       <Tree treeId="tree-4" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+Typically, you don't want to implement the complete interaction manager yourself. You can specify one
+of the default interaction modes that you want to extend with the `extend` prop:
+
+```jsx live
+function App() {
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      defaultInteractionMode={{
+        mode: 'custom',
+        extends: 'click-item-to-expand',
+        createInteractiveElementProps: (item, treeId, actions, renderFlags) => ({
+          onMouseOver: () => {
+            document
+              .querySelectorAll(`[data-rct-tree="tree-5"] [data-rct-item-id]`)
+              .forEach(element => (element.style.background = 'transparent'));
+            document.querySelector(`[data-rct-tree="tree-5"]  [data-rct-item-id="${item.index}"]`).style.background =
+              'red';
+          },
+        }),
+      }}
+      viewState={{
+        ['tree-5']: {
+          expandedItems: ['Fruit', 'Meals'],
+        },
+      }}
+    >
+      <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
     </UncontrolledTreeEnvironment>
   );
 }

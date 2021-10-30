@@ -138,6 +138,7 @@ export enum InteractionMode {
 
 export interface InteractionManager {
   mode: InteractionMode | string;
+  extends?: InteractionMode;
   createInteractiveElementProps: (
     item: TreeItem,
     treeId: string,
