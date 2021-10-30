@@ -26,6 +26,25 @@ export const SingleTree = () => (
   </UncontrolledTreeEnvironment>
 );
 
+export const PredefinedViewState = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop={true}
+    canDropOnItemWithChildren={true}
+    canReorderItems={true}
+    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {
+        expandedItems: ['Fruit'],
+        focusedItem: 'Apple',
+        selectedItems: ['Apple', 'Lemon', 'Berries'],
+      }
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
 export const SingleTreeAllCollapsed = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop={true}
