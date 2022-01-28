@@ -10,7 +10,7 @@ import { useSelectUpTo } from './useSelectUpTo';
 
 export const useTreeKeyboardBindings = () => {
   const environment = useTreeEnvironment();
-  const { treeId, setRenamingItem, setSearch } = useTree();
+  const { treeId, setRenamingItem, setSearch, treeInformation } = useTree();
   const dnd = useDragAndDrop();
   const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex();
@@ -33,7 +33,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree
+    isActiveTree && !treeInformation.isRenaming
   );
 
   useKey(
@@ -50,7 +50,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree
+    isActiveTree && !treeInformation.isRenaming
   );
 
   useHotkey(
@@ -87,7 +87,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !treeInformation.isRenaming
   );
 
   useKey(
@@ -107,7 +107,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !treeInformation.isRenaming
   );
 
   useHotkey(
