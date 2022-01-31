@@ -128,8 +128,11 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       canDropOn,
     };
 
+    const interactiveProps = interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags);
+
     const interactiveElementProps: HTMLProps<HTMLElement> = {
-      ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
+      ...interactiveProps,
+      onTouchStart: interactiveProps.onDragStart,
       ...({
         ['data-rct-item-interactive']: true,
         ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
