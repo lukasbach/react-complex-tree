@@ -10,11 +10,12 @@ export const useCreatedTreeInformation = (
 ) => {
   const environment = useTreeEnvironment();
   const dnd = useDragAndDrop();
+  const selectedItems = environment.viewState[tree.treeId]?.selectedItems;
   return useMemo<TreeInformation>(
     () => ({
       isFocused: environment.activeTreeId === tree.treeId,
       isRenaming: !!renamingItem,
-      areItemsSelected: (environment.viewState[tree.treeId]?.selectedItems?.length ?? 0) > 0,
+      areItemsSelected: (selectedItems?.length ?? 0) > 0,
       isSearching: search !== null,
       search,
       isProgrammaticallyDragging: dnd.isProgrammaticallyDragging ?? false,
@@ -23,11 +24,12 @@ export const useCreatedTreeInformation = (
     }),
     [
       environment.activeTreeId,
-      environment.viewState[tree.treeId]?.selectedItems,
-      renamingItem,
       tree.treeId,
+      tree.rootItem,
+      renamingItem,
+      selectedItems?.length,
       search,
-      dnd.isProgrammaticallyDragging,
+      dnd.isProgrammaticallyDragging
     ]
   );
 };

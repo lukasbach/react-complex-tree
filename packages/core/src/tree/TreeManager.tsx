@@ -8,7 +8,7 @@ import { SearchInput } from '../search/SearchInput';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
-import { LiveDescription } from './LiveDescription';
+import { MaybeLiveDescription } from './MaybeLiveDescription';
 
 export const TreeManager = (): JSX.Element => {
   const { treeId, rootItem, renderers, treeInformation } = useTree();
@@ -40,7 +40,7 @@ export const TreeManager = (): JSX.Element => {
 
   const treeChildren = (
     <React.Fragment>
-      <LiveDescription />
+      <MaybeLiveDescription />
       <TreeItemChildren depth={0} parentId={treeId}>
         {rootChildren}
       </TreeItemChildren>

@@ -2,8 +2,9 @@ import * as React from 'react';
 import { TreeItemIndex } from '../types';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, useRef, useState } from 'react';
 import { useHotkey } from '../hotkeys/useHotkey';
+import { useSideEffect } from '../useSideEffect';
 
 export const TreeItemRenamingInput: React.FC<{
   itemIndex: TreeItemIndex;
@@ -31,14 +32,14 @@ export const TreeItemRenamingInput: React.FC<{
     });
   };
 
-  useEffect(() => {
+  useSideEffect(() => {
     environment.setActiveTree(treeId);
 
     if (environment.autoFocus ?? true) {
       inputRef.current?.select();
       inputRef.current?.focus();
     }
-  }, [inputRef.current]);
+  }, [environment, treeId], []);
 
   useHotkey(
     'abortRenameItem',

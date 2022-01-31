@@ -13,11 +13,7 @@ export const LiveDescription: React.FC = () => {
   const dnd = useDragAndDrop();
   const keys = useKeyboardBindings();
 
-  if (!(env.showLiveDescription ?? true)) {
-    return null;
-  }
-
-  const descriptors = useMemo(() => env.liveDescriptors ?? defaultLiveDescriptors, []);
+  const descriptors = useMemo(() => env.liveDescriptors ?? defaultLiveDescriptors, [env.liveDescriptors]);
 
   const LiveWrapper = useMemo(
     () =>

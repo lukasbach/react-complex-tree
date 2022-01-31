@@ -26,6 +26,8 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
     });
 
     return () => environment.unregisterTree(props.treeId);
+    // TODO should be able to remove soon, and add environment.registerTree, environment.unregisterTree as deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.treeId, props.rootItem]);
 
   const treeInformation = useCreatedTreeInformation(props, renamingItem, search);

@@ -15,7 +15,7 @@ export const resolveLiveDescriptor = (
 ) => {
   const getItemTitle = (index: TreeItemIndex) => environment.getItemTitle(environment.items[index]);
 
-  return descriptor.replace(/(\{[^\s\}]+)\}/g, variableNameWithBrackets => {
+  return descriptor.replace(/({[^\s}]+)}/g, variableNameWithBrackets => {
     const variableName = variableNameWithBrackets.slice(1, -1);
     switch (variableName) {
       case 'treeLabel':

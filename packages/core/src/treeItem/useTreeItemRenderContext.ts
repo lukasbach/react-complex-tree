@@ -21,7 +21,13 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     return search === null || search.length === 0 || !item || !itemTitle
       ? false
       : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
-  }, [search, itemTitle]);
+  }, [search, item, itemTitle, environment.doesSearchMatchItem]);
+
+
+  const isSelected = item && environment.viewState[treeId]?.selectedItems?.includes(item.index);
+  const isExpanded = item && environment.viewState[treeId]?.expandedItems?.includes(item.index);
+  const isRenaming = item && renamingItem === item.index;
+
 
   return useMemo(() => {
     if (!item) {
@@ -66,7 +72,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
         environment.onExpandItem?.(item, treeId);
       },
       toggleExpandedState: () => {
-        if (viewState?.expandedItems?.includes(item.index)) {
+        if (isExpanded) {
           environment.onCollapseItem?.(item, treeId);
         } else {
           environment.onExpandItem?.(item, treeId);
@@ -109,10 +115,10 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     };
 
     const renderFlags: TreeItemRenderFlags = {
-      isSelected: viewState?.selectedItems?.includes(item.index),
-      isExpanded: viewState?.expandedItems?.includes(item.index),
+      isSelected,
+      isExpanded,
       isFocused: viewState?.focusedItem === item.index,
-      isRenaming: renamingItem === item.index,
+      isRenaming,
       isDraggingOver:
         dnd.draggingPosition &&
         dnd.draggingPosition.targetType === 'item' &&
@@ -172,13 +178,15 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       arrowProps,
     };
   }, [
+    item,
     environment,
-    environment.viewState[treeId]?.expandedItems,
-    environment.viewState[treeId]?.selectedItems,
-    renamingItem && renamingItem === item?.index,
-    item?.index ?? '___no_item',
     treeId,
+    dnd,
+    isSelected,
+    isExpanded,
+    isRenaming,
     isSearchMatching,
-    dnd.draggingPosition,
+    interactionManager,
+    selectUpTo
   ]);
 };

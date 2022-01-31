@@ -10,6 +10,7 @@ export const useControlledTreeEnvironmentProps = (props: ControlledTreeEnvironme
 
   const memoizedProps = useMemoizedObject(props);
 
+  // TODO proper memo
   return useMemo<TreeEnvironmentContextProps>(() => ({
     ...createDefaultRenderers(memoizedProps),
     ...memoizedProps,

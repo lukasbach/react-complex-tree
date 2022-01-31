@@ -73,7 +73,7 @@ export const Actions = () => (
     onMissingChildren={action('onMissingChildren')}
   >
     <>
-      <p>In this example, action hooks trigger Storybook actions in the "Actions" tab below.</p>
+      <p>In this example, action hooks trigger Storybook actions in the &quot;Actions&quot; tab below.</p>
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
     </>
   </UncontrolledTreeEnvironment>

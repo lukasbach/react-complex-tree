@@ -1,7 +1,6 @@
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useMemo, useRef } from 'react';
 import { KeyboardBindings } from '../types';
-import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useKeyboardBindings } from './useKeyboardBindings';
 
 const elementsThatCanTakeText = ['input', 'textarea'];
@@ -13,13 +12,12 @@ export const useHotkey = (
   activatableWhileFocusingInput = false,
   deps?: any[]
 ) => {
-  const environment = useTreeEnvironment();
   const pressedKeys = useRef<string[]>([]);
   const keyboardBindings = useKeyboardBindings();
 
   const possibleCombinations = useMemo(
     () => keyboardBindings[combinationName].map(combination => combination.split('+')),
-    [combinationName, environment.keyboardBindings]
+    [combinationName, keyboardBindings]
   );
 
   useHtmlElementEventListener(

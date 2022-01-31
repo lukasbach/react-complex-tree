@@ -22,8 +22,12 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "react/display-name": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react-hooks/exhaustive-deps": ["warn", {
+      "additionalHooks": "(useSideEffect)|(useMemoizedObject)"
+    }]
   },
   "ignorePatterns": ["**/lib"]
 }

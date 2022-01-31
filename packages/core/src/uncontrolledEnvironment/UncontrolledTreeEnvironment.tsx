@@ -54,7 +54,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
       });
 
       return dispose;
-    }, [dataProvider]);
+    }, [dataProvider, writeItems]);
 
     return (
       <ControlledTreeEnvironment

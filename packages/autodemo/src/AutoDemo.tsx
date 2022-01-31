@@ -123,6 +123,7 @@ export const AutoDemo = (props: {
         }
       }
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restartKey]);
 
   const envProps: ProvidedEnvironmentProps = useMemo<ProvidedEnvironmentProps>(
@@ -145,7 +146,7 @@ export const AutoDemo = (props: {
           },
         }),
     }),
-    [restartKey, aborted]
+    [restartKey, aborted, props.data.items]
   );
 
   const SpeedButton: React.FC<{ speed: number }> = props => (

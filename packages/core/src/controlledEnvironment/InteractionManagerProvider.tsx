@@ -28,6 +28,7 @@ export const InteractionManagerProvider: React.FC = props => {
       (defaultInteractionMode as InteractionMode) ?? InteractionMode.ClickItemToExpand,
       environment
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // TODO make sure that environment does not need to be refreshed
 
   return (
