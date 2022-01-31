@@ -10,7 +10,7 @@ import { useSelectUpTo } from './useSelectUpTo';
 
 export const useTreeKeyboardBindings = () => {
   const environment = useTreeEnvironment();
-  const { treeId, setRenamingItem, setSearch } = useTree();
+  const { treeId, setRenamingItem, setSearch, renamingItem } = useTree();
   const dnd = useDragAndDrop();
   const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex();
@@ -18,6 +18,7 @@ export const useTreeKeyboardBindings = () => {
   const selectUpTo = useSelectUpTo();
 
   const isActiveTree = environment.activeTreeId === treeId;
+  const isRenaming = !!renamingItem;
 
   useKey(
     'arrowdown',
@@ -33,7 +34,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree
+    isActiveTree && !isRenaming
   );
 
   useKey(
@@ -50,7 +51,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree
+    isActiveTree && !isRenaming
   );
 
   useHotkey(
@@ -59,7 +60,7 @@ export const useTreeKeyboardBindings = () => {
       e.preventDefault();
       moveFocusToIndex(() => 0);
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -68,7 +69,7 @@ export const useTreeKeyboardBindings = () => {
       e.preventDefault();
       moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useKey(
@@ -87,7 +88,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useKey(
@@ -107,7 +108,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -119,7 +120,7 @@ export const useTreeKeyboardBindings = () => {
         environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
       }
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -137,7 +138,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -149,7 +150,7 @@ export const useTreeKeyboardBindings = () => {
         treeId
       );
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -162,7 +163,7 @@ export const useTreeKeyboardBindings = () => {
         setRenamingItem(item.index);
       }
     },
-    isActiveTree && (environment.canRename ?? true)
+    isActiveTree && (environment.canRename ?? true) && !isRenaming
   );
 
   useHotkey(
@@ -172,7 +173,7 @@ export const useTreeKeyboardBindings = () => {
       setSearch('');
       (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging
+    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
@@ -181,7 +182,7 @@ export const useTreeKeyboardBindings = () => {
       e.preventDefault();
       dnd.startProgrammaticDrag();
     },
-    isActiveTree
+    isActiveTree && !isRenaming
   );
   useHotkey(
     'completeProgrammaticDnd',
@@ -189,7 +190,7 @@ export const useTreeKeyboardBindings = () => {
       e.preventDefault();
       dnd.completeProgrammaticDrag();
     },
-    isActiveTree && dnd.isProgrammaticallyDragging
+    isActiveTree && dnd.isProgrammaticallyDragging && !isRenaming
   );
   useHotkey(
     'abortProgrammaticDnd',
@@ -197,6 +198,6 @@ export const useTreeKeyboardBindings = () => {
       e.preventDefault();
       dnd.abortProgrammaticDrag();
     },
-    isActiveTree && dnd.isProgrammaticallyDragging
+    isActiveTree && dnd.isProgrammaticallyDragging && !isRenaming
   );
 };
