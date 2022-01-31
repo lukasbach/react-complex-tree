@@ -62,7 +62,7 @@ export const DragAndDropProvider: React.FC = props => {
     [environment.activeTreeId, environment.items, environment.viewState, getViableDragPositions]
   );
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setIsProgrammaticallyDragging(false);
     setItemHeight(4);
     setLinearItems({});
@@ -71,7 +71,7 @@ export const DragAndDropProvider: React.FC = props => {
     setDraggingItems(undefined);
     setDraggingPosition(undefined);
     setDragCode('_nodrag');
-  };
+  }, []);
 
   useSideEffect(
     () => {
@@ -146,16 +146,11 @@ export const DragAndDropProvider: React.FC = props => {
         });
       }
     },
-    [draggingItems, draggingPosition, environment]
+    [draggingItems, draggingPosition, environment, resetState]
   );
 
-  useEffect(() => {
-    window.addEventListener('dragend', onDropHandler);
-    return () => window.removeEventListener('dragend', onDropHandler);
-  }, [onDropHandler]);
-
-  const dnd: DragAndDropContextProps = {
-    onStartDraggingItems: (items, treeId) => {
+  const onStartDraggingItems = useCallback(
+    (items, treeId) => {
       const treeLinearItems = buildMapForTrees(environment.treeIds, treeId =>
         getItemsLinearly(environment.trees[treeId].rootItem, environment.viewState[treeId] ?? {}, environment.items)
       );
@@ -180,50 +175,73 @@ export const DragAndDropProvider: React.FC = props => {
         );
       }
     },
-    startProgrammaticDrag: () => {
-      if (!environment.canDragAndDrop) {
+    [
+      environment.activeTreeId,
+      environment.items,
+      environment.treeIds,
+      environment.trees,
+      environment.viewState,
+      getViableDragPositions,
+      resetProgrammaticDragIndexForCurrentTree,
+    ]
+  );
+
+  const startProgrammaticDrag = useCallback(() => {
+    if (!environment.canDragAndDrop) {
+      return;
+    }
+
+    if (environment.activeTreeId) {
+      const draggingItems =
+        environment.viewState[environment.activeTreeId]?.selectedItems ??
+        ([environment.viewState[environment.activeTreeId]?.focusedItem] as TreeItemIndex[]);
+
+      if (draggingItems.length === 0 || draggingItems[0] === undefined) {
         return;
       }
 
-      if (environment.activeTreeId) {
-        const draggingItems =
-          environment.viewState[environment.activeTreeId]?.selectedItems ??
-          ([environment.viewState[environment.activeTreeId]?.focusedItem] as TreeItemIndex[]);
+      const resolvedDraggingItems = draggingItems.map(id => environment.items[id]);
 
-        if (draggingItems.length === 0 || draggingItems[0] === undefined) {
-          return;
-        }
-
-        const resolvedDraggingItems = draggingItems.map(id => environment.items[id]);
-
-        if (environment.canDrag && !environment.canDrag(resolvedDraggingItems)) {
-          return;
-        }
-
-        dnd.onStartDraggingItems(resolvedDraggingItems, environment.activeTreeId);
-        setTimeout(() => {
-          setIsProgrammaticallyDragging(true);
-          // Needs to be done after onStartDraggingItems was called, so that viableDragPositions is populated
-        });
+      if (environment.canDrag && !environment.canDrag(resolvedDraggingItems)) {
+        return;
       }
-    },
-    abortProgrammaticDrag: () => {
-      resetState();
-    },
-    completeProgrammaticDrag: () => {
-      onDropHandler();
-      resetState();
-    },
-    programmaticDragUp: () => {
-      setProgrammaticDragIndex(oldIndex => Math.max(0, oldIndex - 1));
-    },
-    programmaticDragDown: () => {
-      if (environment.activeTreeId) {
-        setProgrammaticDragIndex(oldIndex =>
-          Math.min(viableDragPositions[environment.activeTreeId!].length, oldIndex + 1)
-        );
-      }
-    },
+
+      onStartDraggingItems(resolvedDraggingItems, environment.activeTreeId);
+      setTimeout(() => {
+        setIsProgrammaticallyDragging(true);
+        // Needs to be done after onStartDraggingItems was called, so that viableDragPositions is populated
+      });
+    }
+  }, [onStartDraggingItems, environment]);
+
+  const abortProgrammaticDrag = useCallback(() => {
+    resetState();
+  }, [resetState]);
+
+  const completeProgrammaticDrag = useCallback(() => {
+    onDropHandler();
+    resetState();
+  }, [onDropHandler, resetState]);
+
+  const programmaticDragUp = useCallback(() => {
+    setProgrammaticDragIndex(oldIndex => Math.max(0, oldIndex - 1));
+  }, []);
+
+  const programmaticDragDown = useCallback(() => {
+    if (environment.activeTreeId) {
+      setProgrammaticDragIndex(oldIndex =>
+        Math.min(viableDragPositions[environment.activeTreeId!].length, oldIndex + 1)
+      );
+    }
+  }, [environment.activeTreeId, viableDragPositions]);
+
+  const dnd: DragAndDropContextProps = {
+    onStartDraggingItems,
+    startProgrammaticDrag,
+    abortProgrammaticDrag,
+    completeProgrammaticDrag,
+    programmaticDragUp,
+    programmaticDragDown,
     draggingItems,
     draggingPosition,
     itemHeight,
@@ -231,6 +249,11 @@ export const DragAndDropProvider: React.FC = props => {
     onDragOverTreeHandler,
     viableDragPositions,
   };
+
+  useEffect(() => {
+    window.addEventListener('dragend', onDropHandler);
+    return () => window.removeEventListener('dragend', onDropHandler);
+  }, [onDropHandler]);
 
   return <DragAndDropContext.Provider value={dnd}>{props.children}</DragAndDropContext.Provider>;
 };

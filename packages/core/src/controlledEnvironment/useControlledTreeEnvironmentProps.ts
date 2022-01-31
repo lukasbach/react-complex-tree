@@ -1,10 +1,12 @@
-import { ControlledTreeEnvironmentProps, TreeConfiguration } from '../types';
+import { ControlledTreeEnvironmentProps, TreeConfiguration, TreeEnvironmentContextProps } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
 import { useCallback, useMemo, useState } from 'react';
 import { useMemoizedObject } from '../useMemoizedObject';
 import { useRenderers } from '../renderers/useRenderers';
 
-export const useControlledTreeEnvironmentProps = (props: ControlledTreeEnvironmentProps) => {
+export const useControlledTreeEnvironmentProps = (
+  props: ControlledTreeEnvironmentProps
+): TreeEnvironmentContextProps => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
   const [activeTreeId, setActiveTreeId] = useState<string>();
 

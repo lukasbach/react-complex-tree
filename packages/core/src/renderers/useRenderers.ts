@@ -43,7 +43,6 @@ export const useRenderers = ({
     return acc;
   }, {} as AllTreeRenderProps);
 
-
   (renderers.renderItem as any).displayName = 'RenderItem';
   (renderers.renderItemTitle as any).displayName = 'RenderItemTitle';
   (renderers.renderItemArrow as any).displayName = 'RenderItemArrow';
