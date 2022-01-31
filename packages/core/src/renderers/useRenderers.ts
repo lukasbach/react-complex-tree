@@ -1,4 +1,4 @@
-import { TreeRenderProps } from '../types';
+import { AllTreeRenderProps, TreeRenderProps } from '../types';
 import { useMemo } from 'react';
 import { createDefaultRenderers } from './createDefaultRenderers';
 
@@ -18,8 +18,7 @@ export const useRenderers = ({
 }: TreeRenderProps) => {
   const defaultRenderers = useMemo(() => createDefaultRenderers(renderDepthOffset ?? 10), [renderDepthOffset]);
 
-  const renderers = {
-    ...defaultRenderers,
+  const customRenderers: TreeRenderProps = {
     renderItem,
     renderItemTitle,
     renderItemArrow,
@@ -33,6 +32,17 @@ export const useRenderers = ({
     renderLiveDescriptorContainer,
     renderDepthOffset,
   };
+
+  const renderers = Object.entries(defaultRenderers).reduce<AllTreeRenderProps>((acc, [key, value]) => {
+    const keyMapped = key as keyof AllTreeRenderProps;
+    if (customRenderers[keyMapped]) {
+      acc[keyMapped] = customRenderers[keyMapped] as any;
+    } else {
+      acc[keyMapped] = value as any;
+    }
+    return acc;
+  }, {} as AllTreeRenderProps);
+
 
   (renderers.renderItem as any).displayName = 'RenderItem';
   (renderers.renderItemTitle as any).displayName = 'RenderItemTitle';
