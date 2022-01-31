@@ -135,7 +135,7 @@ export const AutoDemo = (props: {
         data,
       })),
       renderItem: p =>
-        createDefaultRenderers({}).renderItem({
+        createDefaultRenderers(10).renderItem({
           ...p,
           context: {
             ...p.context,

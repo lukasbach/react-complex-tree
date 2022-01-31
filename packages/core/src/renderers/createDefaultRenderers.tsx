@@ -1,10 +1,10 @@
 import React from 'react';
-import { AllTreeRenderProps, TreeRenderProps } from '../types';
+import { AllTreeRenderProps } from '../types';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
 
-export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRenderProps => {
-  const newRenderers: AllTreeRenderProps = {
+export const createDefaultRenderers = (renderDepthOffset: number): AllTreeRenderProps => {
+  return {
     renderItemTitle: ({ title, context, info }) => {
       if (!info.isSearching || !context.isSearchMatching) {
         return <>{title}</>;
@@ -101,7 +101,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         >
           <div
             {...(context.itemContainerWithoutChildrenProps as any)}
-            style={{ paddingLeft: `${(depth + 1) * (renderers.renderDepthOffset ?? 10)}px` }}
+            style={{ paddingLeft: `${(depth + 1) * renderDepthOffset}px` }}
             className={cx(
               'rct-tree-item-title-container',
               item.hasChildren && 'rct-tree-item-title-container-hasChildren',
@@ -177,7 +177,7 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
       return (
         <div
           {...lineProps}
-          style={{ left: `${draggingPosition.depth * (renderers.renderDepthOffset ?? 10)}px` }}
+          style={{ left: `${draggingPosition.depth * renderDepthOffset}px` }}
           className={cx(
             'rct-tree-drag-between-line',
             draggingPosition.targetType === 'between-items' &&
@@ -215,20 +215,6 @@ export const createDefaultRenderers = (renderers: TreeRenderProps): AllTreeRende
         </div>
       );
     },
-    renderDepthOffset: 4,
-    ...renderers,
+    renderDepthOffset: 10,
   };
-
-  (newRenderers.renderItem as any).displayName = 'RenderItem';
-  (newRenderers.renderItemTitle as any).displayName = 'RenderItemTitle';
-  (newRenderers.renderItemArrow as any).displayName = 'RenderItemArrow';
-  (newRenderers.renderRenameInput as any).displayName = 'RenderRenameInput';
-  (newRenderers.renderDraggingItem as any).displayName = 'RenderDraggingItem';
-  (newRenderers.renderDraggingItemTitle as any).displayName = 'RenderDraggingItemTitle';
-  (newRenderers.renderItemsContainer as any).displayName = 'RenderItemsContainer';
-  (newRenderers.renderTreeContainer as any).displayName = 'RenderTreeContainer';
-  (newRenderers.renderDragBetweenLine as any).displayName = 'RenderDragBetweenLine';
-  (newRenderers.renderSearchInput as any).displayName = 'RenderSearchInput';
-
-  return newRenderers;
 };
