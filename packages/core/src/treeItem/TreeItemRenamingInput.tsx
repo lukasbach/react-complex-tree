@@ -32,14 +32,18 @@ export const TreeItemRenamingInput: React.FC<{
     });
   };
 
-  useSideEffect(() => {
-    environment.setActiveTree(treeId);
+  useSideEffect(
+    () => {
+      environment.setActiveTree(treeId);
 
-    if (environment.autoFocus ?? true) {
-      inputRef.current?.select();
-      inputRef.current?.focus();
-    }
-  }, [environment, treeId], []);
+      if (environment.autoFocus ?? true) {
+        inputRef.current?.select();
+        inputRef.current?.focus();
+      }
+    },
+    [environment, treeId],
+    []
+  );
 
   useHotkey(
     'abortRenameItem',

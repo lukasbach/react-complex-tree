@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import {
-  ControlledTreeEnvironmentProps,
-  TreeEnvironmentContextProps,
-  TreeEnvironmentRef,
-} from '../types';
+import { ControlledTreeEnvironmentProps, TreeEnvironmentContextProps, TreeEnvironmentRef } from '../types';
 import { InteractionManagerProvider } from './InteractionManagerProvider';
 import { DragAndDropProvider } from './DragAndDropProvider';
 import { EnvironmentActionsProvider } from '../environmentActions/EnvironmentActionsProvider';

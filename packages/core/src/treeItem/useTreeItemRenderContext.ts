@@ -23,11 +23,9 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
   }, [search, item, itemTitle, environment.doesSearchMatchItem]);
 
-
   const isSelected = item && environment.viewState[treeId]?.selectedItems?.includes(item.index);
   const isExpanded = item && environment.viewState[treeId]?.expandedItems?.includes(item.index);
   const isRenaming = item && renamingItem === item.index;
-
 
   return useMemo(() => {
     if (!item) {
@@ -187,6 +185,6 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     isRenaming,
     isSearchMatching,
     interactionManager,
-    selectUpTo
+    selectUpTo,
   ]);
 };

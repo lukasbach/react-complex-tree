@@ -10,5 +10,4 @@ export const MaybeLiveDescription: React.FC = () => {
   }
 
   return <LiveDescription />;
-
 };

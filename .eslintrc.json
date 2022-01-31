@@ -3,7 +3,13 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended", "prettier", "plugin:react-hooks/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:react-hooks/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -25,9 +31,12 @@
     "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "react/display-name": "off",
     "react/prop-types": "off",
-    "react-hooks/exhaustive-deps": ["warn", {
-      "additionalHooks": "(useSideEffect)|(useMemoizedObject)"
-    }]
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useSideEffect)|(useMemoizedObject)"
+      }
+    ]
   },
   "ignorePatterns": ["**/lib"]
 }

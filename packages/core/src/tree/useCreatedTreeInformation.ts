@@ -29,7 +29,7 @@ export const useCreatedTreeInformation = (
       renamingItem,
       selectedItems?.length,
       search,
-      dnd.isProgrammaticallyDragging
+      dnd.isProgrammaticallyDragging,
     ]
   );
 };

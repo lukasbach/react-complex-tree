@@ -98,7 +98,7 @@ export const CustomExtendingInteractionMode = () => (
     defaultInteractionMode={{
       mode: 'custom',
       extends: InteractionMode.DoubleClickItemToExpand,
-      createInteractiveElementProps: (item) => ({
+      createInteractiveElementProps: item => ({
         onMouseOver: () => {
           document
             .querySelectorAll('[data-rct-tree="tree-5"] [data-rct-item-id]')
@@ -116,7 +116,9 @@ export const CustomExtendingInteractionMode = () => (
     }}
   >
     <>
-      <p>This interaction mode extends the &quot;Double Click Item To Expand&quot; mode, but adds a mouse hover effect.</p>
+      <p>
+        This interaction mode extends the &quot;Double Click Item To Expand&quot; mode, but adds a mouse hover effect.
+      </p>
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
     </>
   </UncontrolledTreeEnvironment>
