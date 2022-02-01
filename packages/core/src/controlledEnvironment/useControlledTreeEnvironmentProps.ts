@@ -12,6 +12,7 @@ import { useRenderers } from '../renderers/useRenderers';
 import { buildMapForTrees } from '../utils';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useRefCopy } from '../useRefCopy';
+import { useUpdateLinearItems } from './useUpdateLinearItems';
 
 export const useControlledTreeEnvironmentProps = (
   props: ControlledTreeEnvironmentProps
@@ -25,19 +26,25 @@ export const useControlledTreeEnvironmentProps = (
   const treeIds = useMemo(() => Object.keys(trees), [trees]);
 
   const memoizedProps = useMemoizedObject(props);
-  const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree } = memoizedProps;
+  const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree, items } = memoizedProps;
 
   const onFocusItemRef = useRefCopy(onFocusItem);
 
-  useEffect(() => {
-    setLinearItems(buildMapForTrees(treeIds, treeId =>
-      getItemsLinearly(trees[treeId].rootItem, props.viewState[treeId] ?? {}, props.items)
-    ));
-  }, [props.items, props.viewState, treeIds, trees]);
+  const newChangeHandlers = useUpdateLinearItems(
+    useCallback(() => {
+      setLinearItems(
+        buildMapForTrees(treeIds, treeId =>
+          getItemsLinearly(trees[treeId].rootItem, viewStateRef.current[treeId] ?? {}, items)
+        )
+      );
+    }, [items, treeIds, trees, viewStateRef]),
+    memoizedProps,
+    items
+  );
 
   const onFocusItemHandler = useCallback<Required<TreeChangeHandlers>['onFocusItem']>(
     (item, treeId) => {
-      if (viewStateRef.current[treeId]?.focusedItem !== item.index) {
+      if (viewStateRef.current[treeId]?.focusedItem === item.index) {
         return;
       }
 
@@ -112,6 +119,7 @@ export const useControlledTreeEnvironmentProps = (
   return {
     ...renderers,
     ...memoizedProps,
+    ...newChangeHandlers,
     onFocusItem: onFocusItemHandler,
     registerTree,
     unregisterTree,
