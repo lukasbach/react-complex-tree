@@ -73,7 +73,7 @@ function App() {
 :::info
 
 All currently available render hooks are documented in the
-[TreeRenderProps interface](/docs/api/interfaces/treerenderprops).
+[TreeRenderProps interface](/docs/api/interfaces/TreeRenderProps).
 
 :::
 
@@ -91,12 +91,12 @@ You can find the code for the custom render implementation
 
 ## Customizing the render logic for tree items
 
-The most interesting hook is probably the [renderItem](/docs/api/interfaces/treerenderprops#renderitem) hook,
+The most interesting hook is probably the [renderItem](/docs/api/interfaces/TreeRenderProps#renderitem) hook,
 which allows you to customize how individual tree items are rendered.
 When using this hook to render an item, you can use the provided
-[TreeItemRenderContext](/docs/api/interfaces/treeitemrendercontext) to access the render details of the item
+[TreeItemRenderContext](/docs/api/interfaces/TreeItemRenderContext) to access the render details of the item
 (e.g. whether the user currently drags over this item, or whether it is selected), and directly alter the
-tree state (i.e. [`context.addtoselecteditems()`](/docs/api/interfaces/treeitemrendercontext#addtoselecteditems)).
+tree state (i.e. [`context.addtoselecteditems()`](/docs/api/interfaces/TreeItemRenderContext#addtoselecteditems)).
 
 The `props.children` prop contains the child nodes of the tree item. You need to render this so that children
 are displayed. In the above example, children are rendered as child nodes for the item node itself, according

@@ -38,13 +38,13 @@ the environment with the value `false`. They can be further customized via addit
 ### Custom descriptor texts
 
 Provide a `liveDescriptors` prop to the environment to define custom descriptor texts. How descriptors are named
-is described [in the respective API document](/docs/api/interfaces/livedescriptors). This is helpful for
+is described [in the respective API document](/docs/api/interfaces/LiveDescriptors). This is helpful for
 localizing the descriptors to different languages.
 
 When defining descriptors, the following substrings can be used as variables that are replaced during runtime:
 
 - `{treeLabel}`: the label provided to the tree component
-- `{keybinding:bindingname}`: a specific keybinding. `bindingname` needs to be a key of the [`KeyboardBindings` interface](/docs/api/interfaces/keyboardbindings).
+- `{keybinding:bindingname}`: a specific keybinding. `bindingname` needs to be a key of the [`KeyboardBindings` interface](/docs/api/interfaces/KeyboardBindings).
 - `{dragTarget}`: If currently dragging, a description of the drag target.
 - `{dragItems}`: A list of item titles of items that are currently being dragged, seperated by commas.
 - `{renamingItem}`: If currently renaming an item, the title of the item that is being renamed.

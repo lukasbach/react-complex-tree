@@ -6,7 +6,7 @@ sidebar_position: 10
 
 The interaction mode for a tree environment refers to how mouse inputs should interact with the tree.
 The interaction mode can be provided as prop to the tree environment with the name `interactionMode` and needs
-to follow [the `InteractionMode` enum](docs/api/enums/interactionmode)
+to follow [the `InteractionMode` enum](docs/api/enums/InteractionMode)
 The following interaction modes are provided by default:
 
 ## `InteractionMode.ClickArrowToExpand`
@@ -96,11 +96,11 @@ function App() {
 ## Custom interaction modes
 
 Instead of providing a string referring to the desired interaction mode, you can also provide a custom
-interaction manager implementation which implements the [InteractionManager](/docs/api/interfaces/interactionmanager)
+interaction manager implementation which implements the [InteractionManager](/docs/api/interfaces/InteractionManager)
 implementation.
 
 Essentially, it needs to implement a `createInteractiveElementProps` method which provides HTML props for
-a interactive tree item node. Look [into the API](/docs/api/interfaces/interactionmanager) to see which
+a interactive tree item node. Look [into the API](/docs/api/interfaces/InteractionManager) to see which
 parameters are available as arguments.
 
 The best way to get started is to look into the
