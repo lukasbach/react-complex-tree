@@ -53,5 +53,8 @@
     "nohoist": [
       "**/html-minifier-terser"
     ]
+  },
+  "resolutions": {
+    "@types/react": "17.0.38"
   }
 }
