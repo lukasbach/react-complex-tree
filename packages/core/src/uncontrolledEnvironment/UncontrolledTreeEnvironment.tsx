@@ -6,7 +6,7 @@ import {
   TreeItemIndex,
   UncontrolledTreeEnvironmentProps,
 } from '../types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
 
@@ -33,7 +33,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
       []
     );
 
-    const amendViewState = (
+    const amendViewState = useCallback((
       treeId: string,
       constructNewState: (oldState: IndividualTreeViewState) => Partial<IndividualTreeViewState>
     ) => {
@@ -44,7 +44,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
           ...constructNewState(oldState[treeId] ?? {}),
         },
       }));
-    };
+    }, []);
 
     useEffect(() => {
       const { dispose } = dataProvider.onDidChangeTreeData(changedItemIds => {

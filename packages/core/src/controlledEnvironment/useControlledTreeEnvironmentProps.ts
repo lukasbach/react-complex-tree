@@ -1,10 +1,17 @@
-import { ControlledTreeEnvironmentProps, LinearItem, TreeConfiguration, TreeEnvironmentContextProps } from '../types';
+import {
+  ControlledTreeEnvironmentProps,
+  LinearItem,
+  TreeChangeHandlers,
+  TreeConfiguration,
+  TreeEnvironmentContextProps,
+} from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMemoizedObject } from '../useMemoizedObject';
 import { useRenderers } from '../renderers/useRenderers';
 import { buildMapForTrees } from '../utils';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
+import { useRefCopy } from '../useRefCopy';
 
 export const useControlledTreeEnvironmentProps = (
   props: ControlledTreeEnvironmentProps
@@ -13,10 +20,14 @@ export const useControlledTreeEnvironmentProps = (
   const [linearItems, setLinearItems] = useState<Record<string, LinearItem[]>>({});
   const [activeTreeId, setActiveTreeId] = useState<string>();
 
+  const viewStateRef = useRefCopy(props.viewState);
+
   const treeIds = useMemo(() => Object.keys(trees), [trees]);
 
   const memoizedProps = useMemoizedObject(props);
   const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree } = memoizedProps;
+
+  const onFocusItemRef = useRefCopy(onFocusItem);
 
   useEffect(() => {
     setLinearItems(buildMapForTrees(treeIds, treeId =>
@@ -24,9 +35,13 @@ export const useControlledTreeEnvironmentProps = (
     ));
   }, [props.items, props.viewState, treeIds, trees]);
 
-  const onFocusItemHandler = useCallback(
+  const onFocusItemHandler = useCallback<Required<TreeChangeHandlers>['onFocusItem']>(
     (item, treeId) => {
-      onFocusItem?.(item, treeId);
+      if (viewStateRef.current[treeId]?.focusedItem !== item.index) {
+        return;
+      }
+
+      onFocusItemRef.current?.(item, treeId);
       const newItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`);
 
       if (autoFocus ?? true) {
@@ -39,7 +54,7 @@ export const useControlledTreeEnvironmentProps = (
         }
       }
     },
-    [autoFocus, onFocusItem]
+    [autoFocus, onFocusItemRef, viewStateRef]
   );
 
   const registerTree = useCallback(
