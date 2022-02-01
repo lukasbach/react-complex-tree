@@ -1,6 +1,4 @@
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
-import { useLinearItems } from './useLinearItems';
 import { useCallback } from 'react';
 
 export const useGetGetParentOfLinearItem = () => {

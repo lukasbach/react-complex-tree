@@ -1,19 +1,19 @@
 import { useTree } from '../tree/Tree';
-import { useGetLinearItems } from '../tree/useGetLinearItems';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultMatcher } from './defaultMatcher';
 import { useSideEffect } from '../useSideEffect';
+import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 
 export const useSearchMatchFocus = () => {
   const { doesSearchMatchItem, items, getItemTitle, onFocusItem } = useTreeEnvironment();
   const { search, treeId } = useTree();
-  const getLinearItems = useGetLinearItems();
+  const linearItems = useLinearItems(treeId);
 
   useSideEffect(
     () => {
       if (search && search.length > 0) {
         requestAnimationFrame(() => {
-          const focusItem = getLinearItems().find(({ item }) =>
+          const focusItem = linearItems.find(({ item }) =>
             (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item]))
           );
 
@@ -23,7 +23,7 @@ export const useSearchMatchFocus = () => {
         });
       }
     },
-    [doesSearchMatchItem, getItemTitle, getLinearItems, items, onFocusItem, search, treeId],
+    [doesSearchMatchItem, getItemTitle, linearItems, items, onFocusItem, search, treeId],
     [search]
   );
 };

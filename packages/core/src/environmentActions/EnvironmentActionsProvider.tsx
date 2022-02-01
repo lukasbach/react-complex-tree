@@ -3,7 +3,6 @@ import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItemIndex }
 import { PropsWithChildren, useCallback } from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
 
 const EnvironmentActionsContext = React.createContext<TreeEnvironmentActionsContextProps>(null as any);
@@ -24,6 +23,7 @@ export const EnvironmentActionsProvider = React.forwardRef<
     onRenameItem,
     onSelectItems,
     onPrimaryAction,
+    linearItems,
   } = useTreeEnvironment();
   const {
     abortProgrammaticDrag,
@@ -67,25 +67,24 @@ export const EnvironmentActionsProvider = React.forwardRef<
     ),
     moveFocusDown: useCallback(
       (treeId: string) => {
-        const tree = trees[treeId];
-        const linearItems = getItemsLinearly(tree.rootItem, viewState[treeId] ?? {}, items);
-        const currentFocusIndex = linearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
-        const newIndex = currentFocusIndex !== undefined ? Math.min(linearItems.length - 1, currentFocusIndex + 1) : 0;
-        const newItem = items[linearItems[newIndex].item];
+        const treeLinearItems = linearItems[treeId];
+        const currentFocusIndex = treeLinearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
+        const newIndex =
+          currentFocusIndex !== undefined ? Math.min(treeLinearItems.length - 1, currentFocusIndex + 1) : 0;
+        const newItem = items[treeLinearItems[newIndex].item];
         onFocusItem?.(newItem, treeId);
       },
-      [items, onFocusItem, trees, viewState]
+      [items, linearItems, onFocusItem, viewState]
     ),
     moveFocusUp: useCallback(
       (treeId: string) => {
-        const tree = trees[treeId];
-        const linearItems = getItemsLinearly(tree.rootItem, viewState[treeId] ?? {}, items);
-        const currentFocusIndex = linearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
+        const treeLinearItems = linearItems[treeId];
+        const currentFocusIndex = treeLinearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
         const newIndex = currentFocusIndex !== undefined ? Math.max(0, currentFocusIndex - 1) : 0;
-        const newItem = items[linearItems[newIndex].item];
+        const newItem = items[treeLinearItems[newIndex].item];
         onFocusItem?.(newItem, treeId);
       },
-      [items, onFocusItem, trees, viewState]
+      [items, linearItems, onFocusItem, viewState]
     ),
     moveProgrammaticDragPositionDown: useCallback(() => {
       programmaticDragDown();

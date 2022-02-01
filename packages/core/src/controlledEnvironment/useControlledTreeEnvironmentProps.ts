@@ -6,7 +6,7 @@ import {
   TreeEnvironmentContextProps,
 } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMemoizedObject } from '../useMemoizedObject';
 import { useRenderers } from '../renderers/useRenderers';
 import { buildMapForTrees } from '../utils';

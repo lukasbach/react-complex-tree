@@ -4,18 +4,18 @@ import { useMoveFocusToIndex } from './useMoveFocusToIndex';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useGetLinearItems } from './useGetLinearItems';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from './useSelectUpTo';
 import { useCallback } from 'react';
+import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 
 export const useTreeKeyboardBindings = () => {
   const environment = useTreeEnvironment();
   const { treeId, setRenamingItem, setSearch, renamingItem } = useTree();
+  const linearItems = useLinearItems(treeId);
   const dnd = useDragAndDrop();
   const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex();
-  const getLinearItems = useGetLinearItems();
   const selectUpTo = useSelectUpTo();
 
   const isActiveTree = environment.activeTreeId === treeId;
@@ -172,11 +172,11 @@ export const useTreeKeyboardBindings = () => {
       e => {
         e.preventDefault();
         environment.onSelectItems?.(
-          getLinearItems().map(({ item }) => item),
+          linearItems.map(({ item }) => item),
           treeId
         );
       },
-      [environment, getLinearItems, treeId]
+      [environment, linearItems, treeId]
     ),
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
