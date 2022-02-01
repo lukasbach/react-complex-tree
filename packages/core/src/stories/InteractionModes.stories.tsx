@@ -110,7 +110,7 @@ export const CustomExtendingInteractionMode = () => (
       }),
     }}
     viewState={{
-      ['tree-1']: {
+      ['tree-5']: {
         expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
       },
     }}
@@ -119,7 +119,7 @@ export const CustomExtendingInteractionMode = () => (
       <p>
         This interaction mode extends the &quot;Double Click Item To Expand&quot; mode, but adds a mouse hover effect.
       </p>
-      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+      <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
     </>
   </UncontrolledTreeEnvironment>
 );
