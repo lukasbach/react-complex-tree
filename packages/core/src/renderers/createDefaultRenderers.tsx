@@ -85,6 +85,7 @@ export const createDefaultRenderers = (renderDepthOffset: number): AllTreeRender
     },
     renderItem: ({ item, depth, children, title, context, arrow }) => {
       const InteractiveComponent = context.isRenaming ? 'div' : 'button';
+      const type = context.isRenaming ? undefined : 'button';
       // TODO have only root li component create all the classes
       return (
         <li
@@ -114,6 +115,7 @@ export const createDefaultRenderers = (renderDepthOffset: number): AllTreeRender
           >
             {arrow}
             <InteractiveComponent
+              type={type}
               {...(context.interactiveElementProps as any)}
               className={cx(
                 'rct-tree-item-button',
