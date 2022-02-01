@@ -252,6 +252,7 @@ export interface TreeEnvironmentContextProps<T = any>
   ) => void;
   treeIds: string[];
   trees: Record<string, TreeConfiguration>;
+  linearItems: Record<string, LinearItem[]>;
 }
 
 export interface DragAndDropContextProps<T = any> {
@@ -370,6 +371,11 @@ export interface TreeDataProvider<T = any> {
 export type Disposable = {
   dispose: () => void;
 };
+
+export interface LinearItem {
+  item: TreeItemIndex;
+  depth: number;
+}
 
 export interface KeyboardBindings {
   primaryAction?: string[];

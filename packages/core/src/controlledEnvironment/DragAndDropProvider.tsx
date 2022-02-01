@@ -2,25 +2,21 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DragAndDropContextProps, DraggingPosition, TreeItem, TreeItemIndex } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useOnDragOverTreeHandler } from './useOnDragOverTreeHandler';
 import { useCanDropAt } from './useCanDropAt';
 import { useGetViableDragPositions } from './useGetViableDragPositions';
 import { useSideEffect } from '../useSideEffect';
+import { buildMapForTrees } from '../utils';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(null as any);
 export const useDragAndDrop = () => React.useContext(DragAndDropContext);
 
-const buildMapForTrees = <T extends any>(treeIds: string[], build: (treeId: string) => T): { [treeId: string]: T } => {
-  return treeIds.map(id => [id, build(id)] as const).reduce((a, [id, obj]) => ({ ...a, [id]: obj }), {});
-};
 
 // TODO tidy up
 export const DragAndDropProvider: React.FC = props => {
   const environment = useTreeEnvironment();
   const [isProgrammaticallyDragging, setIsProgrammaticallyDragging] = useState(false);
   const [itemHeight, setItemHeight] = useState(4);
-  const [linearItems, setLinearItems] = useState<{ [treeId: string]: ReturnType<typeof getItemsLinearly> }>({});
   const [viableDragPositions, setViableDragPositions] = useState<{ [treeId: string]: DraggingPosition[] }>({});
   const [programmaticDragIndex, setProgrammaticDragIndex] = useState(0);
   const [draggingItems, setDraggingItems] = useState<TreeItem[]>();
@@ -31,17 +27,16 @@ export const DragAndDropProvider: React.FC = props => {
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
     (
       viableDragPositions: DraggingPosition[],
-      linearItems: ReturnType<typeof getItemsLinearly>,
       draggingItems: TreeItem[] | undefined
     ) => {
       if (
         environment.activeTreeId &&
         environment.viewState[environment.activeTreeId]?.focusedItem &&
-        linearItems &&
+        environment.linearItems &&
         draggingItems
       ) {
         const focusItem = environment.viewState[environment.activeTreeId]!.focusedItem;
-        const treeDragPositions = getViableDragPositions(environment.activeTreeId, draggingItems, linearItems);
+        const treeDragPositions = getViableDragPositions(environment.activeTreeId, draggingItems);
         const newPos = treeDragPositions.findIndex(pos => {
           if (pos.targetType === 'item') {
             return pos.targetItem === focusItem;
@@ -59,13 +54,12 @@ export const DragAndDropProvider: React.FC = props => {
         setProgrammaticDragIndex(0);
       }
     },
-    [environment.activeTreeId, environment.items, environment.viewState, getViableDragPositions]
+    [environment.activeTreeId, environment.items, environment.linearItems, environment.viewState, getViableDragPositions]
   );
 
   const resetState = useCallback(() => {
     setIsProgrammaticallyDragging(false);
     setItemHeight(4);
-    setLinearItems({});
     setViableDragPositions({});
     setProgrammaticDragIndex(0);
     setDraggingItems(undefined);
@@ -77,12 +71,11 @@ export const DragAndDropProvider: React.FC = props => {
     () => {
       if (
         environment.activeTreeId &&
-        linearItems[environment.activeTreeId] &&
+        environment.linearItems[environment.activeTreeId] &&
         viableDragPositions[environment.activeTreeId]
       ) {
         resetProgrammaticDragIndexForCurrentTree(
           viableDragPositions[environment.activeTreeId],
-          linearItems[environment.activeTreeId],
           draggingItems
         );
       }
@@ -90,7 +83,7 @@ export const DragAndDropProvider: React.FC = props => {
     [
       draggingItems,
       environment.activeTreeId,
-      linearItems,
+      environment.linearItems,
       resetProgrammaticDragIndexForCurrentTree,
       viableDragPositions,
     ],
@@ -130,7 +123,6 @@ export const DragAndDropProvider: React.FC = props => {
     dragCode,
     setDragCode,
     itemHeight,
-    linearItems,
     setDraggingPosition,
     performDrag
   );
@@ -151,11 +143,8 @@ export const DragAndDropProvider: React.FC = props => {
 
   const onStartDraggingItems = useCallback(
     (items, treeId) => {
-      const treeLinearItems = buildMapForTrees(environment.treeIds, treeId =>
-        getItemsLinearly(environment.trees[treeId].rootItem, environment.viewState[treeId] ?? {}, environment.items)
-      );
       const treeViableDragPositions = buildMapForTrees(environment.treeIds, treeId =>
-        getViableDragPositions(treeId, items, treeLinearItems[treeId])
+        getViableDragPositions(treeId, items)
       );
 
       // TODO what if trees have different heights and drag target changes?
@@ -164,26 +153,16 @@ export const DragAndDropProvider: React.FC = props => {
           ?.offsetHeight ?? 5;
       setItemHeight(height);
       setDraggingItems(items);
-      setLinearItems(treeLinearItems);
       setViableDragPositions(treeViableDragPositions);
 
       if (environment.activeTreeId) {
         resetProgrammaticDragIndexForCurrentTree(
           treeViableDragPositions[environment.activeTreeId],
-          treeLinearItems[environment.activeTreeId],
           items
         );
       }
     },
-    [
-      environment.activeTreeId,
-      environment.items,
-      environment.treeIds,
-      environment.trees,
-      environment.viewState,
-      getViableDragPositions,
-      resetProgrammaticDragIndexForCurrentTree,
-    ]
+    [environment.activeTreeId, environment.treeIds, getViableDragPositions, resetProgrammaticDragIndexForCurrentTree]
   );
 
   const startProgrammaticDrag = useCallback(() => {

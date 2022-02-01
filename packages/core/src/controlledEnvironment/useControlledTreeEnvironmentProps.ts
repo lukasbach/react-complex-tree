@@ -1,17 +1,28 @@
-import { ControlledTreeEnvironmentProps, TreeConfiguration, TreeEnvironmentContextProps } from '../types';
+import { ControlledTreeEnvironmentProps, LinearItem, TreeConfiguration, TreeEnvironmentContextProps } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMemoizedObject } from '../useMemoizedObject';
 import { useRenderers } from '../renderers/useRenderers';
+import { buildMapForTrees } from '../utils';
+import { getItemsLinearly } from '../tree/getItemsLinearly';
 
 export const useControlledTreeEnvironmentProps = (
   props: ControlledTreeEnvironmentProps
 ): TreeEnvironmentContextProps => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
+  const [linearItems, setLinearItems] = useState<Record<string, LinearItem[]>>({});
   const [activeTreeId, setActiveTreeId] = useState<string>();
+
+  const treeIds = useMemo(() => Object.keys(trees), [trees]);
 
   const memoizedProps = useMemoizedObject(props);
   const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree } = memoizedProps;
+
+  useEffect(() => {
+    setLinearItems(buildMapForTrees(treeIds, treeId =>
+      getItemsLinearly(trees[treeId].rootItem, props.viewState[treeId] ?? {}, props.items)
+    ));
+  }, [props.items, props.viewState, treeIds, trees]);
 
   const onFocusItemHandler = useCallback(
     (item, treeId) => {
@@ -81,7 +92,6 @@ export const useControlledTreeEnvironmentProps = (
     [autoFocus]
   );
 
-  const treeIds = useMemo(() => Object.keys(trees), [trees]);
   const renderers = useRenderers(memoizedProps);
 
   return {
@@ -94,5 +104,6 @@ export const useControlledTreeEnvironmentProps = (
     treeIds,
     trees,
     activeTreeId,
+    linearItems,
   };
 };

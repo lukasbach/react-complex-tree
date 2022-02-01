@@ -3,6 +3,7 @@ import { DraggingPosition, TreeCapabilities } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
+import { useCallback } from 'react';
 
 const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) => {
   return e.clientX < treeBb.left || e.clientX > treeBb.right || e.clientY < treeBb.top || e.clientY > treeBb.bottom;
@@ -29,14 +30,13 @@ export const useOnDragOverTreeHandler = (
   lastDragCode: string,
   setLastDragCode: (code: string) => void,
   itemHeight: number,
-  linearItems: { [treeId: string]: ReturnType<typeof getItemsLinearly> },
   onDragAtPosition: (draggingPosition: DraggingPosition | undefined) => void,
   onPerformDrag: (draggingPosition: DraggingPosition) => void
 ) => {
   const environment = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
-  return (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
+  return useCallback((e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
     if (!environment.canDragAndDrop) {
       return;
     }
@@ -67,12 +67,12 @@ export const useOnDragOverTreeHandler = (
       return;
     }
 
-    if (linearIndex < 0 || linearIndex >= linearItems[treeId].length) {
+    if (linearIndex < 0 || linearIndex >= environment.linearItems[treeId].length) {
       onDragAtPosition(undefined);
       return;
     }
 
-    const targetItem = linearItems[treeId][linearIndex];
+    const targetItem = environment.linearItems[treeId][linearIndex];
     const depth = targetItem.depth;
     const targetItemData = environment.items[targetItem.item];
 
@@ -91,7 +91,7 @@ export const useOnDragOverTreeHandler = (
       return;
     }
 
-    const parent = getParentOfLinearItem(linearItems[treeId], linearIndex, treeId);
+    const parent = getParentOfLinearItem(linearIndex, treeId);
 
     if (environment.viewState[treeId]?.selectedItems?.includes(targetItem.item)) {
       return;
@@ -100,7 +100,7 @@ export const useOnDragOverTreeHandler = (
     const newChildIndex =
       environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
 
-    if (offset === 'top' && depth === (linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
+    if (offset === 'top' && depth === (environment.linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
       offset = 'bottom';
       linearIndex -= 1;
     }
@@ -131,5 +131,5 @@ export const useOnDragOverTreeHandler = (
     }
 
     onPerformDrag(draggingPosition);
-  };
+  }, [environment, getParentOfLinearItem, itemHeight, lastDragCode, onDragAtPosition, onPerformDrag, setLastDragCode]);
 };

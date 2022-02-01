@@ -1,10 +1,11 @@
 import { DraggingPosition, TreeItem } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useCallback } from 'react';
 
 export const useCanDropAt = () => {
   const environment = useTreeEnvironment();
 
-  return (draggingPosition: DraggingPosition, draggingItems: TreeItem[]) => {
+  return useCallback((draggingPosition: DraggingPosition, draggingItems: TreeItem[]) => {
     if (draggingPosition.targetType === 'between-items') {
       if (!environment.canReorderItems) {
         return false;
@@ -25,5 +26,5 @@ export const useCanDropAt = () => {
     }
 
     return true;
-  };
+  }, [environment]);
 };

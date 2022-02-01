@@ -1,11 +1,11 @@
-import { IndividualTreeViewState, TreeItem, TreeItemIndex } from '../types';
+import { IndividualTreeViewState, LinearItem, TreeItem, TreeItemIndex } from '../types';
 
 export const getItemsLinearly = <T>(
   rootItem: TreeItemIndex,
   viewState: IndividualTreeViewState,
   items: Record<TreeItemIndex, TreeItem<T>>,
   depth = 0
-): Array<{ item: TreeItemIndex; depth: number }> => {
+): LinearItem[] => {
   const itemIds: Array<{ item: TreeItemIndex; depth: number }> = [];
 
   for (const itemId of items[rootItem]?.children ?? []) {

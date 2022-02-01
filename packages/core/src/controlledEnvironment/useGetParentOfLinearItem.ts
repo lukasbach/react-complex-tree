@@ -1,10 +1,13 @@
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useLinearItems } from './useLinearItems';
+import { useCallback } from 'react';
 
 export const useGetGetParentOfLinearItem = () => {
   const environment = useTreeEnvironment();
 
-  return (linearItems: ReturnType<typeof getItemsLinearly>, itemLinearIndex: number, treeId: string) => {
+  return useCallback((itemLinearIndex: number, treeId: string) => {
+    const linearItems = environment.linearItems[treeId];
     const depth = linearItems[itemLinearIndex].depth;
     let parentLinearIndex = itemLinearIndex;
     for (; !!linearItems[parentLinearIndex] && linearItems[parentLinearIndex].depth !== depth - 1; parentLinearIndex--);
@@ -16,5 +19,5 @@ export const useGetGetParentOfLinearItem = () => {
     }
 
     return parent;
-  };
+  }, [environment.linearItems, environment.trees]);
 };

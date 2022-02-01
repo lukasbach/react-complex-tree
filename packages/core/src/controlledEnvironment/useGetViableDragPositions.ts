@@ -1,18 +1,19 @@
 import { DraggingPosition, TreeItem } from '../types';
-import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useCanDropAt } from './useCanDropAt';
+import { useCallback } from 'react';
 
 export const useGetViableDragPositions = () => {
   const environment = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
   const canDropAt = useCanDropAt();
 
-  return (treeId: string, draggingItems: TreeItem[], linearItems: ReturnType<typeof getItemsLinearly>) => {
+  return useCallback((treeId: string, draggingItems: TreeItem[]) => {
+    const linearItems = environment.linearItems[treeId];
     return linearItems
       .map<DraggingPosition[]>(({ item, depth }, linearIndex) => {
-        const parent = getParentOfLinearItem(linearItems, linearIndex, treeId);
+        const parent = getParentOfLinearItem(linearIndex, treeId);
         const childIndex = environment.items[parent.item].children!.indexOf(item);
 
         const itemPosition: DraggingPosition = {
@@ -54,5 +55,5 @@ export const useGetViableDragPositions = () => {
       })
       .reduce((a, b) => [...a, ...b], [])
       .filter(position => canDropAt(position, draggingItems));
-  };
+  }, [canDropAt, environment.items, environment.linearItems, getParentOfLinearItem]);
 };
