@@ -11,13 +11,16 @@ export const useMoveFocusToIndex = () => {
   const getLinearItems = useGetLinearItems();
   const viewState = useViewState();
 
-  return useCallback((computeNewIndex: (currentIndex: number, linearItems: ReturnType<typeof getItemsLinearly>) => number) => {
-    const linearItems = getLinearItems();
-    const currentIndex = linearItems.findIndex(item => item.item === viewState.focusedItem) ?? 0;
-    const newIndex = computeNewIndex(currentIndex, linearItems);
-    const newIndexBounded = Math.max(0, Math.min(linearItems.length - 1, newIndex));
-    const newFocusItem = items[linearItems[newIndexBounded].item];
-    onFocusItem?.(newFocusItem, treeId);
-    return newFocusItem;
-  }, [onFocusItem, items, getLinearItems, treeId, viewState.focusedItem]);
+  return useCallback(
+    (computeNewIndex: (currentIndex: number, linearItems: ReturnType<typeof getItemsLinearly>) => number) => {
+      const linearItems = getLinearItems();
+      const currentIndex = linearItems.findIndex(item => item.item === viewState.focusedItem) ?? 0;
+      const newIndex = computeNewIndex(currentIndex, linearItems);
+      const newIndexBounded = Math.max(0, Math.min(linearItems.length - 1, newIndex));
+      const newFocusItem = items[linearItems[newIndexBounded].item];
+      onFocusItem?.(newFocusItem, treeId);
+      return newFocusItem;
+    },
+    [onFocusItem, items, getLinearItems, treeId, viewState.focusedItem]
+  );
 };
