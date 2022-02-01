@@ -52,9 +52,7 @@ export const TreeManager = (): JSX.Element => {
   const containerProps: HTMLProps<any> = {
     // onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
     onDragOver: e => dnd.onDragOverTreeHandler(e as any, treeId, containerRef),
-    onTouchMove: e => dnd.onDragOverTreeHandler(e as any, treeId, containerRef),
-    onMouseDown: dnd.abortProgrammaticDrag,
-    onTouchCancel: dnd.abortProgrammaticDrag,
+    onMouseDown: () => dnd.abortProgrammaticDrag(),
     ref: containerRef,
     style: { position: 'relative' },
     role: 'tree',

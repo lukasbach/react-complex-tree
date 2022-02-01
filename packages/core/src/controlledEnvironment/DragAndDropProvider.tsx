@@ -252,11 +252,7 @@ export const DragAndDropProvider: React.FC = props => {
 
   useEffect(() => {
     window.addEventListener('dragend', onDropHandler);
-    window.addEventListener('touchend', onDropHandler);
-    return () => {
-      window.removeEventListener('dragend', onDropHandler);
-      window.removeEventListener('touchend', onDropHandler);
-    };
+    return () => window.removeEventListener('dragend', onDropHandler);
   }, [onDropHandler]);
 
   return <DragAndDropContext.Provider value={dnd}>{props.children}</DragAndDropContext.Provider>;
