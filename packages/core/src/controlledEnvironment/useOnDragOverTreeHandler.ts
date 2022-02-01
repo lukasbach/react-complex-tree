@@ -36,100 +36,103 @@ export const useOnDragOverTreeHandler = (
   const environment = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
-  return useCallback((e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
-    if (!environment.canDragAndDrop) {
-      return;
-    }
+  return useCallback(
+    (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
+      if (!environment.canDragAndDrop) {
+        return;
+      }
 
-    if (!containerRef.current) {
-      return;
-    }
+      if (!containerRef.current) {
+        return;
+      }
 
-    if (e.clientX < 0 || e.clientY < 0) {
-      return; // TODO hotfix
-    }
+      if (e.clientX < 0 || e.clientY < 0) {
+        return; // TODO hotfix
+      }
 
-    const treeBb = containerRef.current.getBoundingClientRect();
-    const outsideContainer = isOutsideOfContainer(e, treeBb);
+      const treeBb = containerRef.current.getBoundingClientRect();
+      const outsideContainer = isOutsideOfContainer(e, treeBb);
 
-    let { linearIndex, offset } = getHoveringPosition(e.clientY, treeBb.top, itemHeight, environment);
+      let { linearIndex, offset } = getHoveringPosition(e.clientY, treeBb.top, itemHeight, environment);
 
-    const nextDragCode = outsideContainer ? 'outside' : `${treeId}${linearIndex}${offset ?? ''}`;
+      const nextDragCode = outsideContainer ? 'outside' : `${treeId}${linearIndex}${offset ?? ''}`;
 
-    if (lastDragCode === nextDragCode) {
-      return;
-    }
+      if (lastDragCode === nextDragCode) {
+        return;
+      }
 
-    setLastDragCode(nextDragCode);
+      setLastDragCode(nextDragCode);
 
-    if (outsideContainer) {
-      onDragAtPosition(undefined);
-      return;
-    }
+      if (outsideContainer) {
+        onDragAtPosition(undefined);
+        return;
+      }
 
-    if (linearIndex < 0 || linearIndex >= environment.linearItems[treeId].length) {
-      onDragAtPosition(undefined);
-      return;
-    }
+      if (linearIndex < 0 || linearIndex >= environment.linearItems[treeId].length) {
+        onDragAtPosition(undefined);
+        return;
+      }
 
-    const targetItem = environment.linearItems[treeId][linearIndex];
-    const depth = targetItem.depth;
-    const targetItemData = environment.items[targetItem.item];
+      const targetItem = environment.linearItems[treeId][linearIndex];
+      const depth = targetItem.depth;
+      const targetItemData = environment.items[targetItem.item];
 
-    if (!offset && !environment.canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
-      onDragAtPosition(undefined);
-      return;
-    }
+      if (!offset && !environment.canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
+        onDragAtPosition(undefined);
+        return;
+      }
 
-    if (!offset && !environment.canDropOnItemWithChildren && targetItemData.hasChildren) {
-      onDragAtPosition(undefined);
-      return;
-    }
+      if (!offset && !environment.canDropOnItemWithChildren && targetItemData.hasChildren) {
+        onDragAtPosition(undefined);
+        return;
+      }
 
-    if (offset && !environment.canReorderItems) {
-      onDragAtPosition(undefined);
-      return;
-    }
+      if (offset && !environment.canReorderItems) {
+        onDragAtPosition(undefined);
+        return;
+      }
 
-    const parent = getParentOfLinearItem(linearIndex, treeId);
+      const parent = getParentOfLinearItem(linearIndex, treeId);
 
-    if (environment.viewState[treeId]?.selectedItems?.includes(targetItem.item)) {
-      return;
-    }
+      if (environment.viewState[treeId]?.selectedItems?.includes(targetItem.item)) {
+        return;
+      }
 
-    const newChildIndex =
-      environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
+      const newChildIndex =
+        environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
 
-    if (offset === 'top' && depth === (environment.linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
-      offset = 'bottom';
-      linearIndex -= 1;
-    }
+      if (offset === 'top' && depth === (environment.linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
+        offset = 'bottom';
+        linearIndex -= 1;
+      }
 
-    let draggingPosition: DraggingPosition;
+      let draggingPosition: DraggingPosition;
 
-    if (offset) {
-      draggingPosition = {
-        targetType: 'between-items',
-        treeId: treeId,
-        parentItem: parent.item,
-        depth: targetItem.depth,
-        linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
-        // childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
-        // childIndex: environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
-        childIndex: newChildIndex,
-        linePosition: offset,
-      };
-    } else {
-      draggingPosition = {
-        targetType: 'item',
-        treeId: treeId,
-        parentItem: parent.item,
-        targetItem: targetItem.item,
-        depth: targetItem.depth,
-        linearIndex: linearIndex,
-      };
-    }
+      if (offset) {
+        draggingPosition = {
+          targetType: 'between-items',
+          treeId: treeId,
+          parentItem: parent.item,
+          depth: targetItem.depth,
+          linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
+          // childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
+          // childIndex: environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
+          childIndex: newChildIndex,
+          linePosition: offset,
+        };
+      } else {
+        draggingPosition = {
+          targetType: 'item',
+          treeId: treeId,
+          parentItem: parent.item,
+          targetItem: targetItem.item,
+          depth: targetItem.depth,
+          linearIndex: linearIndex,
+        };
+      }
 
-    onPerformDrag(draggingPosition);
-  }, [environment, getParentOfLinearItem, itemHeight, lastDragCode, onDragAtPosition, onPerformDrag, setLastDragCode]);
+      onPerformDrag(draggingPosition);
+    },
+    [environment, getParentOfLinearItem, itemHeight, lastDragCode, onDragAtPosition, onPerformDrag, setLastDragCode]
+  );
 };

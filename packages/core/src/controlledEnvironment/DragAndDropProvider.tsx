@@ -11,7 +11,6 @@ import { buildMapForTrees } from '../utils';
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(null as any);
 export const useDragAndDrop = () => React.useContext(DragAndDropContext);
 
-
 // TODO tidy up
 export const DragAndDropProvider: React.FC = props => {
   const environment = useTreeEnvironment();
@@ -25,10 +24,7 @@ export const DragAndDropProvider: React.FC = props => {
   const getViableDragPositions = useGetViableDragPositions();
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
-    (
-      viableDragPositions: DraggingPosition[],
-      draggingItems: TreeItem[] | undefined
-    ) => {
+    (viableDragPositions: DraggingPosition[], draggingItems: TreeItem[] | undefined) => {
       if (
         environment.activeTreeId &&
         environment.viewState[environment.activeTreeId]?.focusedItem &&
@@ -54,7 +50,13 @@ export const DragAndDropProvider: React.FC = props => {
         setProgrammaticDragIndex(0);
       }
     },
-    [environment.activeTreeId, environment.items, environment.linearItems, environment.viewState, getViableDragPositions]
+    [
+      environment.activeTreeId,
+      environment.items,
+      environment.linearItems,
+      environment.viewState,
+      getViableDragPositions,
+    ]
   );
 
   const resetState = useCallback(() => {
@@ -74,10 +76,7 @@ export const DragAndDropProvider: React.FC = props => {
         environment.linearItems[environment.activeTreeId] &&
         viableDragPositions[environment.activeTreeId]
       ) {
-        resetProgrammaticDragIndexForCurrentTree(
-          viableDragPositions[environment.activeTreeId],
-          draggingItems
-        );
+        resetProgrammaticDragIndexForCurrentTree(viableDragPositions[environment.activeTreeId], draggingItems);
       }
     },
     [
@@ -156,10 +155,7 @@ export const DragAndDropProvider: React.FC = props => {
       setViableDragPositions(treeViableDragPositions);
 
       if (environment.activeTreeId) {
-        resetProgrammaticDragIndexForCurrentTree(
-          treeViableDragPositions[environment.activeTreeId],
-          items
-        );
+        resetProgrammaticDragIndexForCurrentTree(treeViableDragPositions[environment.activeTreeId], items);
       }
     },
     [environment.activeTreeId, environment.treeIds, getViableDragPositions, resetProgrammaticDragIndexForCurrentTree]
