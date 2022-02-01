@@ -30,7 +30,7 @@
     "react-complex-tree": "^1.1.4",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.4.0",
     "typescript": "4.2.2"
   },
   "scripts": {
