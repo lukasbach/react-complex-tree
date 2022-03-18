@@ -15,7 +15,7 @@ export default {
     Story => (
       <>
         <link href="https://unpkg.com/normalize.css@^8.0.1" rel="stylesheet" />
-        <link href="https://unpkg.com/@blueprintjs/core@^4.0.0-alpha.0/lib/css/blueprint.css" rel="stylesheet" />
+        <link href="https://unpkg.com/@blueprintjs/core@^4.0.0/lib/css/blueprint.css" rel="stylesheet" />
         <Story />
       </>
     ),

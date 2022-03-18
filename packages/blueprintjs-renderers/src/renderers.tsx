@@ -1,7 +1,6 @@
 import React from 'react';
 import { TreeRenderProps } from 'react-complex-tree';
 import { Button, Classes, Collapse, Colors, Icon, InputGroup } from '@blueprintjs/core';
-import { Tick, ChevronRight, Document, FolderClose, FolderOpen, SVGIconProps } from '@blueprintjs/icons';
 
 const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
 
@@ -40,12 +39,12 @@ export const renderers: TreeRenderProps = {
           )
         ) : (
           (() => {
-            const IconComponent = !props.item.hasChildren
-              ? Document
+            const icon = !props.item.hasChildren
+              ? 'document'
               : props.context.isExpanded
-              ? FolderOpen
-              : FolderClose;
-            return <IconComponent className={Classes.TREE_NODE_ICON} />;
+              ? 'folder-open'
+              : 'folder-close';
+            return <Icon icon={icon} className={Classes.TREE_NODE_ICON} />;
           })()
         )}
         {props.title}
@@ -62,11 +61,7 @@ export const renderers: TreeRenderProps = {
             : {}
         }
       >
-        <Collapse
-          className={Classes.FIXED_POSITIONING_CONTAINING_BLOCK}
-          isOpen={props.context.isExpanded}
-          transitionDuration={0}
-        >
+        <Collapse isOpen={props.context.isExpanded} transitionDuration={0}>
           {props.children}
         </Collapse>
       </div>
@@ -74,12 +69,13 @@ export const renderers: TreeRenderProps = {
   ),
 
   renderItemArrow: props => (
-    <ChevronRight
+    <Icon
+      icon="chevron-right"
       className={cx(
         Classes.TREE_NODE_CARET,
         props.context.isExpanded ? Classes.TREE_NODE_CARET_OPEN : Classes.TREE_NODE_CARET_CLOSED
       )}
-      {...(props.context.arrowProps as SVGIconProps)}
+      {...(props.context.arrowProps as any)}
     />
   ),
 
@@ -127,7 +123,7 @@ export const renderers: TreeRenderProps = {
         <input {...props.inputProps} ref={props.inputRef} className="rct-tree-item-renaming-input" />
       </span>
       <span className={Classes.TREE_NODE_SECONDARY_LABEL}>
-        <Button icon={<Tick />} {...(props.submitButtonProps as any)} type="submit" minimal={true} small={true} />
+        <Button icon="tick" {...(props.submitButtonProps as any)} type="submit" minimal={true} small={true} />
       </span>
     </form>
   ),
