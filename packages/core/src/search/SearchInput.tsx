@@ -5,6 +5,7 @@ import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useSearchMatchFocus } from './useSearchMatchFocus';
 import { useViewState } from '../tree/useViewState';
+import { useCallSoon } from '../useCallSoon';
 
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement;
@@ -13,6 +14,7 @@ export const SearchInput: React.FC<{
   const environment = useTreeEnvironment();
   useViewState();
   const isActiveTree = environment.activeTreeId === treeId;
+  const callSoon = useCallSoon();
 
   useSearchMatchFocus();
 
@@ -30,16 +32,16 @@ export const SearchInput: React.FC<{
   useHotkey(
     'abortSearch',
     () => {
-      // Without the requestAnimationFrame, hitting enter to abort
+      // Without the callSoon, hitting enter to abort
       // and then moving focus weirdly moves the selected item along
       // with the focused item.
-      requestAnimationFrame(() => {
+      callSoon(() => {
         clearSearch();
       });
     },
     isActiveTree && search !== null,
     true,
-    [search, isActiveTree]
+    [search, isActiveTree, callSoon]
   );
 
   useHtmlElementEventListener(

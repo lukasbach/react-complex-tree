@@ -3,16 +3,18 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { defaultMatcher } from './defaultMatcher';
 import { useSideEffect } from '../useSideEffect';
 import { useLinearItems } from '../controlledEnvironment/useLinearItems';
+import { useCallSoon } from '../useCallSoon';
 
 export const useSearchMatchFocus = () => {
   const { doesSearchMatchItem, items, getItemTitle, onFocusItem } = useTreeEnvironment();
   const { search, treeId } = useTree();
   const linearItems = useLinearItems(treeId);
+  const callSoon = useCallSoon();
 
   useSideEffect(
     () => {
       if (search && search.length > 0) {
-        requestAnimationFrame(() => {
+        callSoon(() => {
           const focusItem = linearItems.find(({ item }) =>
             (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item]))
           );
@@ -23,7 +25,7 @@ export const useSearchMatchFocus = () => {
         });
       }
     },
-    [doesSearchMatchItem, getItemTitle, linearItems, items, onFocusItem, search, treeId],
+    [doesSearchMatchItem, getItemTitle, linearItems, items, onFocusItem, search, treeId, callSoon],
     [search]
   );
 };

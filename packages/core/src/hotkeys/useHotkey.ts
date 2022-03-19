@@ -2,6 +2,7 @@ import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useMemo, useRef } from 'react';
 import { KeyboardBindings } from '../types';
 import { useKeyboardBindings } from './useKeyboardBindings';
+import { useCallSoon } from '../useCallSoon';
 
 const elementsThatCanTakeText = ['input', 'textarea'];
 
@@ -14,6 +15,7 @@ export const useHotkey = (
 ) => {
   const pressedKeys = useRef<string[]>([]);
   const keyboardBindings = useKeyboardBindings();
+  const callSoon = useCallSoon();
 
   const possibleCombinations = useMemo(
     () => keyboardBindings[combinationName].map(combination => combination.split('+')),
@@ -74,11 +76,11 @@ export const useHotkey = (
         .reduce((a, b) => a || b, false);
 
       if (match) {
-        requestAnimationFrame(() => onHit(e));
+        callSoon(() => onHit(e));
       }
 
       pressedKeys.current = pressedKeys.current.filter(key => key !== e.key);
     },
-    [possibleCombinations, onHit, active, ...(deps ?? [])]
+    [possibleCombinations, onHit, active, callSoon, ...(deps ?? [])]
   );
 };

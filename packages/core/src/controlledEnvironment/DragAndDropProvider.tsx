@@ -7,6 +7,7 @@ import { useCanDropAt } from './useCanDropAt';
 import { useGetViableDragPositions } from './useGetViableDragPositions';
 import { useSideEffect } from '../useSideEffect';
 import { buildMapForTrees } from '../utils';
+import { useCallSoon } from '../useCallSoon';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(null as any);
 export const useDragAndDrop = () => React.useContext(DragAndDropContext);
@@ -22,6 +23,7 @@ export const DragAndDropProvider: React.FC = props => {
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
   const [dragCode, setDragCode] = useState('_nodrag');
   const getViableDragPositions = useGetViableDragPositions();
+  const callSoon = useCallSoon();
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
     (viableDragPositions: DraggingPosition[], draggingItems: TreeItem[] | undefined) => {
@@ -131,13 +133,13 @@ export const DragAndDropProvider: React.FC = props => {
       if (draggingItems && draggingPosition && environment.onDrop) {
         environment.onDrop(draggingItems, draggingPosition);
 
-        requestAnimationFrame(() => {
+        callSoon(() => {
           environment.onFocusItem?.(draggingItems[0], draggingPosition.treeId);
           resetState();
         });
       }
     },
-    [draggingItems, draggingPosition, environment, resetState]
+    [draggingItems, draggingPosition, environment, resetState, callSoon]
   );
 
   const onStartDraggingItems = useCallback(

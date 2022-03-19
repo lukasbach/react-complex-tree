@@ -5,6 +5,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { FormHTMLAttributes, HTMLProps, InputHTMLAttributes, useRef, useState } from 'react';
 import { useHotkey } from '../hotkeys/useHotkey';
 import { useSideEffect } from '../useSideEffect';
+import { useCallSoon } from '../useCallSoon';
 
 export const TreeItemRenamingInput: React.FC<{
   itemIndex: TreeItemIndex;
@@ -15,11 +16,12 @@ export const TreeItemRenamingInput: React.FC<{
   const submitButtonRef = useRef<any>(null);
   const item = environment.items[props.itemIndex];
   const [title, setTitle] = useState(environment.getItemTitle(item));
+  const callSoon = useCallSoon();
 
   const abort = () => {
     environment.onAbortRenamingItem?.(item, treeInformation.treeId);
     setRenamingItem(null);
-    requestAnimationFrame(() => {
+    callSoon(() => {
       environment.setActiveTree(treeId);
     });
   };
@@ -27,7 +29,7 @@ export const TreeItemRenamingInput: React.FC<{
   const confirm = () => {
     environment.onRenameItem?.(item, title, treeInformation.treeId);
     setRenamingItem(null);
-    requestAnimationFrame(() => {
+    callSoon(() => {
       environment.setActiveTree(treeId);
     });
   };

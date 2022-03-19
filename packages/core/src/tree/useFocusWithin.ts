@@ -1,5 +1,6 @@
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useRef, useState } from 'react';
+import { useCallSoon } from '../useCallSoon';
 
 export const useFocusWithin = (
   element: HTMLElement | undefined,
@@ -9,6 +10,7 @@ export const useFocusWithin = (
 ) => {
   const [focusWithin, setFocusWithin] = useState(false);
   const isLoosingFocusFlag = useRef(false);
+  const callSoon = useCallSoon();
 
   useHtmlElementEventListener(
     element,
@@ -32,7 +34,7 @@ export const useFocusWithin = (
     () => {
       isLoosingFocusFlag.current = true;
 
-      requestAnimationFrame(() => {
+      callSoon(() => {
         if (isLoosingFocusFlag.current && !element?.contains(document.activeElement)) {
           onFocusOut?.();
           isLoosingFocusFlag.current = false;
@@ -40,7 +42,7 @@ export const useFocusWithin = (
         }
       });
     },
-    [element, onFocusOut, ...deps]
+    [element, onFocusOut, callSoon, ...deps]
   );
 
   return focusWithin;
