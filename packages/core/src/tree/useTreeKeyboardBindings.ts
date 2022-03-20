@@ -135,7 +135,7 @@ export const useTreeKeyboardBindings = () => {
     useCallback(
       e => {
         e.preventDefault();
-        if (viewState.focusedItem) {
+        if (viewState.focusedItem !== undefined) {
           environment.onSelectItems?.([viewState.focusedItem], treeId);
           environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
         }
@@ -150,7 +150,7 @@ export const useTreeKeyboardBindings = () => {
     useCallback(
       e => {
         e.preventDefault();
-        if (viewState.focusedItem) {
+        if (viewState.focusedItem !== undefined) {
           if (viewState.selectedItems && viewState.selectedItems.includes(viewState.focusedItem)) {
             environment.onSelectItems?.(
               viewState.selectedItems.filter(item => item !== viewState.focusedItem),
@@ -185,7 +185,7 @@ export const useTreeKeyboardBindings = () => {
     'renameItem',
     useCallback(
       e => {
-        if (viewState.focusedItem) {
+        if (viewState.focusedItem !== undefined) {
           e.preventDefault();
           const item = environment.items[viewState.focusedItem];
           environment.onStartRenamingItem?.(item, treeId);
