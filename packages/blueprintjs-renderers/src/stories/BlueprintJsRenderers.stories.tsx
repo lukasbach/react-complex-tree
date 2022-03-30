@@ -3,7 +3,7 @@ import React from 'react';
 import { InteractionMode, StaticTreeDataProvider, Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
 import { longTree, shortTree } from 'demodata';
 import { renderers } from '../renderers';
-import { FocusStyleManager } from '@blueprintjs/core';
+import { Colors, FocusStyleManager } from '@blueprintjs/core';
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
@@ -24,6 +24,7 @@ export default {
 
 export const BlueprintJsTree = () => (
   <div
+    style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
     onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
   >
@@ -47,6 +48,7 @@ export const BlueprintJsTree = () => (
 
 export const ShortBlueprintJsTree = () => (
   <div
+    style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
     onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
   >
@@ -70,6 +72,7 @@ export const ShortBlueprintJsTree = () => (
 
 export const BlueprintJsTreeWithClickArrowToExpand = () => (
   <div
+    style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
     onKeyDown={() => FocusStyleManager.alwaysShowFocus()}
   >
