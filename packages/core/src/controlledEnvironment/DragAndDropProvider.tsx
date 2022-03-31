@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DragAndDropContextProps, DraggingPosition, TreeItem, TreeItemIndex } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useOnDragOverTreeHandler } from './useOnDragOverTreeHandler';
@@ -8,6 +8,8 @@ import { useGetViableDragPositions } from './useGetViableDragPositions';
 import { useSideEffect } from '../useSideEffect';
 import { buildMapForTrees } from '../utils';
 import { useCallSoon } from '../useCallSoon';
+import { useKey } from '../hotkeys/useKey';
+import { flushSync } from 'react-dom';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(null as any);
 export const useDragAndDrop = () => React.useContext(DragAndDropContext);
@@ -24,6 +26,7 @@ export const DragAndDropProvider: React.FC = props => {
   const [dragCode, setDragCode] = useState('_nodrag');
   const getViableDragPositions = useGetViableDragPositions();
   const callSoon = useCallSoon();
+  const shouldCancelDrag = useRef(false);
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
     (viableDragPositions: DraggingPosition[], draggingItems: TreeItem[] | undefined) => {
@@ -128,8 +131,8 @@ export const DragAndDropProvider: React.FC = props => {
     performDrag
   );
 
-  const onDropHandler = useMemo(
-    () => () => {
+  const onDropHandler = useCallback(
+    () => {
       if (draggingItems && draggingPosition && environment.onDrop) {
         environment.onDrop(draggingItems, draggingPosition);
 
@@ -228,9 +231,13 @@ export const DragAndDropProvider: React.FC = props => {
   };
 
   useEffect(() => {
-    window.addEventListener('dragend', onDropHandler);
-    return () => window.removeEventListener('dragend', onDropHandler);
-  }, [onDropHandler]);
+    window.addEventListener('dragend', resetState);
+    window.addEventListener('drop', onDropHandler);
+    return () => {
+      window.removeEventListener('dragend', resetState);
+      window.removeEventListener('drop', onDropHandler);
+    };
+  }, [onDropHandler, resetState]);
 
   return <DragAndDropContext.Provider value={dnd}>{props.children}</DragAndDropContext.Provider>;
 };
