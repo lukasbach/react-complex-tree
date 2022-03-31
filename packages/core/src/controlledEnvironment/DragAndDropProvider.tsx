@@ -131,19 +131,16 @@ export const DragAndDropProvider: React.FC = props => {
     performDrag
   );
 
-  const onDropHandler = useCallback(
-    () => {
-      if (draggingItems && draggingPosition && environment.onDrop) {
-        environment.onDrop(draggingItems, draggingPosition);
+  const onDropHandler = useCallback(() => {
+    if (draggingItems && draggingPosition && environment.onDrop) {
+      environment.onDrop(draggingItems, draggingPosition);
 
-        callSoon(() => {
-          environment.onFocusItem?.(draggingItems[0], draggingPosition.treeId);
-          resetState();
-        });
-      }
-    },
-    [draggingItems, draggingPosition, environment, resetState, callSoon]
-  );
+      callSoon(() => {
+        environment.onFocusItem?.(draggingItems[0], draggingPosition.treeId);
+        resetState();
+      });
+    }
+  }, [draggingItems, draggingPosition, environment, resetState, callSoon]);
 
   const onStartDraggingItems = useCallback(
     (items, treeId) => {

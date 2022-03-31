@@ -144,7 +144,7 @@ export interface InteractionManager {
     treeId: string,
     actions: TreeItemActions,
     renderFlags: TreeItemRenderFlags,
-    __unsafeViewState?: IndividualTreeViewState,
+    __unsafeViewState?: IndividualTreeViewState
   ) => HTMLProps<HTMLElement>;
 }
 

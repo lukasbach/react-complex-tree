@@ -8,7 +8,13 @@ const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) => {
   return e.clientX < treeBb.left || e.clientX > treeBb.right || e.clientY < treeBb.top || e.clientY > treeBb.bottom;
 };
 
-const getHoveringPosition = (clientY: number, treeTop: number, itemHeight: number, canDropOnItemWithChildren?: boolean, canDropOnItemWithoutChildren?: boolean) => {
+const getHoveringPosition = (
+  clientY: number,
+  treeTop: number,
+  itemHeight: number,
+  canDropOnItemWithChildren?: boolean,
+  canDropOnItemWithoutChildren?: boolean
+) => {
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
   const linearIndex = Math.floor(hoveringPosition);
@@ -60,7 +66,13 @@ export const useOnDragOverTreeHandler = (
       const treeBb = containerRef.current.getBoundingClientRect();
       const outsideContainer = isOutsideOfContainer(e, treeBb);
 
-      let { linearIndex, offset } = getHoveringPosition(e.clientY, treeBb.top, itemHeight, canDropOnItemWithChildren, canDropOnItemWithoutChildren);
+      let { linearIndex, offset } = getHoveringPosition(
+        e.clientY,
+        treeBb.top,
+        itemHeight,
+        canDropOnItemWithChildren,
+        canDropOnItemWithoutChildren
+      );
 
       const nextDragCode = outsideContainer ? 'outside' : `${treeId}${linearIndex}${offset ?? ''}`;
 
@@ -105,8 +117,7 @@ export const useOnDragOverTreeHandler = (
         return;
       }
 
-      const newChildIndex =
-        items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
+      const newChildIndex = items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
 
       if (offset === 'top' && depth === (linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
         offset = 'bottom';
@@ -140,6 +151,20 @@ export const useOnDragOverTreeHandler = (
 
       onPerformDrag(draggingPosition);
     },
-    [canDragAndDrop, canDropOnItemWithChildren, canDropOnItemWithoutChildren, canReorderItems, getParentOfLinearItem, itemHeight, items, lastDragCode, linearItems, onDragAtPosition, onPerformDrag, setLastDragCode, viewState]
+    [
+      canDragAndDrop,
+      canDropOnItemWithChildren,
+      canDropOnItemWithoutChildren,
+      canReorderItems,
+      getParentOfLinearItem,
+      itemHeight,
+      items,
+      lastDragCode,
+      linearItems,
+      onDragAtPosition,
+      onPerformDrag,
+      setLastDragCode,
+      viewState,
+    ]
   );
 };
