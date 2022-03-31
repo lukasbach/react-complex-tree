@@ -7,6 +7,7 @@ const updateEvents: Array<keyof TreeChangeHandlers> = [
   'onExpandItem',
   'onRegisterTree',
   'onUnregisterTree',
+  'onDrop',
 ];
 
 export const useUpdateLinearItems = (
