@@ -7,7 +7,6 @@ import {
 } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
 import { useCallback, useMemo, useState } from 'react';
-import { useMemoizedObject } from '../useMemoizedObject';
 import { useRenderers } from '../renderers/useRenderers';
 import { buildMapForTrees } from '../utils';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
@@ -25,8 +24,7 @@ export const useControlledTreeEnvironmentProps = (
 
   const treeIds = useMemo(() => Object.keys(trees), [trees]);
 
-  const memoizedProps = useMemoizedObject(props);
-  const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree, items } = memoizedProps;
+  const { onFocusItem, autoFocus, onRegisterTree, onUnregisterTree, items } = props;
 
   const onFocusItemRef = useRefCopy(onFocusItem);
 
@@ -38,7 +36,7 @@ export const useControlledTreeEnvironmentProps = (
         )
       );
     }, [items, treeIds, trees, viewStateRef]),
-    memoizedProps,
+    props,
     items
   );
 
@@ -114,11 +112,11 @@ export const useControlledTreeEnvironmentProps = (
     [autoFocus]
   );
 
-  const renderers = useRenderers(memoizedProps);
+  const renderers = useRenderers(props);
 
   return {
     ...renderers,
-    ...memoizedProps,
+    ...props,
     ...newChangeHandlers,
     onFocusItem: onFocusItemHandler,
     registerTree,

@@ -18,14 +18,16 @@ export const useUpdateLinearItems = (
   const newChangeHandlers: Partial<TreeChangeHandlers> = {};
 
   for (const event of updateEvents) {
+    const changeHandler = changeHandlers[event] as any;
+
     // run hook in loop, since the looping array is fixed the hooks will be called consistently
     // eslint-disable-next-line react-hooks/rules-of-hooks
     newChangeHandlers[event] = useCallback<any>(
       (...args: any[]) => {
-        (changeHandlers[event] as any)(...args);
+        changeHandler?.(...args);
         update();
       },
-      [changeHandlers, event, update]
+      [changeHandler, update]
     );
   }
 
