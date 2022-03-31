@@ -123,13 +123,13 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
         dnd.draggingPosition.targetItem === item.index &&
         dnd.draggingPosition.treeId === treeId,
       isDraggingOverParent: false,
-      isSearchMatching: isSearchMatching,
+      isSearchMatching,
       canDrag,
       canDropOn,
     };
 
     const interactiveElementProps: HTMLProps<HTMLElement> = {
-      ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags),
+      ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags, viewState),
       ...({
         ['data-rct-item-interactive']: true,
         ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
