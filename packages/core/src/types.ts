@@ -144,6 +144,7 @@ export interface InteractionManager {
     treeId: string,
     actions: TreeItemActions,
     renderFlags: TreeItemRenderFlags,
+    /** See https://github.com/lukasbach/react-complex-tree/issues/48 */
     __unsafeViewState?: IndividualTreeViewState
   ) => HTMLProps<HTMLElement>;
 }
