@@ -21,7 +21,7 @@ export const TreeItemChildren = (props: {
   }
 
   const containerProps: HTMLProps<any> = {
-    role: 'group',
+    role: props.depth !== 0 ? 'group' : undefined,
   };
 
   return renderers.renderItemsContainer({
