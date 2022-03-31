@@ -22,8 +22,8 @@ export const useUpdateLinearItems = (
     // eslint-disable-next-line react-hooks/rules-of-hooks
     newChangeHandlers[event] = useCallback<any>(
       (...args: any[]) => {
-        update();
         (changeHandlers[event] as any)(...args);
+        update();
       },
       [changeHandlers, event, update]
     );
