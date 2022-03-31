@@ -12,9 +12,6 @@ export const defaultLiveDescriptors: LiveDescriptors = {
       <li>{keybinding:abortRenameItem} to abort renaming an item</li>
       <li>{keybinding:startProgrammaticDnd} to start dragging selected items</li>
     </ul>
-    <p>
-      More details on keybindings are available <a href="https://rct.lukasbach.com/docs/guides/keyboard#default-bindings" target="_blank">here</a>.
-    </p>
   `,
 
   renamingItem: `
