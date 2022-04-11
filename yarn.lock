@@ -9960,10 +9960,10 @@ docusaurus-plugin-react-docgen-typescript@^0.1.0:
   dependencies:
     globby "^11.0.0"
 
-docusaurus-plugin-typedoc@^0.16.5:
-  version "0.16.7"
-  resolved "https://registry.yarnpkg.com/docusaurus-plugin-typedoc/-/docusaurus-plugin-typedoc-0.16.7.tgz#b23f22b8ec93d25d8d3e204684ab05e4636a6873"
-  integrity sha512-4V/Nw+cJDbcmA6getpweAKuu1tTyky3/gHliL75DLJntk2pR5wM/x4jNFaYiHOPsnP3d5CkBfK+mSSo4M9jtvA==
+docusaurus-plugin-typedoc@^0.17.3:
+  version "0.17.3"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-typedoc/-/docusaurus-plugin-typedoc-0.17.3.tgz#e3c354ac4d195099c36fb327852d885f6dcc48ea"
+  integrity sha512-5SojLeWu9P/Cv4zdMHJ97R1Wa/5b0kqeAD/IdZTaPiYw+pCK2l9d60kJ/hNjNoxuBJvkTfjFlpNJyEJHGT2Wwg==
 
 dom-converter@^0.2.0:
   version "0.2.0"
