@@ -23,7 +23,7 @@
     "clsx": "^1.1.1",
     "demodata": "^1.1.5",
     "docusaurus-plugin-react-docgen-typescript": "^0.1.0",
-    "docusaurus-plugin-typedoc": "^0.16.5",
+    "docusaurus-plugin-typedoc": "^0.17.4",
     "file-loader": "^6.2.0",
     "iframe-resizer": "^4.3.2",
     "iframe-resizer-react": "^1.1.0",
