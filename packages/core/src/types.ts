@@ -48,11 +48,12 @@ export interface TreeItemRenderFlags {
   canDropOn?: boolean;
 }
 
-export interface TreeItemRenderContext extends TreeItemActions, TreeItemRenderFlags {
+export interface TreeItemRenderContext<C extends string = never> extends TreeItemActions, TreeItemRenderFlags {
   interactiveElementProps: HTMLProps<any>;
   itemContainerWithoutChildrenProps: HTMLProps<any>;
   itemContainerWithChildrenProps: HTMLProps<any>;
   arrowProps: HTMLProps<any>;
+  viewStateFlags: { [collection in C]: boolean };
 }
 
 export interface TreeInformation extends TreeConfiguration {
@@ -64,27 +65,27 @@ export interface TreeInformation extends TreeConfiguration {
   isProgrammaticallyDragging: boolean;
 }
 
-export interface TreeRenderProps<T = any> {
+export interface TreeRenderProps<T = any, C extends string = never> {
   renderItem?: (props: {
     item: TreeItem<T>;
     depth: number;
     children: React.ReactNode | null;
     title: React.ReactNode;
     arrow: React.ReactNode;
-    context: TreeItemRenderContext;
+    context: TreeItemRenderContext<C>;
     info: TreeInformation;
   }) => React.ReactElement | null;
 
   renderItemTitle?: (props: {
     title: string;
     item: TreeItem<T>;
-    context: TreeItemRenderContext;
+    context: TreeItemRenderContext<C>;
     info: TreeInformation;
   }) => React.ReactElement | null | string;
 
   renderItemArrow?: (props: {
     item: TreeItem<T>;
-    context: TreeItemRenderContext;
+    context: TreeItemRenderContext<C>;
     info: TreeInformation;
   }) => React.ReactElement | null;
 
@@ -128,7 +129,7 @@ export interface TreeRenderProps<T = any> {
   renderDepthOffset?: number;
 }
 
-export type AllTreeRenderProps<T = any> = Required<TreeRenderProps<T>>;
+export type AllTreeRenderProps<T = any, C extends string = never> = Required<TreeRenderProps<T, C>>;
 
 export enum InteractionMode {
   DoubleClickItemToExpand = 'double-click-item-to-expand',
@@ -136,7 +137,7 @@ export enum InteractionMode {
   ClickArrowToExpand = 'click-arrow-to-expand',
 }
 
-export interface InteractionManager {
+export interface InteractionManager<C extends string> {
   mode: InteractionMode | string;
   extends?: InteractionMode;
   createInteractiveElementProps: (
@@ -145,12 +146,12 @@ export interface InteractionManager {
     actions: TreeItemActions,
     renderFlags: TreeItemRenderFlags,
     /** See https://github.com/lukasbach/react-complex-tree/issues/48 */
-    __unsafeViewState?: IndividualTreeViewState
+    __unsafeViewState?: IndividualTreeViewState<C>
   ) => HTMLProps<HTMLElement>;
 }
 
-export interface TreeCapabilities<T = any> {
-  defaultInteractionMode?: InteractionMode | InteractionManager;
+export interface TreeCapabilities<T = any, C extends string = never> {
+  defaultInteractionMode?: InteractionMode | InteractionManager<C>;
   canDragAndDrop?: boolean;
   canDropOnItemWithChildren?: boolean;
   canDropOnItemWithoutChildren?: boolean;
@@ -166,15 +167,15 @@ export interface TreeCapabilities<T = any> {
   showLiveDescription?: boolean;
 }
 
-export interface IndividualTreeViewState {
+export type IndividualTreeViewState<C extends string> = {
   selectedItems?: TreeItemIndex[];
   expandedItems?: TreeItemIndex[];
   untruncatedItems?: TreeItemIndex[];
   focusedItem?: TreeItemIndex;
-}
+} & { [c in C]: TreeItemIndex | TreeItemIndex[] | undefined };
 
-export interface TreeViewState {
-  [treeId: string]: IndividualTreeViewState | undefined;
+export interface TreeViewState<C extends string> {
+  [treeId: string]: IndividualTreeViewState<C> | undefined;
 }
 
 export interface ExplicitDataSource<T = any> {
@@ -224,27 +225,27 @@ export interface TreeEnvironmentChangeActions {
 
 export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions;
 
-export interface TreeEnvironmentRef<T = any>
+export interface TreeEnvironmentRef<T = any, C extends string = never>
   extends TreeEnvironmentChangeActions,
-    Omit<TreeEnvironmentConfiguration<T>, keyof TreeChangeHandlers> {
+    Omit<TreeEnvironmentConfiguration<T, C>, keyof TreeChangeHandlers> {
   treeEnvironmentContext: TreeEnvironmentContextProps;
   dragAndDropContext: DragAndDropContextProps;
 }
 
-export interface TreeEnvironmentConfiguration<T = any>
-  extends TreeRenderProps<T>,
+export interface TreeEnvironmentConfiguration<T = any, C extends string = never>
+  extends TreeRenderProps<T, C>,
     TreeCapabilities<T>,
     TreeChangeHandlers<T>,
     ExplicitDataSource<T> {
-  viewState: TreeViewState;
+  viewState: TreeViewState<C>;
   keyboardBindings?: KeyboardBindings;
   liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
 }
 
-export interface TreeEnvironmentContextProps<T = any>
+export interface TreeEnvironmentContextProps<T = any, C extends string = never>
   extends Omit<TreeEnvironmentConfiguration<T>, keyof TreeRenderProps>,
-    AllTreeRenderProps<T> {
+    AllTreeRenderProps<T, C> {
   registerTree: (tree: TreeConfiguration) => void;
   unregisterTree: (treeId: string) => void;
   activeTreeId?: string;
@@ -298,16 +299,17 @@ export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
   linePosition: 'top' | 'bottom';
 }
 
-export interface ControlledTreeEnvironmentProps<T = any> extends TreeEnvironmentConfiguration<T> {
+export interface ControlledTreeEnvironmentProps<T = any, C extends string = never>
+  extends TreeEnvironmentConfiguration<T, C> {
   children?: JSX.Element | JSX.Element[] | null;
 }
 
-export interface UncontrolledTreeEnvironmentProps<T = any>
-  extends TreeRenderProps<T>,
+export interface UncontrolledTreeEnvironmentProps<T = any, C extends string = never>
+  extends TreeRenderProps<T, C>,
     TreeCapabilities,
     ImplicitDataSource<T>,
     TreeChangeHandlers<T> {
-  viewState: TreeViewState;
+  viewState: TreeViewState<C>;
   keyboardBindings?: KeyboardBindings;
   liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
@@ -321,7 +323,9 @@ export interface TreeConfiguration {
   treeLabelledBy?: string;
 }
 
-export interface TreeProps<T = any> extends TreeConfiguration, Partial<TreeRenderProps<T>> {}
+export interface TreeProps<T = any, C extends string = never>
+  extends TreeConfiguration,
+    Partial<TreeRenderProps<T, C>> {}
 
 export interface TreeContextProps extends TreeConfiguration {
   search: string | null;

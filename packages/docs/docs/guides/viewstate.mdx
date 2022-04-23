@@ -136,3 +136,35 @@ function App() {
   );
 }
 ```
+
+## Providing custom view state
+
+You can also provide custom view state properties for your tree data. Provide the keys
+of your custom properties as the second type argument to your environment, then
+declare them as additional properties on the viewState object.
+
+You can then use the `context.viewStateFlags` property on you item render logic
+to check whether the item has the respective flag or not.
+
+```jsx
+function App() {
+  return (
+    <UncontrolledTreeEnvironment<ItemData, "activeItems" | "disabledItems">
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-1']: {
+          activeItems: ['America', 'Europe', 'Asia'],
+          disabledItems: ['Meals', 'Drinks'],
+        },
+      }}
+      renderItem={({ item, depth, children, title, context, arrow }) => {
+        // Use boolean flags ``context.viewStateFlags.activeItems`` and ``context.viewStateFlags.disabledItems``
+        // to check if the item has the respective flags.
+      }}
+    >
+      {/* ... */}
+    </UncontrolledTreeEnvironment>
+  );
+}
+```

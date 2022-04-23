@@ -39,4 +39,6 @@ export const ControlledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, Co
       </TreeEnvironmentContext.Provider>
     );
   }
-) as <T = any>(p: ControlledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentRef<T>> }) => React.ReactElement;
+) as <T = any, C extends string = never>(
+  p: ControlledTreeEnvironmentProps<T, C> & { ref?: React.Ref<TreeEnvironmentRef<T, C>> }
+) => React.ReactElement;

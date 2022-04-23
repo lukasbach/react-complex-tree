@@ -34,7 +34,10 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
     );
 
     const amendViewState = useCallback(
-      (treeId: string, constructNewState: (oldState: IndividualTreeViewState) => Partial<IndividualTreeViewState>) => {
+      (
+        treeId: string,
+        constructNewState: (oldState: IndividualTreeViewState<any>) => Partial<IndividualTreeViewState<any>>
+      ) => {
         setViewState(oldState => ({
           ...oldState,
           [treeId]: {
@@ -171,6 +174,6 @@ export const UncontrolledTreeEnvironment = React.forwardRef<TreeEnvironmentRef, 
       </ControlledTreeEnvironment>
     );
   }
-) as <T = any>(
-  p: UncontrolledTreeEnvironmentProps<T> & { ref?: React.Ref<TreeEnvironmentRef<T>> }
+) as <T = any, C extends string = never>(
+  p: UncontrolledTreeEnvironmentProps<T, C> & { ref?: React.Ref<TreeEnvironmentRef<T, C>> }
 ) => React.ReactElement;

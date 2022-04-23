@@ -167,6 +167,13 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       // TODO alternative interaction modes
     };
 
+    const viewStateFlags = !viewState
+      ? {}
+      : Object.entries(viewState).reduce((acc, [key, value]) => {
+          acc[key] = Array.isArray(value) ? value.includes(item.index) : value === item.index;
+          return acc;
+        }, {} as { [key: string]: boolean });
+
     return {
       ...actions,
       ...renderFlags,
@@ -174,6 +181,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       itemContainerWithChildrenProps,
       itemContainerWithoutChildrenProps,
       arrowProps,
+      viewStateFlags,
     };
   }, [
     item,
