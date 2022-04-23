@@ -1,8 +1,8 @@
 import { IndividualTreeViewState, LinearItem, TreeItem, TreeItemIndex } from '../types';
 
-export const getItemsLinearly = <T>(
+export const getItemsLinearly = <T, C extends string>(
   rootItem: TreeItemIndex,
-  viewState: IndividualTreeViewState,
+  viewState: IndividualTreeViewState<C>,
   items: Record<TreeItemIndex, TreeItem<T>>,
   depth = 0
 ): LinearItem[] => {

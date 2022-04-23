@@ -137,7 +137,7 @@ export enum InteractionMode {
   ClickArrowToExpand = 'click-arrow-to-expand',
 }
 
-export interface InteractionManager<C extends string> {
+export interface InteractionManager<C extends string = never> {
   mode: InteractionMode | string;
   extends?: InteractionMode;
   createInteractiveElementProps: (

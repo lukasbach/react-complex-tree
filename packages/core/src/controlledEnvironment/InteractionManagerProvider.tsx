@@ -5,7 +5,7 @@ import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { mergeInteractionManagers } from './mergeInteractionManagers';
 import { buildInteractionMode } from './buildInteractionMode';
 
-const InteractionManagerContext = React.createContext<InteractionManager>(null as any);
+const InteractionManagerContext = React.createContext<InteractionManager<any>>(null as any);
 export const useInteractionManager = () => React.useContext(InteractionManagerContext);
 
 export const InteractionManagerProvider: React.FC = props => {
