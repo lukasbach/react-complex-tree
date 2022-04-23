@@ -1,6 +1,6 @@
 {
   "name": "react-complex-tree-autodemo",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -27,7 +27,7 @@
     "demodata": "^1.1.5",
     "jest": "^26.6.3",
     "react": "^17.0.2",
-    "react-complex-tree": "^1.1.5",
+    "react-complex-tree": "^1.1.6",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "ts-node": "^10.7.0",
