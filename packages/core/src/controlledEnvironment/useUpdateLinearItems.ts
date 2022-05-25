@@ -1,5 +1,5 @@
 import { ExplicitDataSource, TreeChangeHandlers } from '../types';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 // events that should trigger a recalculation of the linear items
 const updateEvents: Array<keyof TreeChangeHandlers> = [
@@ -15,8 +15,11 @@ export const useUpdateLinearItems = (
   changeHandlers: TreeChangeHandlers,
   items: ExplicitDataSource['items']
 ) => {
-  useEffect(update, [update, items]);
+  const updateRef = useRef(update);
+  useEffect(() => updateRef.current(), [items]);
   const newChangeHandlers: Partial<TreeChangeHandlers> = {};
+
+  updateRef.current = update;
 
   for (const event of updateEvents) {
     const changeHandler = changeHandlers[event] as any;
@@ -26,9 +29,9 @@ export const useUpdateLinearItems = (
     newChangeHandlers[event] = useCallback<any>(
       (...args: any[]) => {
         changeHandler?.(...args);
-        update();
+        updateRef.current();
       },
-      [changeHandler, update]
+      [changeHandler]
     );
   }
 

@@ -29,13 +29,15 @@ export const useControlledTreeEnvironmentProps = (
   const onFocusItemRef = useRefCopy(onFocusItem);
 
   const newChangeHandlers = useUpdateLinearItems(
-    useCallback(() => {
-      setLinearItems(
-        buildMapForTrees(treeIds, treeId =>
-          getItemsLinearly(trees[treeId].rootItem, viewStateRef.current[treeId] ?? {}, items)
-        )
-      );
-    }, [items, treeIds, trees, viewStateRef]),
+    () => {
+      setTimeout(() => {
+        setLinearItems(
+          buildMapForTrees(treeIds, treeId =>
+            getItemsLinearly(trees[treeId].rootItem, viewStateRef.current[treeId] ?? {}, items)
+          )
+        );
+      });
+    },
     props,
     items
   );
