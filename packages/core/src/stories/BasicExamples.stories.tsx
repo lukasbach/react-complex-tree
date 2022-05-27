@@ -2,7 +2,8 @@ import { Meta } from '@storybook/react';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import { longTree, shortTree } from 'demodata';
 import { action } from '@storybook/addon-actions';
 
@@ -156,3 +157,21 @@ export const MultipleTrees = () => (
     </div>
   </UncontrolledTreeEnvironment>
 );
+
+export const SwitchMountedTree = () => {
+  const [showFirstTree, setShowFirstTree] = useState(false);
+  return (
+    <UncontrolledTreeEnvironment<string>
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+      canReorderItems={true}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      onRegisterTree={(t) => console.log('Register', t.treeId)}
+    >
+      <button onClick={() => setShowFirstTree(!showFirstTree)}>Switch Tree</button>
+      {showFirstTree ? <Tree treeId="tree-1" rootItem="Europe" treeLabel="Tree Example" /> : <Tree treeId="tree-2" rootItem="America" treeLabel="Tree Example" />}
+    </UncontrolledTreeEnvironment>
+  );
+};

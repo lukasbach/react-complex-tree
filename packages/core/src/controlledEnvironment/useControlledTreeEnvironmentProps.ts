@@ -6,15 +6,15 @@ import {
   TreeEnvironmentContextProps,
 } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRenderers } from '../renderers/useRenderers';
 import { buildMapForTrees } from '../utils';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useRefCopy } from '../useRefCopy';
-import { useUpdateLinearItems } from './useUpdateLinearItems';
+import { useStableHandler } from '../use-stable-handler';
 
 export const useControlledTreeEnvironmentProps = (
-  props: ControlledTreeEnvironmentProps
+  {onExpandItem: onExpandItemProp, onCollapseItem: onCollapseProp, onDrop: onDropProp, ...props}: ControlledTreeEnvironmentProps
 ): TreeEnvironmentContextProps => {
   const [trees, setTrees] = useState<Record<string, TreeConfiguration>>({});
   const [linearItems, setLinearItems] = useState<Record<string, LinearItem[]>>({});
@@ -28,19 +28,16 @@ export const useControlledTreeEnvironmentProps = (
 
   const onFocusItemRef = useRefCopy(onFocusItem);
 
-  const newChangeHandlers = useUpdateLinearItems(
-    () => {
-      setTimeout(() => {
-        setLinearItems(
-          buildMapForTrees(treeIds, treeId =>
-            getItemsLinearly(trees[treeId].rootItem, viewStateRef.current[treeId] ?? {}, items)
-          )
-        );
-      });
-    },
-    props,
-    items
-  );
+  const updateLinearItems = useStableHandler(() => {
+    setTimeout(() => {
+      setLinearItems(
+        buildMapForTrees(treeIds, treeId =>
+          getItemsLinearly(trees[treeId].rootItem, viewStateRef.current[treeId] ?? {}, items)
+        )
+      );
+    });
+  });
+  useEffect(() => updateLinearItems(), [items, treeIds, updateLinearItems]);
 
   const onFocusItemHandler = useCallback<Required<TreeChangeHandlers>['onFocusItem']>(
     (item, treeId) => {
@@ -68,8 +65,9 @@ export const useControlledTreeEnvironmentProps = (
     tree => {
       setTrees(trees => ({ ...trees, [tree.treeId]: tree }));
       onRegisterTree?.(tree);
+      updateLinearItems();
     },
-    [onRegisterTree]
+    [onRegisterTree, updateLinearItems]
   );
 
   const unregisterTree = useCallback(
@@ -79,6 +77,30 @@ export const useControlledTreeEnvironmentProps = (
       setTrees(trees);
     },
     [onUnregisterTree, trees]
+  );
+
+  const onCollapseItem = useCallback(
+    (item, treeId) => {
+      onCollapseProp?.(item, treeId);
+      updateLinearItems();
+    },
+    [onCollapseProp, updateLinearItems]
+  );
+
+  const onExpandItem = useCallback(
+    (item, treeId) => {
+      onExpandItemProp?.(item, treeId);
+      updateLinearItems();
+    },
+    [onExpandItemProp, updateLinearItems]
+  );
+
+  const onDrop = useCallback(
+    (items, target) => {
+      onDropProp?.(items, target);
+      updateLinearItems();
+    },
+    [onDropProp, updateLinearItems]
   );
 
   const setActiveTree = useCallback(
@@ -119,10 +141,12 @@ export const useControlledTreeEnvironmentProps = (
   return {
     ...renderers,
     ...props,
-    ...newChangeHandlers,
     onFocusItem: onFocusItemHandler,
     registerTree,
     unregisterTree,
+    onExpandItem,
+    onCollapseItem,
+    onDrop,
     setActiveTree,
     treeIds,
     trees,
