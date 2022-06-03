@@ -167,14 +167,14 @@ export interface TreeCapabilities<T = any, C extends string = never> {
   showLiveDescription?: boolean;
 }
 
-export type IndividualTreeViewState<C extends string> = {
+export type IndividualTreeViewState<C extends string = never> = {
   selectedItems?: TreeItemIndex[];
   expandedItems?: TreeItemIndex[];
   untruncatedItems?: TreeItemIndex[];
   focusedItem?: TreeItemIndex;
 } & { [c in C]: TreeItemIndex | TreeItemIndex[] | undefined };
 
-export interface TreeViewState<C extends string> {
+export interface TreeViewState<C extends string = never> {
   [treeId: string]: IndividualTreeViewState<C> | undefined;
 }
 
