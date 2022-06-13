@@ -27,7 +27,7 @@ export class DoubleClickItemToExpandInteractionManager implements InteractionMan
         actions.focusItem();
         if (e.shiftKey) {
           actions.selectUpTo();
-        } else if (e.ctrlKey) {
+        } else if (e.ctrlKey || e.metaKey) {
           if (renderFlags.isSelected) {
             actions.unselectItem();
           } else {
