@@ -91,7 +91,9 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       truncateItem: () => {},
       untruncateItem: () => {},
       toggleTruncatedState: () => {},
-      startRenamingItem: () => {},
+      startRenamingItem: () => {
+        environment.onStartRenamingItem?.(item, treeId);
+      },
       focusItem: () => {
         environment.onFocusItem?.(item, treeId);
       },
