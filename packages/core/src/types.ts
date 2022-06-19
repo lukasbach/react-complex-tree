@@ -24,9 +24,6 @@ export interface TreeItemActions {
   expandItem: () => void;
   collapseItem: () => void;
   toggleExpandedState: () => void;
-  truncateItem: () => void;
-  untruncateItem: () => void;
-  toggleTruncatedState: () => void;
   selectItem: () => void;
   unselectItem: () => void;
   addToSelectedItems: () => void;
@@ -170,7 +167,6 @@ export interface TreeCapabilities<T = any, C extends string = never> {
 export type IndividualTreeViewState<C extends string = never> = {
   selectedItems?: TreeItemIndex[];
   expandedItems?: TreeItemIndex[];
-  untruncatedItems?: TreeItemIndex[];
   focusedItem?: TreeItemIndex;
 } & { [c in C]: TreeItemIndex | TreeItemIndex[] | undefined };
 

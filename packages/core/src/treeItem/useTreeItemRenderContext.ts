@@ -88,9 +88,6 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       selectUpTo: () => {
         selectUpTo(item);
       },
-      truncateItem: () => {},
-      untruncateItem: () => {},
-      toggleTruncatedState: () => {},
       startRenamingItem: () => {
         environment.onStartRenamingItem?.(item, treeId);
       },
