@@ -7,6 +7,7 @@ import {
   TreeItemRenderFlags,
 } from '../types';
 import { HTMLProps } from 'react';
+import { isControlKey } from '../isControlKey';
 
 export class ClickItemToExpandInteractionManager implements InteractionManager {
   public readonly mode = InteractionMode.ClickItemToExpand;
@@ -27,7 +28,7 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
         actions.focusItem();
         if (e.shiftKey) {
           actions.selectUpTo();
-        } else if (e.ctrlKey || e.metaKey) {
+        } else if (isControlKey(e)) {
           if (renderFlags.isSelected) {
             actions.unselectItem();
           } else {
