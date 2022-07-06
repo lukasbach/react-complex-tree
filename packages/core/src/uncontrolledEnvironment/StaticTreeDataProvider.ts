@@ -21,6 +21,9 @@ export class StaticTreeDataProvider<T = any> implements TreeDataProvider {
 
   public async onChangeItemChildren(itemId: TreeItemIndex, newChildren: TreeItemIndex[]): Promise<void> {
     this.data.items[itemId].children = newChildren;
+    if (!this.data.items[itemId].hasChildren) {
+      this.data.items[itemId].hasChildren = true;
+    }
     this.onDidChangeTreeDataEmitter.emit([itemId]);
   }
 
