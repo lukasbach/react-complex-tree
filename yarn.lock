@@ -2881,9 +2881,9 @@
     tslib "~2.3.1"
 
 "@blueprintjs/icons@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-4.0.0.tgz#da54c40729bb70c8a48fadaf1d1abf4141bc6a22"
-  integrity sha512-ybA69MsUYQITcOrafYYoBd68+NLoRKLrpjbb8kXlN08mGToZ8W8Nwg6F7gGHXnV53SinMZiRJPCEa0iEUnedLA==
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-4.3.1.tgz#dfcdd1e8feedcc0c951e3b14e0d8e80472c1854b"
+  integrity sha512-XVXFWfvqq/sFSi8FN0Y8mzApD3vQxrPUtmbqp/q1B8mXVdYQLrUwmXICxzUNSvztHqXaRVrApA5jkjDBTAwSJg==
   dependencies:
     change-case "^4.1.2"
     classnames "^2.2"
