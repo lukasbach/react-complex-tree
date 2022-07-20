@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[3713],{3713:function(e){e.exports=JSON.parse('{"treeId":{"defaultValue":null,"description":"","name":"treeId","declarations":[{"fileName":"/home/runner/work/react-complex-tree/react-complex-tree/packages/core/src/tree/DragBetweenLine.tsx","name":"TypeLiteral"}],"required":true,"type":{"name":"string"}}}')}}]);
