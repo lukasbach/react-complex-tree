@@ -22446,9 +22446,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typedoc-plugin-markdown@^3.11.12:
-  version "3.11.12"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-3.11.12.tgz#04f4740534d19728696a5c0ccc35f319bcb93b31"
-  integrity sha512-gb/RuzgZ1zCnRUOqUg6firIqU7xDs9s7hq0vlU/gAsFfVCnpl3NTM9vPyPON75nnpfVFCxr/hmKQ01k1CYY/Qg==
+  version "3.13.4"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-3.13.4.tgz#4c2f02b254c47d25b91579177900c1da5c5579b8"
+  integrity sha512-E/EBBmu6ARtnbswZGtBVBB/BfukZiGMOlqPc0RXCI/NFitONBahFqbCAF5fKQlijlcfipJj5pw5AMFH3NytrAw==
   dependencies:
     handlebars "^4.7.7"
 
