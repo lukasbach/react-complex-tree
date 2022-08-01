@@ -70,6 +70,13 @@ export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<R
       toggleItemSelectStatus(itemId: TreeItemIndex): void {
         envActions.toggleItemSelectStatus(itemId, tree.treeId);
       },
+      expandAll(): void {
+        console.log('!!');
+        envActions.expandAll(tree.treeId);
+      },
+      collapseAll(): void {
+        envActions.collapseAll(tree.treeId);
+      }
     };
 
     useCreatedTreeRef(ref, actions);

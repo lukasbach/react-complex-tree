@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItemIndex } from '../types';
+import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItem, TreeItemIndex } from '../types';
 import { PropsWithChildren, useCallback } from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
@@ -7,6 +7,16 @@ import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
 
 const EnvironmentActionsContext = React.createContext<TreeEnvironmentActionsContextProps>(null as any);
 export const useEnvironmentActions = () => React.useContext(EnvironmentActionsContext);
+
+const recursiveExpand = (itemId: TreeItemIndex, items: Record<TreeItemIndex, TreeItem>, onExpand: (item: TreeItem) => void) => {
+  for (const childId of items[itemId]?.children ?? []) {
+    const item = items[childId];
+    if (item?.hasChildren) {
+      onExpand(item);
+      recursiveExpand(childId, items, onExpand);
+    }
+  }
+};
 
 export const EnvironmentActionsProvider = React.forwardRef<
   TreeEnvironmentRef,
@@ -133,6 +143,18 @@ export const EnvironmentActionsProvider = React.forwardRef<
       },
       [items, onPrimaryAction]
     ),
+    expandAll: useCallback(
+      (treeId: string) => {
+        recursiveExpand(trees[treeId].rootItem, items, item => {
+          onExpandItem?.(item, treeId);
+        });
+      }, [items, onExpandItem, trees]),
+    collapseAll: useCallback(
+      (treeId: string) => {
+        for (const itemId of viewState[treeId]?.expandedItems ?? []) {
+          onCollapseItem?.(items[itemId], treeId);
+        }
+      }, [items, onCollapseItem, viewState]),
   };
 
   useCreatedEnvironmentRef(ref, actions);

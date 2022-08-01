@@ -46,3 +46,29 @@ export const ControlTreeExternally = () => {
     </UncontrolledTreeEnvironment>
   );
 };
+
+
+export const ExpandOrCollapseAll = () => {
+  const treeEnvironment = useRef<TreeEnvironmentRef>(null);
+  const tree = useRef<TreeRef>(null);
+console.log(tree);
+  return (
+    <UncontrolledTreeEnvironment<string>
+      ref={treeEnvironment}
+      canDragAndDrop={true}
+      canDropOnItemWithChildren={true}
+      canReorderItems={true}
+      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      getItemTitle={item => item.data}
+      viewState={{
+        ['tree-1']: {
+          expandedItems: ['Fruit', 'Meals', 'Asia', 'Desserts'],
+        },
+      }}
+    >
+      <button onClick={() => tree.current?.expandAll()}>Expand All</button>
+      <button onClick={() => tree.current?.collapseAll()}>Collapse All</button>
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" ref={tree} />
+    </UncontrolledTreeEnvironment>
+  );
+};
