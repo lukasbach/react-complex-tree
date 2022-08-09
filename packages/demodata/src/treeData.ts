@@ -41,8 +41,16 @@ const longTreeTemplate = {
       Orange: null,
       Lemon: null,
       Berries: {
-        Strawberry: null,
-        Blueberry: null,
+        Red: {
+          Strawberry: null,
+          Raspberry: null,
+        },
+        Blue: {
+          Blueberry: null,
+        },
+        Black: {
+          Blackberry: null,
+        },
       },
       Banana: null,
     },

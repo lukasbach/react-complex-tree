@@ -4,17 +4,25 @@ import { PropsWithChildren, useCallback } from 'react';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
+import { useRefCopy } from '../useRefCopy';
+import { waitFor } from '../waitFor';
 
 const EnvironmentActionsContext = React.createContext<TreeEnvironmentActionsContextProps>(null as any);
 export const useEnvironmentActions = () => React.useContext(EnvironmentActionsContext);
 
-const recursiveExpand = (itemId: TreeItemIndex, items: Record<TreeItemIndex, TreeItem>, onExpand: (item: TreeItem) => void) => {
-  for (const childId of items[itemId]?.children ?? []) {
-    const item = items[childId];
-    if (item?.hasChildren) {
-      onExpand(item);
-      recursiveExpand(childId, items, onExpand);
-    }
+const recursiveExpand = async (
+  itemId: TreeItemIndex,
+  items: React.RefObject<Record<TreeItemIndex, TreeItem>>,
+  onExpand: (item: TreeItem) => Promise<void> | void
+) => {
+  for (const childId of items.current?.[itemId]?.children ?? []) {
+    waitFor(() => !!items.current?.[childId]).then(() => {
+      const item = items.current?.[childId];
+      if (item?.hasChildren) {
+        onExpand(item);
+        recursiveExpand(childId, items, onExpand);
+      }
+    });
   }
 };
 
@@ -42,6 +50,8 @@ export const EnvironmentActionsProvider = React.forwardRef<
     programmaticDragUp,
     startProgrammaticDrag,
   } = useDragAndDrop();
+
+  const itemsRef = useRefCopy(items);
 
   // TODO change environment childs to use actions rather than output events where possible
   const actions: TreeEnvironmentActionsContextProps = {
@@ -144,11 +154,13 @@ export const EnvironmentActionsProvider = React.forwardRef<
       [items, onPrimaryAction]
     ),
     expandAll: useCallback(
-      (treeId: string) => {
-        recursiveExpand(trees[treeId].rootItem, items, item => {
-          onExpandItem?.(item, treeId);
-        });
-      }, [items, onExpandItem, trees]),
+      async (treeId: string) => {
+        await recursiveExpand(
+          trees[treeId].rootItem,
+          itemsRef,
+          item => onExpandItem?.(item, treeId)
+        );
+      }, [itemsRef, onExpandItem, trees]),
     collapseAll: useCallback(
       (treeId: string) => {
         for (const itemId of viewState[treeId]?.expandedItems ?? []) {

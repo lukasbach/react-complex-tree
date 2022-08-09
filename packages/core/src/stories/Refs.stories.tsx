@@ -51,7 +51,6 @@ export const ControlTreeExternally = () => {
 export const ExpandOrCollapseAll = () => {
   const treeEnvironment = useRef<TreeEnvironmentRef>(null);
   const tree = useRef<TreeRef>(null);
-console.log(tree);
   return (
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
@@ -62,7 +61,7 @@ console.log(tree);
       getItemTitle={item => item.data}
       viewState={{
         ['tree-1']: {
-          expandedItems: ['Fruit', 'Meals', 'Asia', 'Desserts'],
+          // expandedItems: ['Fruit', 'Meals', 'Asia', 'Desserts'],
         },
       }}
     >

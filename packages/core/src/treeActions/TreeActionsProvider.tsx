@@ -71,7 +71,6 @@ export const TreeActionsProvider = React.forwardRef<TreeRef, PropsWithChildren<R
         envActions.toggleItemSelectStatus(itemId, tree.treeId);
       },
       expandAll(): void {
-        console.log('!!');
         envActions.expandAll(tree.treeId);
       },
       collapseAll(): void {
