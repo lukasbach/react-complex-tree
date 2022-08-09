@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DraggingPosition, TreeCapabilities } from '../types';
+import { DraggingPosition } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { useCallback } from 'react';
