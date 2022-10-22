@@ -16,7 +16,7 @@ and a more comprehensive documentation.
 
 ## Installation
 
-To start using React Complex Table, install it to your project as a dependency via
+To start using React Complex Tree, install it to your project as a dependency via
 
 ```
 npm install react-complex-tree
