@@ -1,14 +1,18 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
   "extends": [
+    "plugin:prettier/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -16,9 +20,10 @@
       "jsx": true
     },
     "ecmaVersion": 12,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
@@ -36,7 +41,38 @@
       {
         "additionalHooks": "(useSideEffect)|(useMemoizedObject)"
       }
-    ]
+    ],
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-nested-ternary": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "import/no-extraneous-dependencies": "off",
+
+    // TODO these came up when upgrading to new eslint config. fix these.
+    "no-restricted-syntax": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-unnecessary-type-constraint": "off",
+    "consistent-return": "off",
+    "no-await-in-loop": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "import/no-cycle": "off",
+    "no-plusplus": "off",
+    "no-case-declarations": "off",
+    "react/function-component-definition": "off",
+    "react/jsx-no-constructed-context-values": "off", // TODO important!,
+    "react/destructuring-assignment": "off",
+    "react/button-has-type": "off",
+    "no-promise-executor-return": "off",
+    "react/no-danger": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/require-default-props": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "array-callback-return": "off",
+    "guard-for-in": "off",
+    "no-unreachable-loop": "off",
+    "@typescript-eslint/no-throw-literal": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
   },
-  "ignorePatterns": ["**/lib"]
+  "ignorePatterns": ["**/lib", "**/webpack.config.ts"]
 }
