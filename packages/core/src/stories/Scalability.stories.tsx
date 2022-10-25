@@ -35,7 +35,7 @@ for (let i = 0; i < 1000; i++) {
     canMove: true,
     canRename: true,
   };
-  itemsWithManyChildren.items['innerRoot'].children!.push(id);
+  itemsWithManyChildren.items.innerRoot.children!.push(id);
 }
 
 export default {
@@ -44,9 +44,9 @@ export default {
 
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
     dataProvider={new StaticTreeDataProvider(itemsWithManyChildren.items)}
     getItemTitle={item => item.data}
     viewState={{}}

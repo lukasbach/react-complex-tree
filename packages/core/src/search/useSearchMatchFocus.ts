@@ -6,7 +6,8 @@ import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 import { useCallSoon } from '../useCallSoon';
 
 export const useSearchMatchFocus = () => {
-  const { doesSearchMatchItem, items, getItemTitle, onFocusItem } = useTreeEnvironment();
+  const { doesSearchMatchItem, items, getItemTitle, onFocusItem } =
+    useTreeEnvironment();
   const { search, treeId } = useTree();
   const linearItems = useLinearItems(treeId);
   const callSoon = useCallSoon();
@@ -16,7 +17,11 @@ export const useSearchMatchFocus = () => {
       if (search && search.length > 0) {
         callSoon(() => {
           const focusItem = linearItems.find(({ item }) =>
-            (doesSearchMatchItem ?? defaultMatcher)(search, items[item], getItemTitle(items[item]))
+            (doesSearchMatchItem ?? defaultMatcher)(
+              search,
+              items[item],
+              getItemTitle(items[item])
+            )
           );
 
           if (focusItem) {
@@ -25,7 +30,16 @@ export const useSearchMatchFocus = () => {
         });
       }
     },
-    [doesSearchMatchItem, getItemTitle, linearItems, items, onFocusItem, search, treeId, callSoon],
+    [
+      doesSearchMatchItem,
+      getItemTitle,
+      linearItems,
+      items,
+      onFocusItem,
+      search,
+      treeId,
+      callSoon,
+    ],
     [search]
   );
 };

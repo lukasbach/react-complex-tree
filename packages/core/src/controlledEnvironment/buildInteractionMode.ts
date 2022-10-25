@@ -3,7 +3,10 @@ import { DoubleClickItemToExpandInteractionManager } from '../interactionMode/Do
 import { ClickItemToExpandInteractionManager } from '../interactionMode/ClickItemToExpandInteractionManager';
 import { ClickArrowToExpandInteractionManager } from '../interactionMode/ClickArrowToExpandInteractionManager';
 
-export const buildInteractionMode = (mode: InteractionMode, environment: TreeEnvironmentContextProps) => {
+export const buildInteractionMode = (
+  mode: InteractionMode,
+  environment: TreeEnvironmentContextProps
+) => {
   switch (mode) {
     case InteractionMode.DoubleClickItemToExpand:
       return new DoubleClickItemToExpandInteractionManager(environment);

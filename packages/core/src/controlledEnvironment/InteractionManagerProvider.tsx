@@ -5,8 +5,11 @@ import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { mergeInteractionManagers } from './mergeInteractionManagers';
 import { buildInteractionMode } from './buildInteractionMode';
 
-const InteractionManagerContext = React.createContext<InteractionManager<any>>(null as any);
-export const useInteractionManager = () => React.useContext(InteractionManagerContext);
+const InteractionManagerContext = React.createContext<InteractionManager<any>>(
+  null as any
+);
+export const useInteractionManager = () =>
+  React.useContext(InteractionManagerContext);
 
 export const InteractionManagerProvider: React.FC = props => {
   const environment = useTreeEnvironment();
@@ -19,19 +22,21 @@ export const InteractionManagerProvider: React.FC = props => {
           defaultInteractionMode,
           buildInteractionMode(defaultInteractionMode.extends, environment)
         );
-      } else {
-        return defaultInteractionMode;
       }
+      return defaultInteractionMode;
     }
 
     return buildInteractionMode(
-      (defaultInteractionMode as InteractionMode) ?? InteractionMode.ClickItemToExpand,
+      (defaultInteractionMode as InteractionMode) ??
+        InteractionMode.ClickItemToExpand,
       environment
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // TODO make sure that environment does not need to be refreshed
 
   return (
-    <InteractionManagerContext.Provider value={interactionManager}>{props.children}</InteractionManagerContext.Provider>
+    <InteractionManagerContext.Provider value={interactionManager}>
+      {props.children}
+    </InteractionManagerContext.Provider>
   );
 };

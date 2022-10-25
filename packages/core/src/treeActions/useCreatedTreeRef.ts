@@ -1,10 +1,13 @@
-import { TreeChangeActions, TreeRef } from '../types';
 import { Ref, useImperativeHandle } from 'react';
+import { TreeChangeActions, TreeRef } from '../types';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTree } from '../tree/Tree';
 
-export const useCreatedTreeRef = (ref: Ref<TreeRef>, actions: TreeChangeActions) => {
+export const useCreatedTreeRef = (
+  ref: Ref<TreeRef>,
+  actions: TreeChangeActions
+) => {
   const environment = useTreeEnvironment();
   const tree = useTree();
   const dnd = useDragAndDrop();

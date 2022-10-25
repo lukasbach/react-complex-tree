@@ -1,6 +1,13 @@
-import { Disposable, TreeDataProvider, TreeItem, TreeItemIndex } from '../types';
+import {
+  Disposable,
+  TreeDataProvider,
+  TreeItem,
+  TreeItemIndex,
+} from '../types';
 
-export class CompleteTreeDataProvider<T = any> implements Required<TreeDataProvider<T>> {
+export class CompleteTreeDataProvider<T = any>
+  implements Required<TreeDataProvider<T>>
+{
   private provider: TreeDataProvider;
 
   constructor(provider: TreeDataProvider) {
@@ -17,12 +24,19 @@ export class CompleteTreeDataProvider<T = any> implements Required<TreeDataProvi
       : Promise.all(itemIds.map(id => this.provider.getTreeItem(id)));
   }
 
-  public async onChangeItemChildren(itemId: TreeItemIndex, newChildren: TreeItemIndex[]): Promise<void> {
+  public async onChangeItemChildren(
+    itemId: TreeItemIndex,
+    newChildren: TreeItemIndex[]
+  ): Promise<void> {
     return this.provider.onChangeItemChildren?.(itemId, newChildren);
   }
 
-  public onDidChangeTreeData(listener: (changedItemIds: TreeItemIndex[]) => void): Disposable {
-    return this.provider.onDidChangeTreeData ? this.provider.onDidChangeTreeData(listener) : { dispose: () => {} };
+  public onDidChangeTreeData(
+    listener: (changedItemIds: TreeItemIndex[]) => void
+  ): Disposable {
+    return this.provider.onDidChangeTreeData
+      ? this.provider.onDidChangeTreeData(listener)
+      : { dispose: () => {} };
   }
 
   public async onRenameItem(item: TreeItem<T>, name: string): Promise<void> {

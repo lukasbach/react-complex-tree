@@ -1,3 +1,4 @@
+import { HTMLProps } from 'react';
 import {
   InteractionMode,
   InteractionManager,
@@ -6,11 +7,11 @@ import {
   TreeItemActions,
   TreeItemRenderFlags,
 } from '../types';
-import { HTMLProps } from 'react';
 import { isControlKey } from '../isControlKey';
 
 export class ClickItemToExpandInteractionManager implements InteractionManager {
   public readonly mode = InteractionMode.ClickItemToExpand;
+
   private environment: TreeEnvironmentContextProps;
 
   constructor(environment: TreeEnvironmentContextProps) {
@@ -40,7 +41,10 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
           }
           actions.selectItem();
 
-          if (!item.hasChildren || this.environment.canInvokePrimaryActionOnItemContainer) {
+          if (
+            !item.hasChildren ||
+            this.environment.canInvokePrimaryActionOnItemContainer
+          ) {
             actions.primaryAction();
           }
         }
@@ -57,7 +61,11 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
         e.preventDefault(); // Allow drop
       },
       draggable: renderFlags.canDrag && !renderFlags.isRenaming,
-      tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
+      tabIndex: !renderFlags.isRenaming
+        ? renderFlags.isFocused
+          ? 0
+          : -1
+        : undefined,
     };
   }
 }

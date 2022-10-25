@@ -24,7 +24,9 @@ export const SearchInput: React.FC<{
     if (environment.autoFocus ?? true) {
       // Refocus item in tree
       // TODO move logic as reusable method into tree or tree environment
-      const focusItem = document.querySelector(`[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`);
+      const focusItem = document.querySelector(
+        `[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`
+      );
       (focusItem as HTMLElement)?.focus?.();
     }
   };
@@ -65,10 +67,18 @@ export const SearchInput: React.FC<{
       ) {
         setSearch('');
 
-        (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
+        (
+          document.querySelector('[data-rct-search-input="true"]') as any
+        )?.focus?.();
       }
     },
-    [isActiveTree, search, renamingItem, environment.canSearchByStartingTyping, environment.canSearch]
+    [
+      isActiveTree,
+      search,
+      renamingItem,
+      environment.canSearchByStartingTyping,
+      environment.canSearch,
+    ]
   );
 
   if (!(environment.canSearch ?? true) || search === null) {
@@ -84,7 +94,7 @@ export const SearchInput: React.FC<{
       },
       'aria-label': 'Search for items', // TODO
       ...({
-        ['data-rct-search-input']: 'true',
+        'data-rct-search-input': 'true',
       } as any),
     },
   }) as any;

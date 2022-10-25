@@ -1,5 +1,5 @@
-import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useRef, useState } from 'react';
+import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useCallSoon } from '../useCallSoon';
 
 export const useFocusWithin = (
@@ -35,7 +35,10 @@ export const useFocusWithin = (
       isLoosingFocusFlag.current = true;
 
       callSoon(() => {
-        if (isLoosingFocusFlag.current && !element?.contains(document.activeElement)) {
+        if (
+          isLoosingFocusFlag.current &&
+          !element?.contains(document.activeElement)
+        ) {
           onFocusOut?.();
           isLoosingFocusFlag.current = false;
           setFocusWithin(false);

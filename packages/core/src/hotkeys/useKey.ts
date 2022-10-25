@@ -1,6 +1,11 @@
 import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 
-export const useKey = (key: string, onHit: (e: KeyboardEvent) => void, active?: boolean, deps?: any[]) => {
+export const useKey = (
+  key: string,
+  onHit: (e: KeyboardEvent) => void,
+  active?: boolean,
+  deps?: any[]
+) => {
   useHtmlElementEventListener(
     document,
     'keydown',

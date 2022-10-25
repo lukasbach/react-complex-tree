@@ -1,4 +1,9 @@
-import { IndividualTreeViewState, LinearItem, TreeItem, TreeItemIndex } from '../types';
+import {
+  IndividualTreeViewState,
+  LinearItem,
+  TreeItem,
+  TreeItemIndex,
+} from '../types';
 
 export const getItemsLinearly = <T, C extends string>(
   rootItem: TreeItemIndex,
@@ -10,8 +15,13 @@ export const getItemsLinearly = <T, C extends string>(
 
   for (const itemId of items[rootItem]?.children ?? []) {
     const item = items[itemId];
-    itemIds.push({ item: itemId, depth: depth });
-    if (item && item.hasChildren && !!item.children && viewState.expandedItems?.includes(itemId)) {
+    itemIds.push({ item: itemId, depth });
+    if (
+      item &&
+      item.hasChildren &&
+      !!item.children &&
+      viewState.expandedItems?.includes(itemId)
+    ) {
       itemIds.push(...getItemsLinearly(itemId, viewState, items, depth + 1));
     }
   }

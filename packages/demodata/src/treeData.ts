@@ -4,7 +4,10 @@ const readTemplate = (template: any, data: any = { items: {} }) => {
       index: key,
       canMove: true,
       hasChildren: value !== null,
-      children: value !== null ? Object.keys(value as Record<string, unknown>) : undefined,
+      children:
+        value !== null
+          ? Object.keys(value as Record<string, unknown>)
+          : undefined,
       data: key,
       canRename: true,
     };

@@ -1,6 +1,10 @@
 import { DependencyList, useEffect, useRef } from 'react';
 
-export const useSideEffect = (effect: Function, deps: DependencyList, changeOn: DependencyList): void => {
+export const useSideEffect = (
+  effect: Function,
+  deps: DependencyList,
+  changeOn: DependencyList
+): void => {
   const previousRef = useRef<typeof changeOn>();
   useEffect(() => {
     if (!previousRef.current) {

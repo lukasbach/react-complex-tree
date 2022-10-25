@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { HTMLProps, useRef } from 'react';
 import { TreeItemChildren } from '../treeItem/TreeItemChildren';
 import { DragBetweenLine } from './DragBetweenLine';
-import { HTMLProps, useRef } from 'react';
 import { useFocusWithin } from './useFocusWithin';
 import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
 import { SearchInput } from '../search/SearchInput';
@@ -25,9 +25,9 @@ export const TreeManager = (): JSX.Element => {
       environment.setActiveTree(treeId);
     },
     () => {
-      environment.setActiveTree(oldTreeId => {
-        return oldTreeId === treeId ? undefined : oldTreeId;
-      });
+      environment.setActiveTree(oldTreeId =>
+        oldTreeId === treeId ? undefined : oldTreeId
+      );
     },
     [environment.activeTreeId, treeId, isActiveTree]
   );
@@ -39,14 +39,14 @@ export const TreeManager = (): JSX.Element => {
   }
 
   const treeChildren = (
-    <React.Fragment>
+    <>
       <MaybeLiveDescription />
       <TreeItemChildren depth={0} parentId={treeId}>
         {rootChildren}
       </TreeItemChildren>
       <DragBetweenLine treeId={treeId} />
       <SearchInput containerRef={containerRef.current} />
-    </React.Fragment>
+    </>
   );
 
   const containerProps: HTMLProps<any> = {
@@ -56,10 +56,12 @@ export const TreeManager = (): JSX.Element => {
     ref: containerRef,
     style: { position: 'relative' },
     role: 'tree',
-    'aria-label': !treeInformation.treeLabelledBy ? treeInformation.treeLabel : undefined,
+    'aria-label': !treeInformation.treeLabelledBy
+      ? treeInformation.treeLabel
+      : undefined,
     'aria-labelledby': treeInformation.treeLabelledBy,
     ...({
-      ['data-rct-tree']: treeId,
+      'data-rct-tree': treeId,
     } as any),
   };
 

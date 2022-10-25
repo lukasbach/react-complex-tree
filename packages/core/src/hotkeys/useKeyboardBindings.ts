@@ -1,5 +1,5 @@
-import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useMemo } from 'react';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultKeyboardBindings } from './defaultKeyboardBindings';
 
 export const useKeyboardBindings = () => {
@@ -11,8 +11,7 @@ export const useKeyboardBindings = () => {
         ...defaultKeyboardBindings,
         ...environment.keyboardBindings,
       };
-    } else {
-      return defaultKeyboardBindings;
     }
+    return defaultKeyboardBindings;
   }, [environment.keyboardBindings]);
 };

@@ -1,5 +1,5 @@
-import { TreeItemIndex } from '../types';
 import React, { useMemo, useState } from 'react';
+import { TreeItemIndex } from '../types';
 import { TreeItemChildren } from './TreeItemChildren';
 import { useViewState } from '../tree/useViewState';
 import { useTree } from '../tree/Tree';
@@ -7,7 +7,10 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
 import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 
-export const TreeItem = (props: { itemIndex: TreeItemIndex; depth: number }): JSX.Element => {
+export const TreeItem = (props: {
+  itemIndex: TreeItemIndex;
+  depth: number;
+}): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const { renderers, treeInformation, renamingItem } = useTree();
   const environment = useTreeEnvironment();

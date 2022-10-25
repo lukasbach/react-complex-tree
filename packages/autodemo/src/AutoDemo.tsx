@@ -18,13 +18,28 @@ export interface AutomationStoryHelpers {
   tree3: React.RefObject<TreeRef>;
   tree4: React.RefObject<TreeRef>;
   tree5: React.RefObject<TreeRef>;
-  searchFor: (tree: TreeRef, search: string, timeBetweenTypes?: number) => Promise<void>;
-  programmaticMove: (direction: 'up' | 'down', times: number, timeBetweenMoves?: number) => Promise<void>;
-  renameTo: (tree: TreeRef, newName: string, timeBetweenTypes?: number) => Promise<void>;
+  searchFor: (
+    tree: TreeRef,
+    search: string,
+    timeBetweenTypes?: number
+  ) => Promise<void>;
+  programmaticMove: (
+    direction: 'up' | 'down',
+    times: number,
+    timeBetweenMoves?: number
+  ) => Promise<void>;
+  renameTo: (
+    tree: TreeRef,
+    newName: string,
+    timeBetweenTypes?: number
+  ) => Promise<void>;
 }
 
 export interface ProvidedEnvironmentProps
-  extends Pick<UncontrolledTreeEnvironmentProps, 'dataProvider' | 'renderItem'> {
+  extends Pick<
+    UncontrolledTreeEnvironmentProps,
+    'dataProvider' | 'renderItem'
+  > {
   key: string;
 }
 
@@ -47,8 +62,12 @@ export const AutoDemo = (props: {
   const [aborted, setAborted] = useState(false);
   const abortedRef = useRef(false);
   const [restartKey, setRestartKey] = useState(0);
-  const [speed, setSpeed] = useState(parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1'));
-  const speedRef = useRef(parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1'));
+  const [speed, setSpeed] = useState(
+    parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1')
+  );
+  const speedRef = useRef(
+    parseFloat(localStorage.getItem('rct-autodemo-speed') ?? '1')
+  );
   const environmentRef = useRef<TreeEnvironmentRef>(null);
   const treeRef1 = useRef<TreeRef>(null);
   const treeRef2 = useRef<TreeRef>(null);
@@ -78,7 +97,9 @@ export const AutoDemo = (props: {
         tree4: treeRef4,
         tree5: treeRef5,
         renameTo: async (tree, newName, timeBetweenTypes = 200) => {
-          tree.startRenamingItem(environmentRef.current!.viewState[tree.treeId]!.focusedItem!);
+          tree.startRenamingItem(
+            environmentRef.current!.viewState[tree.treeId]!.focusedItem!
+          );
           for (const char in newName.split('')) {
             return new Promise(r => setTimeout(r, timeBetweenTypes));
           }
@@ -98,7 +119,11 @@ export const AutoDemo = (props: {
             } else {
               environmentRef.current!.moveProgrammaticDragPositionDown();
             }
-            await helpers.wait(i < times * 0.2 || i > times * 0.8 ? timeBetweenMoves * 2 : timeBetweenMoves);
+            await helpers.wait(
+              i < times * 0.2 || i > times * 0.8
+                ? timeBetweenMoves * 2
+                : timeBetweenMoves
+            );
           }
         },
         wait: async ms => {
@@ -130,10 +155,13 @@ export const AutoDemo = (props: {
     () => ({
       key: `k${restartKey}`,
       autoFocus: aborted,
-      dataProvider: new StaticTreeDataProvider(JSON.parse(JSON.stringify(props.data.items)), (item, data) => ({
-        ...item,
-        data,
-      })),
+      dataProvider: new StaticTreeDataProvider(
+        JSON.parse(JSON.stringify(props.data.items)),
+        (item, data) => ({
+          ...item,
+          data,
+        })
+      ),
       renderItem: p =>
         createDefaultRenderers(10).renderItem({
           ...p,
@@ -141,7 +169,9 @@ export const AutoDemo = (props: {
             ...p.context,
             interactiveElementProps: {
               ...p.context.interactiveElementProps,
-              tabIndex: aborted ? p.context.interactiveElementProps.tabIndex : -2,
+              tabIndex: aborted
+                ? p.context.interactiveElementProps.tabIndex
+                : -2,
             },
           },
         }),
@@ -150,7 +180,10 @@ export const AutoDemo = (props: {
   );
 
   const SpeedButton: React.FC<{ speed: number }> = props => (
-    <button className={props.speed === speed ? 'active' : ''} onClick={() => setSpeed(props.speed)}>
+    <button
+      className={props.speed === speed ? 'active' : ''}
+      onClick={() => setSpeed(props.speed)}
+    >
       x{props.speed}
     </button>
   );
@@ -169,20 +202,33 @@ export const AutoDemo = (props: {
         onMouseDown={() => setAborted(true)}
         onKeyDown={() => setAborted(true)}
       >
-        {props.children(envProps, environmentRef, treeRef1, treeRef2, treeRef3, treeRef4, treeRef5)}
+        {props.children(
+          envProps,
+          environmentRef,
+          treeRef1,
+          treeRef2,
+          treeRef3,
+          treeRef4,
+          treeRef5
+        )}
       </div>
       <div className="rct-autodemo-controls">
         <div className="rct-autodemo-controls-left">
           <div className="rct-autodemo-controls-header">
             <h2>{!aborted ? 'Demo is running' : 'Demo was stopped'}</h2>
-            <div className="rct-autodemo-controls-speed" aria-label="Speed control for the demo">
+            <div
+              className="rct-autodemo-controls-speed"
+              aria-label="Speed control for the demo"
+            >
               <SpeedButton speed={0.75} />
               <SpeedButton speed={1} />
               <SpeedButton speed={2} />
               <SpeedButton speed={3} />
             </div>
           </div>
-          <p>{!aborted ? 'Click anywhere on the tree to try it yourself!' : ''}</p>
+          <p>
+            {!aborted ? 'Click anywhere on the tree to try it yourself!' : ''}
+          </p>
         </div>
         <div className="rct-autodemo-controls-right">
           <button

@@ -1,14 +1,21 @@
 import * as React from 'react';
-import { TreeEnvironmentActionsContextProps, TreeEnvironmentRef, TreeItem, TreeItemIndex } from '../types';
 import { PropsWithChildren, useCallback } from 'react';
+import {
+  TreeEnvironmentActionsContextProps,
+  TreeEnvironmentRef,
+  TreeItem,
+  TreeItemIndex,
+} from '../types';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
 import { useRefCopy } from '../useRefCopy';
 import { waitFor } from '../waitFor';
 
-const EnvironmentActionsContext = React.createContext<TreeEnvironmentActionsContextProps>(null as any);
-export const useEnvironmentActions = () => React.useContext(EnvironmentActionsContext);
+const EnvironmentActionsContext =
+  React.createContext<TreeEnvironmentActionsContextProps>(null as any);
+export const useEnvironmentActions = () =>
+  React.useContext(EnvironmentActionsContext);
 
 const recursiveExpand = async (
   itemId: TreeItemIndex,
@@ -88,9 +95,13 @@ export const EnvironmentActionsProvider = React.forwardRef<
     moveFocusDown: useCallback(
       (treeId: string) => {
         const treeLinearItems = linearItems[treeId];
-        const currentFocusIndex = treeLinearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
+        const currentFocusIndex = treeLinearItems.findIndex(
+          ({ item }) => item === viewState[treeId]?.focusedItem
+        );
         const newIndex =
-          currentFocusIndex !== undefined ? Math.min(treeLinearItems.length - 1, currentFocusIndex + 1) : 0;
+          currentFocusIndex !== undefined
+            ? Math.min(treeLinearItems.length - 1, currentFocusIndex + 1)
+            : 0;
         const newItem = items[treeLinearItems[newIndex].item];
         onFocusItem?.(newItem, treeId);
       },
@@ -99,8 +110,13 @@ export const EnvironmentActionsProvider = React.forwardRef<
     moveFocusUp: useCallback(
       (treeId: string) => {
         const treeLinearItems = linearItems[treeId];
-        const currentFocusIndex = treeLinearItems.findIndex(({ item }) => item === viewState[treeId]?.focusedItem);
-        const newIndex = currentFocusIndex !== undefined ? Math.max(0, currentFocusIndex - 1) : 0;
+        const currentFocusIndex = treeLinearItems.findIndex(
+          ({ item }) => item === viewState[treeId]?.focusedItem
+        );
+        const newIndex =
+          currentFocusIndex !== undefined
+            ? Math.max(0, currentFocusIndex - 1)
+            : 0;
         const newItem = items[treeLinearItems[newIndex].item];
         onFocusItem?.(newItem, treeId);
       },
@@ -140,9 +156,16 @@ export const EnvironmentActionsProvider = React.forwardRef<
     toggleItemSelectStatus: useCallback(
       (itemId: TreeItemIndex, treeId: string) => {
         if (viewState[treeId]?.selectedItems?.includes(itemId)) {
-          onSelectItems?.(viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ?? [], treeId);
+          onSelectItems?.(
+            viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ??
+              [],
+            treeId
+          );
         } else {
-          onSelectItems?.([...(viewState[treeId]!.selectedItems ?? []), itemId], treeId);
+          onSelectItems?.(
+            [...(viewState[treeId]!.selectedItems ?? []), itemId],
+            treeId
+          );
         }
       },
       [onSelectItems, viewState]
@@ -155,21 +178,27 @@ export const EnvironmentActionsProvider = React.forwardRef<
     ),
     expandAll: useCallback(
       async (treeId: string) => {
-        await recursiveExpand(
-          trees[treeId].rootItem,
-          itemsRef,
-          item => onExpandItem?.(item, treeId)
+        await recursiveExpand(trees[treeId].rootItem, itemsRef, item =>
+          onExpandItem?.(item, treeId)
         );
-      }, [itemsRef, onExpandItem, trees]),
+      },
+      [itemsRef, onExpandItem, trees]
+    ),
     collapseAll: useCallback(
       (treeId: string) => {
         for (const itemId of viewState[treeId]?.expandedItems ?? []) {
           onCollapseItem?.(items[itemId], treeId);
         }
-      }, [items, onCollapseItem, viewState]),
+      },
+      [items, onCollapseItem, viewState]
+    ),
   };
 
   useCreatedEnvironmentRef(ref, actions);
 
-  return <EnvironmentActionsContext.Provider value={actions}>{props.children}</EnvironmentActionsContext.Provider>;
+  return (
+    <EnvironmentActionsContext.Provider value={actions}>
+      {props.children}
+    </EnvironmentActionsContext.Provider>
+  );
 });

@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
+import React from 'react';
+import { longTree } from 'demodata';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React from 'react';
-import { longTree } from 'demodata';
 
 export default {
   title: 'Core/Search Configurability',
@@ -13,10 +13,17 @@ export const SearchByStartTyping = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     getItemTitle={item => item.data}
-    canSearchByStartingTyping={true}
+    canSearchByStartingTyping
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -35,8 +42,15 @@ export const SearchOnlyWithHotkey = () => (
       // TODO fix by checking whether hotkey is already fulfilled during keydown
     }}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -50,8 +64,15 @@ export const NoSearch = () => (
     getItemTitle={item => item.data}
     canSearch={false}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -62,13 +83,16 @@ export const NoSearch = () => (
 export const CustomSearchEvaluation = () => (
   <>
     <p>
-      In the following example, the search evaluates only the children of an item, not the items title itself. This
-      means that searching for &quot;Orange&quot; will match its parent &quot;Fruit&quot;.
+      In the following example, the search evaluates only the children of an
+      item, not the items title itself. This means that searching for
+      &quot;Orange&quot; will match its parent &quot;Fruit&quot;.
     </p>
     <UncontrolledTreeEnvironment<string>
       dataProvider={new StaticTreeDataProvider(longTree.items)}
       getItemTitle={item => item.data}
-      doesSearchMatchItem={(search, item) => !!item.children?.join(' ').toLowerCase().includes(search.toLowerCase())}
+      doesSearchMatchItem={(search, item) =>
+        !!item.children?.join(' ').toLowerCase().includes(search.toLowerCase())
+      }
       renderItemTitle={props =>
         props.info.isSearching && props.context.isSearchMatching ? (
           <span className="rct-tree-item-search-highlight">{props.title}</span>
@@ -77,8 +101,15 @@ export const CustomSearchEvaluation = () => (
         )
       }
       viewState={{
-        ['tree-1']: {
-          expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+        'tree-1': {
+          expandedItems: [
+            'Fruit',
+            'Meals',
+            'America',
+            'Europe',
+            'Asia',
+            'Desserts',
+          ],
         },
       }}
     >

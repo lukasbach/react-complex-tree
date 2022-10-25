@@ -22,7 +22,9 @@ export const SingleTreeDemo = () => (
       await story.wait(200);
       await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current?.expandItem(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.expandItem(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(500);
       await story.tree.current?.moveFocusDown();
       await story.wait(200);
@@ -32,11 +34,15 @@ export const SingleTreeDemo = () => (
       await story.wait(200);
       await story.tree.current?.abortSearch();
       await story.wait(1000);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(1000);
       await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(1000);
       await story.env.current?.startProgrammaticDrag();
       await story.wait(500);
@@ -53,9 +59,9 @@ export const SingleTreeDemo = () => (
   >
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        canDragAndDrop={true}
-        canDropOnItemWithChildren={true}
-        canReorderItems={true}
+        canDragAndDrop
+        canDropOnItemWithChildren
+        canReorderItems
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -65,7 +71,12 @@ export const SingleTreeDemo = () => (
         ref={environmentRef}
         {...environmentProps}
       >
-        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+        <Tree
+          treeId={treeId1}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef}
+        />
       </UncontrolledTreeEnvironment>
     )}
   </AutoDemo>
@@ -73,7 +84,7 @@ export const SingleTreeDemo = () => (
 
 export const MultiTreeDemo = () => (
   <AutoDemo
-    restart={true}
+    restart
     data={longTree}
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
@@ -95,7 +106,9 @@ export const MultiTreeDemo = () => (
       await story.wait(500);
       await story.tree2.current?.moveFocusDown();
       await story.wait(1000);
-      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(1000);
       await story.tree.current?.focusTree(false);
       await story.wait(500);
@@ -103,15 +116,21 @@ export const MultiTreeDemo = () => (
       await story.wait(500);
       await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(500);
       await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(500);
       await story.tree.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(1000);
       await story.env.current?.startProgrammaticDrag();
       await story.wait(1000);
@@ -129,37 +148,53 @@ export const MultiTreeDemo = () => (
       await story.wait(500);
       await story.tree2.current?.moveFocusUp();
       await story.wait(1000);
-      await story.tree2.current?.collapseItem(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.collapseItem(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(1000);
       await story.tree2.current?.moveFocusUp();
       await story.wait(500);
       await story.tree2.current?.moveFocusUp();
       await story.wait(500);
-      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(500);
       await story.tree2.current?.moveFocusDown();
       await story.wait(500);
-      await story.tree2.current?.expandItem(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.expandItem(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(200);
       await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(200);
       await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(200);
       await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(200);
       await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(200);
       await story.tree2.current?.moveFocusDown();
       await story.wait(200);
-      await story.tree2.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId2]!.focusedItem!);
+      await story.tree2.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId2]!.focusedItem!
+      );
       await story.wait(1000);
       await story.env.current?.startProgrammaticDrag();
       await story.programmaticMove('down', 8);
@@ -169,7 +204,9 @@ export const MultiTreeDemo = () => (
       await story.wait(200);
       await story.searchFor(story.tree.current!, 'meals');
       await story.wait(500);
-      await story.tree.current?.collapseItem(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.collapseItem(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(1000);
       await story.tree2.current?.focusTree(false);
       await story.wait(200);
@@ -181,7 +218,9 @@ export const MultiTreeDemo = () => (
       await story.wait(1500);
       await story.searchFor(story.tree2.current!, 'drinks');
       await story.wait(1000);
-      await story.tree2.current?.selectItems([story.env.current?.viewState[treeId2]!.focusedItem!]);
+      await story.tree2.current?.selectItems([
+        story.env.current?.viewState[treeId2]!.focusedItem!,
+      ]);
       await story.wait(500);
       await story.env.current?.startProgrammaticDrag();
       await story.programmaticMove('up', 26);
@@ -192,9 +231,9 @@ export const MultiTreeDemo = () => (
   >
     {(environmentProps, environmentRef, treeRef, treeRef2) => (
       <UncontrolledTreeEnvironment<string>
-        canDragAndDrop={true}
-        canDropOnItemWithChildren={true}
-        canReorderItems={true}
+        canDragAndDrop
+        canDropOnItemWithChildren
+        canReorderItems
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -204,8 +243,18 @@ export const MultiTreeDemo = () => (
         ref={environmentRef}
         {...environmentProps}
       >
-        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
-        <Tree treeId={treeId2} rootItem="root" treeLabel="Tree Example" ref={treeRef2} />
+        <Tree
+          treeId={treeId1}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef}
+        />
+        <Tree
+          treeId={treeId2}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef2}
+        />
       </UncontrolledTreeEnvironment>
     )}
   </AutoDemo>
@@ -214,7 +263,7 @@ export const MultiTreeDemo = () => (
 export const SearchDemo = () => (
   <AutoDemo
     data={longTree}
-    restart={true}
+    restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'an');
@@ -239,9 +288,9 @@ export const SearchDemo = () => (
   >
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        canDragAndDrop={true}
-        canDropOnItemWithChildren={true}
-        canReorderItems={true}
+        canDragAndDrop
+        canDropOnItemWithChildren
+        canReorderItems
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -251,7 +300,12 @@ export const SearchDemo = () => (
         ref={environmentRef}
         {...environmentProps}
       >
-        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+        <Tree
+          treeId={treeId1}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef}
+        />
       </UncontrolledTreeEnvironment>
     )}
   </AutoDemo>
@@ -276,10 +330,12 @@ const VisibleLiveDescriptorContainer = ({ children, tree }: any) => (
 export const VisibleLiveDescriptors = () => (
   <AutoDemo
     data={longTree}
-    restart={true}
+    restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
-      await story.tree.current?.toggleItemSelectStatus(story.env.current?.viewState[treeId1]!.focusedItem!);
+      await story.tree.current?.toggleItemSelectStatus(
+        story.env.current?.viewState[treeId1]!.focusedItem!
+      );
       await story.wait(500);
       await story.env.current?.startProgrammaticDrag();
       await story.wait(500);
@@ -290,9 +346,9 @@ export const VisibleLiveDescriptors = () => (
   >
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        canDragAndDrop={true}
-        canDropOnItemWithChildren={true}
-        canReorderItems={true}
+        canDragAndDrop
+        canDropOnItemWithChildren
+        canReorderItems
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -303,7 +359,12 @@ export const VisibleLiveDescriptors = () => (
         renderLiveDescriptorContainer={VisibleLiveDescriptorContainer}
         {...environmentProps}
       >
-        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+        <Tree
+          treeId={treeId1}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef}
+        />
       </UncontrolledTreeEnvironment>
     )}
   </AutoDemo>
@@ -312,16 +373,16 @@ export const VisibleLiveDescriptors = () => (
 export const SingleTreeEmptyTemplate = () => (
   <AutoDemo
     data={longTree}
-    restart={true}
+    restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
     }}
   >
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
-        canDragAndDrop={true}
-        canDropOnItemWithChildren={true}
-        canReorderItems={true}
+        canDragAndDrop
+        canDropOnItemWithChildren
+        canReorderItems
         getItemTitle={item => item.data}
         viewState={{
           [treeId1]: {
@@ -331,7 +392,12 @@ export const SingleTreeEmptyTemplate = () => (
         ref={environmentRef}
         {...environmentProps}
       >
-        <Tree treeId={treeId1} rootItem="root" treeLabel="Tree Example" ref={treeRef} />
+        <Tree
+          treeId={treeId1}
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={treeRef}
+        />
       </UncontrolledTreeEnvironment>
     )}
   </AutoDemo>

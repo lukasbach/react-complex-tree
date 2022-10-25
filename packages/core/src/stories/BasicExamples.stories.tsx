@@ -1,11 +1,11 @@
 import { Meta } from '@storybook/react';
-import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
-import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
-import { Tree } from '../tree/Tree';
 import { useState } from 'react';
 import * as React from 'react';
 import { longTree, shortTree } from 'demodata';
 import { action } from '@storybook/addon-actions';
+import { Tree } from '../tree/Tree';
+import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
+import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 
 export default {
   title: 'Core/Basic Examples',
@@ -13,14 +13,26 @@ export default {
 
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -30,10 +42,15 @@ export const SingleTree = () => (
 
 export const PredefinedViewState = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
       'tree-1': {
@@ -49,14 +66,26 @@ export const PredefinedViewState = () => (
 
 export const Actions = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
     onStartRenamingItem={action('onStartRenamingItem')}
@@ -74,7 +103,10 @@ export const Actions = () => (
     onMissingChildren={action('onMissingChildren')}
   >
     <>
-      <p>In this example, action hooks trigger Storybook actions in the &quot;Actions&quot; tab below.</p>
+      <p>
+        In this example, action hooks trigger Storybook actions in the
+        &quot;Actions&quot; tab below.
+      </p>
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
     </>
   </UncontrolledTreeEnvironment>
@@ -82,13 +114,18 @@ export const Actions = () => (
 
 export const SingleTreeAllCollapsed = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {},
+      'tree-1': {},
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -97,13 +134,18 @@ export const SingleTreeAllCollapsed = () => (
 
 export const SmallTree = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(shortTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(shortTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {},
+      'tree-1': {},
     }}
   >
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
@@ -112,13 +154,18 @@ export const SmallTree = () => (
 
 export const MultipleTrees = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {},
+      'tree-1': {},
     }}
   >
     <div
@@ -162,16 +209,26 @@ export const SwitchMountedTree = () => {
   const [showFirstTree, setShowFirstTree] = useState(false);
   return (
     <UncontrolledTreeEnvironment<string>
-      canDragAndDrop={true}
-      canDropOnItemWithChildren={true}
-      canReorderItems={true}
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      canDragAndDrop
+      canDropOnItemWithChildren
+      canReorderItems
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, data) => ({
+          ...item,
+          data,
+        }))
+      }
       getItemTitle={item => item.data}
       viewState={{}}
-      onRegisterTree={(t) => console.log('Register', t.treeId)}
     >
-      <button onClick={() => setShowFirstTree(!showFirstTree)}>Switch Tree</button>
-      {showFirstTree ? <Tree treeId="tree-1" rootItem="Europe" treeLabel="Tree Example" /> : <Tree treeId="tree-2" rootItem="America" treeLabel="Tree Example" />}
+      <button onClick={() => setShowFirstTree(!showFirstTree)}>
+        Switch Tree
+      </button>
+      {showFirstTree ? (
+        <Tree treeId="tree-1" rootItem="Europe" treeLabel="Tree Example" />
+      ) : (
+        <Tree treeId="tree-2" rootItem="America" treeLabel="Tree Example" />
+      )}
     </UncontrolledTreeEnvironment>
   );
 };

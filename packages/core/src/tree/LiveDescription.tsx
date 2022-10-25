@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultLiveDescriptors } from './defaultLiveDescriptors';
-import { useMemo } from 'react';
 import { useTree } from './Tree';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { resolveLiveDescriptor } from './resolveLiveDescriptor';
@@ -13,11 +13,20 @@ export const LiveDescription: React.FC = () => {
   const dnd = useDragAndDrop();
   const keys = useKeyboardBindings();
 
-  const descriptors = useMemo(() => env.liveDescriptors ?? defaultLiveDescriptors, [env.liveDescriptors]);
+  const descriptors = useMemo(
+    () => env.liveDescriptors ?? defaultLiveDescriptors,
+    [env.liveDescriptors]
+  );
 
   const LiveWrapper = useMemo(
     () =>
-      ({ children, live }: { children: string; live: 'off' | 'assertive' | 'polite' }) =>
+      ({
+        children,
+        live,
+      }: {
+        children: string;
+        live: 'off' | 'assertive' | 'polite';
+      }) =>
         <div aria-live={live} dangerouslySetInnerHTML={{ __html: children }} />,
     []
   );
@@ -27,31 +36,56 @@ export const LiveDescription: React.FC = () => {
   if (tree.treeInformation.isRenaming) {
     return (
       <MainWrapper tree={tree}>
-        <LiveWrapper live="polite">{resolveLiveDescriptor(descriptors.renamingItem, env, dnd, tree, keys)}</LiveWrapper>
-      </MainWrapper>
-    );
-  } else if (tree.treeInformation.isSearching) {
-    return (
-      <MainWrapper tree={tree}>
-        <LiveWrapper live="polite">{resolveLiveDescriptor(descriptors.searching, env, dnd, tree, keys)}</LiveWrapper>
-      </MainWrapper>
-    );
-  } else if (tree.treeInformation.isProgrammaticallyDragging) {
-    return (
-      <MainWrapper tree={tree}>
         <LiveWrapper live="polite">
-          {resolveLiveDescriptor(descriptors.programmaticallyDragging, env, dnd, tree, keys)}
+          {resolveLiveDescriptor(
+            descriptors.renamingItem,
+            env,
+            dnd,
+            tree,
+            keys
+          )}
         </LiveWrapper>
-        <LiveWrapper live="assertive">
-          {resolveLiveDescriptor(descriptors.programmaticallyDraggingTarget, env, dnd, tree, keys)}
-        </LiveWrapper>
-      </MainWrapper>
-    );
-  } else {
-    return (
-      <MainWrapper tree={tree}>
-        <LiveWrapper live="off">{resolveLiveDescriptor(descriptors.introduction, env, dnd, tree, keys)}</LiveWrapper>
       </MainWrapper>
     );
   }
+  if (tree.treeInformation.isSearching) {
+    return (
+      <MainWrapper tree={tree}>
+        <LiveWrapper live="polite">
+          {resolveLiveDescriptor(descriptors.searching, env, dnd, tree, keys)}
+        </LiveWrapper>
+      </MainWrapper>
+    );
+  }
+  if (tree.treeInformation.isProgrammaticallyDragging) {
+    return (
+      <MainWrapper tree={tree}>
+        <LiveWrapper live="polite">
+          {resolveLiveDescriptor(
+            descriptors.programmaticallyDragging,
+            env,
+            dnd,
+            tree,
+            keys
+          )}
+        </LiveWrapper>
+        <LiveWrapper live="assertive">
+          {resolveLiveDescriptor(
+            descriptors.programmaticallyDraggingTarget,
+            env,
+            dnd,
+            tree,
+            keys
+          )}
+        </LiveWrapper>
+      </MainWrapper>
+    );
+  }
+  return (
+    <MainWrapper tree={tree}>
+      <LiveWrapper live="off">
+        {resolveLiveDescriptor(descriptors.introduction, env, dnd, tree, keys)}
+      </LiveWrapper>
+    </MainWrapper>
+  );
 };

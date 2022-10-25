@@ -1,12 +1,14 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 import { DraggingPosition } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
-import { useCallback } from 'react';
 
-const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) => {
-  return e.clientX < treeBb.left || e.clientX > treeBb.right || e.clientY < treeBb.top || e.clientY > treeBb.bottom;
-};
+const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) =>
+  e.clientX < treeBb.left ||
+  e.clientX > treeBb.right ||
+  e.clientY < treeBb.top ||
+  e.clientY > treeBb.bottom;
 
 const getHoveringPosition = (
   clientY: number,
@@ -18,9 +20,10 @@ const getHoveringPosition = (
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
   const linearIndex = Math.floor(hoveringPosition);
-  let offset: 'top' | 'bottom' | undefined = undefined;
+  let offset: 'top' | 'bottom' | undefined;
 
-  const lineThreshold = canDropOnItemWithChildren || canDropOnItemWithoutChildren ? 0.2 : 0.5;
+  const lineThreshold =
+    canDropOnItemWithChildren || canDropOnItemWithoutChildren ? 0.2 : 0.5;
 
   if (hoveringPosition % 1 < lineThreshold) {
     offset = 'top';
@@ -50,7 +53,11 @@ export const useOnDragOverTreeHandler = (
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
   return useCallback(
-    (e: DragEvent, treeId: string, containerRef: React.MutableRefObject<HTMLElement | undefined>) => {
+    (
+      e: DragEvent,
+      treeId: string,
+      containerRef: React.MutableRefObject<HTMLElement | undefined>
+    ) => {
       if (!canDragAndDrop) {
         return;
       }
@@ -74,7 +81,9 @@ export const useOnDragOverTreeHandler = (
         canDropOnItemWithoutChildren
       );
 
-      const nextDragCode = outsideContainer ? 'outside' : `${treeId}${linearIndex}${offset ?? ''}`;
+      const nextDragCode = outsideContainer
+        ? 'outside'
+        : `${treeId}${linearIndex}${offset ?? ''}`;
 
       if (lastDragCode === nextDragCode) {
         return;
@@ -93,10 +102,14 @@ export const useOnDragOverTreeHandler = (
       }
 
       const targetItem = linearItems[treeId][linearIndex];
-      const depth = targetItem.depth;
+      const { depth } = targetItem;
       const targetItemData = items[targetItem.item];
 
-      if (!offset && !canDropOnItemWithoutChildren && !targetItemData.hasChildren) {
+      if (
+        !offset &&
+        !canDropOnItemWithoutChildren &&
+        !targetItemData.hasChildren
+      ) {
         onDragAtPosition(undefined);
         return;
       }
@@ -117,9 +130,14 @@ export const useOnDragOverTreeHandler = (
         return;
       }
 
-      const newChildIndex = items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1);
+      const newChildIndex =
+        items[parent.item].children!.indexOf(targetItem.item) +
+        (offset === 'top' ? 0 : 1);
 
-      if (offset === 'top' && depth === (linearItems[treeId][linearIndex - 1]?.depth ?? -1)) {
+      if (
+        offset === 'top' &&
+        depth === (linearItems[treeId][linearIndex - 1]?.depth ?? -1)
+      ) {
         offset = 'bottom';
         linearIndex -= 1;
       }
@@ -129,7 +147,7 @@ export const useOnDragOverTreeHandler = (
       if (offset) {
         draggingPosition = {
           targetType: 'between-items',
-          treeId: treeId,
+          treeId,
           parentItem: parent.item,
           depth: targetItem.depth,
           linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
@@ -141,11 +159,11 @@ export const useOnDragOverTreeHandler = (
       } else {
         draggingPosition = {
           targetType: 'item',
-          treeId: treeId,
+          treeId,
           parentItem: parent.item,
           targetItem: targetItem.item,
           depth: targetItem.depth,
-          linearIndex: linearIndex,
+          linearIndex,
         };
       }
 

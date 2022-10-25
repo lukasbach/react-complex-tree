@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
-import { Tree } from '../tree/Tree';
 import React from 'react';
 import { longTree } from 'demodata';
+import { Tree } from '../tree/Tree';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export default {
@@ -10,9 +10,9 @@ export default {
 
 export const StaticState = () => (
   <ControlledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
     items={longTree.items}
     getItemTitle={item => item.data}
     viewState={{}}

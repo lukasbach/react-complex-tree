@@ -1,13 +1,24 @@
 import React from 'react';
 import { TreeRenderProps } from 'react-complex-tree';
-import { Button, Classes, Collapse, Colors, Icon, InputGroup } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  Collapse,
+  Colors,
+  Icon,
+  InputGroup,
+} from '@blueprintjs/core';
 
-const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
+const cx = (...classNames: Array<string | undefined | false>) =>
+  classNames.filter(cn => !!cn).join(' ');
 
 export const renderers: TreeRenderProps = {
   renderTreeContainer: props => (
     <div className={cx(Classes.TREE)}>
-      <ul className={cx(Classes.TREE_ROOT, Classes.TREE_NODE_LIST)} {...props.containerProps}>
+      <ul
+        className={cx(Classes.TREE_ROOT, Classes.TREE_NODE_LIST)}
+        {...props.containerProps}
+      >
         {props.children}
       </ul>
     </div>
@@ -23,19 +34,30 @@ export const renderers: TreeRenderProps = {
     <li
       className={cx(
         Classes.TREE_NODE,
-        (props.context.isSelected || props.context.isDraggingOver) && Classes.TREE_NODE_SELECTED
+        (props.context.isSelected || props.context.isDraggingOver) &&
+          Classes.TREE_NODE_SELECTED
       )}
       {...(props.context.itemContainerWithChildrenProps as any)}
     >
       <div
-        className={cx(Classes.TREE_NODE_CONTENT, `${Classes.TREE_NODE_CONTENT}-${props.depth}`)}
+        className={cx(
+          Classes.TREE_NODE_CONTENT,
+          `${Classes.TREE_NODE_CONTENT}-${props.depth}`
+        )}
         {...(props.context.itemContainerWithoutChildrenProps as any)}
         {...(props.context.interactiveElementProps as any)}
       >
-        {props.item.hasChildren ? props.arrow : <span className={Classes.TREE_NODE_CARET_NONE} />}
+        {props.item.hasChildren ? (
+          props.arrow
+        ) : (
+          <span className={Classes.TREE_NODE_CARET_NONE} />
+        )}
         {props.item.data.icon !== undefined ? (
           props.item.data.icon === null ? null : (
-            <Icon icon={props.item.data.icon} className={Classes.TREE_NODE_ICON} />
+            <Icon
+              icon={props.item.data.icon}
+              className={Classes.TREE_NODE_ICON}
+            />
           )
         ) : (
           (() => {
@@ -73,7 +95,9 @@ export const renderers: TreeRenderProps = {
       icon="chevron-right"
       className={cx(
         Classes.TREE_NODE_CARET,
-        props.context.isExpanded ? Classes.TREE_NODE_CARET_OPEN : Classes.TREE_NODE_CARET_CLOSED
+        props.context.isExpanded
+          ? Classes.TREE_NODE_CARET_OPEN
+          : Classes.TREE_NODE_CARET_CLOSED
       )}
       {...(props.context.arrowProps as any)}
     />
@@ -82,20 +106,21 @@ export const renderers: TreeRenderProps = {
   renderItemTitle: ({ title, context, info }) => {
     if (!info.isSearching || !context.isSearchMatching) {
       return <span className={Classes.TREE_NODE_LABEL}>{title}</span>;
-    } else {
-      const startIndex = title.toLowerCase().indexOf(info.search!.toLowerCase());
-      return (
-        <React.Fragment>
-          {startIndex > 0 && <span>{title.slice(0, startIndex)}</span>}
-          <span className="rct-tree-item-search-highlight">
-            {title.slice(startIndex, startIndex + info.search!.length)}
-          </span>
-          {startIndex + info.search!.length < title.length && (
-            <span>{title.slice(startIndex + info.search!.length, title.length)}</span>
-          )}
-        </React.Fragment>
-      );
     }
+    const startIndex = title.toLowerCase().indexOf(info.search!.toLowerCase());
+    return (
+      <>
+        {startIndex > 0 && <span>{title.slice(0, startIndex)}</span>}
+        <span className="rct-tree-item-search-highlight">
+          {title.slice(startIndex, startIndex + info.search!.length)}
+        </span>
+        {startIndex + info.search!.length < title.length && (
+          <span>
+            {title.slice(startIndex + info.search!.length, title.length)}
+          </span>
+        )}
+      </>
+    );
   },
 
   renderDragBetweenLine: ({ draggingPosition, lineProps }) => (
@@ -105,9 +130,11 @@ export const renderers: TreeRenderProps = {
         position: 'absolute',
         right: '0',
         top:
-          draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'top'
+          draggingPosition.targetType === 'between-items' &&
+          draggingPosition.linePosition === 'top'
             ? '0px'
-            : draggingPosition.targetType === 'between-items' && draggingPosition.linePosition === 'bottom'
+            : draggingPosition.targetType === 'between-items' &&
+              draggingPosition.linePosition === 'bottom'
             ? '-4px'
             : '-2px',
         left: `${draggingPosition.depth * 23}px`,
@@ -120,10 +147,20 @@ export const renderers: TreeRenderProps = {
   renderRenameInput: props => (
     <form {...props.formProps} style={{ display: 'contents' }}>
       <span className={Classes.TREE_NODE_LABEL}>
-        <input {...props.inputProps} ref={props.inputRef} className="rct-tree-item-renaming-input" />
+        <input
+          {...props.inputProps}
+          ref={props.inputRef}
+          className="rct-tree-item-renaming-input"
+        />
       </span>
       <span className={Classes.TREE_NODE_SECONDARY_LABEL}>
-        <Button icon="tick" {...(props.submitButtonProps as any)} type="submit" minimal={true} small={true} />
+        <Button
+          icon="tick"
+          {...(props.submitButtonProps as any)}
+          type="submit"
+          minimal
+          small
+        />
       </span>
     </form>
   ),

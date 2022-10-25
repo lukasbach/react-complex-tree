@@ -1,6 +1,12 @@
 import * as React from 'react';
-import { AllTreeRenderProps, TreeContextProps, TreeItemIndex, TreeProps, TreeRef } from '../types';
 import { useContext, useEffect, useMemo, useState } from 'react';
+import {
+  AllTreeRenderProps,
+  TreeContextProps,
+  TreeItemIndex,
+  TreeProps,
+  TreeRef,
+} from '../types';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { TreeManager } from './TreeManager';
 import { useCreatedTreeInformation } from './useCreatedTreeInformation';
@@ -13,7 +19,10 @@ export const useTree = () => useContext(TreeContext);
 
 export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
   const environment = useTreeEnvironment();
-  const renderers = useMemo<AllTreeRenderProps>(() => ({ ...environment, ...props }), [props, environment]);
+  const renderers = useMemo<AllTreeRenderProps>(
+    () => ({ ...environment, ...props }),
+    [props, environment]
+  );
   const [search, setSearch] = useState<string | null>(null);
   const [renamingItem, setRenamingItem] = useState<TreeItemIndex | null>(null);
   const rootItem = environment.items[props.rootItem];
@@ -30,14 +39,19 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.treeId, props.rootItem]);
 
-  const treeInformation = useCreatedTreeInformation(props, renamingItem, search);
+  const treeInformation = useCreatedTreeInformation(
+    props,
+    renamingItem,
+    search
+  );
 
   const treeContextProps: TreeContextProps = {
     treeId: props.treeId,
     rootItem: props.rootItem,
     treeLabel: props.treeLabel,
     treeLabelledBy: props.treeLabelledBy,
-    getItemsLinearly: () => getItemsLinearly(props.rootItem, viewState, environment.items),
+    getItemsLinearly: () =>
+      getItemsLinearly(props.rootItem, viewState, environment.items),
     treeInformation,
     search,
     setSearch,
@@ -58,4 +72,6 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
       </TreeActionsProvider>
     </TreeContext.Provider>
   );
-}) as <T = any>(p: TreeProps<T> & { ref?: React.Ref<TreeRef<T>> }) => React.ReactElement;
+}) as <T = any>(
+  p: TreeProps<T> & { ref?: React.Ref<TreeRef<T>> }
+) => React.ReactElement;

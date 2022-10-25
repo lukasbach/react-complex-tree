@@ -1,5 +1,5 @@
-import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useCallback } from 'react';
+import { useTreeEnvironment } from './ControlledTreeEnvironment';
 
 export const useGetGetParentOfLinearItem = () => {
   const environment = useTreeEnvironment();
@@ -7,11 +7,12 @@ export const useGetGetParentOfLinearItem = () => {
   return useCallback(
     (itemLinearIndex: number, treeId: string) => {
       const linearItems = environment.linearItems[treeId];
-      const depth = linearItems[itemLinearIndex].depth;
+      const { depth } = linearItems[itemLinearIndex];
       let parentLinearIndex = itemLinearIndex;
       for (
         ;
-        !!linearItems[parentLinearIndex] && linearItems[parentLinearIndex].depth !== depth - 1;
+        !!linearItems[parentLinearIndex] &&
+        linearItems[parentLinearIndex].depth !== depth - 1;
         parentLinearIndex--
       );
       let parent = linearItems[parentLinearIndex];

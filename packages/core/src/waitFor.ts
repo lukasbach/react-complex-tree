@@ -1,5 +1,9 @@
-export const waitFor = (check: () => boolean, intervalMs = 50, timeoutMs = 10000) => {
-  return new Promise<void>((resolve) => {
+export const waitFor = (
+  check: () => boolean,
+  intervalMs = 50,
+  timeoutMs = 10000
+) =>
+  new Promise<void>(resolve => {
     if (check()) {
       resolve();
     }
@@ -14,10 +18,9 @@ export const waitFor = (check: () => boolean, intervalMs = 50, timeoutMs = 10000
       if (check()) {
         complete();
       }
-    } , intervalMs);
+    }, intervalMs);
 
     const timeout = setTimeout(() => {
       complete();
     }, timeoutMs);
   });
-};

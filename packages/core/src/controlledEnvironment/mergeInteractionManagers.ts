@@ -6,7 +6,12 @@ export const mergeInteractionManagers = (
 ): InteractionManager => ({
   mode: main.mode,
   createInteractiveElementProps: (item, treeId, actions, renderFlags) => ({
-    ...fallback.createInteractiveElementProps(item, treeId, actions, renderFlags),
+    ...fallback.createInteractiveElementProps(
+      item,
+      treeId,
+      actions,
+      renderFlags
+    ),
     ...main.createInteractiveElementProps(item, treeId, actions, renderFlags),
   }),
 });

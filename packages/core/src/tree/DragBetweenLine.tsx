@@ -10,7 +10,9 @@ export const DragBetweenLine: React.FC<{
   const { renderers } = useTree();
 
   const shouldDisplay =
-    draggingPosition && draggingPosition.targetType === 'between-items' && draggingPosition.treeId === props.treeId;
+    draggingPosition &&
+    draggingPosition.targetType === 'between-items' &&
+    draggingPosition.treeId === props.treeId;
 
   if (!shouldDisplay) {
     return null;

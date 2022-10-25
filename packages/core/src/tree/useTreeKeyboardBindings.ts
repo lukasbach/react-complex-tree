@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useKey } from '../hotkeys/useKey';
 import { useHotkey } from '../hotkeys/useHotkey';
 import { useMoveFocusToIndex } from './useMoveFocusToIndex';
@@ -6,7 +7,6 @@ import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from './useSelectUpTo';
-import { useCallback } from 'react';
 import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 
 export const useTreeKeyboardBindings = () => {
@@ -29,7 +29,9 @@ export const useTreeKeyboardBindings = () => {
         if (dnd.isProgrammaticallyDragging) {
           dnd.programmaticDragDown();
         } else {
-          const newFocusItem = moveFocusToIndex(currentIndex => currentIndex + 1);
+          const newFocusItem = moveFocusToIndex(
+            currentIndex => currentIndex + 1
+          );
 
           if (e.shiftKey) {
             selectUpTo(newFocusItem);
@@ -49,7 +51,9 @@ export const useTreeKeyboardBindings = () => {
         if (dnd.isProgrammaticallyDragging) {
           dnd.programmaticDragUp();
         } else {
-          const newFocusItem = moveFocusToIndex(currentIndex => currentIndex - 1);
+          const newFocusItem = moveFocusToIndex(
+            currentIndex => currentIndex - 1
+          );
 
           if (e.shiftKey) {
             selectUpTo(newFocusItem);
@@ -95,9 +99,8 @@ export const useTreeKeyboardBindings = () => {
           if (item.hasChildren) {
             if (viewState.expandedItems?.includes(item.index)) {
               return currentIndex + 1;
-            } else {
-              environment.onExpandItem?.(item, treeId);
             }
+            environment.onExpandItem?.(item, treeId);
           }
           return currentIndex;
         });
@@ -115,11 +118,18 @@ export const useTreeKeyboardBindings = () => {
         moveFocusToIndex((currentIndex, linearItems) => {
           const item = environment.items[linearItems[currentIndex].item];
           const itemDepth = linearItems[currentIndex].depth;
-          if (item.hasChildren && viewState.expandedItems?.includes(item.index)) {
+          if (
+            item.hasChildren &&
+            viewState.expandedItems?.includes(item.index)
+          ) {
             environment.onCollapseItem?.(item, treeId);
           } else if (itemDepth > 0) {
             let parentIndex = currentIndex;
-            for (parentIndex; linearItems[parentIndex].depth !== itemDepth - 1; parentIndex--);
+            for (
+              parentIndex;
+              linearItems[parentIndex].depth !== itemDepth - 1;
+              parentIndex--
+            );
             return parentIndex;
           }
           return currentIndex;
@@ -137,7 +147,10 @@ export const useTreeKeyboardBindings = () => {
         e.preventDefault();
         if (viewState.focusedItem !== undefined) {
           environment.onSelectItems?.([viewState.focusedItem], treeId);
-          environment.onPrimaryAction?.(environment.items[viewState.focusedItem], treeId);
+          environment.onPrimaryAction?.(
+            environment.items[viewState.focusedItem],
+            treeId
+          );
         }
       },
       [environment, treeId, viewState.focusedItem]
@@ -151,13 +164,21 @@ export const useTreeKeyboardBindings = () => {
       e => {
         e.preventDefault();
         if (viewState.focusedItem !== undefined) {
-          if (viewState.selectedItems && viewState.selectedItems.includes(viewState.focusedItem)) {
+          if (
+            viewState.selectedItems &&
+            viewState.selectedItems.includes(viewState.focusedItem)
+          ) {
             environment.onSelectItems?.(
-              viewState.selectedItems.filter(item => item !== viewState.focusedItem),
+              viewState.selectedItems.filter(
+                item => item !== viewState.focusedItem
+              ),
               treeId
             );
           } else {
-            environment.onSelectItems?.([...(viewState.selectedItems ?? []), viewState.focusedItem], treeId);
+            environment.onSelectItems?.(
+              [...(viewState.selectedItems ?? []), viewState.focusedItem],
+              treeId
+            );
           }
         }
       },
@@ -203,7 +224,9 @@ export const useTreeKeyboardBindings = () => {
       e => {
         e.preventDefault();
         setSearch('');
-        (document.querySelector('[data-rct-search-input="true"]') as any)?.focus?.();
+        (
+          document.querySelector('[data-rct-search-input="true"]') as any
+        )?.focus?.();
       },
       [setSearch]
     ),

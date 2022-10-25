@@ -1,5 +1,5 @@
-import { TreeItem, TreeItemActions, TreeItemRenderFlags } from '../types';
 import { HTMLProps, useMemo } from 'react';
+import { TreeItem, TreeItemActions, TreeItemRenderFlags } from '../types';
 import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
@@ -17,14 +17,22 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   const selectUpTo = useSelectUpTo();
   const itemTitle = item && environment.getItemTitle(item);
 
-  const isSearchMatching = useMemo(() => {
-    return search === null || search.length === 0 || !item || !itemTitle
-      ? false
-      : (environment.doesSearchMatchItem ?? defaultMatcher)(search, item, itemTitle);
-  }, [search, item, itemTitle, environment.doesSearchMatchItem]);
+  const isSearchMatching = useMemo(
+    () =>
+      search === null || search.length === 0 || !item || !itemTitle
+        ? false
+        : (environment.doesSearchMatchItem ?? defaultMatcher)(
+            search,
+            item,
+            itemTitle
+          ),
+    [search, item, itemTitle, environment.doesSearchMatchItem]
+  );
 
-  const isSelected = item && environment.viewState[treeId]?.selectedItems?.includes(item.index);
-  const isExpanded = item && environment.viewState[treeId]?.expandedItems?.includes(item.index);
+  const isSelected =
+    item && environment.viewState[treeId]?.selectedItems?.includes(item.index);
+  const isExpanded =
+    item && environment.viewState[treeId]?.expandedItems?.includes(item.index);
   const isRenaming = item && renamingItem === item.index;
 
   return useMemo(() => {
@@ -36,26 +44,35 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
 
     const currentlySelectedItems = (
       viewState?.selectedItems?.map(item => environment.items[item]) ??
-      (viewState?.focusedItem ? [environment.items[viewState?.focusedItem]] : [])
+      (viewState?.focusedItem
+        ? [environment.items[viewState?.focusedItem]]
+        : [])
     ).filter(item => !!item);
 
-    const isItemPartOfSelectedItems = !!currentlySelectedItems.find(selectedItem => selectedItem.index === item.index);
+    const isItemPartOfSelectedItems = !!currentlySelectedItems.find(
+      selectedItem => selectedItem.index === item.index
+    );
 
     const canDragCurrentlySelectedItems =
       currentlySelectedItems &&
       (environment.canDrag?.(currentlySelectedItems) ?? true) &&
-      currentlySelectedItems.map(item => item.canMove ?? true).reduce((a, b) => a && b, true);
+      currentlySelectedItems
+        .map(item => item.canMove ?? true)
+        .reduce((a, b) => a && b, true);
 
-    const canDragThisItem = (environment.canDrag?.([item]) ?? true) && (item.canMove ?? true);
+    const canDragThisItem =
+      (environment.canDrag?.([item]) ?? true) && (item.canMove ?? true);
 
     const canDrag =
       environment.canDragAndDrop &&
-      ((isItemPartOfSelectedItems && canDragCurrentlySelectedItems) || (!isItemPartOfSelectedItems && canDragThisItem));
+      ((isItemPartOfSelectedItems && canDragCurrentlySelectedItems) ||
+        (!isItemPartOfSelectedItems && canDragThisItem));
 
     const canDropOn =
       environment.canDragAndDrop &&
       !!dnd.viableDragPositions?.[treeId]?.find(
-        position => position.targetType === 'item' && position.targetItem === item.index
+        position =>
+          position.targetType === 'item' && position.targetItem === item.index
       );
 
     const actions: TreeItemActions = {
@@ -80,10 +97,16 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
         environment.onSelectItems?.([item.index], treeId);
       },
       addToSelectedItems: () => {
-        environment.onSelectItems?.([...(viewState?.selectedItems ?? []), item.index], treeId);
+        environment.onSelectItems?.(
+          [...(viewState?.selectedItems ?? []), item.index],
+          treeId
+        );
       },
       unselectItem: () => {
-        environment.onSelectItems?.(viewState?.selectedItems?.filter(id => id !== item.index) ?? [], treeId);
+        environment.onSelectItems?.(
+          viewState?.selectedItems?.filter(id => id !== item.index) ?? [],
+          treeId
+        );
       },
       selectUpTo: () => {
         selectUpTo(item);
@@ -128,24 +151,34 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     };
 
     const interactiveElementProps: HTMLProps<HTMLElement> = {
-      ...interactionManager.createInteractiveElementProps(item, treeId, actions, renderFlags, viewState),
+      ...interactionManager.createInteractiveElementProps(
+        item,
+        treeId,
+        actions,
+        renderFlags,
+        viewState
+      ),
       ...({
-        ['data-rct-item-interactive']: true,
-        ['data-rct-item-focus']: renderFlags.isFocused ? 'true' : 'false',
-        ['data-rct-item-id']: item.index,
+        'data-rct-item-interactive': true,
+        'data-rct-item-focus': renderFlags.isFocused ? 'true' : 'false',
+        'data-rct-item-id': item.index,
       } as any),
     };
 
     const itemContainerWithoutChildrenProps: HTMLProps<HTMLElement> = {
       ...({
-        ['data-rct-item-container']: 'true',
+        'data-rct-item-container': 'true',
       } as any),
     };
 
     const itemContainerWithChildrenProps: HTMLProps<HTMLElement> = {
       role: 'treeitem',
       'aria-selected': renderFlags.isSelected,
-      'aria-expanded': item.hasChildren ? (renderFlags.isExpanded ? 'true' : 'false') : undefined,
+      'aria-expanded': item.hasChildren
+        ? renderFlags.isExpanded
+          ? 'true'
+          : 'false'
+        : undefined,
     };
 
     const arrowProps: HTMLProps<HTMLElement> = {
@@ -169,7 +202,9 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     const viewStateFlags = !viewState
       ? {}
       : Object.entries(viewState).reduce((acc, [key, value]) => {
-          acc[key] = Array.isArray(value) ? value.includes(item.index) : value === item.index;
+          acc[key] = Array.isArray(value)
+            ? value.includes(item.index)
+            : value === item.index;
           return acc;
         }, {} as { [key: string]: boolean });
 

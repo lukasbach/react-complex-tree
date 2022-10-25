@@ -10,8 +10,10 @@ export const scrollIntoView = (element: Element | undefined | null) => {
     const isElementInViewport =
       boundingBox.top >= 0 &&
       boundingBox.left >= 0 &&
-      boundingBox.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      boundingBox.right <= (window.innerWidth || document.documentElement.clientWidth);
+      boundingBox.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      boundingBox.right <=
+        (window.innerWidth || document.documentElement.clientWidth);
     if (!isElementInViewport) {
       element.scrollIntoView();
     }

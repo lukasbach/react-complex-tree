@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
+import React from 'react';
+import { longTree } from 'demodata';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React from 'react';
-import { longTree } from 'demodata';
 import { defaultLiveDescriptors } from '../tree/defaultLiveDescriptors';
 
 export default {
@@ -28,14 +28,26 @@ const VisibleLiveDescriptorContainer = ({ children, tree }: any) => (
 
 export const VisibleLiveDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
     renderLiveDescriptorContainer={VisibleLiveDescriptorContainer}
@@ -46,13 +58,18 @@ export const VisibleLiveDescriptors = () => (
 
 export const CustomHotkeys = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
+      'tree-1': {
         expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
@@ -72,13 +89,18 @@ export const CustomHotkeys = () => (
 
 export const CustomDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
+      'tree-1': {
         expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
@@ -97,19 +119,26 @@ export const CustomDescriptors = () => (
 
 export const NoDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     viewState={{
-      ['tree-1']: {
+      'tree-1': {
         expandedItems: ['Fruit', 'Meals', 'Desserts'],
       },
     }}
     showLiveDescription={false}
   >
-    <p>The following tree has no accessibility descriptors in the DOM at all.</p>
+    <p>
+      The following tree has no accessibility descriptors in the DOM at all.
+    </p>
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );

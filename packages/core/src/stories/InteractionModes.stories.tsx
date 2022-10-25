@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
+import React from 'react';
+import { longTree } from 'demodata';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React from 'react';
-import { longTree } from 'demodata';
 import { InteractionMode } from '../types';
 
 export default {
@@ -12,15 +12,27 @@ export default {
 
 export const ClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickItemToExpand}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -30,15 +42,27 @@ export const ClickItemToExpandInteractionMode = () => (
 
 export const DoubleClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.DoubleClickItemToExpand}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -48,15 +72,27 @@ export const DoubleClickItemToExpandInteractionMode = () => (
 
 export const ClickArrowToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     defaultInteractionMode={InteractionMode.ClickArrowToExpand}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -66,7 +102,12 @@ export const ClickArrowToExpandInteractionMode = () => (
 
 export const CustomInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     defaultInteractionMode={{
       mode: 'custom',
@@ -78,12 +119,23 @@ export const CustomInteractionMode = () => (
           actions.focusItem();
         },
         draggable: renderFlags.canDrag && !renderFlags.isRenaming,
-        tabIndex: !renderFlags.isRenaming ? (renderFlags.isFocused ? 0 : -1) : undefined,
+        tabIndex: !renderFlags.isRenaming
+          ? renderFlags.isFocused
+            ? 0
+            : -1
+          : undefined,
       }),
     }}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
@@ -93,7 +145,12 @@ export const CustomInteractionMode = () => (
 
 export const CustomExtendingInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     defaultInteractionMode={{
       mode: 'custom',
@@ -102,22 +159,34 @@ export const CustomExtendingInteractionMode = () => (
         onMouseOver: () => {
           document
             .querySelectorAll('[data-rct-tree="tree-5"] [data-rct-item-id]')
-            .forEach(element => ((element as any).style.background = 'transparent'));
+            .forEach(element => {
+              (element as any).style.background = 'transparent';
+            });
           (
-            document.querySelector(`[data-rct-tree="tree-5"]  [data-rct-item-id="${item.index}"]`) as any
+            document.querySelector(
+              `[data-rct-tree="tree-5"]  [data-rct-item-id="${item.index}"]`
+            ) as any
           ).style.background = 'red';
         },
       }),
     }}
     viewState={{
-      ['tree-5']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-5': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
       },
     }}
   >
     <>
       <p>
-        This interaction mode extends the &quot;Double Click Item To Expand&quot; mode, but adds a mouse hover effect.
+        This interaction mode extends the &quot;Double Click Item To
+        Expand&quot; mode, but adds a mouse hover effect.
       </p>
       <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
     </>

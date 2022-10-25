@@ -1,11 +1,12 @@
 import { Meta } from '@storybook/react';
+import React from 'react';
+import { longTree } from 'demodata';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React from 'react';
-import { longTree } from 'demodata';
 
-const cx = (...classNames: Array<string | undefined | false>) => classNames.filter(cn => !!cn).join(' ');
+const cx = (...classNames: Array<string | undefined | false>) =>
+  classNames.filter(cn => !!cn).join(' ');
 
 export default {
   title: 'Core/Custom View State',
@@ -13,10 +14,15 @@ export default {
 
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string, 'activeItems'>
-    canDragAndDrop={true}
-    canDropOnItemWithChildren={true}
-    canReorderItems={true}
-    dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
     getItemTitle={item => item.data}
     renderItem={({ item, depth, children, title, context, arrow }) => {
       const InteractiveComponent = context.isRenaming ? 'div' : 'button';
@@ -43,8 +49,10 @@ export const SingleTree = () => (
               context.isSelected && 'rct-tree-item-title-container-selected',
               context.isExpanded && 'rct-tree-item-title-container-expanded',
               context.isFocused && 'rct-tree-item-title-container-focused',
-              context.isDraggingOver && 'rct-tree-item-title-container-dragging-over',
-              context.isSearchMatching && 'rct-tree-item-title-container-search-match'
+              context.isDraggingOver &&
+                'rct-tree-item-title-container-dragging-over',
+              context.isSearchMatching &&
+                'rct-tree-item-title-container-search-match'
             )}
           >
             {arrow}
@@ -62,8 +70,15 @@ export const SingleTree = () => (
       );
     }}
     viewState={{
-      ['tree-1']: {
-        expandedItems: ['Fruit', 'Meals', 'America', 'Europe', 'Asia', 'Desserts'],
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
         activeItems: ['America', 'Europe'],
       },
     }}

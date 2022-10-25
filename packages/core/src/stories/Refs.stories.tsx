@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
+import React, { useEffect, useRef } from 'react';
+import { longTree } from 'demodata';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { Tree } from '../tree/Tree';
-import React, { useEffect, useRef } from 'react';
-import { longTree } from 'demodata';
 import { TreeEnvironmentRef, TreeRef } from '../types';
 
 export default {
@@ -18,9 +18,15 @@ export const ControlTreeExternally = () => {
     const interval = setInterval(() => {
       if (treeEnvironment.current && tree.current) {
         const linearItems = tree.current.treeContext.getItemsLinearly();
-        const focusItem = treeEnvironment.current.viewState[tree.current.treeId]!.focusedItem ?? linearItems[0].item;
+        const focusItem =
+          treeEnvironment.current.viewState[tree.current.treeId]!.focusedItem ??
+          linearItems[0].item;
 
-        if (!treeEnvironment.current.viewState[tree.current.treeId]!.expandedItems?.includes(focusItem)) {
+        if (
+          !treeEnvironment.current.viewState[
+            tree.current.treeId
+          ]!.expandedItems?.includes(focusItem)
+        ) {
           tree.current.expandItem(focusItem);
           return;
         }
@@ -35,18 +41,27 @@ export const ControlTreeExternally = () => {
   return (
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
-      canDragAndDrop={true}
-      canDropOnItemWithChildren={true}
-      canReorderItems={true}
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      canDragAndDrop
+      canDropOnItemWithChildren
+      canReorderItems
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, data) => ({
+          ...item,
+          data,
+        }))
+      }
       getItemTitle={item => item.data}
       viewState={{}}
     >
-      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" ref={tree} />
+      <Tree
+        treeId="tree-1"
+        rootItem="root"
+        treeLabel="Tree Example"
+        ref={tree}
+      />
     </UncontrolledTreeEnvironment>
   );
 };
-
 
 export const ExpandOrCollapseAll = () => {
   const treeEnvironment = useRef<TreeEnvironmentRef>(null);
@@ -54,20 +69,30 @@ export const ExpandOrCollapseAll = () => {
   return (
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
-      canDragAndDrop={true}
-      canDropOnItemWithChildren={true}
-      canReorderItems={true}
-      dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
+      canDragAndDrop
+      canDropOnItemWithChildren
+      canReorderItems
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, data) => ({
+          ...item,
+          data,
+        }))
+      }
       getItemTitle={item => item.data}
       viewState={{
-        ['tree-1']: {
+        'tree-1': {
           // expandedItems: ['Fruit', 'Meals', 'Asia', 'Desserts'],
         },
       }}
     >
       <button onClick={() => tree.current?.expandAll()}>Expand All</button>
       <button onClick={() => tree.current?.collapseAll()}>Collapse All</button>
-      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" ref={tree} />
+      <Tree
+        treeId="tree-1"
+        rootItem="root"
+        treeLabel="Tree Example"
+        ref={tree}
+      />
     </UncontrolledTreeEnvironment>
   );
 };

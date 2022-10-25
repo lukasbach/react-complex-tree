@@ -1,5 +1,5 @@
-import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { useMemo, useRef } from 'react';
+import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { KeyboardBindings } from '../types';
 import { useKeyboardBindings } from './useKeyboardBindings';
 import { useCallSoon } from '../useCallSoon';
@@ -18,7 +18,10 @@ export const useHotkey = (
   const callSoon = useCallSoon();
 
   const possibleCombinations = useMemo(
-    () => keyboardBindings[combinationName].map(combination => combination.split('+')),
+    () =>
+      keyboardBindings[combinationName].map(combination =>
+        combination.split('+')
+      ),
     [combinationName, keyboardBindings]
   );
 
@@ -31,7 +34,9 @@ export const useHotkey = (
       }
 
       if (
-        (elementsThatCanTakeText.includes((e.target as HTMLElement).tagName.toLowerCase()) ||
+        (elementsThatCanTakeText.includes(
+          (e.target as HTMLElement).tagName.toLowerCase()
+        ) ||
           (e.target as HTMLElement).isContentEditable) &&
         !activatableWhileFocusingInput
       ) {
@@ -41,11 +46,15 @@ export const useHotkey = (
 
       if (!pressedKeys.current.includes(e.key)) {
         pressedKeys.current.push(e.key);
-        const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
+        const pressedKeysLowercase = pressedKeys.current.map(key =>
+          key.toLowerCase()
+        );
 
         const partialMatch = possibleCombinations
           .map(combination =>
-            pressedKeysLowercase.map(key => combination.includes(key.toLowerCase())).reduce((a, b) => a && b, true)
+            pressedKeysLowercase
+              .map(key => combination.includes(key.toLowerCase()))
+              .reduce((a, b) => a && b, true)
           )
           .reduce((a, b) => a || b, false);
 
@@ -68,10 +77,14 @@ export const useHotkey = (
         return;
       }
 
-      const pressedKeysLowercase = pressedKeys.current.map(key => key.toLowerCase());
+      const pressedKeysLowercase = pressedKeys.current.map(key =>
+        key.toLowerCase()
+      );
       const match = possibleCombinations
         .map(combination =>
-          combination.map(key => pressedKeysLowercase.includes(key.toLowerCase())).reduce((a, b) => a && b, true)
+          combination
+            .map(key => pressedKeysLowercase.includes(key.toLowerCase()))
+            .reduce((a, b) => a && b, true)
         )
         .reduce((a, b) => a || b, false);
 
