@@ -47,6 +47,7 @@
     "no-nested-ternary": "off",
     "@typescript-eslint/no-shadow": "off",
     "import/no-extraneous-dependencies": "off",
+    "class-methods-use-this": "off",
 
     // TODO these came up when upgrading to new eslint config. fix these.
     "no-restricted-syntax": "off",

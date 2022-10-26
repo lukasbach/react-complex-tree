@@ -3,12 +3,7 @@ import { useCallback } from 'react';
 import { DraggingPosition } from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
-
-const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) =>
-  e.clientX < treeBb.left ||
-  e.clientX > treeBb.right ||
-  e.clientY < treeBb.top ||
-  e.clientY > treeBb.bottom;
+import { isOutsideOfContainer } from './layoutUtils';
 
 const getHoveringPosition = (
   clientY: number,

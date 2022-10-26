@@ -13,6 +13,8 @@ import { useGetViableDragPositions } from './useGetViableDragPositions';
 import { useSideEffect } from '../useSideEffect';
 import { buildMapForTrees } from '../utils';
 import { useCallSoon } from '../useCallSoon';
+import { computeItemHeight } from './layoutUtils';
+import { useStableHandler } from '../use-stable-handler';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
   null as any
@@ -161,7 +163,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
     performDrag
   );
 
-  const onDropHandler = useCallback(() => {
+  const onDropHandler = useStableHandler(() => {
     if (draggingItems && draggingPosition && environment.onDrop) {
       environment.onDrop(draggingItems, draggingPosition);
 
@@ -170,7 +172,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
         resetState();
       });
     }
-  }, [draggingItems, draggingPosition, environment, resetState, callSoon]);
+  });
 
   const onStartDraggingItems = useCallback(
     (items, treeId) => {
@@ -180,10 +182,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
       );
 
       // TODO what if trees have different heights and drag target changes?
-      const height =
-        document.querySelector<HTMLElement>(
-          `[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`
-        )?.offsetHeight ?? 5;
+      const height = computeItemHeight(treeId);
       setItemHeight(height);
       setDraggingItems(items);
       setViableDragPositions(treeViableDragPositions);
