@@ -20,14 +20,17 @@
     "lint:fix": "eslint --ext .ts,.tsx packages/ --fix"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^6.4.17",
-    "@storybook/addon-actions": "^6.4.17",
-    "@storybook/addon-docs": "^6.4.17",
-    "@storybook/addon-essentials": "^6.4.17",
-    "@storybook/addon-links": "^6.4.17",
-    "@storybook/addons": "^6.4.17",
+    "@storybook/addon-a11y": "^6.5.13",
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-docs": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/addons": "^6.5.13",
+    "@storybook/builder-webpack5": "^6.5.13",
+    "@storybook/manager-webpack5": "^6.5.13",
     "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^6.4.17",
+    "@storybook/react": "^6.5.13",
+    "webpack": "^5.74.0",
     "@types/storybook__react": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
@@ -43,11 +46,13 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "lerna": "^3.22.1",
     "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-docgen": "^5.3.1",
-    "react-docgen-typescript": "^1.20.5",
+    "react-docgen-typescript": "^2.2.2",
     "react-docgen-typescript-loader": "^3.7.2",
     "storybook-addon-react-docgen": "^1.2.42",
-    "ts-loader": "^8.0.11"
+    "ts-loader": "^9.4.1"
   },
   "workspaces": {
     "packages": [
@@ -56,8 +61,5 @@
     "nohoist": [
       "**/html-minifier-terser"
     ]
-  },
-  "resolutions": {
-    "@types/react": "17.0.38"
   }
 }

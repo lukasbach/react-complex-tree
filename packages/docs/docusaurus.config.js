@@ -134,8 +134,10 @@ module.exports = {
           editUrl: 'https://github.com/lukasbach/react-complex-tree/edit/main/packages/docs/blog/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-          packageCss: require.resolve('react-complex-tree/lib/style.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('react-complex-tree/lib/style.css')
+          ],
         },
       },
     ],

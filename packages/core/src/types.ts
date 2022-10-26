@@ -446,25 +446,25 @@ export interface KeyboardBindings {
 export interface LiveDescriptors {
   /**
    * Supports the following variables:
-   * {treeLabel} {keybinding:bindingname}
+   * \{treeLabel\} \{keybinding:bindingname\}
    */
   introduction: string;
 
   /**
    * Supports the following variables:
-   * {renamingItem} {keybinding:bindingname}
+   * \{renamingItem\} \{keybinding:bindingname\}
    */
   renamingItem: string;
 
   /**
    * Supports the following variables:
-   * {keybinding:bindingname}
+   * \{keybinding:bindingname\}
    */
   searching: string;
 
   /**
    * Supports the following variables:
-   * {dropTarget} {dragItems} {keybinding:bindingname}
+   * \{dropTarget\} \{dragItems\} \{keybinding:bindingname\}
    */
   programmaticallyDragging: string;
 
@@ -473,7 +473,7 @@ export interface LiveDescriptors {
    * but with the aria-live attribute assertive.
    *
    * Supports the following variables:
-   * {dropTarget} {dragItems} {keybinding:bindingname}
+   * \{dropTarget\} \{dragItems\} \{keybinding:bindingname\}
    */
   programmaticallyDraggingTarget: string;
 }

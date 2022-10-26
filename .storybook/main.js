@@ -7,13 +7,16 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
   ],
+  core: {
+    builder: "webpack5",
+  },
   typescript: {
     check: true,
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
       compilerOptions: {
-        allowSyntheticDefaultImports: false,
-        esModuleInterop: false,
+        allowSyntheticDefaultImports: true,
+        esModuleInterop: true,
         module: 'CommonJS',
       },
     },

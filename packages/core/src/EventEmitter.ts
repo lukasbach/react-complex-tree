@@ -12,7 +12,11 @@ export class EventEmitter<EventPayload> {
 
   private handlers: Array<EventHandler<EventPayload>> = [];
 
-  constructor(private options?: EventEmitterOptions<EventPayload>) {}
+  private options?: EventEmitterOptions<EventPayload>;
+
+  constructor(options?: EventEmitterOptions<EventPayload>) {
+    this.options = options;
+  }
 
   public get numberOfHandlers() {
     return this.handlers.filter(h => !!h).length;

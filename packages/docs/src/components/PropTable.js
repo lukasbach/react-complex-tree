@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDynamicImport } from 'docusaurus-plugin-react-docgen-typescript/pkg/dist-src/hooks/useDynamicImport';
+import { useDynamicImport } from 'docusaurus-plugin-react-docgen-typescript/dist/esm/hooks';
 
 export const PropTable = ({ name }) => {
   const props = useDynamicImport(name);
