@@ -6,6 +6,7 @@ import { action } from '@storybook/addon-actions';
 import { Tree } from '../tree/Tree';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
+import { buildTestTree } from '../../test/helpers';
 
 export default {
   title: 'Core/Basic Examples',
@@ -232,3 +233,43 @@ export const SwitchMountedTree = () => {
     </UncontrolledTreeEnvironment>
   );
 };
+
+export const UnitTestTree = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(buildTestTree(), (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{}}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
+export const UnitTestTreeOpen = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnItemWithChildren
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(buildTestTree(), (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {
+        expandedItems: Object.keys(buildTestTree()),
+      },
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
