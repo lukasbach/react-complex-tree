@@ -61,32 +61,50 @@ export class TestUtil {
     return this;
   }
 
+  public async selectItems(...titles: string[]) {
+    await this.clickItem(titles[0]);
+    for (const title of titles.slice(1)) {
+      await this.controlClick(title);
+    }
+  }
+
   public async clickItem(title: string) {
-    fireEvent.click(await this.renderProps!.findByText(title));
+    await this.expectVisible(title);
+    await act(async () => {
+      fireEvent.click(await this.renderProps!.findByText(title));
+    });
   }
 
   public async controlClick(title: string) {
-    fireEvent.click(await this.renderProps!.findByText(title), {
-      ctrlKey: true,
+    await act(async () => {
+      fireEvent.click(await this.renderProps!.findByText(title), {
+        ctrlKey: true,
+      });
     });
   }
 
   public async controlShiftClick(title: string) {
-    fireEvent.click(await this.renderProps!.findByText(title), {
-      ctrlKey: true,
-      shiftKey: true,
+    await act(async () => {
+      fireEvent.click(await this.renderProps!.findByText(title), {
+        ctrlKey: true,
+        shiftKey: true,
+      });
     });
   }
 
   public async shiftClick(title: string) {
-    fireEvent.click(await this.renderProps!.findByText(title), {
-      shiftKey: true,
+    await act(async () => {
+      fireEvent.click(await this.renderProps!.findByText(title), {
+        shiftKey: true,
+      });
     });
   }
 
   public async startDrag(title: string) {
-    fireEvent.dragStart(await this.renderProps!.findByText(title), {
-      dataTransfer: {},
+    await act(async () => {
+      fireEvent.dragStart(await this.renderProps!.findByText(title), {
+        dataTransfer: {},
+      });
     });
   }
 
