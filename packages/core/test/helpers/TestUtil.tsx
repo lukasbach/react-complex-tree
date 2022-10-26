@@ -11,7 +11,7 @@ import {
   TreeProps,
   IndividualTreeViewState,
 } from '../../src';
-import { testTree } from './testTree';
+import { buildTestTree } from './testTree';
 import {
   computeItemHeight,
   isOutsideOfContainer,
@@ -35,10 +35,13 @@ export class TestUtil {
 
   public tree2Ref?: TreeRef | null;
 
-  public dataProvider = new StaticTreeDataProvider(testTree, (item, data) => ({
-    ...item,
-    data,
-  }));
+  public dataProvider = new StaticTreeDataProvider(
+    buildTestTree(),
+    (item, data) => ({
+      ...item,
+      data,
+    })
+  );
 
   public withViewState(viewState: TreeViewState) {
     this.viewState = viewState;
@@ -46,6 +49,7 @@ export class TestUtil {
   }
 
   public withEverythingOpen() {
+    const testTree = buildTestTree();
     this.viewState = {
       'tree-1': {
         expandedItems: Object.keys(testTree),
@@ -87,24 +91,28 @@ export class TestUtil {
   }
 
   public async dragOver(title: string, position?: 'top' | 'bottom') {
-    const items = await this.renderProps!.findAllByTestId('title');
-    const itemIndex = items.findIndex(item => item.innerHTML === title);
+    await act(async () => {
+      const items = await this.renderProps!.findAllByTestId('title');
+      const itemIndex = items.findIndex(item => item.innerHTML === title);
 
-    // jsom doesnt support drag events :( let's mock it directly on the dnd context
-    this.environmentRef?.dragAndDropContext.onDragOverTreeHandler(
-      {
-        clientX: 0,
-        clientY:
-          itemIndex * 10 +
-          (position === 'top' ? 1 : position === 'bottom' ? 9 : 5),
-      } as any,
-      'tree-1',
-      { current: this.containerRef ?? undefined }
-    );
+      // jsom doesnt support drag events :( let's mock it directly on the dnd context
+      this.environmentRef?.dragAndDropContext.onDragOverTreeHandler(
+        {
+          clientX: 0,
+          clientY:
+            itemIndex * 10 +
+            (position === 'top' ? 1 : position === 'bottom' ? 9 : 5),
+        } as any,
+        'tree-1',
+        { current: this.containerRef ?? undefined }
+      );
+    });
   }
 
-  public drop() {
-    fireEvent.drop(window);
+  public async drop() {
+    await act(async () => {
+      fireEvent.drop(window);
+    });
   }
 
   public async stopDrag() {
@@ -177,6 +185,19 @@ export class TestUtil {
     contents.forEach((child, index) =>
       expect(childrenComponents.item(index)).toHaveTextContent(child)
     );
+  }
+
+  public async renderOpenTree(
+    environmentProps: Partial<UncontrolledTreeEnvironmentProps> = {},
+    treeProps: Partial<TreeProps> = {},
+    tree2Props: Partial<TreeProps> = {},
+    twoTrees = false
+  ) {
+    this.withEverythingOpen();
+    await this.renderTree(environmentProps, treeProps, tree2Props, twoTrees);
+    await this.expectVisible('aaa', 'bbb', 'ccc');
+    await this.waitForStableLinearItems();
+    return this;
   }
 
   public async renderTree(

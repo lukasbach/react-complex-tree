@@ -121,4 +121,4 @@ const readTemplate = (
   return data;
 };
 
-export const testTree = readTemplate([template]);
+export const buildTestTree = () => readTemplate([template]);
