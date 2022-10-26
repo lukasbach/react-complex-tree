@@ -13,5 +13,6 @@ jobs:
         run: |
           yarn
           yarn lint
+          yarn test
           yarn build
           yarn build-storybook
