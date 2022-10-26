@@ -1,7 +1,8 @@
 {
   "extends": "@lukasbach/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "noImplicitAny": false
   },
   "include": ["packages/**/src", "packages/**/test"]
 }
