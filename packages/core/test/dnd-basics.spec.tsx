@@ -1,6 +1,6 @@
 import { TestUtil } from './helpers';
 
-describe('basic dnd', () => {
+describe('dnd basics', () => {
   it('can open and close items', async () => {
     const test = await new TestUtil().renderTree();
     await test.clickItem('a');
