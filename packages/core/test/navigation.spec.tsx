@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react';
 import { TestUtil } from './helpers';
 
 describe('navigation', () => {
@@ -49,6 +50,30 @@ describe('navigation', () => {
       await test.expectFocused('target-parent');
       await test.pressKeys('ArrowRight');
       await test.expectFocused('before');
+      await test.expectTreeUnchanged();
+    });
+  });
+
+  describe('expand and collapse all', () => {
+    it('can expand and collapse all', async () => {
+      const test = await new TestUtil().renderTree();
+      await test.waitForStableLinearItems();
+      await act(async () => {
+        await test.treeRef?.expandAll();
+      });
+      await test.expectVisible('aaa', 'bbb', 'ccc', 'deep5');
+      // await waitFor(async () => {
+      //   await test.expectOpenViewState();
+      // });
+      await act(async () => {
+        await test.treeRef?.collapseAll();
+      });
+      await test.expectNotVisible('aaa', 'aa', 'target', 'deep5');
+      await test.expectViewState({
+        expandedItems: [],
+        focusedItem: 'target-parent',
+      });
+
       await test.expectTreeUnchanged();
     });
   });

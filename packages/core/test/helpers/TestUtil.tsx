@@ -113,6 +113,14 @@ export class TestUtil {
     });
   }
 
+  public async pressKey(key: string, event: Partial<KeyboardEvent> = {}) {
+    await act(() => {
+      fireEvent.keyDown(document, { key, ...event });
+      fireEvent.keyUp(document, { key, ...event });
+    });
+    await new Promise(resolve => requestAnimationFrame(resolve));
+  }
+
   public async pressKeys(...keys: string[]) {
     await act(() => {
       for (const key of keys) {
@@ -215,18 +223,27 @@ export class TestUtil {
   }
 
   public async expectFocused(item: string, treeId = 1) {
+    await this.expectVisible(item);
     expect(
       this.environmentRef?.viewState[`tree-${treeId}`]?.focusedItem
     ).toEqual(item);
-    await this.expectVisible(item);
+  }
+
+  public async expectSelected(...items: string[]) {
+    await this.expectVisible(...items);
+    await waitFor(() => {
+      expect(this.environmentRef?.viewState['tree-1']?.selectedItems).toEqual(
+        items
+      );
+    });
   }
 
   public async expectOpenViewState(treeId = 1) {
     const items = Object.keys(buildTestTree());
+    await this.expectVisible(...items.filter(item => item !== 'root'));
     expect(
       this.environmentRef?.viewState[`tree-${treeId}`]?.expandedItems
     ).toEqual(items);
-    await this.expectVisible(...items.filter(item => item !== 'root'));
   }
 
   public async expectItemsExpanded(...items: string[]) {
