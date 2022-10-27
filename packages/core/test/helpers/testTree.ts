@@ -20,6 +20,11 @@ const buildItem = (
 });
 
 const template = buildItem('root', [
+  buildItem('target-parent', [
+    buildItem('before'),
+    buildItem('target'),
+    buildItem('after'),
+  ]),
   buildItem('a', [
     buildItem('aa', [
       buildItem('aaa'),
@@ -96,6 +101,11 @@ const template = buildItem('root', [
       buildItem('cdb'),
       buildItem('cdc'),
       buildItem('cdd'),
+    ]),
+  ]),
+  buildItem('deep1', [
+    buildItem('deep2', [
+      buildItem('deep3', [buildItem('deep4', [buildItem('deep5')])]),
     ]),
   ]),
   buildItem('special', [
