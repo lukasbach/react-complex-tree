@@ -189,6 +189,24 @@ export class TestUtil {
     return this;
   }
 
+  public async expectItemContentsUnchanged(...items: string[]) {
+    for (const item of items) {
+      const originalItems = buildTestTree()[item].children!.map(
+        child => `${child}`
+      );
+      await this.expectItemContents(item, originalItems);
+    }
+  }
+
+  public async expectItemContentsVisibleAndUnchanged(...items: string[]) {
+    for (const item of items) {
+      const originalItems = buildTestTree()[item].children!.map(
+        child => `${child}`
+      );
+      await this.expectVisibleItemContents(item, originalItems);
+    }
+  }
+
   public async expectItemContents(item: string, contents: string[]) {
     const { children } = await this.dataProvider.getTreeItem(item);
     expect(children).toEqual(contents);

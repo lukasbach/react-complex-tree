@@ -109,7 +109,7 @@ describe('basic dnd', () => {
       await test.dragOver('bb', 'bottom');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
-      await test.expectVisibleItemContents('bb', ['bba', 'bbb', 'bbc', 'bbd']);
+      await test.expectItemContentsVisibleAndUnchanged('bb');
       await test.expectVisibleItemContents('b', [
         'ba',
         'bb',
@@ -126,7 +126,7 @@ describe('basic dnd', () => {
       await test.dragOver('bb', 'bottom');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
-      await test.expectItemContents('bb', ['bba', 'bbb', 'bbc', 'bbd']);
+      await test.expectItemContentsUnchanged('bb');
       await test.expectVisibleItemContents('b', [
         'ba',
         'bb',
@@ -141,7 +141,7 @@ describe('basic dnd', () => {
       await test.startDrag('aaa');
       await test.dragOver('target-parent');
       await test.stopDrag();
-      await test.expectVisibleItemContents('aa', ['aaa', 'aab', 'aac', 'aad']);
+      await test.expectItemContentsVisibleAndUnchanged('aa');
       await test.expectVisibleItemContents('target-parent', [
         'before',
         'target',
@@ -156,7 +156,7 @@ describe('basic dnd', () => {
       await test.dragOver('target-parent');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aaa', 'aac', 'aad']);
-      await test.expectVisibleItemContents('cc', ['cca', 'ccb', 'ccc', 'ccd']);
+      await test.expectItemContentsVisibleAndUnchanged('cc');
       await test.expectVisibleItemContents('target-parent', [
         'before',
         'target',
@@ -191,7 +191,7 @@ describe('basic dnd', () => {
       await test.dragOver('target-parent');
       await test.drop();
       await test.expectVisibleItemContents('a', ['aa']);
-      await test.expectItemContents('ab', ['aba', 'abb', 'abc', 'abd']);
+      await test.expectItemContentsUnchanged('ab');
       await test.expectVisibleItemContents('target-parent', [
         'before',
         'target',
@@ -274,38 +274,40 @@ describe('basic dnd', () => {
       const test = await new TestUtil().renderOpenTree();
       await test.selectItems('aaa', 'aab', 'bbb');
       await test.startDrag('aaa');
-      await test.dragOver('bb', 'bottom');
+      await test.dragOver('cc', 'bottom');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aac', 'aad']);
       await test.expectVisibleItemContents('bb', ['bba', 'bbc', 'bbd']);
-      await test.expectVisibleItemContents('b', [
-        'ba',
-        'bb',
+      await test.expectItemContentsVisibleAndUnchanged('cc');
+      await test.expectVisibleItemContents('c', [
+        'ca',
+        'cb',
+        'cc',
         'aaa',
         'aab',
         'bbb',
-        'bc',
-        'bd',
+        'cd',
       ]);
     });
 
-    it('drag items to closed-folder-item bottom', async () => {
+    it.skip('drag items to closed-folder-item bottom', async () => {
       const test = await new TestUtil().renderOpenTree();
-      await test.clickItem('bb');
+      await test.clickItem('cc');
       await test.selectItems('aaa', 'aab', 'bbb');
       await test.startDrag('aaa');
-      await test.dragOver('bb', 'bottom');
+      await test.dragOver('cc', 'bottom');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aac', 'aad']);
-      await test.expectItemContents('bb', ['bba', 'bbc', 'bbd']);
-      await test.expectVisibleItemContents('b', [
-        'ba',
-        'bb',
+      await test.expectVisibleItemContents('bb', ['bba', 'bbc', 'bbd']);
+      await test.expectItemContentsUnchanged('cc');
+      await test.expectVisibleItemContents('c', [
+        'ca',
+        'cb',
+        'cc',
         'aaa',
         'aab',
-        'bbb',
-        'bc',
-        'bd',
+        'cbb',
+        'cd',
       ]);
     });
 
@@ -315,8 +317,7 @@ describe('basic dnd', () => {
       await test.selectItems('aaa', 'aab', 'bbb');
       await test.dragOver('target-parent');
       await test.stopDrag();
-      await test.expectVisibleItemContents('aa', ['aaa', 'aab', 'aac', 'aad']);
-      await test.expectVisibleItemContents('bb', ['bbb', 'bba', 'bbc', 'bbd']);
+      await test.expectItemContentsVisibleAndUnchanged('aa', 'bb');
       await test.expectVisibleItemContents('target-parent', [
         'before',
         'target',
