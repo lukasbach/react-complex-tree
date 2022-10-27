@@ -62,6 +62,7 @@
     "test": "jest"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "setupFiles": ["./test/helpers/setup.ts"]
   }
 }

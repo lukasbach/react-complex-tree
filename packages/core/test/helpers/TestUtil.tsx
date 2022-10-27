@@ -16,6 +16,7 @@ import {
   computeItemHeight,
   isOutsideOfContainer,
 } from '../../src/controlledEnvironment/layoutUtils';
+import '@testing-library/jest-dom';
 
 jest.mock('../../src/controlledEnvironment/layoutUtils');
 
