@@ -35,7 +35,7 @@ export const useHotkey = (
 
       if (
         (elementsThatCanTakeText.includes(
-          (e.target as HTMLElement).tagName.toLowerCase()
+          (e.target as HTMLElement).tagName?.toLowerCase()
         ) ||
           (e.target as HTMLElement).isContentEditable) &&
         !activatableWhileFocusingInput

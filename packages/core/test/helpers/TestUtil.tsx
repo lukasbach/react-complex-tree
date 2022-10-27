@@ -23,7 +23,10 @@ jest.mock('../../src/controlledEnvironment/layoutUtils');
 (isOutsideOfContainer as jest.Mock).mockReturnValue(false);
 
 export class TestUtil {
-  private viewState: TreeViewState = {};
+  private viewState: TreeViewState = {
+    'tree-1': {},
+    'tree-2': {},
+  };
 
   public renderProps?: ReturnType<typeof render>;
 
@@ -44,7 +47,7 @@ export class TestUtil {
   );
 
   public withViewState(viewState: TreeViewState) {
-    this.viewState = viewState;
+    this.viewState = { ...this.viewState, viewState };
     return this;
   }
 
@@ -59,6 +62,15 @@ export class TestUtil {
       },
     };
     return this;
+  }
+
+  public withInitialFocus(item: string, treeId = 'tree-1') {
+    this.viewState[treeId]!.focusedItem = item;
+    return this;
+  }
+
+  public async focusTree(treeId = 'tree-1') {
+    (treeId === 'tree-1' ? this.treeRef : this.tree2Ref)?.focusTree();
   }
 
   public async selectItems(...titles: string[]) {
@@ -98,6 +110,18 @@ export class TestUtil {
         shiftKey: true,
       });
     });
+  }
+
+  public async pressKeys(...keys: string[]) {
+    await act(() => {
+      for (const key of keys) {
+        fireEvent.keyDown(document, { key });
+      }
+      for (const key of keys) {
+        fireEvent.keyUp(document, { key });
+      }
+    });
+    await new Promise(resolve => requestAnimationFrame(resolve));
   }
 
   public async startDrag(title: string) {
@@ -189,12 +213,36 @@ export class TestUtil {
     return this;
   }
 
+  public async expectFocused(item: string, treeId = 1) {
+    expect(
+      this.environmentRef?.viewState[`tree-${treeId}`]?.focusedItem
+    ).toEqual(item);
+    await this.expectVisible(item);
+  }
+
   public async expectOpenViewState(treeId = 1) {
     const items = Object.keys(buildTestTree());
     expect(
       this.environmentRef?.viewState[`tree-${treeId}`]?.expandedItems
     ).toEqual(items);
     await this.expectVisible(...items.filter(item => item !== 'root'));
+  }
+
+  public async expectItemsExpanded(...items: string[]) {
+    await this.expectVisible(...items);
+    for (const item of items) {
+      expect(this.environmentRef?.viewState['tree-1']?.expandedItems).toContain(
+        item
+      );
+    }
+  }
+
+  public async expectItemsCollapsed(...items: string[]) {
+    for (const item of items) {
+      expect(
+        this.environmentRef?.viewState['tree-1']?.expandedItems
+      ).not.toContain(item);
+    }
   }
 
   public async expectItemContentsUnchanged(...items: string[]) {
@@ -316,7 +364,7 @@ export class TestUtil {
               {...props.containerProps}
               ref={ref => {
                 this.containerRef = ref;
-                (props as any).containerProps.ref = ref;
+                (props as any).containerProps.ref.current = ref;
               }}
             >
               {props.children}

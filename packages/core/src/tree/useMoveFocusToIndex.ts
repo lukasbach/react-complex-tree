@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 import { LinearItem } from '../types';
+import { useStableHandler } from '../use-stable-handler';
 
 export const useMoveFocusToIndex = () => {
   const { treeId } = useTree();
@@ -11,7 +11,7 @@ export const useMoveFocusToIndex = () => {
   const linearItems = useLinearItems(treeId);
   const viewState = useViewState();
 
-  return useCallback(
+  return useStableHandler(
     (
       computeNewIndex: (
         currentIndex: number,
@@ -28,7 +28,6 @@ export const useMoveFocusToIndex = () => {
       const newFocusItem = items[linearItems[newIndexBounded].item];
       onFocusItem?.(newFocusItem, treeId);
       return newFocusItem;
-    },
-    [onFocusItem, items, linearItems, treeId, viewState.focusedItem]
+    }
   );
 };
