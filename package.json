@@ -10,9 +10,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "lerna run start --parallel --npm-client=yarn",
-    "build": "lerna run build --npm-client=yarn",
-    "test": "lerna run test --npm-client=yarn --stream",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build",
+    "test": "lerna run test --stream",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prepublishOnly": "yarn build",
