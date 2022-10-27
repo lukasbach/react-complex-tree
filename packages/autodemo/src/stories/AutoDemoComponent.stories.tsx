@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 import { Tree, UncontrolledTreeEnvironment } from 'react-complex-tree';
-import { longTree } from 'demodata';
+import { autoDemoTree } from 'demodata';
 import { AutoDemo } from '../AutoDemo';
 
 export default {
@@ -13,7 +13,7 @@ const treeId2 = 'tree-2';
 
 export const SingleTreeDemo = () => (
   <AutoDemo
-    data={longTree}
+    data={autoDemoTree}
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
@@ -85,7 +85,7 @@ export const SingleTreeDemo = () => (
 export const MultiTreeDemo = () => (
   <AutoDemo
     restart
-    data={longTree}
+    data={autoDemoTree}
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
       await story.searchFor(story.tree.current!, 'banana');
@@ -156,6 +156,8 @@ export const MultiTreeDemo = () => (
       await story.wait(500);
       await story.tree2.current?.moveFocusUp();
       await story.wait(500);
+      await story.tree2.current?.moveFocusUp();
+      await story.wait(500);
       await story.tree2.current?.expandItem(
         story.env.current?.viewState[treeId2]!.focusedItem!
       );
@@ -196,6 +198,7 @@ export const MultiTreeDemo = () => (
         story.env.current?.viewState[treeId2]!.focusedItem!
       );
       await story.wait(1000);
+      /*
       await story.env.current?.startProgrammaticDrag();
       await story.programmaticMove('down', 8);
       await story.env.current?.completeProgrammaticDrag();
@@ -227,6 +230,7 @@ export const MultiTreeDemo = () => (
       await story.wait(1000);
       await story.env.current?.completeProgrammaticDrag();
       await story.wait(5000);
+      */
     }}
   >
     {(environmentProps, environmentRef, treeRef, treeRef2) => (
@@ -262,7 +266,7 @@ export const MultiTreeDemo = () => (
 
 export const SearchDemo = () => (
   <AutoDemo
-    data={longTree}
+    data={autoDemoTree}
     restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
@@ -329,7 +333,7 @@ const VisibleLiveDescriptorContainer = ({ children, tree }: any) => (
 
 export const VisibleLiveDescriptors = () => (
   <AutoDemo
-    data={longTree}
+    data={autoDemoTree}
     restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
@@ -372,7 +376,7 @@ export const VisibleLiveDescriptors = () => (
 
 export const SingleTreeEmptyTemplate = () => (
   <AutoDemo
-    data={longTree}
+    data={autoDemoTree}
     restart
     storyScript={async story => {
       await story.tree.current?.focusTree(false);
