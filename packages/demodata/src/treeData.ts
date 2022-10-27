@@ -97,5 +97,58 @@ const longTreeTemplate = {
   },
 };
 
+const autoDemoTemplate = {
+  root: {
+    Fruit: {
+      Apple: null,
+      Orange: null,
+      Lemon: null,
+      Berries: {
+        Strawberry: null,
+        Blueberry: null,
+      },
+      Banana: null,
+    },
+    Meals: {
+      America: {
+        SmashBurger: null,
+        Chowder: null,
+        Ravioli: null,
+        MacAndCheese: null,
+        Brownies: null,
+      },
+      Europe: {
+        Risotto: null,
+        Spaghetti: null,
+        Pizza: null,
+        Weisswurst: null,
+        Spargel: null,
+      },
+      Asia: {
+        Curry: null,
+        PadThai: null,
+        Jiaozi: null,
+        Sushi: null,
+      },
+      Australia: {
+        PotatoWedges: null,
+        PokeBowl: null,
+        LemonCurd: null,
+        KumaraFries: null,
+      },
+    },
+    Desserts: {
+      Cookies: null,
+      IceCream: null,
+    },
+    Drinks: {
+      PinaColada: null,
+      Cola: null,
+      Juice: null,
+    },
+  },
+};
+
 export const longTree = readTemplate(longTreeTemplate);
 export const shortTree = readTemplate(shortTreeTemplate);
+export const autoDemoTree = readTemplate(autoDemoTemplate);
