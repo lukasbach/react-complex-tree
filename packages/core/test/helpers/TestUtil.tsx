@@ -189,6 +189,14 @@ export class TestUtil {
     return this;
   }
 
+  public async expectOpenViewState(treeId = 1) {
+    const items = Object.keys(buildTestTree());
+    expect(
+      this.environmentRef?.viewState[`tree-${treeId}`]?.expandedItems
+    ).toEqual(items);
+    await this.expectVisible(...items.filter(item => item !== 'root'));
+  }
+
   public async expectItemContentsUnchanged(...items: string[]) {
     for (const item of items) {
       const originalItems = buildTestTree()[item].children!.map(
@@ -210,6 +218,30 @@ export class TestUtil {
   public async expectItemContents(item: string, contents: string[]) {
     const { children } = await this.dataProvider.getTreeItem(item);
     expect(children).toEqual(contents);
+  }
+
+  public async expectTreeUnchanged() {
+    for (const [id, item] of Object.entries(buildTestTree())) {
+      expect(await this.dataProvider.getTreeItem(id)).toEqual(item);
+    }
+  }
+
+  public async debugTree() {
+    // eslint-disable-next-line no-console
+    console.log(await this.retrieveDebugTree());
+  }
+
+  private async retrieveDebugTree(
+    subtree: string | number = 'root',
+    depth = 0
+  ) {
+    let str = '';
+    const { children } = await this.dataProvider.getTreeItem(subtree);
+    for (const child of children ?? []) {
+      str += `${' '.repeat(depth * 2) + child}\n`;
+      str += await this.retrieveDebugTree(child, depth + 1);
+    }
+    return str;
   }
 
   public async expectVisibleItemContents(item: string, contents: string[]) {
