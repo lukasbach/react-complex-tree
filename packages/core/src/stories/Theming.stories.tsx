@@ -46,6 +46,7 @@ export const MinimalRenderers = () => (
     renderItem={({ title, arrow, context, children }) => (
       <li {...context.itemContainerWithChildrenProps}>
         <button
+          type="button"
           {...context.itemContainerWithoutChildrenProps}
           {...(context.interactiveElementProps as any)}
         >

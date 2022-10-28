@@ -52,12 +52,9 @@
     "no-restricted-syntax": "off",
 
     // TODO these came up when upgrading to new eslint config. fix these.
-    "@typescript-eslint/no-unused-vars": "off",
     "import/no-cycle": "off",
     "react/function-component-definition": "off",
-    "react/destructuring-assignment": "off",
-    "react/button-has-type": "off",
-    "no-promise-executor-return": "off"
+    "react/destructuring-assignment": "off"
   },
   "ignorePatterns": ["**/lib", "**/webpack.config.ts", "**/*.js"]
 }

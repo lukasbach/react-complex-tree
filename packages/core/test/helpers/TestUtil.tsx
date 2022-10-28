@@ -119,7 +119,9 @@ export class TestUtil {
       fireEvent.keyDown(document, { key, ...event });
       fireEvent.keyUp(document, { key, ...event });
     });
-    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => {
+      requestAnimationFrame(resolve);
+    });
   }
 
   public async pressKeys(...keys: string[]) {
@@ -131,7 +133,9 @@ export class TestUtil {
         fireEvent.keyUp(document, { key });
       }
     });
-    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => {
+      requestAnimationFrame(resolve);
+    });
   }
 
   public async startDrag(title: string) {

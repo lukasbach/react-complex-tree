@@ -16,7 +16,9 @@ export const TreeWithDelayedDataProvider = () => (
     canReorderItems
     dataProvider={{
       getTreeItem: itemId =>
-        new Promise(res => setTimeout(() => res(longTree.items[itemId]), 750)),
+        new Promise(res => {
+          setTimeout(() => res(longTree.items[itemId]), 750);
+        }),
     }}
     getItemTitle={item => item.data}
     viewState={{
@@ -38,9 +40,9 @@ export const WithExpandOrCollapseAll = () => {
       canReorderItems
       dataProvider={{
         getTreeItem: itemId =>
-          new Promise(res =>
-            setTimeout(() => res(longTree.items[itemId]), 750)
-          ),
+          new Promise(res => {
+            setTimeout(() => res(longTree.items[itemId]), 750);
+          }),
       }}
       getItemTitle={item => item.data}
       viewState={{
@@ -49,8 +51,12 @@ export const WithExpandOrCollapseAll = () => {
         },
       }}
     >
-      <button onClick={() => tree.current?.expandAll()}>Expand All</button>
-      <button onClick={() => tree.current?.collapseAll()}>Collapse All</button>
+      <button type="button" onClick={() => tree.current?.expandAll()}>
+        Expand All
+      </button>
+      <button type="button" onClick={() => tree.current?.collapseAll()}>
+        Collapse All
+      </button>
       <Tree
         treeId="tree-1"
         rootItem="root"
