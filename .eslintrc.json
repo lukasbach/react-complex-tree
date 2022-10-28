@@ -37,7 +37,7 @@
     "react/display-name": "off",
     "react/prop-types": "off",
     "react-hooks/exhaustive-deps": [
-      "warn",
+      "error",
       {
         "additionalHooks": "(useSideEffect)|(useMemoizedObject)"
       }
@@ -50,13 +50,11 @@
     "class-methods-use-this": "off",
     "react/require-default-props": "off",
     "no-restricted-syntax": "off",
+    "react/function-component-definition": "off",
 
     // Dependency cycles come from contexts, context providers and context hooks being in the same file.
     // Could be solved, but also doesn't really bring any harm to keep as is.
-    "import/no-cycle": "off",
-
-    // TODO fix
-    "react/function-component-definition": "off"
+    "import/no-cycle": "off"
   },
   "ignorePatterns": ["**/lib", "**/webpack.config.ts", "**/*.js"]
 }
