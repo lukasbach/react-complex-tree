@@ -32,7 +32,7 @@ export interface TreeItemActions {
   selectItem: () => void;
   unselectItem: () => void;
   addToSelectedItems: () => void;
-  selectUpTo: () => void;
+  selectUpTo: (overrideOldSelection?: boolean) => void;
   startDragging: () => void;
   focusItem: () => void;
   // toggleSelectedState: () => void;

@@ -22,11 +22,9 @@ export const TreeItem = (props: {
     [props.itemIndex, viewState.expandedItems]
   );
 
-  // Safely assume that renderContext exists, because if not, item also does not exist and the
-  // component will exit early anyways
   const renderContext = useTreeItemRenderContext(item)!;
 
-  if (item === undefined) {
+  if (item === undefined || renderContext === undefined) {
     if (!hasBeenRequested) {
       setHasBeenRequested(true);
       environment.onMissingItems?.([props.itemIndex]);

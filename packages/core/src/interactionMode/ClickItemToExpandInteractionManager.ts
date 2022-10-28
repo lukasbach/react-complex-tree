@@ -28,7 +28,7 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
       onClick: e => {
         actions.focusItem();
         if (e.shiftKey) {
-          actions.selectUpTo();
+          actions.selectUpTo(!e.ctrlKey);
         } else if (isControlKey(e)) {
           if (renderFlags.isSelected) {
             actions.unselectItem();

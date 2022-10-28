@@ -14,7 +14,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   const environment = useTreeEnvironment();
   const interactionManager = useInteractionManager();
   const dnd = useDragAndDrop();
-  const selectUpTo = useSelectUpTo();
+  const selectUpTo = useSelectUpTo('last-focus');
   const itemTitle = item && environment.getItemTitle(item);
 
   const isSearchMatching = useMemo(
@@ -108,8 +108,8 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
           treeId
         );
       },
-      selectUpTo: () => {
-        selectUpTo(item);
+      selectUpTo: overrideOldSelection => {
+        selectUpTo(item, overrideOldSelection);
       },
       startRenamingItem: () => {
         environment.onStartRenamingItem?.(item, treeId);

@@ -16,7 +16,7 @@ export const useTreeKeyboardBindings = () => {
   const dnd = useDragAndDrop();
   const viewState = useViewState();
   const moveFocusToIndex = useMoveFocusToIndex();
-  const selectUpTo = useSelectUpTo();
+  const selectUpTo = useSelectUpTo('first-selected');
 
   const isActiveTree = environment.activeTreeId === treeId;
   const isRenaming = !!renamingItem;
