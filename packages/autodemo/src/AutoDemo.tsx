@@ -45,6 +45,19 @@ export interface ProvidedEnvironmentProps
 
 const localStorageKeySpeed = 'rct-autodemo-speed';
 
+const SpeedButton: React.FC<{
+  buttonSpeed: number;
+  speed: number;
+  onClick: () => void;
+}> = props => (
+  <button
+    className={props.speed === props.buttonSpeed ? 'active' : ''}
+    onClick={props.onClick}
+  >
+    x{props.speed}
+  </button>
+);
+
 export const AutoDemo = (props: {
   data: ExplicitDataSource;
   children: (
@@ -181,15 +194,6 @@ export const AutoDemo = (props: {
     [restartKey, aborted, props.data.items]
   );
 
-  const SpeedButton: React.FC<{ speed: number }> = props => (
-    <button
-      className={props.speed === speed ? 'active' : ''}
-      onClick={() => setSpeed(props.speed)}
-    >
-      x{props.speed}
-    </button>
-  );
-
   return (
     <div className="rct-autodemo-container">
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -223,10 +227,26 @@ export const AutoDemo = (props: {
               className="rct-autodemo-controls-speed"
               aria-label="Speed control for the demo"
             >
-              <SpeedButton speed={0.75} />
-              <SpeedButton speed={1} />
-              <SpeedButton speed={2} />
-              <SpeedButton speed={3} />
+              <SpeedButton
+                speed={speed}
+                onClick={() => setSpeed(0.75)}
+                buttonSpeed={0.75}
+              />
+              <SpeedButton
+                speed={speed}
+                onClick={() => setSpeed(1)}
+                buttonSpeed={1}
+              />
+              <SpeedButton
+                speed={speed}
+                onClick={() => setSpeed(2)}
+                buttonSpeed={2}
+              />
+              <SpeedButton
+                speed={speed}
+                onClick={() => setSpeed(3)}
+                buttonSpeed={3}
+              />
             </div>
           </div>
           <p>
