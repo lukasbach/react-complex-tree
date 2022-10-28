@@ -1,5 +1,6 @@
 const readTemplate = (template: any, data: any = { items: {} }) => {
   for (const [key, value] of Object.entries(template)) {
+    // eslint-disable-next-line no-param-reassign
     data.items[key] = {
       index: key,
       canMove: true,

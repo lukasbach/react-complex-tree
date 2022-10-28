@@ -121,6 +121,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         props.onRenameItem?.(item, name, treeId);
       }}
       onDrop={async (items, target) => {
+        const promises: Promise<void>[] = [];
         for (const item of items) {
           const parent = Object.values(currentItems).find(potentialParent =>
             potentialParent.children?.includes(item.index)
@@ -141,14 +142,18 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
             if (target.targetItem === parent.index) {
               // NOOP
             } else {
-              await dataProvider.onChangeItemChildren(
-                parent.index,
-                parent.children.filter(child => child !== item.index)
+              promises.push(
+                dataProvider.onChangeItemChildren(
+                  parent.index,
+                  parent.children.filter(child => child !== item.index)
+                )
               );
-              await dataProvider.onChangeItemChildren(target.targetItem, [
-                ...(currentItems[target.targetItem].children ?? []),
-                item.index,
-              ]);
+              promises.push(
+                dataProvider.onChangeItemChildren(target.targetItem, [
+                  ...(currentItems[target.targetItem].children ?? []),
+                  item.index,
+                ])
+              );
             }
           } else {
             const newParentChildren = [...(newParent.children ?? [])].filter(
@@ -165,23 +170,30 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
                 0,
                 item.index
               );
-              await dataProvider.onChangeItemChildren(
-                target.parentItem,
-                newParentChildren
+              promises.push(
+                dataProvider.onChangeItemChildren(
+                  target.parentItem,
+                  newParentChildren
+                )
               );
             } else {
               newParentChildren.splice(target.childIndex, 0, item.index);
-              await dataProvider.onChangeItemChildren(
-                parent.index,
-                parent.children.filter(child => child !== item.index)
+              promises.push(
+                dataProvider.onChangeItemChildren(
+                  parent.index,
+                  parent.children.filter(child => child !== item.index)
+                )
               );
-              await dataProvider.onChangeItemChildren(
-                target.parentItem,
-                newParentChildren
+              promises.push(
+                dataProvider.onChangeItemChildren(
+                  target.parentItem,
+                  newParentChildren
+                )
               );
             }
           }
         }
+        await Promise.all(promises);
         props.onDrop?.(items, target);
       }}
       onMissingItems={itemIds => {

@@ -13,6 +13,9 @@ export const useHtmlElementEventListener = <
       element.addEventListener(type, listener as any);
       return () => element.removeEventListener(type, listener as any);
     }
+
+    return () => {};
+    // TODO replace with stable callback, then remove
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [element, listener, type, ...deps]);
 };

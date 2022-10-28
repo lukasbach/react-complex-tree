@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import React from 'react';
 import {
@@ -382,6 +383,7 @@ export class TestUtil {
               {...props.containerProps}
               ref={ref => {
                 this.containerRef = ref;
+                // eslint-disable-next-line no-param-reassign
                 (props as any).containerProps.ref.current = ref;
               }}
             >
