@@ -42,6 +42,7 @@ export class EventEmitter<EventPayload> {
   public on(handler: EventHandler<EventPayload>): number {
     this.options?.logger?.('on');
     this.handlers.push(handler);
+    // eslint-disable-next-line no-plusplus
     return this.handlerCount++;
   }
 

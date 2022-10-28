@@ -13,7 +13,7 @@ export const useGetGetParentOfLinearItem = () => {
         ;
         !!linearItems[parentLinearIndex] &&
         linearItems[parentLinearIndex].depth !== depth - 1;
-        parentLinearIndex--
+        parentLinearIndex -= 1
       );
       let parent = linearItems[parentLinearIndex];
 

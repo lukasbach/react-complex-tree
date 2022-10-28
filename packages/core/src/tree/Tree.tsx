@@ -26,7 +26,7 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
   const [search, setSearch] = useState<string | null>(null);
   const [renamingItem, setRenamingItem] = useState<TreeItemIndex | null>(null);
   const rootItem = environment.items[props.rootItem];
-  const viewState = environment.viewState[props.treeId] ?? {};
+  const viewState = environment.viewState[props.treeId];
 
   useEffect(() => {
     environment.registerTree({
@@ -45,20 +45,34 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
     search
   );
 
-  const treeContextProps: TreeContextProps = {
-    treeId: props.treeId,
-    rootItem: props.rootItem,
-    treeLabel: props.treeLabel,
-    treeLabelledBy: props.treeLabelledBy,
-    getItemsLinearly: () =>
-      getItemsLinearly(props.rootItem, viewState, environment.items),
-    treeInformation,
-    search,
-    setSearch,
-    renamingItem,
-    setRenamingItem,
-    renderers,
-  };
+  const treeContextProps = useMemo<TreeContextProps>(
+    () => ({
+      treeId: props.treeId,
+      rootItem: props.rootItem,
+      treeLabel: props.treeLabel,
+      treeLabelledBy: props.treeLabelledBy,
+      getItemsLinearly: () =>
+        getItemsLinearly(props.rootItem, viewState ?? {}, environment.items),
+      treeInformation,
+      search,
+      setSearch,
+      renamingItem,
+      setRenamingItem,
+      renderers,
+    }),
+    [
+      environment.items,
+      props.rootItem,
+      props.treeId,
+      props.treeLabel,
+      props.treeLabelledBy,
+      renamingItem,
+      renderers,
+      search,
+      treeInformation,
+      viewState,
+    ]
+  );
 
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
