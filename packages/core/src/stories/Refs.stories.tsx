@@ -85,8 +85,12 @@ export const ExpandOrCollapseAll = () => {
         },
       }}
     >
-      <button onClick={() => tree.current?.expandAll()}>Expand All</button>
-      <button onClick={() => tree.current?.collapseAll()}>Collapse All</button>
+      <button type="button" onClick={() => tree.current?.expandAll()}>
+        Expand All
+      </button>
+      <button type="button" onClick={() => tree.current?.collapseAll()}>
+        Collapse All
+      </button>
       <Tree
         treeId="tree-1"
         rootItem="root"

@@ -54,6 +54,7 @@ const SpeedButton: React.FC<{
   <button
     className={props.speed === props.buttonSpeed ? 'active' : ''}
     onClick={props.onClick}
+    type="button"
   >
     x{props.speed}
   </button>
@@ -110,6 +111,7 @@ export const AutoDemo = (props: {
         tree3: treeRef3,
         tree4: treeRef4,
         tree5: treeRef5,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         renameTo: async (tree, newName, timeBetweenTypes = 200) => {
           // tree.startRenamingItem(
           //   environmentRef.current!.viewState[tree.treeId]!.focusedItem!
@@ -145,7 +147,9 @@ export const AutoDemo = (props: {
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw 'abort';
           }
-          await new Promise(r => setTimeout(r, ms * (1 / speedRef.current)));
+          await new Promise(r => {
+            setTimeout(r, ms * (1 / speedRef.current));
+          });
           if (abortedRef.current) {
             // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw 'abort';
@@ -256,6 +260,7 @@ export const AutoDemo = (props: {
         </div>
         <div className="rct-autodemo-controls-right">
           <button
+            type="button"
             onClick={() => {
               if (aborted) {
                 setRestartKey(k => k + 1);

@@ -222,7 +222,7 @@ export const SwitchMountedTree = () => {
       getItemTitle={item => item.data}
       viewState={{}}
     >
-      <button onClick={() => setShowFirstTree(!showFirstTree)}>
+      <button onClick={() => setShowFirstTree(!showFirstTree)} type="button">
         Switch Tree
       </button>
       {showFirstTree ? (
