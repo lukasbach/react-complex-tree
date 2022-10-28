@@ -25,7 +25,7 @@ const recursiveExpand = async (
   for (const childId of items.current?.[itemId]?.children ?? []) {
     waitFor(() => !!items.current?.[childId]).then(() => {
       const item = items.current?.[childId];
-      if (item?.hasChildren) {
+      if (item?.isFolder) {
         onExpand(item);
         recursiveExpand(childId, items, onExpand);
       }

@@ -47,7 +47,7 @@ export const renderers: TreeRenderProps = {
         {...(props.context.itemContainerWithoutChildrenProps as any)}
         {...(props.context.interactiveElementProps as any)}
       >
-        {props.item.hasChildren ? (
+        {props.item.isFolder ? (
           props.arrow
         ) : (
           <span className={Classes.TREE_NODE_CARET_NONE} />
@@ -61,7 +61,7 @@ export const renderers: TreeRenderProps = {
           )
         ) : (
           (() => {
-            const icon = !props.item.hasChildren
+            const icon = !props.item.isFolder
               ? 'document'
               : props.context.isExpanded
               ? 'folder-open'

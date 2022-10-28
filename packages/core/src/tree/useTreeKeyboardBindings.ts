@@ -96,7 +96,7 @@ export const useTreeKeyboardBindings = () => {
         e.preventDefault();
         moveFocusToIndex((currentIndex, linearItems) => {
           const item = environment.items[linearItems[currentIndex].item];
-          if (item.hasChildren) {
+          if (item.isFolder) {
             if (viewState.expandedItems?.includes(item.index)) {
               return currentIndex + 1;
             }
@@ -118,10 +118,7 @@ export const useTreeKeyboardBindings = () => {
         moveFocusToIndex((currentIndex, linearItems) => {
           const item = environment.items[linearItems[currentIndex].item];
           const itemDepth = linearItems[currentIndex].depth;
-          if (
-            item.hasChildren &&
-            viewState.expandedItems?.includes(item.index)
-          ) {
+          if (item.isFolder && viewState.expandedItems?.includes(item.index)) {
             environment.onCollapseItem?.(item, treeId);
           } else if (itemDepth > 0) {
             let parentIndex = currentIndex;

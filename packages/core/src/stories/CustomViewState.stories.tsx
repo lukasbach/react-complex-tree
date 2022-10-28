@@ -32,7 +32,7 @@ export const SingleTree = () => (
           {...(context.itemContainerWithChildrenProps as any)}
           className={cx(
             'rct-tree-item-li',
-            item.hasChildren && 'rct-tree-item-li-hasChildren',
+            item.isFolder && 'rct-tree-item-li-isFolder',
             context.isSelected && 'rct-tree-item-li-selected',
             context.isExpanded && 'rct-tree-item-li-expanded',
             context.isFocused && 'rct-tree-item-li-focused',
@@ -45,7 +45,7 @@ export const SingleTree = () => (
             style={{ paddingLeft: `${(depth + 1) * 10}px` }}
             className={cx(
               'rct-tree-item-title-container',
-              item.hasChildren && 'rct-tree-item-title-container-hasChildren',
+              item.isFolder && 'rct-tree-item-title-container-isFolder',
               context.isSelected && 'rct-tree-item-title-container-selected',
               context.isExpanded && 'rct-tree-item-title-container-expanded',
               context.isFocused && 'rct-tree-item-title-container-focused',

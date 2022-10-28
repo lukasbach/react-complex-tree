@@ -64,7 +64,7 @@ function App() {
 ## Only dropping on items with children allowed
 
 Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithChildren` allows the user
-to drop items on other nodes that have the property `hasChildren` set to `true`. Note that this includes empty
+to drop items on other nodes that have the property `isFolder` set to `true`. Note that this includes empty
 containers that have this property set as well. Reordering of items within a parent is not possible without
 providing the `canReorderItems` prop.
 
@@ -87,9 +87,9 @@ function App() {
 ## Only dropping on items without children allowed
 
 Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithoutChildren` allows the user
-to drop items on other nodes that have the property `hasChildren` set to `false`. Note that, in this example,
+to drop items on other nodes that have the property `isFolder` set to `false`. Note that, in this example,
 items dropped on other nodes immediately disappear as target nodes continue to not show any children because
-their property `hasChildren` being false.
+their property `isFolder` being false.
 
 ```jsx live
 function App() {

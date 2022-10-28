@@ -10,7 +10,7 @@ export type TreeItemIndex = string | number;
 export interface TreeItem<T = any> {
   index: TreeItemIndex;
   children?: Array<TreeItemIndex>;
-  hasChildren?: boolean;
+  isFolder?: boolean;
   // isChildrenLoading?: boolean;
   canMove?: boolean;
   canRename?: boolean;

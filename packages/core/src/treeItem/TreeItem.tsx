@@ -32,7 +32,7 @@ export const TreeItem = (props: {
     return null as any;
   }
 
-  const children = item.hasChildren && isExpanded && item.children && (
+  const children = item.isFolder && isExpanded && item.children && (
     <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex}>
       {item.children}
     </TreeItemChildren>

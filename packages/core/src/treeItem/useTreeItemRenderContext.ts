@@ -174,7 +174,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     const itemContainerWithChildrenProps: HTMLProps<HTMLElement> = {
       role: 'treeitem',
       'aria-selected': renderFlags.isSelected,
-      'aria-expanded': item.hasChildren
+      'aria-expanded': item.isFolder
         ? renderFlags.isExpanded
           ? 'true'
           : 'false'
@@ -183,7 +183,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
 
     const arrowProps: HTMLProps<HTMLElement> = {
       onClick: () => {
-        if (item.hasChildren) {
+        if (item.isFolder) {
           actions.toggleExpandedState();
         }
         actions.selectItem();

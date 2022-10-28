@@ -36,13 +36,13 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
             actions.addToSelectedItems();
           }
         } else {
-          if (item.hasChildren) {
+          if (item.isFolder) {
             actions.toggleExpandedState();
           }
           actions.selectItem();
 
           if (
-            !item.hasChildren ||
+            !item.isFolder ||
             this.environment.canInvokePrimaryActionOnItemContainer
           ) {
             actions.primaryAction();

@@ -45,12 +45,12 @@ export class DoubleClickItemToExpandInteractionManager
         actions.focusItem();
         actions.selectItem();
 
-        if (item.hasChildren) {
+        if (item.isFolder) {
           actions.toggleExpandedState();
         }
 
         if (
-          !item.hasChildren ||
+          !item.isFolder ||
           this.environment.canInvokePrimaryActionOnItemContainer
         ) {
           actions.primaryAction();

@@ -28,7 +28,7 @@ const getHoveringPosition = (
   let offset: 'top' | 'bottom' | undefined;
 
   const lineThreshold =
-    (targetItem?.hasChildren && canDropOnItemWithChildren) ||
+    (targetItem?.isFolder && canDropOnItemWithChildren) ||
     canDropOnItemWithoutChildren
       ? 0.2
       : 0.5;
@@ -119,13 +119,13 @@ export const useOnDragOverTreeHandler = (
       if (
         !offset &&
         !canDropOnItemWithoutChildren &&
-        !targetItemData.hasChildren
+        !targetItemData.isFolder
       ) {
         onDragAtPosition(undefined);
         return;
       }
 
-      if (!offset && !canDropOnItemWithChildren && targetItemData.hasChildren) {
+      if (!offset && !canDropOnItemWithChildren && targetItemData.isFolder) {
         onDragAtPosition(undefined);
         return;
       }
