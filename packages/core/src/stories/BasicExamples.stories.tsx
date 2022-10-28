@@ -15,7 +15,7 @@ export default {
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -44,7 +44,7 @@ export const SingleTree = () => (
 export const PredefinedViewState = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -68,7 +68,7 @@ export const PredefinedViewState = () => (
 export const Actions = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -116,7 +116,7 @@ export const Actions = () => (
 export const SingleTreeAllCollapsed = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -136,7 +136,7 @@ export const SingleTreeAllCollapsed = () => (
 export const SmallTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(shortTree.items, (item, data) => ({
@@ -156,7 +156,7 @@ export const SmallTree = () => (
 export const MultipleTrees = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -211,7 +211,7 @@ export const SwitchMountedTree = () => {
   return (
     <UncontrolledTreeEnvironment<string>
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -237,7 +237,7 @@ export const SwitchMountedTree = () => {
 export const UnitTestTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(buildTestTree(), (item, data) => ({
@@ -255,7 +255,7 @@ export const UnitTestTree = () => (
 export const UnitTestTreeOpen = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(buildTestTree(), (item, data) => ({

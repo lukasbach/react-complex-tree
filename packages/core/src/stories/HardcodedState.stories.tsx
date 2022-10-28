@@ -11,7 +11,7 @@ export default {
 export const SimpleTree = () => (
   <ControlledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     items={longTree.items}
     getItemTitle={item => item.data}

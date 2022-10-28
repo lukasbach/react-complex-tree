@@ -12,7 +12,7 @@ export default {
 export const TreeWithDelayedDataProvider = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={{
       getTreeItem: itemId =>
@@ -36,7 +36,7 @@ export const WithExpandOrCollapseAll = () => {
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={{
         getTreeItem: itemId =>

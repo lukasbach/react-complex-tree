@@ -12,7 +12,7 @@ export default {
 export const MinimalRenderers = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({

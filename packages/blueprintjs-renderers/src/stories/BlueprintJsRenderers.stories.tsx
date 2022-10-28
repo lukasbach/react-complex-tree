@@ -39,7 +39,7 @@ export const BlueprintJsTree = () => (
   >
     <UncontrolledTreeEnvironment<string>
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -76,7 +76,7 @@ export const ShortBlueprintJsTree = () => (
   >
     <UncontrolledTreeEnvironment<string>
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(shortTree.items, (item, data) => ({
@@ -106,7 +106,7 @@ export const BlueprintJsTreeWithClickArrowToExpand = () => (
   >
     <UncontrolledTreeEnvironment<string>
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(longTree.items, (item, data) => ({

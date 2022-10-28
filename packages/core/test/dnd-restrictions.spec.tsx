@@ -14,10 +14,10 @@ describe('dnd restrictions', () => {
     });
   });
 
-  describe('canDropOnItemWithChildren', () => {
+  describe('canDropOnFolder', () => {
     it('respects disabled value', async () => {
       const test = await new TestUtil().renderOpenTree({
-        canDropOnItemWithChildren: false,
+        canDropOnFolder: false,
       });
       await test.startDrag('aab');
       await test.dragOver('target-parent');

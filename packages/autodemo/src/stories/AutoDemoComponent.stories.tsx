@@ -60,7 +60,7 @@ export const SingleTreeDemo = () => (
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
         canDragAndDrop
-        canDropOnItemWithChildren
+        canDropOnFolder
         canReorderItems
         getItemTitle={item => item.data}
         viewState={{
@@ -236,7 +236,7 @@ export const MultiTreeDemo = () => (
     {(environmentProps, environmentRef, treeRef, treeRef2) => (
       <UncontrolledTreeEnvironment<string>
         canDragAndDrop
-        canDropOnItemWithChildren
+        canDropOnFolder
         canReorderItems
         getItemTitle={item => item.data}
         viewState={{
@@ -293,7 +293,7 @@ export const SearchDemo = () => (
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
         canDragAndDrop
-        canDropOnItemWithChildren
+        canDropOnFolder
         canReorderItems
         getItemTitle={item => item.data}
         viewState={{
@@ -351,7 +351,7 @@ export const VisibleLiveDescriptors = () => (
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
         canDragAndDrop
-        canDropOnItemWithChildren
+        canDropOnFolder
         canReorderItems
         getItemTitle={item => item.data}
         viewState={{
@@ -385,7 +385,7 @@ export const SingleTreeEmptyTemplate = () => (
     {(environmentProps, environmentRef, treeRef) => (
       <UncontrolledTreeEnvironment<string>
         canDragAndDrop
-        canDropOnItemWithChildren
+        canDropOnFolder
         canReorderItems
         getItemTitle={item => item.data}
         viewState={{
