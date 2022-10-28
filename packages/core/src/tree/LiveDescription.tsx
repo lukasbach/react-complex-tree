@@ -7,6 +7,15 @@ import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { resolveLiveDescriptor } from './resolveLiveDescriptor';
 import { useKeyboardBindings } from '../hotkeys/useKeyboardBindings';
 
+const LiveWrapper = ({
+  children,
+  live,
+}: {
+  children: string;
+  live: 'off' | 'assertive' | 'polite';
+  // eslint-disable-next-line react/no-danger
+}) => <div aria-live={live} dangerouslySetInnerHTML={{ __html: children }} />;
+
 export const LiveDescription: React.FC = () => {
   const env = useTreeEnvironment();
   const tree = useTree();
@@ -16,19 +25,6 @@ export const LiveDescription: React.FC = () => {
   const descriptors = useMemo(
     () => env.liveDescriptors ?? defaultLiveDescriptors,
     [env.liveDescriptors]
-  );
-
-  const LiveWrapper = useMemo(
-    () =>
-      ({
-        children,
-        live,
-      }: {
-        children: string;
-        live: 'off' | 'assertive' | 'polite';
-      }) =>
-        <div aria-live={live} dangerouslySetInnerHTML={{ __html: children }} />,
-    []
   );
 
   const MainWrapper = tree.renderers.renderLiveDescriptorContainer;
