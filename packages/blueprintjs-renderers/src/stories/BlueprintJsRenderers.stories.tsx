@@ -31,6 +31,7 @@ export default {
 } as Meta;
 
 export const BlueprintJsTree = () => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
@@ -67,6 +68,7 @@ export const BlueprintJsTree = () => (
 );
 
 export const ShortBlueprintJsTree = () => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}
@@ -96,6 +98,7 @@ export const ShortBlueprintJsTree = () => (
 );
 
 export const BlueprintJsTreeWithClickArrowToExpand = () => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     style={{ background: Colors.LIGHT_GRAY5 }}
     onMouseDown={() => FocusStyleManager.onlyShowFocusOnTabs()}

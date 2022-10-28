@@ -97,12 +97,12 @@ export const AutoDemo = (props: {
         tree4: treeRef4,
         tree5: treeRef5,
         renameTo: async (tree, newName, timeBetweenTypes = 200) => {
-          tree.startRenamingItem(
-            environmentRef.current!.viewState[tree.treeId]!.focusedItem!
-          );
-          for (const char in newName.split('')) {
-            return new Promise(r => setTimeout(r, timeBetweenTypes));
-          }
+          // tree.startRenamingItem(
+          //   environmentRef.current!.viewState[tree.treeId]!.focusedItem!
+          // );
+          // for (const char in newName.split('')) {
+          //   return new Promise(r => setTimeout(r, timeBetweenTypes));
+          // }
         },
         searchFor: async (tree, search, timeBetweenTypes = 200) => {
           let pieces = '';
@@ -128,10 +128,12 @@ export const AutoDemo = (props: {
         },
         wait: async ms => {
           if (abortedRef.current) {
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw 'abort';
           }
           await new Promise(r => setTimeout(r, ms * (1 / speedRef.current)));
           if (abortedRef.current) {
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
             throw 'abort';
           }
         },
@@ -190,6 +192,7 @@ export const AutoDemo = (props: {
 
   return (
     <div className="rct-autodemo-container">
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         className={[
           'rct-autodemo-content',

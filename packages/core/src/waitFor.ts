@@ -8,11 +8,7 @@ export const waitFor = (
       resolve();
     }
 
-    const complete = () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-      resolve();
-    };
+    let complete: () => void;
 
     const interval = setInterval(() => {
       if (check()) {
@@ -23,4 +19,10 @@ export const waitFor = (
     const timeout = setTimeout(() => {
       complete();
     }, timeoutMs);
+
+    complete = () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+      resolve();
+    };
   });

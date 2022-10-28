@@ -9,7 +9,7 @@ export const createDefaultRenderers = (
 ): AllTreeRenderProps => ({
   renderItemTitle: ({ title, context, info }) => {
     if (!info.isSearching || !context.isSearchMatching) {
-      return <>{title}</>;
+      return title;
     }
     const startIndex = title.toLowerCase().indexOf(info.search!.toLowerCase());
     return (
