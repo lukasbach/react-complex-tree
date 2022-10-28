@@ -19,7 +19,7 @@
     "@docusaurus/theme-live-codeblock": "^2.1.0",
     "@lukasbach/campaigns-react": "^0.1.0",
     "@mdx-js/react": "^1.6.21",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.5.1",
     "clsx": "^1.1.1",
     "demodata": "^1.1.11",
     "docusaurus-plugin-react-docgen-typescript": "^1.0.1",
