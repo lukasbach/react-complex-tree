@@ -80,7 +80,7 @@ export const OnlyDropOnItemsWithoutChildren = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     canDragAndDrop
-    canDropOnItemWithoutChildren
+    canDropOnNonFolder
     getItemTitle={item => item.data}
     viewState={{
       'tree-1': {

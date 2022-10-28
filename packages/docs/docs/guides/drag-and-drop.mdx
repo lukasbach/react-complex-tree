@@ -86,7 +86,7 @@ function App() {
 
 ## Only dropping on items without children allowed
 
-Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithoutChildren` allows the user
+Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnNonFolder` allows the user
 to drop items on other nodes that have the property `isFolder` set to `false`. Note that, in this example,
 items dropped on other nodes immediately disappear as target nodes continue to not show any children because
 their property `isFolder` being false.
@@ -99,7 +99,7 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{}}
       canDragAndDrop={true}
-      canDropOnItemWithoutChildren={true}
+      canDropOnNonFolder={true}
     >
       <Tree treeId="tree-4" rootItem="root" treeLabel="Tree Example" />
     </UncontrolledTreeEnvironment>
@@ -109,7 +109,7 @@ function App() {
 
 ## Dropping everywhere is allowed
 
-Supplying the props `canDragAndDrop`, `canReorderItems`, `canDropOnFolder` and `canDropOnItemWithoutChildren`
+Supplying the props `canDragAndDrop`, `canReorderItems`, `canDropOnFolder` and `canDropOnNonFolder`
 all with the value `true` allows all possible drop positions to be viable targets.
 
 ```jsx live
@@ -122,7 +122,7 @@ function App() {
       canDragAndDrop={true}
       canReorderItems={true}
       canDropOnFolder={true}
-      canDropOnItemWithoutChildren={true}
+      canDropOnNonFolder={true}
     >
       <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
     </UncontrolledTreeEnvironment>

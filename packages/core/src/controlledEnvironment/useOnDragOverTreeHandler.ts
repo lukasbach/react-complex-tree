@@ -18,7 +18,7 @@ const getHoveringPosition = (
   treeId: string,
   items: Record<TreeItemIndex, TreeItem>,
   canDropOnFolder?: boolean,
-  canDropOnItemWithoutChildren?: boolean
+  canDropOnNonFolder?: boolean
 ) => {
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
@@ -28,9 +28,7 @@ const getHoveringPosition = (
   let offset: 'top' | 'bottom' | undefined;
 
   const lineThreshold =
-    (targetItem?.isFolder && canDropOnFolder) || canDropOnItemWithoutChildren
-      ? 0.2
-      : 0.5;
+    (targetItem?.isFolder && canDropOnFolder) || canDropOnNonFolder ? 0.2 : 0.5;
 
   if (hoveringPosition % 1 < lineThreshold) {
     offset = 'top';
@@ -50,7 +48,7 @@ export const useOnDragOverTreeHandler = (
 ) => {
   const {
     canDropOnFolder,
-    canDropOnItemWithoutChildren,
+    canDropOnNonFolder,
     canDragAndDrop,
     linearItems,
     items,
@@ -88,7 +86,7 @@ export const useOnDragOverTreeHandler = (
         treeId,
         items,
         canDropOnFolder,
-        canDropOnItemWithoutChildren
+        canDropOnNonFolder
       );
 
       const nextDragCode = outsideContainer
@@ -115,11 +113,7 @@ export const useOnDragOverTreeHandler = (
       const { depth } = targetItem;
       const targetItemData = items[targetItem.item];
 
-      if (
-        !offset &&
-        !canDropOnItemWithoutChildren &&
-        !targetItemData.isFolder
-      ) {
+      if (!offset && !canDropOnNonFolder && !targetItemData.isFolder) {
         onDragAtPosition(undefined);
         return;
       }
@@ -182,7 +176,7 @@ export const useOnDragOverTreeHandler = (
     [
       canDragAndDrop,
       canDropOnFolder,
-      canDropOnItemWithoutChildren,
+      canDropOnNonFolder,
       canReorderItems,
       getParentOfLinearItem,
       itemHeight,
