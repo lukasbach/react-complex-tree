@@ -113,7 +113,7 @@ export const AutoDemo = (props: {
           }
         },
         programmaticMove: async (direction, times, timeBetweenMoves = 100) => {
-          for (let i = 0; i < times; i++) {
+          for (let i = 0; i < times; i += 1) {
             if (direction === 'up') {
               environmentRef.current!.moveProgrammaticDragPositionUp();
             } else {

@@ -29,7 +29,7 @@ export const resolveLiveDescriptor = (
             ?.map(item => environment.getItemTitle(item))
             .join(', ') ?? 'None'
         );
-      case 'dropTarget':
+      case 'dropTarget': {
         if (!dnd.draggingPosition) {
           return 'None';
         }
@@ -45,6 +45,7 @@ export const resolveLiveDescriptor = (
         return `within ${parentTitle} after ${getItemTitle(
           parentItem.children![dnd.draggingPosition.childIndex - 1]
         )}`;
+      }
 
       default:
         if (variableName.startsWith('keybinding:')) {

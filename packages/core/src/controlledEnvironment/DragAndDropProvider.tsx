@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   DragAndDropContextProps,
   DraggingPosition,
@@ -258,20 +258,36 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
     }
   }, [environment.activeTreeId, viableDragPositions]);
 
-  const dnd: DragAndDropContextProps = {
-    onStartDraggingItems,
-    startProgrammaticDrag,
-    abortProgrammaticDrag,
-    completeProgrammaticDrag,
-    programmaticDragUp,
-    programmaticDragDown,
-    draggingItems,
-    draggingPosition,
-    itemHeight,
-    isProgrammaticallyDragging,
-    onDragOverTreeHandler,
-    viableDragPositions,
-  };
+  const dnd = useMemo<DragAndDropContextProps>(
+    () => ({
+      onStartDraggingItems,
+      startProgrammaticDrag,
+      abortProgrammaticDrag,
+      completeProgrammaticDrag,
+      programmaticDragUp,
+      programmaticDragDown,
+      draggingItems,
+      draggingPosition,
+      itemHeight,
+      isProgrammaticallyDragging,
+      onDragOverTreeHandler,
+      viableDragPositions,
+    }),
+    [
+      onStartDraggingItems,
+      startProgrammaticDrag,
+      abortProgrammaticDrag,
+      completeProgrammaticDrag,
+      programmaticDragUp,
+      programmaticDragDown,
+      draggingItems,
+      draggingPosition,
+      itemHeight,
+      isProgrammaticallyDragging,
+      onDragOverTreeHandler,
+      viableDragPositions,
+    ]
+  );
 
   useEffect(() => {
     window.addEventListener('dragend', resetState);

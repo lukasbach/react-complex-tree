@@ -128,7 +128,7 @@ export const useTreeKeyboardBindings = () => {
             for (
               parentIndex;
               linearItems[parentIndex].depth !== itemDepth - 1;
-              parentIndex--
+              parentIndex -= 1
             );
             return parentIndex;
           }

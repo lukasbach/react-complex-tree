@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PropsWithChildren, useCallback } from 'react';
+import { PropsWithChildren, useCallback, useMemo } from 'react';
 import {
   TreeEnvironmentActionsContextProps,
   TreeEnvironmentRef,
@@ -60,139 +60,178 @@ export const EnvironmentActionsProvider = React.forwardRef<
 
   const itemsRef = useRefCopy(items);
 
-  // TODO change environment childs to use actions rather than output events where possible
-  const actions: TreeEnvironmentActionsContextProps = {
-    abortProgrammaticDrag: useCallback(() => {
-      abortProgrammaticDrag();
-    }, [abortProgrammaticDrag]),
-    collapseItem: useCallback(
-      (itemId: TreeItemIndex, treeId: string) => {
+  // TODO replace callbacks with stable handlers
+  const collapseItem = useCallback(
+    (itemId: TreeItemIndex, treeId: string) => {
+      onCollapseItem?.(items[itemId], treeId);
+    },
+    [items, onCollapseItem]
+  );
+
+  const expandItem = useCallback(
+    (itemId: TreeItemIndex, treeId: string) => {
+      onExpandItem?.(items[itemId], treeId);
+    },
+    [items, onExpandItem]
+  );
+
+  const focusItem = useCallback(
+    (itemId: TreeItemIndex, treeId: string) => {
+      onFocusItem?.(items[itemId], treeId);
+    },
+    [items, onFocusItem]
+  );
+
+  const focusTree = useCallback(
+    (treeId: string, autoFocus = true) => {
+      setActiveTree(treeId, autoFocus);
+    },
+    [setActiveTree]
+  );
+
+  const moveFocusDown = useCallback(
+    (treeId: string) => {
+      const treeLinearItems = linearItems[treeId];
+      const currentFocusIndex = treeLinearItems.findIndex(
+        ({ item }) => item === viewState[treeId]?.focusedItem
+      );
+      const newIndex =
+        currentFocusIndex !== undefined
+          ? Math.min(treeLinearItems.length - 1, currentFocusIndex + 1)
+          : 0;
+      const newItem = items[treeLinearItems[newIndex].item];
+      onFocusItem?.(newItem, treeId);
+    },
+    [items, linearItems, onFocusItem, viewState]
+  );
+
+  const moveFocusUp = useCallback(
+    (treeId: string) => {
+      const treeLinearItems = linearItems[treeId];
+      const currentFocusIndex = treeLinearItems.findIndex(
+        ({ item }) => item === viewState[treeId]?.focusedItem
+      );
+      const newIndex =
+        currentFocusIndex !== undefined
+          ? Math.max(0, currentFocusIndex - 1)
+          : 0;
+      const newItem = items[treeLinearItems[newIndex].item];
+      onFocusItem?.(newItem, treeId);
+    },
+    [items, linearItems, onFocusItem, viewState]
+  );
+
+  const renameItem = useCallback(
+    (itemId: TreeItemIndex, name: string, treeId: string) => {
+      onRenameItem?.(items[itemId], name, treeId);
+    },
+    [items, onRenameItem]
+  );
+
+  const selectItems = useCallback(
+    (itemsIds: TreeItemIndex[], treeId: string) => {
+      onSelectItems?.(itemsIds, treeId);
+    },
+    [onSelectItems]
+  );
+
+  const toggleItemExpandedState = useCallback(
+    (itemId: TreeItemIndex, treeId: string) => {
+      if (viewState[treeId]?.expandedItems?.includes(itemId)) {
         onCollapseItem?.(items[itemId], treeId);
-      },
-      [items, onCollapseItem]
-    ),
-    completeProgrammaticDrag: useCallback(() => {
-      completeProgrammaticDrag();
-    }, [completeProgrammaticDrag]),
-    expandItem: useCallback(
-      (itemId: TreeItemIndex, treeId: string) => {
+      } else {
         onExpandItem?.(items[itemId], treeId);
-      },
-      [items, onExpandItem]
-    ),
-    focusItem: useCallback(
-      (itemId: TreeItemIndex, treeId: string) => {
-        onFocusItem?.(items[itemId], treeId);
-      },
-      [items, onFocusItem]
-    ),
-    focusTree: useCallback(
-      (treeId: string, autoFocus = true) => {
-        setActiveTree(treeId, autoFocus);
-      },
-      [setActiveTree]
-    ),
-    moveFocusDown: useCallback(
-      (treeId: string) => {
-        const treeLinearItems = linearItems[treeId];
-        const currentFocusIndex = treeLinearItems.findIndex(
-          ({ item }) => item === viewState[treeId]?.focusedItem
+      }
+    },
+    [items, onCollapseItem, onExpandItem, viewState]
+  );
+
+  const toggleItemSelectStatus = useCallback(
+    (itemId: TreeItemIndex, treeId: string) => {
+      if (viewState[treeId]?.selectedItems?.includes(itemId)) {
+        onSelectItems?.(
+          viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ??
+            [],
+          treeId
         );
-        const newIndex =
-          currentFocusIndex !== undefined
-            ? Math.min(treeLinearItems.length - 1, currentFocusIndex + 1)
-            : 0;
-        const newItem = items[treeLinearItems[newIndex].item];
-        onFocusItem?.(newItem, treeId);
-      },
-      [items, linearItems, onFocusItem, viewState]
-    ),
-    moveFocusUp: useCallback(
-      (treeId: string) => {
-        const treeLinearItems = linearItems[treeId];
-        const currentFocusIndex = treeLinearItems.findIndex(
-          ({ item }) => item === viewState[treeId]?.focusedItem
+      } else {
+        onSelectItems?.(
+          [...(viewState[treeId]!.selectedItems ?? []), itemId],
+          treeId
         );
-        const newIndex =
-          currentFocusIndex !== undefined
-            ? Math.max(0, currentFocusIndex - 1)
-            : 0;
-        const newItem = items[treeLinearItems[newIndex].item];
-        onFocusItem?.(newItem, treeId);
-      },
-      [items, linearItems, onFocusItem, viewState]
-    ),
-    moveProgrammaticDragPositionDown: useCallback(() => {
-      programmaticDragDown();
-    }, [programmaticDragDown]),
-    moveProgrammaticDragPositionUp: useCallback(() => {
-      programmaticDragUp();
-    }, [programmaticDragUp]),
-    renameItem: useCallback(
-      (itemId: TreeItemIndex, name: string, treeId: string) => {
-        onRenameItem?.(items[itemId], name, treeId);
-      },
-      [items, onRenameItem]
-    ),
-    selectItems: useCallback(
-      (itemsIds: TreeItemIndex[], treeId: string) => {
-        onSelectItems?.(itemsIds, treeId);
-      },
-      [onSelectItems]
-    ),
-    startProgrammaticDrag: useCallback(() => {
-      startProgrammaticDrag();
-    }, [startProgrammaticDrag]),
-    toggleItemExpandedState: useCallback(
-      (itemId: TreeItemIndex, treeId: string) => {
-        if (viewState[treeId]?.expandedItems?.includes(itemId)) {
-          onCollapseItem?.(items[itemId], treeId);
-        } else {
-          onExpandItem?.(items[itemId], treeId);
-        }
-      },
-      [items, onCollapseItem, onExpandItem, viewState]
-    ),
-    toggleItemSelectStatus: useCallback(
-      (itemId: TreeItemIndex, treeId: string) => {
-        if (viewState[treeId]?.selectedItems?.includes(itemId)) {
-          onSelectItems?.(
-            viewState[treeId]!.selectedItems?.filter(item => item !== itemId) ??
-              [],
-            treeId
-          );
-        } else {
-          onSelectItems?.(
-            [...(viewState[treeId]!.selectedItems ?? []), itemId],
-            treeId
-          );
-        }
-      },
-      [onSelectItems, viewState]
-    ),
-    invokePrimaryAction: useCallback(
-      (itemId, treeId) => {
-        onPrimaryAction?.(items[itemId], treeId);
-      },
-      [items, onPrimaryAction]
-    ),
-    expandAll: useCallback(
-      async (treeId: string) => {
-        await recursiveExpand(trees[treeId].rootItem, itemsRef, item =>
-          onExpandItem?.(item, treeId)
-        );
-      },
-      [itemsRef, onExpandItem, trees]
-    ),
-    collapseAll: useCallback(
-      (treeId: string) => {
-        for (const itemId of viewState[treeId]?.expandedItems ?? []) {
-          onCollapseItem?.(items[itemId], treeId);
-        }
-      },
-      [items, onCollapseItem, viewState]
-    ),
-  };
+      }
+    },
+    [onSelectItems, viewState]
+  );
+
+  const invokePrimaryAction = useCallback(
+    (itemId, treeId) => {
+      onPrimaryAction?.(items[itemId], treeId);
+    },
+    [items, onPrimaryAction]
+  );
+
+  const expandAll = useCallback(
+    async (treeId: string) => {
+      await recursiveExpand(trees[treeId].rootItem, itemsRef, item =>
+        onExpandItem?.(item, treeId)
+      );
+    },
+    [itemsRef, onExpandItem, trees]
+  );
+
+  const collapseAll = useCallback(
+    (treeId: string) => {
+      for (const itemId of viewState[treeId]?.expandedItems ?? []) {
+        onCollapseItem?.(items[itemId], treeId);
+      }
+    },
+    [items, onCollapseItem, viewState]
+  );
+
+  // TODO change environment childs to use actions rather than output events where possible
+  const actions = useMemo<TreeEnvironmentActionsContextProps>(
+    () => ({
+      collapseItem,
+      expandItem,
+      focusItem,
+      focusTree,
+      moveFocusDown,
+      moveFocusUp,
+      renameItem,
+      selectItems,
+      toggleItemExpandedState,
+      toggleItemSelectStatus,
+      invokePrimaryAction,
+      expandAll,
+      collapseAll,
+      abortProgrammaticDrag,
+      completeProgrammaticDrag,
+      moveProgrammaticDragPositionDown: programmaticDragDown,
+      moveProgrammaticDragPositionUp: programmaticDragUp,
+      startProgrammaticDrag,
+    }),
+    [
+      collapseItem,
+      expandItem,
+      focusItem,
+      focusTree,
+      moveFocusDown,
+      moveFocusUp,
+      renameItem,
+      selectItems,
+      toggleItemExpandedState,
+      toggleItemSelectStatus,
+      invokePrimaryAction,
+      expandAll,
+      collapseAll,
+      abortProgrammaticDrag,
+      completeProgrammaticDrag,
+      programmaticDragDown,
+      programmaticDragUp,
+      startProgrammaticDrag,
+    ]
+  );
 
   useCreatedEnvironmentRef(ref, actions);
 
