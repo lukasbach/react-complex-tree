@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { useCallback } from 'react';
-import { DraggingPosition } from '../types';
+import {
+  DraggingPosition,
+  LinearItem,
+  TreeItem,
+  TreeItemIndex,
+} from '../types';
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { isOutsideOfContainer } from './layoutUtils';
@@ -9,16 +14,24 @@ const getHoveringPosition = (
   clientY: number,
   treeTop: number,
   itemHeight: number,
+  linearItems: Record<string, LinearItem[]>,
+  treeId: string,
+  items: Record<TreeItemIndex, TreeItem>,
   canDropOnItemWithChildren?: boolean,
   canDropOnItemWithoutChildren?: boolean
 ) => {
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
   const linearIndex = Math.floor(hoveringPosition);
+  const targetLinearItem = linearItems[treeId][linearIndex];
+  const targetItem = items[targetLinearItem.item];
   let offset: 'top' | 'bottom' | undefined;
 
   const lineThreshold =
-    canDropOnItemWithChildren || canDropOnItemWithoutChildren ? 0.2 : 0.5;
+    (targetItem?.hasChildren && canDropOnItemWithChildren) ||
+    canDropOnItemWithoutChildren
+      ? 0.2
+      : 0.5;
 
   if (hoveringPosition % 1 < lineThreshold) {
     offset = 'top';
@@ -26,7 +39,7 @@ const getHoveringPosition = (
     offset = 'bottom';
   }
 
-  return { linearIndex, offset };
+  return { linearIndex, offset, targetItem, targetLinearItem };
 };
 
 export const useOnDragOverTreeHandler = (
@@ -72,6 +85,9 @@ export const useOnDragOverTreeHandler = (
         e.clientY,
         treeBb.top,
         itemHeight,
+        linearItems,
+        treeId,
+        items,
         canDropOnItemWithChildren,
         canDropOnItemWithoutChildren
       );
