@@ -173,6 +173,7 @@ module.exports = {
         tsconfig: '../core/tsconfig.json',
         sidebar: {
           categoryLabel: 'API',
+          sidebar_position: 5
         },
       },
     ],
