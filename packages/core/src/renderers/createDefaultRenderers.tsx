@@ -30,12 +30,12 @@ export const createDefaultRenderers = (
     // Icons from https://blueprintjs.com/docs/#icons
     <div
       className={cx(
-        item.hasChildren && 'rct-tree-item-arrow-hasChildren',
+        item.isFolder && 'rct-tree-item-arrow-isFolder',
         'rct-tree-item-arrow'
       )}
       {...context.arrowProps}
     >
-      {item.hasChildren &&
+      {item.isFolder &&
         (context.isExpanded ? (
           <svg
             version="1.1"
@@ -96,7 +96,7 @@ export const createDefaultRenderers = (
         {...(context.itemContainerWithChildrenProps as any)}
         className={cx(
           'rct-tree-item-li',
-          item.hasChildren && 'rct-tree-item-li-hasChildren',
+          item.isFolder && 'rct-tree-item-li-isFolder',
           context.isSelected && 'rct-tree-item-li-selected',
           context.isExpanded && 'rct-tree-item-li-expanded',
           context.isFocused && 'rct-tree-item-li-focused',
@@ -109,7 +109,7 @@ export const createDefaultRenderers = (
           style={{ paddingLeft: `${(depth + 1) * renderDepthOffset}px` }}
           className={cx(
             'rct-tree-item-title-container',
-            item.hasChildren && 'rct-tree-item-title-container-hasChildren',
+            item.isFolder && 'rct-tree-item-title-container-isFolder',
             context.isSelected && 'rct-tree-item-title-container-selected',
             context.isExpanded && 'rct-tree-item-title-container-expanded',
             context.isFocused && 'rct-tree-item-title-container-focused',
@@ -125,7 +125,7 @@ export const createDefaultRenderers = (
             {...(context.interactiveElementProps as any)}
             className={cx(
               'rct-tree-item-button',
-              item.hasChildren && 'rct-tree-item-button-hasChildren',
+              item.isFolder && 'rct-tree-item-button-isFolder',
               context.isSelected && 'rct-tree-item-button-selected',
               context.isExpanded && 'rct-tree-item-button-expanded',
               context.isFocused && 'rct-tree-item-button-focused',

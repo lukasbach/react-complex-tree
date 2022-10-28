@@ -123,7 +123,7 @@ const items = {
   root: {
     index: 'root',
     canMove: true,
-    hasChildren: true,
+    isFolder: true,
     children: ['child1', 'child2'],
     data: 'Root item',
     canRename: true,
@@ -131,7 +131,7 @@ const items = {
   child1: {
     index: 'child1',
     canMove: true,
-    hasChildren: false,
+    isFolder: false,
     children: [],
     data: 'Child item 1',
     canRename: true,
@@ -139,7 +139,7 @@ const items = {
   child2: {
     index: 'child2',
     canMove: true,
-    hasChildren: false,
+    isFolder: false,
     children: [],
     data: 'Child item 2',
     canRename: true,

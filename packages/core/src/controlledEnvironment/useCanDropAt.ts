@@ -14,10 +14,8 @@ export const useCanDropAt = () => {
       } else {
         const resolvedItem = environment.items[draggingPosition.targetItem];
         if (
-          (!environment.canDropOnItemWithChildren &&
-            resolvedItem.hasChildren) ||
-          (!environment.canDropOnItemWithoutChildren &&
-            !resolvedItem.hasChildren)
+          (!environment.canDropOnItemWithChildren && resolvedItem.isFolder) ||
+          (!environment.canDropOnItemWithoutChildren && !resolvedItem.isFolder)
         ) {
           return false;
         }

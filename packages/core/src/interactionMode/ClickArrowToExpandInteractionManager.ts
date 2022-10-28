@@ -40,7 +40,7 @@ export class ClickArrowToExpandInteractionManager
         } else {
           actions.selectItem();
           if (
-            !item.hasChildren ||
+            !item.isFolder ||
             this.environment.canInvokePrimaryActionOnItemContainer
           ) {
             actions.primaryAction();

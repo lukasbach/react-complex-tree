@@ -11,7 +11,7 @@ const buildItem = (
   props: ConvenientItem = {}
 ): ConvenientItemData => ({
   index,
-  hasChildren: props.hasChildren ?? !!children,
+  isFolder: props.isFolder ?? !!children,
   children,
   canMove: true,
   canRename: true,

@@ -18,7 +18,7 @@ export const getItemsLinearly = <T, C extends string>(
     itemIds.push({ item: itemId, depth });
     if (
       item &&
-      item.hasChildren &&
+      item.isFolder &&
       !!item.children &&
       viewState.expandedItems?.includes(itemId)
     ) {

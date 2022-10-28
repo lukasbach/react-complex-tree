@@ -11,7 +11,7 @@ const itemsWithManyChildren: ExplicitDataSource = {
       index: 'root',
       children: ['innerRoot'],
       data: 'root',
-      hasChildren: true,
+      isFolder: true,
       canMove: true,
       canRename: true,
     },
@@ -19,7 +19,7 @@ const itemsWithManyChildren: ExplicitDataSource = {
       index: 'innerRoot',
       children: [],
       data: 'innerRoot',
-      hasChildren: true,
+      isFolder: true,
       canMove: true,
       canRename: true,
     },
@@ -30,7 +30,7 @@ for (let i = 0; i < 1000; i += 1) {
   const id = `item${i}`;
   itemsWithManyChildren.items[id] = {
     index: id,
-    hasChildren: false,
+    isFolder: false,
     data: id,
     canMove: true,
     canRename: true,
