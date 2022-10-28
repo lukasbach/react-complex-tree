@@ -64,6 +64,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
               focusItem
             );
           }
+          return false;
         });
 
         if (newPos) {

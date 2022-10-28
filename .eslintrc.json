@@ -52,8 +52,6 @@
     // TODO these came up when upgrading to new eslint config. fix these.
     "no-restricted-syntax": "off",
     "no-param-reassign": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-unnecessary-type-constraint": "off",
     "consistent-return": "off",
     "no-await-in-loop": "off",
     "@typescript-eslint/no-unused-vars": "off",
@@ -64,13 +62,7 @@
     "no-promise-executor-return": "off",
     "react/no-danger": "off",
     "react/no-unstable-nested-components": "off",
-    "react/require-default-props": "off",
-    "react/jsx-no-useless-fragment": "off",
-    "array-callback-return": "off",
-    "guard-for-in": "off",
-    "no-unreachable-loop": "off",
-    "@typescript-eslint/no-throw-literal": "off",
-    "jsx-a11y/no-static-element-interactions": "off"
+    "react/require-default-props": "off"
   },
   "ignorePatterns": ["**/lib", "**/webpack.config.ts", "**/*.js"]
 }

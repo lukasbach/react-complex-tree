@@ -1,4 +1,4 @@
-export const buildMapForTrees = <T extends any>(
+export const buildMapForTrees = <T>(
   treeIds: string[],
   build: (treeId: string) => T
 ): { [treeId: string]: T } =>
