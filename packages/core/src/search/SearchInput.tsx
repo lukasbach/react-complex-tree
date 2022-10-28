@@ -9,7 +9,7 @@ import { useCallSoon } from '../useCallSoon';
 
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement;
-}> = props => {
+}> = ({ containerRef }) => {
   const { search, setSearch, treeId, renderers, renamingItem } = useTree();
   const environment = useTreeEnvironment();
   useViewState();
@@ -47,7 +47,7 @@ export const SearchInput: React.FC<{
   );
 
   useHtmlElementEventListener(
-    props.containerRef,
+    containerRef,
     'keydown',
     e => {
       const unicode = e.key.charCodeAt(0);

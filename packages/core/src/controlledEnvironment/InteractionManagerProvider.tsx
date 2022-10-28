@@ -11,9 +11,9 @@ const InteractionManagerContext = React.createContext<InteractionManager<any>>(
 export const useInteractionManager = () =>
   React.useContext(InteractionManagerContext);
 
-export const InteractionManagerProvider: React.FC<
-  React.PropsWithChildren
-> = props => {
+export const InteractionManagerProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const environment = useTreeEnvironment();
   const { defaultInteractionMode } = environment;
 
@@ -38,7 +38,7 @@ export const InteractionManagerProvider: React.FC<
 
   return (
     <InteractionManagerContext.Provider value={interactionManager}>
-      {props.children}
+      {children}
     </InteractionManagerContext.Provider>
   );
 };
