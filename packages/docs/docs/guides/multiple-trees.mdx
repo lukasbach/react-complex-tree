@@ -17,7 +17,7 @@ same tree environment, i.e. either a shared `ControlledTreeEnvironment` or an `U
 ```jsx live
 <UncontrolledTreeEnvironment
   canDragAndDrop={true}
-  canDropOnItemWithChildren={true}
+  canDropOnFolder={true}
   canReorderItems={true}
   dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
   getItemTitle={item => item.data}
@@ -68,7 +68,7 @@ still show different contents.
 ```jsx live
 <UncontrolledTreeEnvironment
   canDragAndDrop={true}
-  canDropOnItemWithChildren={true}
+  canDropOnFolder={true}
   canReorderItems={true}
   dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
   getItemTitle={item => item.data}

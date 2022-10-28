@@ -42,7 +42,7 @@ export const ControlTreeExternally = () => {
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -70,7 +70,7 @@ export const ExpandOrCollapseAll = () => {
     <UncontrolledTreeEnvironment<string>
       ref={treeEnvironment}
       canDragAndDrop
-      canDropOnItemWithChildren
+      canDropOnFolder
       canReorderItems
       dataProvider={
         new StaticTreeDataProvider(longTree.items, (item, data) => ({

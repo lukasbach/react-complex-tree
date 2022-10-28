@@ -63,7 +63,7 @@ function App() {
 
 ## Only dropping on items with children allowed
 
-Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnItemWithChildren` allows the user
+Supplying the `canDragAndDrop` with the value `true` alongside the `canDropOnFolder` allows the user
 to drop items on other nodes that have the property `isFolder` set to `true`. Note that this includes empty
 containers that have this property set as well. Reordering of items within a parent is not possible without
 providing the `canReorderItems` prop.
@@ -76,7 +76,7 @@ function App() {
       getItemTitle={item => item.data}
       viewState={{}}
       canDragAndDrop={true}
-      canDropOnItemWithChildren={true}
+      canDropOnFolder={true}
     >
       <Tree treeId="tree-3" rootItem="root" treeLabel="Tree Example" />
     </UncontrolledTreeEnvironment>
@@ -109,7 +109,7 @@ function App() {
 
 ## Dropping everywhere is allowed
 
-Supplying the props `canDragAndDrop`, `canReorderItems`, `canDropOnItemWithChildren` and `canDropOnItemWithoutChildren`
+Supplying the props `canDragAndDrop`, `canReorderItems`, `canDropOnFolder` and `canDropOnItemWithoutChildren`
 all with the value `true` allows all possible drop positions to be viable targets.
 
 ```jsx live
@@ -121,7 +121,7 @@ function App() {
       viewState={{}}
       canDragAndDrop={true}
       canReorderItems={true}
-      canDropOnItemWithChildren={true}
+      canDropOnFolder={true}
       canDropOnItemWithoutChildren={true}
     >
       <Tree treeId="tree-5" rootItem="root" treeLabel="Tree Example" />
@@ -151,7 +151,7 @@ function App() {
       }}
       canDragAndDrop={true}
       canReorderItems={true}
-      canDropOnItemWithChildren={true}
+      canDropOnFolder={true}
       canDrag={items => items.map(item => item.data.startsWith('A')).reduce((a, b) => a && b, true)}
     >
       <Tree treeId="tree-6" rootItem="root" treeLabel="Tree Example" />
@@ -186,7 +186,7 @@ function App() {
       }}
       canDragAndDrop={true}
       canReorderItems={true}
-      canDropOnItemWithChildren={true}
+      canDropOnFolder={true}
       canDropAt={(items, target) =>
         target.targetType === 'between-items' ? target.parentItem.startsWith('A') : target.targetItem.startsWith('A')
       }

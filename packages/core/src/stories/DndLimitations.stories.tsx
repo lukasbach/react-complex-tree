@@ -57,7 +57,7 @@ export const OnlyDropOnItemsWithChildren = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     getItemTitle={item => item.data}
     viewState={{
       'tree-1': {
@@ -103,7 +103,7 @@ export const NoReorderingAllowed = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     getItemTitle={item => item.data}
     viewState={{
       'tree-1': {
@@ -126,7 +126,7 @@ export const AllowDraggingOnlyItemsStartingWithA = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     canDrag={items =>
       items
@@ -155,7 +155,7 @@ export const AllowDroppingOnlyOnItemsStartingWithA = () => (
   <UncontrolledTreeEnvironment<string>
     dataProvider={new StaticTreeDataProvider(longTree.items)}
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     canDropAt={(items, target) =>
       target.targetType === 'between-items'

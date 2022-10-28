@@ -31,7 +31,7 @@ function App() {
   return (
     <UncontrolledTreeEnvironment
       canDragAndDrop={true}
-      canDropOnItemWithChildren={true}
+      canDropOnFolder={true}
       canReorderItems={true}
       dataProvider={new StaticTreeDataProvider(shortTree.items, (item, data) => ({ ...item, data }))}
       getItemTitle={item => item.data}

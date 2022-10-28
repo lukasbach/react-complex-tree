@@ -29,7 +29,7 @@ const VisibleLiveDescriptorContainer = ({ children, tree }: any) => (
 export const VisibleLiveDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -59,7 +59,7 @@ export const VisibleLiveDescriptors = () => (
 export const CustomHotkeys = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -90,7 +90,7 @@ export const CustomHotkeys = () => (
 export const CustomDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -120,7 +120,7 @@ export const CustomDescriptors = () => (
 export const NoDescriptors = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({

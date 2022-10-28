@@ -45,7 +45,7 @@ export default {
 export const SingleTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={new StaticTreeDataProvider(itemsWithManyChildren.items)}
     getItemTitle={item => item.data}

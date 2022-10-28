@@ -349,7 +349,7 @@ export class TestUtil {
       this.renderProps = render(
         <UncontrolledTreeEnvironment
           canDragAndDrop
-          canDropOnItemWithChildren
+          canDropOnFolder
           canReorderItems
           viewState={this.viewState}
           getItemTitle={item => item.data}

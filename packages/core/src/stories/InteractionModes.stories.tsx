@@ -13,7 +13,7 @@ export default {
 export const ClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -43,7 +43,7 @@ export const ClickItemToExpandInteractionMode = () => (
 export const DoubleClickItemToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
@@ -73,7 +73,7 @@ export const DoubleClickItemToExpandInteractionMode = () => (
 export const ClickArrowToExpandInteractionMode = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
-    canDropOnItemWithChildren
+    canDropOnFolder
     canReorderItems
     dataProvider={
       new StaticTreeDataProvider(longTree.items, (item, data) => ({
