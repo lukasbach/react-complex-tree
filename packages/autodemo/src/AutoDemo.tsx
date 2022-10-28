@@ -56,7 +56,7 @@ const SpeedButton: React.FC<{
     onClick={onClick}
     type="button"
   >
-    x{speed}
+    x{buttonSpeed}
   </button>
 );
 
