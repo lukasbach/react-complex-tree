@@ -5,7 +5,18 @@ sidebar_position: 5
 # Changelog
 
 <!--
-## 1.1.12 (2.0.0?) - DATE
+## 2.0.0 - DATE
+
+### Breaking Changes
+- Replaced `item.hasChildren` property with `item.isFolder`
+- Replaced `environment.canDropOnItemWithChildren` property with `environment.canDropOnFolder`
+- Replaced `environment.canDropOnItemWithoutChildren` property with `environment.canDropOnNonFolder`
+- Replaced CSS classes related to `hasChildren` with `isFolder`, e.g. `rct-tree-item-li-hasChildren` to `rct-tree-item-li-isFolder`
+
+Note: These properties were just renamed, but the functionality is the same. `hasChildren` has
+always denoted whether an item is a folder or not, which confused a lot of people and was admittedly
+very bad naming. The new name is a better reflection of its functionality. The other two properties
+were renamed alongside to match.
 
 ### Features
 - Upgraded library to React 18.
@@ -15,10 +26,21 @@ sidebar_position: 5
 - Improved how "select up to" (i.e. shift+clicking) works, to match how users would expect it to work. The user can
   now create multiple distinct selection ranges by clicking and shift-clicking another item, then control clicking
   a different item and shift+control clicking a forth item.
+- The function `treeItemActions.selectUpTo()` now accepts an optional boolean argument determining whether
+  the previous selection range should be cleared before selecting the new range.
 
 ### Other Changes
 
 - Added linter rules from airbnb config and fixed relevant issues. This fixed some memoization imperfections, which
   should improve performance.
 - (Finally) added integration tests. This will ease the future development and help reduce regressions.
+
+### Migration guide
+- Replace the `hasChildren` property for tree items with `isFolder`.
+- Replace the `canDropOnItemWithChildren` property on tree environment components or tree components with `canDropOnFolder`.
+- Replace the `canDropOnItemWithoutChildren` property on tree environment components or tree components with `canDropOnNonFolder`.
+- The upgrade of React to 18 should not require any changes on your end.
+- If you are using custom interaction managers and want to benefit from the improved "select up to" functionality,
+  replace `actions.selectUpTo()` with `actions.selectUpTo(!e.ctrlKey)` in the `onClick` handler.
+- If you are overwriting CSS styles for rct-specific classes, replace `hasChildren` with `isFolder` in the class names.
 -->
