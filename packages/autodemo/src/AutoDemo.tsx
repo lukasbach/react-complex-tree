@@ -50,17 +50,22 @@ const SpeedButton: React.FC<{
   buttonSpeed: number;
   speed: number;
   onClick: () => void;
-}> = props => (
+}> = ({ buttonSpeed, speed, onClick }) => (
   <button
-    className={props.speed === props.buttonSpeed ? 'active' : ''}
-    onClick={props.onClick}
+    className={speed === buttonSpeed ? 'active' : ''}
+    onClick={onClick}
     type="button"
   >
-    x{props.speed}
+    x{speed}
   </button>
 );
 
-export const AutoDemo = (props: {
+export const AutoDemo = ({
+  data,
+  children,
+  storyScript,
+  restart,
+}: {
   data: ExplicitDataSource;
   children: (
     environmentProps: ProvidedEnvironmentProps,
@@ -158,8 +163,8 @@ export const AutoDemo = (props: {
       };
 
       try {
-        await props.storyScript(helpers);
-        if (props.restart) {
+        await storyScript(helpers);
+        if (restart) {
           setRestartKey(oldKey => oldKey + 1);
         }
       } catch (e) {
@@ -176,7 +181,7 @@ export const AutoDemo = (props: {
       key: `k${restartKey}`,
       autoFocus: aborted,
       dataProvider: new StaticTreeDataProvider(
-        JSON.parse(JSON.stringify(props.data.items)),
+        JSON.parse(JSON.stringify(data.items)),
         (item, data) => ({
           ...item,
           data,
@@ -196,7 +201,7 @@ export const AutoDemo = (props: {
           },
         }),
     }),
-    [restartKey, aborted, props.data.items]
+    [restartKey, aborted, data.items]
   );
 
   return (
@@ -214,7 +219,7 @@ export const AutoDemo = (props: {
         onMouseDown={() => setAborted(true)}
         onKeyDown={() => setAborted(true)}
       >
-        {props.children(
+        {children(
           envProps,
           environmentRef,
           treeRef1,

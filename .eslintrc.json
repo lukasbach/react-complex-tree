@@ -51,10 +51,12 @@
     "react/require-default-props": "off",
     "no-restricted-syntax": "off",
 
-    // TODO these came up when upgrading to new eslint config. fix these.
+    // Dependency cycles come from contexts, context providers and context hooks being in the same file.
+    // Could be solved, but also doesn't really bring any harm to keep as is.
     "import/no-cycle": "off",
-    "react/function-component-definition": "off",
-    "react/destructuring-assignment": "off"
+
+    // TODO fix
+    "react/function-component-definition": "off"
   },
   "ignorePatterns": ["**/lib", "**/webpack.config.ts", "**/*.js"]
 }

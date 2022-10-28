@@ -22,7 +22,9 @@ const DragAndDropContext = React.createContext<DragAndDropContextProps>(
 export const useDragAndDrop = () => React.useContext(DragAndDropContext);
 
 // TODO tidy up
-export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
+export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const environment = useTreeEnvironment();
   const [isProgrammaticallyDragging, setIsProgrammaticallyDragging] =
     useState(false);
@@ -301,7 +303,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = props => {
 
   return (
     <DragAndDropContext.Provider value={dnd}>
-      {props.children}
+      {children}
     </DragAndDropContext.Provider>
   );
 };

@@ -5,14 +5,14 @@ import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 
 export const DragBetweenLine: React.FC<{
   treeId: string;
-}> = props => {
+}> = ({ treeId }) => {
   const { draggingPosition, itemHeight } = useDragAndDrop();
   const { renderers } = useTree();
 
   const shouldDisplay =
     draggingPosition &&
     draggingPosition.targetType === 'between-items' &&
-    draggingPosition.treeId === props.treeId;
+    draggingPosition.treeId === treeId;
 
   if (!shouldDisplay) {
     return null;
