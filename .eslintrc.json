@@ -49,12 +49,9 @@
     "import/no-extraneous-dependencies": "off",
     "class-methods-use-this": "off",
     "react/require-default-props": "off",
+    "no-restricted-syntax": "off",
 
     // TODO these came up when upgrading to new eslint config. fix these.
-    "no-restricted-syntax": "off",
-    "no-param-reassign": "off",
-    "consistent-return": "off",
-    "no-await-in-loop": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "import/no-cycle": "off",
     "react/function-component-definition": "off",

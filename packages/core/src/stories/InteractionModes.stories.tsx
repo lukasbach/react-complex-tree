@@ -160,6 +160,7 @@ export const CustomExtendingInteractionMode = () => (
           document
             .querySelectorAll('[data-rct-tree="tree-5"] [data-rct-item-id]')
             .forEach(element => {
+              // eslint-disable-next-line no-param-reassign
               (element as any).style.background = 'transparent';
             });
           (

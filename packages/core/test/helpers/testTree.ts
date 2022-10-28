@@ -119,6 +119,7 @@ const readTemplate = (
   data: Record<TreeItemIndex, TreeItem<string>> = {}
 ) => {
   for (const item of templateData) {
+    // eslint-disable-next-line no-param-reassign
     data[item.index] = {
       ...item,
       children: item.children?.map(child => child.index),
