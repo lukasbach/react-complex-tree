@@ -66,10 +66,6 @@ export const SearchInput: React.FC<{
           (unicode >= 97 && unicode <= 122)) // lowercase letter
       ) {
         setSearch('');
-
-        (
-          document.querySelector('[data-rct-search-input="true"]') as any
-        )?.focus?.();
       }
     },
     [
@@ -91,6 +87,9 @@ export const SearchInput: React.FC<{
       onChange: (e: any) => setSearch(e.target.value),
       onBlur: () => {
         clearSearch();
+      },
+      ref: el => {
+        el?.focus();
       },
       'aria-label': 'Search for items', // TODO
       ...({
