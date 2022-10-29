@@ -53,11 +53,6 @@ export const useControlledTreeEnvironmentProps = ({
     Required<TreeChangeHandlers>['onFocusItem']
   >(
     (item, treeId) => {
-      if (viewStateRef.current[treeId]?.focusedItem === item.index) {
-        return;
-      }
-
-      onFocusItemRef.current?.(item, treeId);
       const newItem = document.querySelector(
         `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
       );
@@ -75,6 +70,12 @@ export const useControlledTreeEnvironmentProps = ({
           scrollIntoView(newItem);
         }
       }
+
+      if (viewStateRef.current[treeId]?.focusedItem === item.index) {
+        return;
+      }
+
+      onFocusItemRef.current?.(item, treeId);
     },
     [autoFocus, onFocusItemRef, viewStateRef]
   );
