@@ -28,6 +28,8 @@ were renamed alongside to match.
   a different item and shift+control clicking a forth item.
 - The function `treeItemActions.selectUpTo()` now accepts an optional boolean argument determining whether
   the previous selection range should be cleared before selecting the new range.
+- Removed unnecessary memoization for event handlers, favoring stable callbacks stored in refs instead.
+- Fixed a bug where renaming an item would make the page loose focus of the active tree.
 
 ### Other Changes
 
