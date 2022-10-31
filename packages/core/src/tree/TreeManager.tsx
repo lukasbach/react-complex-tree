@@ -15,7 +15,6 @@ export const TreeManager = (): JSX.Element => {
   const environment = useTreeEnvironment();
   const containerRef = useRef<HTMLElement>();
   const dnd = useDragAndDrop();
-  const isActiveTree = environment.activeTreeId === treeId;
 
   useTreeKeyboardBindings();
 
@@ -28,8 +27,7 @@ export const TreeManager = (): JSX.Element => {
       environment.setActiveTree(oldTreeId =>
         oldTreeId === treeId ? undefined : oldTreeId
       );
-    },
-    [environment.activeTreeId, treeId, isActiveTree]
+    }
   );
 
   const rootChildren = environment.items[rootItem].children;

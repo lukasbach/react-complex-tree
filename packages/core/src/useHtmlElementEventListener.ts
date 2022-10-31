@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
+import { useStableHandler } from './use-stable-handler';
 
 export const useHtmlElementEventListener = <
   K extends keyof HTMLElementEventMap
 >(
   element: HTMLElement | Document | undefined,
   type: K,
-  listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any,
-  deps: any[] = []
+  listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any
 ) => {
+  const stableListener = useStableHandler(listener);
   useEffect(() => {
     if (element) {
-      element.addEventListener(type, listener as any);
-      return () => element.removeEventListener(type, listener as any);
+      element.addEventListener(type, stableListener as any);
+      return () => element.removeEventListener(type, stableListener as any);
     }
 
     return () => {};
-    // TODO replace with stable callback, then remove
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [element, listener, type, ...deps]);
+  }, [element, stableListener, type]);
 };

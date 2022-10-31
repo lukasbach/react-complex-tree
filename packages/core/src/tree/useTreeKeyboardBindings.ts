@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useKey } from '../hotkeys/useKey';
 import { useHotkey } from '../hotkeys/useHotkey';
 import { useMoveFocusToIndex } from './useMoveFocusToIndex';
@@ -23,244 +22,198 @@ export const useTreeKeyboardBindings = () => {
 
   useKey(
     'arrowdown',
-    useCallback(
-      e => {
-        e.preventDefault();
-        if (dnd.isProgrammaticallyDragging) {
-          dnd.programmaticDragDown();
-        } else {
-          const newFocusItem = moveFocusToIndex(
-            currentIndex => currentIndex + 1
-          );
+    e => {
+      e.preventDefault();
+      if (dnd.isProgrammaticallyDragging) {
+        dnd.programmaticDragDown();
+      } else {
+        const newFocusItem = moveFocusToIndex(currentIndex => currentIndex + 1);
 
-          if (e.shiftKey) {
-            selectUpTo(newFocusItem);
-          }
+        if (e.shiftKey) {
+          selectUpTo(newFocusItem);
         }
-      },
-      [dnd, moveFocusToIndex, selectUpTo]
-    ),
+      }
+    },
     isActiveTree && !isRenaming
   );
 
   useKey(
     'arrowup',
-    useCallback(
-      e => {
-        e.preventDefault();
-        if (dnd.isProgrammaticallyDragging) {
-          dnd.programmaticDragUp();
-        } else {
-          const newFocusItem = moveFocusToIndex(
-            currentIndex => currentIndex - 1
-          );
+    e => {
+      e.preventDefault();
+      if (dnd.isProgrammaticallyDragging) {
+        dnd.programmaticDragUp();
+      } else {
+        const newFocusItem = moveFocusToIndex(currentIndex => currentIndex - 1);
 
-          if (e.shiftKey) {
-            selectUpTo(newFocusItem);
-          }
+        if (e.shiftKey) {
+          selectUpTo(newFocusItem);
         }
-      },
-      [dnd, moveFocusToIndex, selectUpTo]
-    ),
+      }
+    },
     isActiveTree && !isRenaming
   );
 
   useHotkey(
     'moveFocusToFirstItem',
-    useCallback(
-      e => {
-        e.preventDefault();
-        moveFocusToIndex(() => 0);
-      },
-      [moveFocusToIndex]
-    ),
+    e => {
+      e.preventDefault();
+      moveFocusToIndex(() => 0);
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'moveFocusToLastItem',
-    useCallback(
-      e => {
-        e.preventDefault();
-        moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
-      },
-      [moveFocusToIndex]
-    ),
+    e => {
+      e.preventDefault();
+      moveFocusToIndex((currentIndex, linearItems) => linearItems.length - 1);
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useKey(
     'arrowright',
-    useCallback(
-      e => {
-        e.preventDefault();
-        moveFocusToIndex((currentIndex, linearItems) => {
-          const item = environment.items[linearItems[currentIndex].item];
-          if (item.isFolder) {
-            if (viewState.expandedItems?.includes(item.index)) {
-              return currentIndex + 1;
-            }
-            environment.onExpandItem?.(item, treeId);
+    e => {
+      e.preventDefault();
+      moveFocusToIndex((currentIndex, linearItems) => {
+        const item = environment.items[linearItems[currentIndex].item];
+        if (item.isFolder) {
+          if (viewState.expandedItems?.includes(item.index)) {
+            return currentIndex + 1;
           }
-          return currentIndex;
-        });
-      },
-      [environment, moveFocusToIndex, treeId, viewState.expandedItems]
-    ),
+          environment.onExpandItem?.(item, treeId);
+        }
+        return currentIndex;
+      });
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useKey(
     'arrowleft',
-    useCallback(
-      e => {
-        e.preventDefault();
-        moveFocusToIndex((currentIndex, linearItems) => {
-          const item = environment.items[linearItems[currentIndex].item];
-          const itemDepth = linearItems[currentIndex].depth;
-          if (item.isFolder && viewState.expandedItems?.includes(item.index)) {
-            environment.onCollapseItem?.(item, treeId);
-          } else if (itemDepth > 0) {
-            let parentIndex = currentIndex;
-            for (
-              parentIndex;
-              linearItems[parentIndex].depth !== itemDepth - 1;
-              parentIndex -= 1
-            );
-            return parentIndex;
-          }
-          return currentIndex;
-        });
-      },
-      [environment, moveFocusToIndex, treeId, viewState.expandedItems]
-    ),
+    e => {
+      e.preventDefault();
+      moveFocusToIndex((currentIndex, linearItems) => {
+        const item = environment.items[linearItems[currentIndex].item];
+        const itemDepth = linearItems[currentIndex].depth;
+        if (item.isFolder && viewState.expandedItems?.includes(item.index)) {
+          environment.onCollapseItem?.(item, treeId);
+        } else if (itemDepth > 0) {
+          let parentIndex = currentIndex;
+          for (
+            parentIndex;
+            linearItems[parentIndex].depth !== itemDepth - 1;
+            parentIndex -= 1
+          );
+          return parentIndex;
+        }
+        return currentIndex;
+      });
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'primaryAction',
-    useCallback(
-      e => {
-        e.preventDefault();
-        if (viewState.focusedItem !== undefined) {
-          environment.onSelectItems?.([viewState.focusedItem], treeId);
-          environment.onPrimaryAction?.(
-            environment.items[viewState.focusedItem],
-            treeId
-          );
-        }
-      },
-      [environment, treeId, viewState.focusedItem]
-    ),
+    e => {
+      e.preventDefault();
+      if (viewState.focusedItem !== undefined) {
+        environment.onSelectItems?.([viewState.focusedItem], treeId);
+        environment.onPrimaryAction?.(
+          environment.items[viewState.focusedItem],
+          treeId
+        );
+      }
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'toggleSelectItem',
-    useCallback(
-      e => {
-        e.preventDefault();
-        if (viewState.focusedItem !== undefined) {
-          if (
-            viewState.selectedItems &&
-            viewState.selectedItems.includes(viewState.focusedItem)
-          ) {
-            environment.onSelectItems?.(
-              viewState.selectedItems.filter(
-                item => item !== viewState.focusedItem
-              ),
-              treeId
-            );
-          } else {
-            environment.onSelectItems?.(
-              [...(viewState.selectedItems ?? []), viewState.focusedItem],
-              treeId
-            );
-          }
+    e => {
+      e.preventDefault();
+      if (viewState.focusedItem !== undefined) {
+        if (
+          viewState.selectedItems &&
+          viewState.selectedItems.includes(viewState.focusedItem)
+        ) {
+          environment.onSelectItems?.(
+            viewState.selectedItems.filter(
+              item => item !== viewState.focusedItem
+            ),
+            treeId
+          );
+        } else {
+          environment.onSelectItems?.(
+            [...(viewState.selectedItems ?? []), viewState.focusedItem],
+            treeId
+          );
         }
-      },
-      [environment, treeId, viewState.focusedItem, viewState.selectedItems]
-    ),
+      }
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'selectAll',
-    useCallback(
-      e => {
-        e.preventDefault();
-        environment.onSelectItems?.(
-          linearItems.map(({ item }) => item),
-          treeId
-        );
-      },
-      [environment, linearItems, treeId]
-    ),
+    e => {
+      e.preventDefault();
+      environment.onSelectItems?.(
+        linearItems.map(({ item }) => item),
+        treeId
+      );
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'renameItem',
-    useCallback(
-      e => {
-        if (viewState.focusedItem !== undefined) {
-          e.preventDefault();
-          const item = environment.items[viewState.focusedItem];
-          environment.onStartRenamingItem?.(item, treeId);
-          setRenamingItem(item.index);
-        }
-      },
-      [environment, setRenamingItem, treeId, viewState.focusedItem]
-    ),
+    e => {
+      if (viewState.focusedItem !== undefined) {
+        e.preventDefault();
+        const item = environment.items[viewState.focusedItem];
+        environment.onStartRenamingItem?.(item, treeId);
+        setRenamingItem(item.index);
+      }
+    },
     isActiveTree && (environment.canRename ?? true) && !isRenaming
   );
 
   useHotkey(
     'startSearch',
-    useCallback(
-      e => {
-        e.preventDefault();
-        setSearch('');
-        (
-          document.querySelector('[data-rct-search-input="true"]') as any
-        )?.focus?.();
-      },
-      [setSearch]
-    ),
+    e => {
+      e.preventDefault();
+      setSearch('');
+      (
+        document.querySelector('[data-rct-search-input="true"]') as any
+      )?.focus?.();
+    },
     isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
   );
 
   useHotkey(
     'startProgrammaticDnd',
-    useCallback(
-      e => {
-        e.preventDefault();
-        dnd.startProgrammaticDrag();
-      },
-      [dnd]
-    ),
+    e => {
+      e.preventDefault();
+      dnd.startProgrammaticDrag();
+    },
     isActiveTree && !isRenaming
   );
   useHotkey(
     'completeProgrammaticDnd',
-    useCallback(
-      e => {
-        e.preventDefault();
-        dnd.completeProgrammaticDrag();
-      },
-      [dnd]
-    ),
+    e => {
+      e.preventDefault();
+      dnd.completeProgrammaticDrag();
+    },
     isActiveTree && dnd.isProgrammaticallyDragging && !isRenaming
   );
   useHotkey(
     'abortProgrammaticDnd',
-    useCallback(
-      e => {
-        e.preventDefault();
-        dnd.abortProgrammaticDrag();
-      },
-      [dnd]
-    ),
+    e => {
+      e.preventDefault();
+      dnd.abortProgrammaticDrag();
+    },
     isActiveTree && dnd.isProgrammaticallyDragging && !isRenaming
   );
 };

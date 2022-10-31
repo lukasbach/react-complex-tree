@@ -3,21 +3,15 @@ import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 export const useKey = (
   key: string,
   onHit: (e: KeyboardEvent) => void,
-  active?: boolean,
-  deps?: any[]
+  active?: boolean
 ) => {
-  useHtmlElementEventListener(
-    document,
-    'keydown',
-    e => {
-      if (!active) {
-        return;
-      }
+  useHtmlElementEventListener(document, 'keydown', e => {
+    if (!active) {
+      return;
+    }
 
-      if (active && key.toLowerCase() === e.key.toLowerCase()) {
-        onHit(e);
-      }
-    },
-    [active, key, ...(deps ?? [])]
-  );
+    if (active && key.toLowerCase() === e.key.toLowerCase()) {
+      onHit(e);
+    }
+  });
 };

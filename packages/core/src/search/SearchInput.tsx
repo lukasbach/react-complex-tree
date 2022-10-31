@@ -42,40 +42,28 @@ export const SearchInput: React.FC<{
       });
     },
     isActiveTree && search !== null,
-    true,
-    [search, isActiveTree, callSoon]
+    true
   );
 
-  useHtmlElementEventListener(
-    containerRef,
-    'keydown',
-    e => {
-      const unicode = e.key.charCodeAt(0);
-      if (
-        (environment.canSearch ?? true) &&
-        (environment.canSearchByStartingTyping ?? true) &&
-        isActiveTree &&
-        search === null &&
-        !renamingItem &&
-        !e.ctrlKey &&
-        !e.shiftKey &&
-        !e.altKey &&
-        !e.metaKey &&
-        ((unicode >= 48 && unicode <= 57) || // number
-          // (unicode >= 65 && unicode <= 90) || // uppercase letter
-          (unicode >= 97 && unicode <= 122)) // lowercase letter
-      ) {
-        setSearch('');
-      }
-    },
-    [
-      isActiveTree,
-      search,
-      renamingItem,
-      environment.canSearchByStartingTyping,
-      environment.canSearch,
-    ]
-  );
+  useHtmlElementEventListener(containerRef, 'keydown', e => {
+    const unicode = e.key.charCodeAt(0);
+    if (
+      (environment.canSearch ?? true) &&
+      (environment.canSearchByStartingTyping ?? true) &&
+      isActiveTree &&
+      search === null &&
+      !renamingItem &&
+      !e.ctrlKey &&
+      !e.shiftKey &&
+      !e.altKey &&
+      !e.metaKey &&
+      ((unicode >= 48 && unicode <= 57) || // number
+        // (unicode >= 65 && unicode <= 90) || // uppercase letter
+        (unicode >= 97 && unicode <= 122)) // lowercase letter
+    ) {
+      setSearch('');
+    }
+  });
 
   if (!(environment.canSearch ?? true) || search === null) {
     return null;
