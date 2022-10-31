@@ -8,7 +8,7 @@
     "url": "git@github.com:lukasbach/react-complex-tree.git",
     "directory": "packages/autodemo"
   },
-  "author": "Lukas Bach <lbach@outlook.de>",
+  "author": "Lukas Bach <npm@lukasbach.com>",
   "description": "Autodemo component for the react-complex-tree package",
   "homepage": "https://rct.lukasbach.com/docs/guides/autodemo",
   "license": "MIT",

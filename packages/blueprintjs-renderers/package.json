@@ -10,7 +10,7 @@
   },
   "description": "Renderers for react-complex-tree with a BlueprintJS-styled theme",
   "homepage": "https://rct.lukasbach.com/docs/guides/blueprintjs",
-  "author": "Lukas Bach <lbach@outlook.de>",
+  "author": "Lukas Bach <npm@lukasbach.com>",
   "license": "MIT",
   "private": false,
   "devDependencies": {
