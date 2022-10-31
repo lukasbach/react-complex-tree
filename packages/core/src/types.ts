@@ -1,9 +1,11 @@
 import React, {
+  CSSProperties,
   FormHTMLAttributes,
   HTMLProps,
   InputHTMLAttributes,
   Ref,
 } from 'react';
+import { EventEmitter } from './EventEmitter';
 
 export type TreeItemIndex = string | number;
 
@@ -71,13 +73,14 @@ export interface TreeInformation extends TreeConfiguration {
 
 export interface TreeRenderProps<T = any, C extends string = never> {
   renderItem?: (props: {
+    key: string;
     item: TreeItem<T>;
     depth: number;
-    children: React.ReactNode | null;
     title: React.ReactNode;
     arrow: React.ReactNode;
     context: TreeItemRenderContext<C>;
     info: TreeInformation;
+    style: CSSProperties;
   }) => React.ReactElement | null;
 
   renderItemTitle?: (props: {
@@ -119,6 +122,7 @@ export interface TreeRenderProps<T = any, C extends string = never> {
   renderTreeContainer?: (props: {
     children: React.ReactNode;
     containerProps: HTMLProps<any>;
+    // containerRef: Ref<any>;
     info: TreeInformation;
   }) => React.ReactElement | null;
 
@@ -134,6 +138,16 @@ export interface TreeRenderProps<T = any, C extends string = never> {
   renderLiveDescriptorContainer?: (props: {
     children: React.ReactNode;
     tree: TreeConfiguration;
+  }) => React.ReactElement | null;
+
+  renderLinearList?: (props: {
+    items: LinearItem[];
+    renderItem: (props: {
+      itemIndex: TreeItemIndex;
+      depth: number;
+      style: CSSProperties;
+      key: string;
+    }) => React.ReactElement | null;
   }) => React.ReactElement | null;
 
   renderDepthOffset?: number;
@@ -392,6 +406,8 @@ export interface TreeRef<T = any> extends TreeChangeActions, TreeInformation {
   treeEnvironmentContext: TreeEnvironmentContextProps<T>;
   dragAndDropContext: DragAndDropContextProps<T>;
   search: string | null;
+  linearList: LinearItem[];
+  onChangeLinearList: EventEmitter<LinearItem[]>
 }
 
 export interface TreeDataProvider<T = any> {

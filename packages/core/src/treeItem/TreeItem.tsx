@@ -1,7 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { TreeItemIndex } from '../types';
-import { TreeItemChildren } from './TreeItemChildren';
-import { useViewState } from '../tree/useViewState';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
@@ -10,17 +8,12 @@ import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 export const TreeItem = (props: {
   itemIndex: TreeItemIndex;
   depth: number;
+  style: CSSProperties;
 }): JSX.Element => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const { renderers, treeInformation, renamingItem } = useTree();
   const environment = useTreeEnvironment();
-  const viewState = useViewState();
   const item = environment.items[props.itemIndex];
-
-  const isExpanded = useMemo(
-    () => viewState.expandedItems?.includes(props.itemIndex),
-    [props.itemIndex, viewState.expandedItems]
-  );
 
   const renderContext = useTreeItemRenderContext(item)!;
 
@@ -31,12 +24,6 @@ export const TreeItem = (props: {
     }
     return null as any;
   }
-
-  const children = item.isFolder && isExpanded && item.children && (
-    <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex}>
-      {item.children}
-    </TreeItemChildren>
-  );
 
   const title = environment.getItemTitle(item);
   const titleComponent =
@@ -64,6 +51,7 @@ export const TreeItem = (props: {
     arrow: arrowComponent,
     context: renderContext,
     info: treeInformation,
-    children,
+    style: props.style,
+    key: `${props.itemIndex}`,
   }) ?? null) as any; // Type to use AllTreeRenderProps
 };

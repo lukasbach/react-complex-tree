@@ -87,7 +87,7 @@ export const createDefaultRenderers = (
         ))}
     </div>
   ),
-  renderItem: ({ item, depth, children, title, context, arrow }) => {
+  renderItem: ({ item, depth, title, context, arrow }) => {
     const InteractiveComponent = context.isRenaming ? 'div' : 'button';
     const type = context.isRenaming ? undefined : 'button';
     // TODO have only root li component create all the classes
@@ -136,7 +136,6 @@ export const createDefaultRenderers = (
             {title}
           </InteractiveComponent>
         </div>
-        {children}
       </li>
     );
   },
@@ -162,6 +161,7 @@ export const createDefaultRenderers = (
       />
     </form>
   ),
+  // TODO remove unused
   renderDraggingItem: () => <div />,
   renderDraggingItemTitle: () => <div />,
   renderTreeContainer: ({ children, containerProps, info }) => (
@@ -216,6 +216,13 @@ export const createDefaultRenderers = (
     >
       {children}
     </div>
+  ),
+  renderLinearList: ({ renderItem, items }) => (
+    <>
+      {items.map(({ item, depth }) =>
+        renderItem({ itemIndex: item, style: {}, key: `${item}`, depth })
+      )}
+    </>
   ),
   renderDepthOffset: 10,
 });

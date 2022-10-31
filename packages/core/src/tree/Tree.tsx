@@ -76,7 +76,12 @@ export const Tree = React.forwardRef<TreeRef, TreeProps>((props, ref) => {
 
   if (rootItem === undefined) {
     environment.onMissingItems?.([props.rootItem]);
-    return null;
+    return (
+      // TODO maybe unnecessary
+      <TreeContext.Provider value={treeContextProps}>
+        <TreeActionsProvider ref={ref} />
+      </TreeContext.Provider>
+    );
   }
 
   return (

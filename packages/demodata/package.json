@@ -7,7 +7,7 @@
     "url": "git@github.com:lukasbach/react-complex-tree.git",
     "directory": "packages/demodata"
   },
-  "author": "Lukas Bach <lbach@outlook.de>",
+  "author": "Lukas Bach <npm@lukasbach.com>",
   "license": "MIT",
   "private": true,
   "devDependencies": {

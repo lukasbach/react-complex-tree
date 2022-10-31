@@ -43,7 +43,7 @@ export const MinimalRenderers = () => (
         )
       ) : null
     }
-    renderItem={({ title, arrow, context, children }) => (
+    renderItem={({ title, arrow, context }) => (
       <li {...context.itemContainerWithChildrenProps}>
         <button
           type="button"
@@ -53,7 +53,6 @@ export const MinimalRenderers = () => (
           {arrow}
           {title}
         </button>
-        {children}
       </li>
     )}
     renderTreeContainer={({ children, containerProps }) => (

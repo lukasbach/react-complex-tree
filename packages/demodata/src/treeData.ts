@@ -150,6 +150,21 @@ const autoDemoTemplate = {
   },
 };
 
+const virtualizedTreeTemplate: any = { root: {} };
+for (let i = 0; i < 1000; i += 1) {
+  virtualizedTreeTemplate.root = {
+    ...virtualizedTreeTemplate.root,
+    [`item${i}`]: {},
+  };
+  for (let j = 0; i < 50; i += 1) {
+    virtualizedTreeTemplate.root[`item${i}`] = {
+      ...virtualizedTreeTemplate.root[`item${i}`],
+      [`item${i}-${j}`]: null,
+    };
+  }
+}
+
 export const longTree = readTemplate(longTreeTemplate);
 export const shortTree = readTemplate(shortTreeTemplate);
 export const autoDemoTree = readTemplate(autoDemoTemplate);
+export const virtualizedTree = readTemplate(virtualizedTreeTemplate);
