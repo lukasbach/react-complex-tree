@@ -22,7 +22,7 @@ export const TreeItemRenamingInput: React.FC<{
   const submitButtonRef = useRef<any>(null);
   const item = environment.items[props.itemIndex];
   const [title, setTitle] = useState(environment.getItemTitle(item));
-  const callSoon = useCallSoon();
+  const callSoon = useCallSoon(true);
 
   const abort = () => {
     environment.onAbortRenamingItem?.(item, treeInformation.treeId);

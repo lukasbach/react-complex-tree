@@ -122,9 +122,16 @@ export const useControlledTreeEnvironmentProps = ({
     [onDropProp, updateLinearItems]
   );
 
+  const focusTree = useCallback((treeId: string) => {
+    const focusItem = document.querySelector(
+      `[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`
+    );
+    (focusItem as HTMLElement)?.focus?.();
+  }, []);
+
   const setActiveTree = useCallback(
     (treeIdOrSetStateFunction, autoFocusTree = true) => {
-      const focusTree = (treeId: string | undefined) => {
+      const maybeFocusTree = (treeId: string | undefined) => {
         if (
           autoFocusTree &&
           (autoFocus ?? true) &&
@@ -133,10 +140,7 @@ export const useControlledTreeEnvironmentProps = ({
             .querySelector(`[data-rct-tree="${treeId}"]`)
             ?.contains(document.activeElement)
         ) {
-          const focusItem = document.querySelector(
-            `[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`
-          );
-          (focusItem as HTMLElement)?.focus?.();
+          focusTree(treeId);
         }
       };
 
@@ -145,7 +149,7 @@ export const useControlledTreeEnvironmentProps = ({
           const treeId = treeIdOrSetStateFunction(oldValue);
 
           if (treeId !== oldValue) {
-            focusTree(treeId);
+            maybeFocusTree(treeId);
           }
 
           return treeId;
@@ -153,10 +157,10 @@ export const useControlledTreeEnvironmentProps = ({
       } else {
         const treeId = treeIdOrSetStateFunction;
         setActiveTreeId(treeId);
-        focusTree(treeId);
+        maybeFocusTree(treeId);
       }
     },
-    [autoFocus]
+    [autoFocus, focusTree]
   );
 
   const renderers = useRenderers(props);
