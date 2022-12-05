@@ -30,6 +30,9 @@ were renamed alongside to match.
   the previous selection range should be cleared before selecting the new range.
 - Removed unnecessary memoization for event handlers, favoring stable callbacks stored in refs instead.
 - Fixed a bug where renaming an item would make the page loose focus of the active tree.
+- Items can now be dropped on empty trees. The tree container will need to be rendered with a minimum height for this
+  to work, in the default renderers the container will now render with a minimum height of 30px, which can be adjusted
+  in custom renderers.
 
 ### Other Changes
 

@@ -161,6 +161,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
   const onDragOverTreeHandler = useOnDragOverTreeHandler(
     dragCode,
     setDragCode,
+    draggingItems,
     itemHeight,
     setDraggingPosition,
     performDrag

@@ -33,7 +33,10 @@ export const resolveLiveDescriptor = (
         if (!dnd.draggingPosition) {
           return 'None';
         }
-        if (dnd.draggingPosition.targetType === 'item') {
+        if (
+          dnd.draggingPosition.targetType === 'item' ||
+          dnd.draggingPosition.targetType === 'root'
+        ) {
           return `within ${getItemTitle(dnd.draggingPosition.targetItem)}`;
         }
         const parentItem = environment.items[dnd.draggingPosition.parentItem];

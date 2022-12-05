@@ -11,6 +11,10 @@ export const useCanDropAt = () => {
         if (!environment.canReorderItems) {
           return false;
         }
+      } else if (draggingPosition.targetType === 'root') {
+        if (!environment.canDropOnFolder) {
+          return false;
+        }
       } else {
         const resolvedItem = environment.items[draggingPosition.targetItem];
         if (

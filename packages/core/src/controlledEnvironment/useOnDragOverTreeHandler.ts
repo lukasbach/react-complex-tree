@@ -22,8 +22,19 @@ const getHoveringPosition = (
 ) => {
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
+  const treeLinearItems = linearItems[treeId];
   const linearIndex = Math.floor(hoveringPosition);
-  const targetLinearItem = linearItems[treeId][linearIndex];
+
+  if (linearIndex > treeLinearItems.length - 1) {
+    return {
+      linearIndex: treeLinearItems.length - 1,
+      targetItem: treeLinearItems[treeLinearItems.length - 1].item,
+      offset: 'bottom',
+      targetLinearItem: treeLinearItems[treeLinearItems.length - 1],
+    } as const;
+  }
+
+  const targetLinearItem = treeLinearItems[linearIndex];
   const targetItem = items[targetLinearItem.item];
   let offset: 'top' | 'bottom' | undefined;
 
@@ -42,6 +53,7 @@ const getHoveringPosition = (
 export const useOnDragOverTreeHandler = (
   lastDragCode: string,
   setLastDragCode: (code: string) => void,
+  draggingItems: TreeItem[] | undefined,
   itemHeight: number,
   onDragAtPosition: (draggingPosition: DraggingPosition | undefined) => void,
   onPerformDrag: (draggingPosition: DraggingPosition) => void
@@ -53,7 +65,7 @@ export const useOnDragOverTreeHandler = (
     linearItems,
     items,
     canReorderItems,
-    viewState,
+    trees,
   } = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
@@ -63,6 +75,10 @@ export const useOnDragOverTreeHandler = (
       treeId: string,
       containerRef: React.MutableRefObject<HTMLElement | undefined>
     ) => {
+      if (!draggingItems) {
+        return;
+      }
+
       if (!canDragAndDrop) {
         return;
       }
@@ -77,6 +93,18 @@ export const useOnDragOverTreeHandler = (
 
       const treeBb = containerRef.current.getBoundingClientRect();
       const outsideContainer = isOutsideOfContainer(e, treeBb);
+
+      if (linearItems[treeId].length === 0) {
+        // Empty tree
+        onPerformDrag({
+          targetType: 'root',
+          treeId,
+          depth: 0,
+          linearIndex: 0,
+          targetItem: trees[treeId].rootItem,
+        });
+        return;
+      }
 
       let { linearIndex, offset } = getHoveringPosition(
         e.clientY,
@@ -130,7 +158,11 @@ export const useOnDragOverTreeHandler = (
 
       const parent = getParentOfLinearItem(linearIndex, treeId);
 
-      if (viewState[treeId]?.selectedItems?.includes(targetItem.item)) {
+      if (
+        draggingItems.some(
+          draggingItem => draggingItem.index === targetItem.item
+        )
+      ) {
         return;
       }
 
@@ -178,6 +210,7 @@ export const useOnDragOverTreeHandler = (
       canDropOnFolder,
       canDropOnNonFolder,
       canReorderItems,
+      draggingItems,
       getParentOfLinearItem,
       itemHeight,
       items,
@@ -186,7 +219,7 @@ export const useOnDragOverTreeHandler = (
       onDragAtPosition,
       onPerformDrag,
       setLastDragCode,
-      viewState,
+      trees,
     ]
   );
 };

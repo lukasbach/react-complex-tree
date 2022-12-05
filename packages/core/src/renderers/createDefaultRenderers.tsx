@@ -173,7 +173,12 @@ export const createDefaultRenderers = (
         info.areItemsSelected && 'rct-tree-root-itemsselected'
       )}
     >
-      <div {...containerProps}>{children}</div>
+      <div
+        {...containerProps}
+        style={{ minHeight: '30px', ...containerProps.style }}
+      >
+        {children}
+      </div>
     </div>
   ),
   renderItemsContainer: ({ children, containerProps }) => (

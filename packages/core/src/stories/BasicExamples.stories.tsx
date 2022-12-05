@@ -206,6 +206,78 @@ export const MultipleTrees = () => (
   </UncontrolledTreeEnvironment>
 );
 
+export const DropOnEmptyTree = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(
+        {
+          ...longTree.items,
+          empty: {
+            data: 'Empty Folder',
+            index: 'empty',
+            isFolder: true,
+          },
+        },
+        (item, data) => ({
+          ...item,
+          data,
+        })
+      )
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {},
+    }}
+    renderTreeContainer={({ children, containerProps, info }) => (
+      <div
+        className={[
+          'rct-tree-root',
+          info.isFocused && 'rct-tree-root-focus',
+          info.isRenaming && 'rct-tree-root-renaming',
+          info.areItemsSelected && 'rct-tree-root-itemsselected',
+        ].join(' ')}
+      >
+        <div
+          {...containerProps}
+          style={{ minHeight: '400px', ...containerProps.style }}
+        >
+          {children}
+        </div>
+      </div>
+    )}
+  >
+    <div
+      style={{
+        display: 'flex',
+        backgroundColor: '#D8DEE9',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        padding: '20px 0',
+      }}
+    >
+      <div
+        style={{
+          width: '28%',
+          backgroundColor: 'white',
+        }}
+      >
+        <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
+      </div>
+      <div
+        style={{
+          width: '28%',
+          backgroundColor: 'white',
+        }}
+      >
+        <Tree treeId="tree-2" rootItem="empty" treeLabel="Tree 2" />
+      </div>
+    </div>
+  </UncontrolledTreeEnvironment>
+);
+
 export const SwitchMountedTree = () => {
   const [showFirstTree, setShowFirstTree] = useState(false);
   return (

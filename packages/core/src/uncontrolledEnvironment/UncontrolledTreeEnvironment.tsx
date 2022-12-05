@@ -126,7 +126,6 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
           const parent = Object.values(currentItems).find(potentialParent =>
             potentialParent.children?.includes(item.index)
           );
-          const newParent = currentItems[target.parentItem];
 
           if (!parent) {
             throw Error(`Could not find parent of item "${item.index}"`);
@@ -138,7 +137,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
             );
           }
 
-          if (target.targetType === 'item') {
+          if (target.targetType === 'item' || target.targetType === 'root') {
             if (target.targetItem === parent.index) {
               // NOOP
             } else {
@@ -156,6 +155,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
               );
             }
           } else {
+            const newParent = currentItems[target.parentItem];
             const newParentChildren = [...(newParent.children ?? [])].filter(
               child => child !== item.index
             );

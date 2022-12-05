@@ -32,15 +32,11 @@ export const TreeManager = (): JSX.Element => {
 
   const rootChildren = environment.items[rootItem].children;
 
-  if (!rootChildren) {
-    throw Error(`Root ${rootItem} does not contain any children`);
-  }
-
   const treeChildren = (
     <>
       <MaybeLiveDescription />
       <TreeItemChildren depth={0} parentId={treeId}>
-        {rootChildren}
+        {rootChildren ?? []}
       </TreeItemChildren>
       <DragBetweenLine treeId={treeId} />
       <SearchInput containerRef={containerRef.current} />
@@ -48,8 +44,10 @@ export const TreeManager = (): JSX.Element => {
   );
 
   const containerProps: HTMLProps<any> = {
-    // onDragOver: createOnDragOverHandler(environment, containerRef, lastHoverCode, getLinearItems, rootItem, treeId),
-    onDragOver: e => dnd.onDragOverTreeHandler(e as any, treeId, containerRef),
+    onDragOver: e => {
+      e.preventDefault(); // Allow drop. Also implicitly set by items, but needed here as well for dropping on empty space
+      dnd.onDragOverTreeHandler(e as any, treeId, containerRef);
+    },
     onMouseDown: () => dnd.abortProgrammaticDrag(),
     ref: containerRef,
     style: { position: 'relative' },
