@@ -204,7 +204,9 @@ export interface ImplicitDataSource<T = any> {
 export type DataSource<T = any> = ExplicitDataSource<T> | ImplicitDataSource<T>;
 
 export interface TreeChangeHandlers<T = any> {
+  onStartRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
   onRenameItem?: (item: TreeItem<T>, name: string, treeId: string) => void;
+  onAbortRenamingItem?: (item: TreeItem<T>, treeId: string) => void;
   onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
   onSelectItems?: (items: TreeItemIndex[], treeId: string) => void; // TODO TreeItem instead of just index

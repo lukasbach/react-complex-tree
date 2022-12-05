@@ -32,9 +32,6 @@ were renamed alongside to match.
   to work, in the default renderers the container will now render with a minimum height of 30px, which can be adjusted
   in custom renderers.
 - Fixed a bug where renaming from item renderer context was not working.
-- Removed `environment.onStartRenamingItem` and `environment.onAbortRenamingItem`, since they were not working anyways
-  and the renaming state is owned by a tree instance, not its environment. Use the respective methods on the tree ref
-  instead.
 
 ### Other Changes
 

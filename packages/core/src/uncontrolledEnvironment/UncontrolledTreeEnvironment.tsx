@@ -99,15 +99,14 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         props.onCollapseItem?.(item, treeId);
       }}
       onSelectItems={(items, treeId) => {
-        amendViewState(treeId, old => ({ ...old, selectedItems: items }));
         props.onSelectItems?.(items, treeId);
       }}
       onFocusItem={(item, treeId) => {
-        amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));
         props.onFocusItem?.(item, treeId);
       }}
       onRenameItem={async (item, name, treeId) => {
         await dataProvider.onRenameItem(item, name);
+        amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
         const newItem = await dataProvider.getTreeItem(item.index);
         writeItems({ [item.index]: newItem });
         props.onRenameItem?.(item, name, treeId);
