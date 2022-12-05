@@ -10,7 +10,7 @@ import { useSelectUpTo } from '../tree/useSelectUpTo';
 // TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
 
 export const useTreeItemRenderContext = (item?: TreeItem) => {
-  const { treeId, search, renamingItem } = useTree();
+  const { treeId, search, renamingItem, setRenamingItem } = useTree();
   const environment = useTreeEnvironment();
   const interactionManager = useInteractionManager();
   const dnd = useDragAndDrop();
@@ -112,7 +112,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
         selectUpTo(item, overrideOldSelection);
       },
       startRenamingItem: () => {
-        environment.onStartRenamingItem?.(item, treeId);
+        setRenamingItem(item.index);
       },
       focusItem: () => {
         environment.onFocusItem?.(item, treeId);
@@ -228,5 +228,6 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     isSearchMatching,
     interactionManager,
     selectUpTo,
+    setRenamingItem,
   ]);
 };

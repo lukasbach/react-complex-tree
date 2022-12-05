@@ -306,6 +306,63 @@ export const SwitchMountedTree = () => {
   );
 };
 
+export const TreeItemContextRenaming = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{}}
+    renderItem={({ item, depth, children, title, context, arrow }) => {
+      const InteractiveComponent = context.isRenaming ? 'div' : 'button';
+      const type = context.isRenaming ? undefined : 'button';
+      return (
+        <li
+          {...(context.itemContainerWithChildrenProps as any)}
+          className="rct-tree-item-li"
+        >
+          <div
+            {...(context.itemContainerWithoutChildrenProps as any)}
+            style={{ paddingLeft: `${(depth + 1) * 4}px` }}
+            className={[
+              'rct-tree-item-title-container',
+              item.isFolder && 'rct-tree-item-title-container-isFolder',
+              context.isSelected && 'rct-tree-item-title-container-selected',
+              context.isExpanded && 'rct-tree-item-title-container-expanded',
+              context.isFocused && 'rct-tree-item-title-container-focused',
+              context.isDraggingOver &&
+                'rct-tree-item-title-container-dragging-over',
+              context.isSearchMatching &&
+                'rct-tree-item-title-container-search-match',
+            ].join(' ')}
+          >
+            {arrow}
+            <InteractiveComponent
+              type={type}
+              {...(context.interactiveElementProps as any)}
+              className="rct-tree-item-button"
+            >
+              {title}
+            </InteractiveComponent>
+            <button onClick={context.startRenamingItem} type="button">
+              Rename
+            </button>
+          </div>
+          {children}
+        </li>
+      );
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="Europe" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
 export const UnitTestTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop

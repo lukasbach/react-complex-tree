@@ -72,6 +72,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
     return dispose;
   }, [dataProvider, writeItems]);
 
+  // TODO memoize props or this component itself
   return (
     <ControlledTreeEnvironment
       {...props}
@@ -105,17 +106,8 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));
         props.onFocusItem?.(item, treeId);
       }}
-      onStartRenamingItem={(item, treeId) => {
-        amendViewState(treeId, old => ({ ...old, renamingItem: item.index }));
-        props.onStartRenamingItem?.(item, treeId);
-      }}
-      onAbortRenamingItem={(item, treeId) => {
-        amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
-        props.onAbortRenamingItem?.(item, treeId);
-      }}
       onRenameItem={async (item, name, treeId) => {
         await dataProvider.onRenameItem(item, name);
-        amendViewState(treeId, old => ({ ...old, renamingItem: undefined }));
         const newItem = await dataProvider.getTreeItem(item.index);
         writeItems({ [item.index]: newItem });
         props.onRenameItem?.(item, name, treeId);

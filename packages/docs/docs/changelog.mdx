@@ -5,7 +5,7 @@ sidebar_position: 5
 # Changelog
 
 <!--
-## 2.0.0 - DATE
+## 2.0.0 - 12/05/2022
 
 ### Breaking Changes
 - Replaced `item.hasChildren` property with `item.isFolder`
@@ -18,11 +18,9 @@ always denoted whether an item is a folder or not, which confused a lot of peopl
 very bad naming. The new name is a better reflection of its functionality. The other two properties
 were renamed alongside to match.
 
-### Features
-- Upgraded library to React 18.
-
 ### Bug Fixes and Improvements
 
+- Upgraded library to React 18.
 - Improved how "select up to" (i.e. shift+clicking) works, to match how users would expect it to work. The user can
   now create multiple distinct selection ranges by clicking and shift-clicking another item, then control clicking
   a different item and shift+control clicking a forth item.
@@ -33,6 +31,10 @@ were renamed alongside to match.
 - Items can now be dropped on empty trees. The tree container will need to be rendered with a minimum height for this
   to work, in the default renderers the container will now render with a minimum height of 30px, which can be adjusted
   in custom renderers.
+- Fixed a bug where renaming from item renderer context was not working.
+- Removed `environment.onStartRenamingItem` and `environment.onAbortRenamingItem`, since they were not working anyways
+  and the renaming state is owned by a tree instance, not its environment. Use the respective methods on the tree ref
+  instead.
 
 ### Other Changes
 
