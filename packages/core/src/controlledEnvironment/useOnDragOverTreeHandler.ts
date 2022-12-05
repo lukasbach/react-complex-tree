@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useCallback } from 'react';
 import {
   DraggingPosition,
   LinearItem,
@@ -9,6 +8,7 @@ import {
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { isOutsideOfContainer } from './layoutUtils';
+import { useStableHandler } from '../use-stable-handler';
 
 const getHoveringPosition = (
   clientY: number,
@@ -69,7 +69,7 @@ export const useOnDragOverTreeHandler = (
   } = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
-  return useCallback(
+  return useStableHandler(
     (
       e: DragEvent,
       treeId: string,
@@ -204,22 +204,6 @@ export const useOnDragOverTreeHandler = (
       }
 
       onPerformDrag(draggingPosition);
-    },
-    [
-      canDragAndDrop,
-      canDropOnFolder,
-      canDropOnNonFolder,
-      canReorderItems,
-      draggingItems,
-      getParentOfLinearItem,
-      itemHeight,
-      items,
-      lastDragCode,
-      linearItems,
-      onDragAtPosition,
-      onPerformDrag,
-      setLastDragCode,
-      trees,
-    ]
+    }
   );
 };
