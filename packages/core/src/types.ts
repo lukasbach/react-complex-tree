@@ -301,7 +301,7 @@ export interface DragAndDropContextProps<T = any> {
 export type DraggingPosition =
   | DraggingPositionItem
   | DraggingPositionBetweenItems
-  | DreaggingPositionRoot;
+  | DraggingPositionRoot;
 
 export interface AbstractDraggingPosition {
   targetType: 'item' | 'between-items' | 'root';
@@ -323,7 +323,7 @@ export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
   parentItem: TreeItemIndex;
 }
 
-export interface DreaggingPositionRoot extends AbstractDraggingPosition {
+export interface DraggingPositionRoot extends AbstractDraggingPosition {
   targetType: 'root';
   targetItem: TreeItemIndex;
 }
