@@ -14,7 +14,7 @@
 Look into the [official documentation](https://rct.lukasbach.com/) to see more examples
 and a more comprehensive documentation. The Changelog is available at [https://rct.lukasbach.com/docs/changelog](https://rct.lukasbach.com/docs/changelog).
 
-Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog) when migrating from v1.x to v2.x.
+Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---12052022) when migrating from v1.x to v2.x.
 
 ## Installation
 
