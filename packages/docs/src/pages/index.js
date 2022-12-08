@@ -32,7 +32,7 @@ function HomepageHeader() {
           </div>
           <div className="col col--7">
             <StoryEmbed
-              storyName="auto-demo-autodemo-component--multi-tree-demo"
+              storyName="core-basic-examples--multiple-trees-2"
               iframeProps={{ minHeight: 380, width: 600 }}
             />
           </div>

@@ -206,6 +206,49 @@ export const MultipleTrees = () => (
   </UncontrolledTreeEnvironment>
 );
 
+export const MultipleTrees2 = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {
+        expandedItems: ['Fruit', 'Meals'],
+      },
+    }}
+  >
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'baseline',
+      }}
+    >
+      <div
+        style={{
+          width: '49%',
+        }}
+      >
+        <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
+      </div>
+      <div
+        style={{
+          width: '49%',
+        }}
+      >
+        <Tree treeId="tree-2" rootItem="root" treeLabel="Tree 2" />
+      </div>
+    </div>
+  </UncontrolledTreeEnvironment>
+);
+
 export const DropOnEmptyTree = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
