@@ -19,7 +19,6 @@
   "homepage": "https://rct.lukasbach.com/",
   "author": "Lukas Bach <npm@lukasbach.com>",
   "license": "MIT",
-  "private": false,
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
