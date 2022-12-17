@@ -33,7 +33,7 @@
     "react-complex-tree-autodemo": "^2.0.0",
     "react-complex-tree-blueprintjs-renderers": "^2.0.0",
     "react-docgen-typescript": "^2.2.2",
-    "react-dom": "^17.0.1",
+    "react-dom": "^18.2.0",
     "typedoc": "^0.23.18",
     "typedoc-plugin-markdown": "^3.13.6",
     "url-loader": "^4.1.1"
