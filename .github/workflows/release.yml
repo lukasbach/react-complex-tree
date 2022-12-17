@@ -55,7 +55,7 @@ jobs:
         run: |
           now="$(date +'%d/%m/%Y')"
           # sorry
-          echo "$(sed -n '1,6p' ./packages/docs/docs/changelog.mdx)\n\n## ${{env.version}} - $now\n\n$(cat ./next-release-notes.md)\n\n\n$(sed -n '6,99999p' ./packages/docs/docs/changelog.mdx)" > ./packages/docs/docs/changelog.mdx
+          echo -e "$(sed -n '1,6p' ./packages/docs/docs/changelog.mdx)\n\n## ${{env.version}} - $now\n\n$(cat ./next-release-notes.md)\n\n\n$(sed -n '6,99999p' ./packages/docs/docs/changelog.mdx)" > ./packages/docs/docs/changelog.mdx
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
