@@ -38,7 +38,7 @@ jobs:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Check Changelog
         run: |
-          if test -f "./next-release-notes.md"; then
+          if ! test -f "./next-release-notes.md"; then
               exit 1
           fi
           echo "Changelog:"
