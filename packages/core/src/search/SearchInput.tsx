@@ -77,7 +77,7 @@ export const SearchInput: React.FC<{
         clearSearch();
       },
       ref: el => {
-        el?.focus();
+        el?.focus?.();
       },
       'aria-label': 'Search for items', // TODO
       ...({

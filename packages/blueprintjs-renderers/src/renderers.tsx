@@ -167,7 +167,11 @@ export const renderers: TreeRenderProps = {
 
   renderSearchInput: props => (
     <div className={cx('rct-tree-search-input-container')}>
-      <InputGroup {...(props.inputProps as any)} placeholder="Search..." />
+      <InputGroup
+        autoFocus
+        {...(props.inputProps as any)}
+        placeholder="Search..."
+      />
     </div>
   ),
 
