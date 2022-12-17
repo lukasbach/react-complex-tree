@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 16, 17, 18 ]
+        react: [ 16, 17, 18 ]
     name: React ${{ matrix.node }} Verify
     steps:
       - name: Checkout 🛎️
