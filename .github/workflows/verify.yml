@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         node: [ 16, 17, 18 ]
-    name: Node ${{ matrix.node }} Verify
+    name: React ${{ matrix.node }} Verify
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
