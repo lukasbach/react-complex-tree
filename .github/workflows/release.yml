@@ -54,15 +54,16 @@ jobs:
       - name: Update Changelog
         run: |
           now="$(date +'%d/%m/%Y')"
-          echo "## ${{env.version}} - $now" >> "./packages/docs/docs/changelog.mdx"
-          cat ./next-release-notes.md >> "./packages/docs/docs/changelog.mdx"
+          changelog="$(cat ./next-release-notes.md)\n\n\n"
+          sed -i "7 i ## ${{env.version}} - ${now}" "./packages/docs/docs/changelog.mdx"
+          sed -i "8 i ${changelog}" "./packages/docs/docs/changelog.mdx"
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
           body_path: next-release-notes.md
           draft: true
-          name: env.version
-          tag_name: env.version
+          name: ${{env.version}}
+          tag_name: ${{env.version}}
           files: |
             lerna-publish-summary.json
             next-release-notes.md
