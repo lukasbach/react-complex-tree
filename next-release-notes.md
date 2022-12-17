@@ -1,5 +1,3 @@
-### Features
-
 ### Bug Fixes and Improvements
 * Fixed a bug where autofocus for the search input was not working for blueprintjs
   renderers (#197)

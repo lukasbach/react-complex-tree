@@ -33,9 +33,17 @@ jobs:
         run: yarn test
       # - name: Version Bump
       #   run: |
-      #     yarn publish ${{ github.event.inputs.bump }} --yes --summary-file ./release.json
+      #     yarn lerna publish ${{ github.event.inputs.bump }} --yes --summary-file
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Release info
+      #   run: cat ./lerna-publish-summary.json
+      - name: Read new version
+        run: |
+          pkg=$(cat ./packages/core/package.json)
+          ver=$(jq -r '.version' <<< $pkg)
+          echo "version=$ver" >> $GITHUB_ENV
+          echo "New Version is $ver"
       - name: Check Changelog
         run: |
           if ! test -f "./next-release-notes.md"; then
@@ -45,14 +53,18 @@ jobs:
           cat ./next-release-notes.md
       - name: Update Changelog
         run: |
+          now="$(date +'%d/%m/%Y')"
+          echo "## ${{env.version}} - $now" >> "./packages/docs/docs/changelog.mdx"
           cat ./next-release-notes.md >> "./packages/docs/docs/changelog.mdx"
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
           body_path: next-release-notes.md
           draft: true
+          name: env.version
+          tag_name: env.version
           files: |
-            release.json
+            lerna-publish-summary.json
             next-release-notes.md
             LICENSE
       - name: TEST
