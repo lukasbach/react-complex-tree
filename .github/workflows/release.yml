@@ -55,8 +55,10 @@ jobs:
         run: |
           now="$(date +'%d/%m/%Y')"
           changelog="$(cat ./next-release-notes.md)\n\n\n"
-          sed -i "7 i ## ${{env.version}} - ${now}" "./packages/docs/docs/changelog.mdx"
-          sed -i "8 i ${changelog}" "./packages/docs/docs/changelog.mdx"
+          echo "$now"
+          echo "$changelog"
+          sed -i '7 i ## ${{env.version}} - $now' "./packages/docs/docs/changelog.mdx"
+          sed -i '8 i $changelog' "./packages/docs/docs/changelog.mdx"
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
