@@ -46,7 +46,7 @@ export const TreeItemRenamingInput: React.FC<{
 
       if (environment.autoFocus ?? true) {
         inputRef.current?.select();
-        inputRef.current?.focus();
+        inputRef.current?.focus?.();
       }
     },
     [environment, treeId],

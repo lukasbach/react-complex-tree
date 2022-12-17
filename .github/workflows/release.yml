@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+          - from-git
+          - from-package
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v3
+      - name: Dependencies
+        run: yarn
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
+      - name: Test
+        run: yarn test
+      - name: Do Release
+        run: |
+          yarn lerna publish ${{ github.event.inputs.bump }} --yes --summary-file
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release info
+        run: cat ./lerna-publish-summary.json
+      - name: Read new version
+        run: |
+          pkg=$(cat ./packages/core/package.json)
+          ver=$(jq -r '.version' <<< $pkg)
+          echo "version=$ver" >> $GITHUB_ENV
+          echo "New Version is $ver"
+      - name: Check Changelog
+        run: |
+          if ! test -f "./next-release-notes.md"; then
+              exit 1
+          fi
+          echo "Changelog:"
+          cat ./next-release-notes.md
+      - name: Update Changelog
+        run: |
+          now="$(date +'%d/%m/%Y')"
+          # sorry
+          echo -e "$(sed -n '1,6p' ./packages/docs/docs/changelog.mdx)\n\n## ${{env.version}} - $now\n\n$(cat ./next-release-notes.md)\n\n\n$(sed -n '6,99999p' ./packages/docs/docs/changelog.mdx)" > ./packages/docs/docs/changelog.mdx
+      - name: Github Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: next-release-notes.md
+          name: ${{env.version}}
+          tag_name: ${{env.version}}
+          files: |
+            lerna-publish-summary.json
+            next-release-notes.md
+            LICENSE
+      - name: Prepare next Changelog
+        run: |
+          rm ./next-release-notes.md
+          cp ./next-release-notes-template.md ./next-release-notes.md
+      - name: Push next Changelog
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: './next-release-notes.md'
+          author_name: lukasbachbot
+          author_email: bot@noreply.lukasbach.com
+          message: 'chore: reset next release notes [skip-ci]'
