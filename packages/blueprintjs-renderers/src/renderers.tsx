@@ -165,15 +165,13 @@ export const renderers: TreeRenderProps = {
     </form>
   ),
 
-  renderSearchInput: props => (
-    <div className={cx('rct-tree-search-input-container')}>
-      <InputGroup
-        autoFocus
-        {...(props.inputProps as any)}
-        placeholder="Search..."
-      />
-    </div>
-  ),
+  renderSearchInput: props => {
+    const { ref, ...inputProps } = {...props.inputProps};
+    return (
+      <div className={cx('rct-tree-search-input-container')}>
+        <InputGroup intputRef={ref} {...(inputProps as any)} placeholder="Search..." />
+      </div>
+    )},
 
   renderDepthOffset: 1,
 };
