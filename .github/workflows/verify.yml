@@ -9,10 +9,8 @@ jobs:
         react: [ 16, 17, 18 ]
     name: React ${{ matrix.react }} Verify
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v3
       - name: Dependencies
         run: yarn
       - name: Build
