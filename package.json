@@ -43,7 +43,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.6",
-    "lerna": "^6.0.1",
+    "lerna": "^6.1.0",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-docgen": "^5.3.1",
