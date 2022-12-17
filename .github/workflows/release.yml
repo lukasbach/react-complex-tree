@@ -31,13 +31,13 @@ jobs:
         run: yarn build
       - name: Test
         run: yarn test
-      # - name: Version Bump
-      #   run: |
-      #     yarn lerna publish ${{ github.event.inputs.bump }} --yes --summary-file
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # - name: Release info
-      #   run: cat ./lerna-publish-summary.json
+      - name: Do Release
+        run: |
+          yarn lerna publish ${{ github.event.inputs.bump }} --yes --summary-file
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release info
+        run: cat ./lerna-publish-summary.json
       - name: Read new version
         run: |
           pkg=$(cat ./packages/core/package.json)
@@ -60,18 +60,20 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: next-release-notes.md
-          draft: true
           name: ${{env.version}}
           tag_name: ${{env.version}}
           files: |
             lerna-publish-summary.json
             next-release-notes.md
             LICENSE
-      - name: TEST
-        run: |
-          cat ./next-release-notes.md
-          cat ./packages/docs/docs/changelog.mdx
       - name: Prepare next Changelog
         run: |
           rm ./next-release-notes.md
           cp ./next-release-notes-template.md ./next-release-notes.md
+      - name: Push next Changelog
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: './next-release-notes.md'
+          author_name: lukasbachbot
+          author_email: bot@noreply.lukasbach.com
+          message: 'chore: reset next release notes [skip-ci]'
