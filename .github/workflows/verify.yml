@@ -15,11 +15,14 @@ jobs:
           persist-credentials: false
       - name: Dependencies
         run: yarn
-      - name: Custom React version
-        working-directory: ./packages/core
-        run: yarn add react@${{ matrix.react }} -D
       - name: Build
         run: yarn build
+      - name: Custom React version
+        run: |
+          yarn add react@${{ matrix.react }} -D
+          cd packages/core
+          yarn add react@${{ matrix.react }} -D
+          yarn build
       - name: Test
         run: yarn test
       - name: Lint
