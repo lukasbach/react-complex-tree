@@ -57,8 +57,10 @@ jobs:
           changelog="$(cat ./next-release-notes.md)\n\n\n"
           echo "$now"
           echo "$changelog"
-          sed -i '7 i ## ${{env.version}} - $now' "./packages/docs/docs/changelog.mdx"
-          sed -i '8 i $changelog' "./packages/docs/docs/changelog.mdx"
+          escaped_changelog=$(printf '%s\n' "$changelog" | sed 's:[][\\/.^$*]:\\&:g')
+          echo "$escaped_changelog"
+          sed -i "7 i ## ${{env.version}} - $now" "./packages/docs/docs/changelog.mdx"
+          sed -i "8 i $escaped_changelog" "./packages/docs/docs/changelog.mdx"
       - name: Github Release
         uses: softprops/action-gh-release@v1
         with:
