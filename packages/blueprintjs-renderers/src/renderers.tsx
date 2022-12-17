@@ -166,12 +166,17 @@ export const renderers: TreeRenderProps = {
   ),
 
   renderSearchInput: props => {
-    const { ref, ...inputProps } = {...props.inputProps};
+    const { ref, ...inputProps } = { ...props.inputProps };
     return (
       <div className={cx('rct-tree-search-input-container')}>
-        <InputGroup intputRef={ref} {...(inputProps as any)} placeholder="Search..." />
+        <InputGroup
+          intputRef={ref}
+          {...(inputProps as any)}
+          placeholder="Search..."
+        />
       </div>
-    )},
+    );
+  },
 
   renderDepthOffset: 1,
 };
