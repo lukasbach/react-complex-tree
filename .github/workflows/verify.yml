@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         react: [ 16, 17, 18 ]
-    name: React ${{ matrix.node }} Verify
+    name: React ${{ matrix.react }} Verify
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
@@ -16,8 +16,8 @@ jobs:
       - name: Dependencies
         run: yarn
       - name: Custom React version
-        run: |
-          yarn lerna add react@${{ matrix.react }} --scope=react-complex-tree --scope=react-complex-tree-blueprintjs-renderers
+        working-directory: ./packages/core
+        run: yarn add react@${{ matrix.react }} -D
       - name: Build
         run: yarn build
       - name: Test
