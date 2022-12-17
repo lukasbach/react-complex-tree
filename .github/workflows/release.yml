@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+          - premajor
+          - preminor
+          - prepatch
+          - prerelease
+          - from-git
+          - from-package
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v3
+      - name: Dependencies
+        run: yarn
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
+      - name: Test
+        run: yarn test
+      # - name: Version Bump
+      #   run: |
+      #     yarn publish ${{ github.event.inputs.bump }} --yes --summary-file ./release.json
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Check Changelog
+        run: |
+          if test -f "./next-release-notes.md"; then
+              exit 1
+          fi
+          echo "Changelog:"
+          cat ./next-release-notes.md
+      - name: Update Changelog
+        run: |
+          cat ./next-release-notes.md >> "./packages/docs/docs/changelog.mdx"
+      - name: Github Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: next-release-notes.md
+          draft: true
+          files: |
+            release.json
+            next-release-notes.md
+            LICENSE
+      - name: TEST
+        run: |
+          cat ./next-release-notes.md
+          cat ./packages/docs/docs/changelog.mdx
+      - name: Prepare next Changelog
+        run: |
+          rm ./next-release-notes.md
+          cp ./next-release-notes-template.md ./next-release-notes.md
