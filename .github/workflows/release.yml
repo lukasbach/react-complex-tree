@@ -33,6 +33,8 @@ jobs:
         run: yarn test
       - name: Do Release
         run: |
+          git config --global user.email "bot@noreply.lukasbach.com"
+          git config --global user.name "lukasbachbot"
           yarn lerna publish ${{ github.event.inputs.bump }} --yes --summary-file
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
