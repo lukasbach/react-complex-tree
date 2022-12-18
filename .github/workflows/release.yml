@@ -35,7 +35,8 @@ jobs:
         run: |
           git config --global user.email "bot@noreply.lukasbach.com"
           git config --global user.name "lukasbachbot"
-          yarn lerna publish ${{ github.event.inputs.bump }} --yes --no-verify-access --registry https://registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }} --summary-file --loglevel silly
+          npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          yarn lerna publish ${{ github.event.inputs.bump }} --yes --no-verify-access --summary-file --loglevel silly
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release info
