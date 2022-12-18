@@ -73,9 +73,11 @@ jobs:
         run: |
           rm ./next-release-notes.md
           cp ./next-release-notes-template.md ./next-release-notes.md
-      - name: Push next Changelog
+      - name: Update lockfile
+        run: yarn
+      - name: Push remaining changes
         uses: EndBug/add-and-commit@v9
         with:
           author_name: lukasbachbot
           author_email: bot@noreply.lukasbach.com
-          message: 'chore: reset next release notes [skip-ci]'
+          message: 'chore: tidy up after release [skip-ci]'
