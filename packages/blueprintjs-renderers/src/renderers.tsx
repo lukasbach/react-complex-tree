@@ -172,6 +172,7 @@ export const renderers: TreeRenderProps = {
         <InputGroup
           intputRef={ref}
           {...(inputProps as any)}
+          autoFocus
           placeholder="Search..."
         />
       </div>
