@@ -76,7 +76,6 @@ jobs:
       - name: Push next Changelog
         uses: EndBug/add-and-commit@v9
         with:
-          add: './next-release-notes.md'
           author_name: lukasbachbot
           author_email: bot@noreply.lukasbach.com
           message: 'chore: reset next release notes [skip-ci]'
