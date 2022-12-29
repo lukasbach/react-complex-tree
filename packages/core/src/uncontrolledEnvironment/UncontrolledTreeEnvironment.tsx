@@ -153,6 +153,11 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
               child => child !== item.index
             );
 
+             if (target.parentItem === item.index) {
+              // Trying to drop inside itself
+              return;
+            }
+
             if (target.parentItem === parent.index) {
               const isOldItemPriorToNewItem =
                 ((newParent.children ?? []).findIndex(
