@@ -23,7 +23,7 @@ const getHoveringPosition = (
   const hoveringPosition = (clientY - treeTop) / itemHeight;
 
   const treeLinearItems = linearItems[treeId];
-  const linearIndex = Math.floor(hoveringPosition);
+  const linearIndex = Math.max(0, Math.floor(hoveringPosition));
 
   if (linearIndex > treeLinearItems.length - 1) {
     return {
