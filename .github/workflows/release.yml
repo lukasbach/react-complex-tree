@@ -75,6 +75,8 @@ jobs:
           cp ./next-release-notes-template.md ./next-release-notes.md
       - name: Update lockfile
         run: yarn
+        env:
+          CI: false
       - name: Push remaining changes
         uses: EndBug/add-and-commit@v9
         with:
