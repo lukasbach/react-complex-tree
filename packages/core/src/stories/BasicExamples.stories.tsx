@@ -254,27 +254,41 @@ export const MultipleTrees2 = () => (
     getItemTitle={item => item.data}
     viewState={{
       'tree-1': {
-        expandedItems: ['Fruit', 'Meals'],
+        expandedItems: ['Meals', 'Europe'],
+        selectedItems: ['Risotto', 'Pizza', 'Weisswurst', 'Spargel'],
+        focusedItem: 'Spargel',
+      },
+      'tree-2': {
+        expandedItems: ['Fruit', 'Berries'],
+        selectedItems: ['Orange'],
+        focusedItem: 'Orange',
       },
     }}
   >
     <div
       style={{
         display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'baseline',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
       }}
     >
       <div
         style={{
-          width: '49%',
+          width: '44%',
+          backgroundColor: '#fff',
+          color: '#000',
+          borderRadius: '12px',
         }}
       >
         <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
       </div>
       <div
+        className="rct-dark"
         style={{
-          width: '49%',
+          width: '44%',
+          backgroundColor: '#222',
+          color: '#e3e3e3',
+          borderRadius: '12px',
         }}
       >
         <Tree treeId="tree-2" rootItem="root" treeLabel="Tree 2" />
