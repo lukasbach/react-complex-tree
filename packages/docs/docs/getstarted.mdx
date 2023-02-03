@@ -160,3 +160,78 @@ is generic and can contain any kind of data such as objects or strings. The envi
 implement the `getItemTitle` method, which derives the title of the item given a [TreeItem](/docs/api/interfaces/TreeItem)
 instance. In our example, where `data` is just a string that contains the title, we can use the trivial
 implementation of `getItemTitle={item => item.data}`.
+
+We then create a new `StaticTreeDataProvider` instance that uses this data structure as data source. See the
+[public interface](/docs/api/classes/StaticTreeDataProvider) of the `StaticTreeDataProvider` to get details on its constructor and abilities.
+
+```typescript jsx
+const dataProvider = new StaticTreeDataProvider(items, (item, newName) => ({ ...item, data: newName }));
+```
+
+The first constructor parameter is a record specifying available items. The second is an optional callback with which
+you can customize how renaming an item works. It is called when the user renames an item (by using the F2 hotkey),
+and how the item data payload is changed by that rename operation. This is necessary since react-complex-tree does not
+by itself know which part of the item payload contains the name. This parameter has the type `(item: TreeItem<T>, newName: string) => TreeItem<T>`.
+
+:::tip Handling drag events
+
+To handle drag events, call `dataProvider.onDidChangeTreeData` like that:
+
+```typescript
+const listener = (changedItemIds: (string | number)[]) => {
+  const changedItems = changedItemIds.map(dataProvider.getTreeItem)
+  console.log("Changed items:", changedItems)
+}
+dataProvider.onDidChangeTreeData(listener)
+```
+
+You also need to set the property `canDragAndDrop` and either `canDropOnFolder` or `canReorderItems` on the tree environment.
+
+:::
+
+Finally, you can mount a `Tree` component within an `UncontrolledTreeEnvironment` that uses your dataProvider
+as data source.
+
+```jsx live
+function App() {
+  const items = {
+    root: {
+      index: 'root',
+      isFolder: true,
+      children: ['child1', 'child2'],
+      data: 'Root item',
+    },
+    child1: {
+      index: 'child1',
+      children: [],
+      data: 'Child item 1',
+    },
+    child2: {
+      index: 'child2',
+      isFolder: true,
+      children: ['child3'],
+      data: 'Child item 2',
+    },
+    child3: {
+      index: 'child3',
+      children: [],
+      data: 'Child item 3',
+    },
+  };
+
+  const dataProvider = new StaticTreeDataProvider(items, (item, newName) => ({ ...item, data: newName }));
+
+  return (
+    <UncontrolledTreeEnvironment
+      dataProvider={dataProvider}
+      getItemTitle={item => item.data}
+      viewState={{}}
+      canDragAndDrop={true}
+      canDropOnFolder={true}
+      canReorderItems={true}
+    >
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
