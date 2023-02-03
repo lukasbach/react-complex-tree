@@ -222,5 +222,5 @@ export const createDefaultRenderers = (
       {children}
     </div>
   ),
-  renderDepthOffset: 10,
+  renderDepthOffset,
 });
