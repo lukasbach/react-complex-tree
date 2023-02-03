@@ -6,3 +6,4 @@
 ### Bug Fixes and Improvements
 
 ### Other Changes
+* Fixed broken props-tables documentations for react components.

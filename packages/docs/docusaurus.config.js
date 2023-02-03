@@ -148,7 +148,7 @@ module.exports = {
       'docusaurus-plugin-react-docgen-typescript',
       {
         // pass in a single string or an array of strings
-        src: ['../core/src/**/*.tsx'], //'!../core/src/**/*test.*', '!../core/src/**/*stories.*'],
+        src: '../core/src/**/*.tsx', //'!../core/src/**/*test.*', '!../core/src/**/*stories.*'],
         tsconfig: '../core/tsconfig.json',
         // global: true,
         parserOptions: {
