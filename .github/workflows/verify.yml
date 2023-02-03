@@ -23,7 +23,7 @@ jobs:
           cat ./.yarnrc.yml
           yarn
       - name: Build
-        run: yarn build
+        run: yarn build:core
 
   verify:
     runs-on: ubuntu-latest

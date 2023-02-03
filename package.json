@@ -12,6 +12,7 @@
   "scripts": {
     "start": "lerna run start --parallel",
     "build": "lerna run build",
+    "build:core": "lerna run build --scope react-complex-tree",
     "test": "lerna run test --stream",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
