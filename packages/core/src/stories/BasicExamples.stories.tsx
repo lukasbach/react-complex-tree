@@ -278,6 +278,7 @@ export const MultipleTrees2 = () => (
           backgroundColor: '#fff',
           color: '#000',
           borderRadius: '12px',
+          paddingRight: '6px',
         }}
       >
         <Tree treeId="tree-1" rootItem="root" treeLabel="Tree 1" />
@@ -289,6 +290,7 @@ export const MultipleTrees2 = () => (
           backgroundColor: '#222',
           color: '#e3e3e3',
           borderRadius: '12px',
+          paddingRight: '6px',
         }}
       >
         <Tree treeId="tree-2" rootItem="root" treeLabel="Tree 2" />
