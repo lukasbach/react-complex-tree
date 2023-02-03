@@ -114,10 +114,11 @@ For the environment, there are three ways to implement your tree environment:
 - Use an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment) and implement a custom
   [TreeDataProvider](/docs/api/interfaces/TreeDataProvider). This is similarly easy and provides the ability to
   directly react to change events and define a lazy item-loading strategy. This approach is most likely the best
-  way to integrate React Complex Tree in realistic scenarios. This approach is described here TODO
-- Use an [StaticTreeDataProvider](/docs/api/classes/StaticTreeDataProvider). This requires you to define your
+  way to integrate React Complex Tree in realistic scenarios. This approach is described [here](/docs/guides/uncontrolled-environment),
+  with additional details on implementing custom a TreeDataProvider [here](/docs/guides/custom-data-provider).
+- Use an [ControlledTreeEnvironment](/docs/react/ControlledTreeEnvironment). This requires you to define your
   own logic to manage the view state, thus requiring the most effort, but also provides the most customizability.
-  This approach is described here TODO
+  This approach is described [here](/docs/guides/controlled-environment).
 
 ## Providing the data for the tree
 
