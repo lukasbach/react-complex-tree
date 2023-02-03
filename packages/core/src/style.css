@@ -14,7 +14,7 @@
 
   --rct-color-search-highlight-bg: #a2aed2;
   --rct-color-drag-between-line-bg: #0366d6;
-  --rct-color-arrow: #9aa5b3;
+  --rct-color-arrow: #373a3f;
 
   --rct-item-height: 22px;
 
@@ -70,11 +70,11 @@
 }
 
 .rct-tree-item-arrow {
-  width: 16px;
+  width: 10px;
 }
 
 .rct-tree-item-arrow svg {
-  width: 16px;
+  width: 10px;
 }
 
 .rct-tree-item-arrow-path {

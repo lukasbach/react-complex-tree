@@ -2,7 +2,7 @@ import { sortStories } from './utils/story-helpers';
 import { storyOrder } from './utils/storyOrder';
 import React from 'react';
 
-import 'react-complex-tree/src/style.css';
+import 'react-complex-tree/src/style-modern.css';
 import '../packages/autodemo/src/styles.css';
 
 export const parameters = {
