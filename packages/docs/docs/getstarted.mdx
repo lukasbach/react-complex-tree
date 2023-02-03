@@ -37,18 +37,25 @@ CSS in one of the following ways:
 
 - Import it directly in your JS code, if you use Webpack with a loader that can load CSS files:
   ```js
-  import 'react-complex-tree/lib/style.css';
+  import 'react-complex-tree/lib/style-modern.css';
   ```
 - Import it from within a CSS file with node-style package resolution:
   ```css
-  @import '~react-complex-tree/lib/style.css';
+  @import '~react-complex-tree/lib/style-modern.css';
   ```
 - Import it in your HTML by linking to the CSS file in your `node_modules` or on unpkg:
   ```html
   <head>
-    <link href="https://unpkg.com/react-complex-tree/lib/style.css" rel="stylesheet" />
+    <link href="https://unpkg.com/react-complex-tree/lib/style-modern.css" rel="stylesheet" />
   </head>
   ```
+
+:::info
+
+This will use the new styles introduced in v2.0.3.
+If you want the old default styles, import `.../style.css` instead of `.../style-modern.css`.
+
+:::
 
 React Complex Tree comes compiled as CommonJS package, ESM package and ESNext package.
 

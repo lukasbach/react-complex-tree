@@ -38,7 +38,7 @@ values:
 
   --rct-color-search-highlight-bg: #a2aed2;
   --rct-color-drag-between-line-bg: #0366d6;
-  --rct-color-arrow: #9aa5b3;
+  --rct-color-arrow: #373a3f;
 
   --rct-item-height: 22px;
 
@@ -52,9 +52,52 @@ values:
 }
 ```
 
+If you are using the modern styles (i.e. importing `style-modern.css` instead of `style.css`), you have
+additional possibilities:
+
+```css
+:root {
+  --rct-color-tree-bg: transparent;
+  --rct-item-height: 28px;
+  --rct-color-search-highlight-bg: #acccf1;
+
+  --rct-color-tree-focus-outline: transparent;
+  --rct-item-margin: 1px;
+  --rct-item-padding: 8px;
+  --rct-radius: 4px;
+  --rct-bar-offset: 6px;
+  --rct-bar-width: 4px;
+  --rct-bar-color: #0366d6;
+  --rct-focus-outline: #000000;
+
+  --rct-color-focustree-item-selected-bg: #f0f2f5;
+  --rct-color-focustree-item-hover-bg: #f0f2f5;
+  --rct-color-focustree-item-hover-text: inherit;
+  --rct-color-focustree-item-active-bg: #e4e6eb;
+  --rct-color-focustree-item-active-text: #4f4f4f;
+
+  --rct-arrow-size: 10px;
+  --rct-arrow-container-size: 16px;
+  --rct-arrow-padding: 6px;
+
+  --rct-cursor: pointer;
+
+  --rct-search-width: 120px;
+  --rct-search-height: 16px;
+  --rct-search-padding: 8px;
+  --rct-search-border: #b4b7bd;
+  --rct-search-border-bottom: #0366d6;
+  --rct-search-bg: #f8f9fa;
+  --rct-search-text: #000000;
+  --rct-search-text-offset: calc(var(--rct-search-padding) * 2 + 16px);
+}
+```
+
 :::note
 This may not reflect the current possibilities. Look into the
-[CSS source file](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/style.css)
+[source file for the default styles](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/style.css)
+or the
+[source file for the modern styles](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/style-modern.css)
 to see all available variables.
 :::
 
