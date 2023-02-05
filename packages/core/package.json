@@ -5,7 +5,7 @@
   "module": "lib/esm/index.js",
   "esnext": "lib/esnext/index.js",
   "typings": "lib/esm/index.d.ts",
-  "style": "lib/style.css",
+  "style": "lib/style-modern.css",
   "unpkg": "lib/bundle.js",
   "sideEffects": [
     "**/*.css"
@@ -57,7 +57,7 @@
     "build:esm": "tsc -m es2015 --outDir lib/esm",
     "build:esnext": "tsc -m esnext --outDir lib/esnext",
     "build:bundle": "webpack",
-    "build:prepare": "cpy ./src/style.css ./lib && cpy ../../readme.md ./",
+    "build:prepare": "cpy ./src/style.css ./lib && cpy ./src/style-modern.css ./lib && cpy ../../readme.md ./",
     "test": "jest"
   },
   "jest": {

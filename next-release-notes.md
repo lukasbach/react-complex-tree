@@ -1,9 +1,3 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
 
-### Other Changes
--->
+* Fix: Previous release did not include the new css file.
