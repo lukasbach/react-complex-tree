@@ -33,11 +33,15 @@ jobs:
       - uses: volta-cli/action@v3
       - name: Dependencies
         run: yarn
+      - name: Lint
+        run: yarn lint
       - name: Build
         run: yarn build
       - name: Test
         run: yarn test
-      - name: Lint
-        run: yarn lint
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@main
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       - name: Storybook
         run: yarn build-storybook
