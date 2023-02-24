@@ -14,7 +14,7 @@ export const useGetViableDragPositions = () => {
       const linearItems = environment.linearItems[treeId];
       return linearItems
         .map<DraggingPosition[]>(({ item, depth }, linearIndex) => {
-          const parent = getParentOfLinearItem(linearIndex, treeId);
+          const { parent } = getParentOfLinearItem(linearIndex, treeId);
           const childIndex =
             environment.items[parent.item].children!.indexOf(item);
 

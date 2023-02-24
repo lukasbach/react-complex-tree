@@ -22,7 +22,7 @@ export const useGetGetParentOfLinearItem = () => {
         parentLinearIndex = 0;
       }
 
-      return parent;
+      return { parent, parentLinearIndex };
     },
     [environment.linearItems, environment.trees]
   );

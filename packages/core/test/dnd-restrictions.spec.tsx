@@ -159,6 +159,25 @@ describe('dnd restrictions', () => {
       await test.expectTreeUnchanged();
       await test.expectOpenViewState();
     });
+
+    it('dropping on undroppable nonfolder targets parent', async () => {
+      const test = await new TestUtil().renderOpenTree({
+        canReorderItems: false,
+        canDropOnNonFolder: false,
+      });
+      await test.startDrag('aaa');
+      await test.dragOver('aba');
+      await test.drop();
+      await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
+      await test.expectVisibleItemContents('ab', [
+        'aba',
+        'abb',
+        'abc',
+        'abd',
+        'aaa',
+      ]);
+      await test.expectOpenViewState();
+    });
   });
 
   describe('item.canMove', () => {
