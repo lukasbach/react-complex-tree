@@ -85,4 +85,4 @@ jobs:
         with:
           author_name: lukasbachbot
           author_email: bot@noreply.lukasbach.com
-          message: 'chore: tidy up after release [skip-ci]'
+          message: 'chore: tidy up after release'
