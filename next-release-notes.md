@@ -1,9 +1,3 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
 
-### Other Changes
--->
+* Fixes bug where dropping an item on its own descendant makes it vanish (#227)

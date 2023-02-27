@@ -54,6 +54,31 @@ const getHoveringPosition = (
   return { linearIndex, offset, targetItem, targetLinearItem };
 };
 
+const useIsDescendant = () => {
+  const getParentOfLinearItem = useGetGetParentOfLinearItem();
+  const isDescendant = (
+    treeId: string,
+    itemLinearIndex: number,
+    potentialParents: TreeItem[]
+  ) => {
+    const { parentLinearIndex, parent } = getParentOfLinearItem(
+      itemLinearIndex,
+      treeId
+    );
+
+    if (potentialParents.find(p => p.index === parent.item)) {
+      return true;
+    }
+
+    if (parent.depth === 0) {
+      return false;
+    }
+
+    return isDescendant(treeId, parentLinearIndex, potentialParents);
+  };
+  return isDescendant;
+};
+
 export const useOnDragOverTreeHandler = (
   lastDragCode: string,
   setLastDragCode: (code: string) => void,
@@ -72,6 +97,7 @@ export const useOnDragOverTreeHandler = (
     trees,
   } = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
+  const isDescendant = useIsDescendant();
 
   return useStableHandler(
     (
@@ -155,6 +181,11 @@ export const useOnDragOverTreeHandler = (
         );
         targetItem = parent;
         linearIndex = parentLinearIndex;
+      }
+
+      if (isDescendant(treeId, linearIndex, draggingItems)) {
+        onDragAtPosition(undefined);
+        return;
       }
 
       const { depth } = targetItem;

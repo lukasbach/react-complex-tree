@@ -324,5 +324,16 @@ describe('dnd basics', () => {
         'after',
       ]);
     });
+
+    it('cant drop items on its own descendants', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.clickItem('a');
+      await test.selectItems('a', 'b');
+      await test.startDrag('a');
+      await test.dragOver('bb');
+      await test.drop();
+      await test.expectTreeUnchanged();
+      await test.expectItemContentsVisibleAndUnchanged('a', 'b', 'bb');
+    });
   });
 });
