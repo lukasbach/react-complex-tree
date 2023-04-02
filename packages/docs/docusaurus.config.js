@@ -33,6 +33,7 @@ module.exports = {
           label: 'Documentation',
         },
         {
+          type: 'doc',
           docId: 'faq',
           label: 'FAQ',
           position: 'left',
