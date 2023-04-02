@@ -31,17 +31,17 @@ Reference: [#244](https://github.com/lukasbach/react-complex-tree/issues/244)
 </details>
 
 <details><summary>When I implement renderRenameInput, rename hooks are not called when clicking the rename submit button</summary>
-    <div>
+<div>
 
-        Make sure to add ``ref={props.submitButtonRef}`` to the props of the submit button, then it should work. RCT checks if
-        the input is blurred, i.e. the user clicks away from the input, and when that is the case, it cancels the renaming
-        and hides the rename input. It uses a ref on the button to find out that the user is not actually cancelling the
-        renaming, but clicking on the submit button. So without the ref, it thinks the user is just clicking away from the
-        input, and unmounts the button and input before the submit logic can complete.
+Make sure to add ``ref={props.submitButtonRef}`` to the props of the submit button, then it should work. RCT checks if
+the input is blurred, i.e. the user clicks away from the input, and when that is the case, it cancels the renaming
+and hides the rename input. It uses a ref on the button to find out that the user is not actually cancelling the
+renaming, but clicking on the submit button. So without the ref, it thinks the user is just clicking away from the
+input, and unmounts the button and input before the submit logic can complete.
 
-        Reference: [#247](https://github.com/lukasbach/react-complex-tree/issues/247)
+Reference: [#247](https://github.com/lukasbach/react-complex-tree/issues/247)
 
-    </div>
+</div>
 </details>
 
 <details><summary>How can I implement custom drop handlers? What is the difference between linearIndex and childIndex?</summary>
