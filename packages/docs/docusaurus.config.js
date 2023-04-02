@@ -33,6 +33,11 @@ module.exports = {
           label: 'Documentation',
         },
         {
+          href: 'faq',
+          label: 'FAQ',
+          position: 'left',
+        },
+        {
           href: links.storybook,
           label: 'Storybook',
           position: 'left',

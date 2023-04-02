@@ -1,0 +1,202 @@
+# Frequently Asked Questions
+
+<!--
+<details><summary>Question</summary>
+<div>
+
+
+
+</div>
+</details>
+-->
+
+The following are a list of questions and answers that I collected from the issue tracker of react-complex-tree.
+
+Feel free to contribute additional questions and answers if you think they are relevant.
+
+<details><summary>I implemented a tree using StaticTreeDataProvider, how can I change the tree state, like adding or
+    updating items?</summary>
+<div>
+
+If you want to react to tree state changes, I suggest you implement a custom
+[TreeDataProvider](https://rct.lukasbach.com/docs/api/interfaces/TreeDataProvider)
+rather than using
+StaticTreeDataProvider. There you can implement logic that reacts to change events. If you need more
+control, you can also use a [controlled environment](https://rct.lukasbach.com/docs/guides/controlled-environment)
+rather than an uncontrolled environment, then you get complete control over your data.
+
+Reference: [#244](https://github.com/lukasbach/react-complex-tree/issues/244)
+
+</div>
+</details>
+
+<details><summary>When I implement renderRenameInput, rename hooks are not called when clicking the rename submit button</summary>
+    <div>
+
+        Make sure to add ``ref={props.submitButtonRef}`` to the props of the submit button, then it should work. RCT checks if
+        the input is blurred, i.e. the user clicks away from the input, and when that is the case, it cancels the renaming
+        and hides the rename input. It uses a ref on the button to find out that the user is not actually cancelling the
+        renaming, but clicking on the submit button. So without the ref, it thinks the user is just clicking away from the
+        input, and unmounts the button and input before the submit logic can complete.
+
+        Reference: [#247](https://github.com/lukasbach/react-complex-tree/issues/247)
+
+    </div>
+</details>
+
+<details><summary>How can I implement custom drop handlers? What is the difference between linearIndex and childIndex?</summary>
+<div>
+
+The gist is essentially just to implement the
+[onDrop](https://rct.lukasbach.com/docs/api/interfaces/TreeChangeHandlers#ondrop)
+handler, you can use
+[the implementation in the uncontrolled environment](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/uncontrolledEnvironment/UncontrolledTreeEnvironment.tsx#L116)
+for that as reference, although it is a bit verbose and messy to be honest.
+
+When the user is dropping an item, he is hovering over an ("target") item. The target type provides details where on that item that is:
+* "item": User is dropping in the center part of an item. This means the item is a folder and `props.canDropOnFolder` is true, or it is not a folder and `props.canDropOnNonFolder ` is true. The expectation is that the dragged items are inserted into the hovered target item. The target variable provided to the onDrop handler is of type [`DraggingPositionItem`](https://rct.lukasbach.com/docs/api/interfaces/DraggingPositionItem)
+* "between-items": User is either dragging on the top part or bottom part of the hovered item. The expactation is that the dragged items are inserted above the target item if they are hovering on the top part, or below if they are hovering on the bottom part. The target variable provided to the onDrop handler is of type [`DraggingPositionBetweenItems`](https://rct.lukasbach.com/docs/api/interfaces/DraggingPositionBetweenItems). The variable `target.linePosition` has the value "top" or "bottom" and determines this distinction.
+* "root": The user is dragging somewhere on the the top-level of the tree. This means, either the tree is empty, and the user is dropping on the empty tree container, or the container in which the tree items are rendered extends downwards of the last item, and the user is dropping there. The expecation is that the item is inserted in the top-level of the tree at the bottom. This is demonstrated in [this demo](https://rct.lukasbach.com/storybook/?path=/story/core-basic-examples--drop-on-empty-tree), and was introduced as fix for #182 ([commit](https://github.com/lukasbach/react-complex-tree/commit/fbd7aeec6eef7c5f4e21bc626f2052dfe3ebfd7a)). In implementation, I think you can handle this identical to the targetType "item", since in the case of "root", the other props are identical to the "item" case with the referencing item being the root item. The target variable provided to the onDrop handler is of type [`DraggingPositionRoot`](https://rct.lukasbach.com/docs/api/interfaces/DraggingPositionRoot)
+
+Regarding `linearIndex` and `childIndex`: childIndex refers to the position of an item within its parent. linearIndex refers to the overall position of the item within the entire tree, would all items be laid out in a linear manner. As an example:
+
+![image](https://user-images.githubusercontent.com/4140121/213594609-2b9626e3-d185-4052-b4a6-1c61b96579c5.png)
+
+The item "Black" has the childIndex 2, and the linearIndex 5.
+
+Reference: [#211](https://github.com/lukasbach/react-complex-tree/issues/211)
+
+</div>
+</details>
+
+<details><summary>When dropping items on files (i.e. non-folders) with canDropOnNonFolder enabled, the dropped items vanish.</summary>
+<div>
+
+This is by design. Dropping an item on a non-folder adds it to its children, but does not enable the `isFolder` flag
+    for the drop target. Items are only rendered with children if they have the `isFolder` flag set to true.
+
+* If you want users to drop only on folders, enable `canDropOnFolder` instead of `canDropOnNonFolder`, and also
+    `canReorderItems` if you want to allow reordering
+* If you want to have items turn into folders with children when you drop an item on it, use a class as data provider
+    that implements `TreeDataProvider.onChangeItemChildren` to handle the new items by turning the item into a folder
+    and notifying rct of changes with the listeners passed by `TreeDataProvider.onDidChangeTreeData`. Or implement that
+    accordingly with `StaticTreeDataProvider` or an controlled environment by handling that yourself.
+* Similarly, if you want other special handling of items that are dropped on other non-folder items, but not turn the
+    target into a folder, handle the drop event just as above, but for this case it is very much necessary for rct not
+    to impose implicit changes like the drop target automatically turning into a folder.
+
+Reference: [#228](https://github.com/lukasbach/react-complex-tree/issues/228)
+
+</div>
+</details>
+
+<details><summary>How do I alternate background color of rows?</summary>
+<div>
+
+Currently, there is no direct support from the library for that. There are some workarounds that might be feasible
+for you:
+
+* Use `background-image: repeat-linear-gradient` on the parent for a repeating pattern that matches the items height.
+* Customize the styling with the DOM API:
+
+```js
+[...document.getElementsByClassName("rct-tree-item-button")]
+.filter((_, i) => i % 2 === 0)
+.forEach(n => n.style.backgroundColor = "red")
+```
+
+Reference: [#217](https://github.com/lukasbach/react-complex-tree/issues/217)
+
+</div>
+</details>
+
+<details><summary>Can I turn off multi-select?</summary>
+<div>
+
+You should be able to achieve that by implementing a custom interaction mode. You can read about
+those [here](https://rct.lukasbach.com/docs/guides/interaction-modes#custom-interaction-modes), and see
+an example implementation [here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/ClickItemToExpandInteractionManager.ts).
+You can probably just copy the code from the latter link, and remove all logic that is related to multi item selection.
+
+Another alternative would be to use a [controlled environment](https://rct.lukasbach.com/docs/guides/controlled-environment),
+where you manage changes to the view state, including selected items, yourself. There you could also customize
+how item selection is handled.
+
+Reference: [#151](https://github.com/lukasbach/react-complex-tree/issues/151)
+
+</div>
+</details>
+
+<details><summary>How can I hide an folder arrow when all children are moved?</summary>
+<div>
+
+Whether arrow is  shown or not depends only on `isFolder` (previously `hasChildren`) prop of the node. So you have to
+change that property for the node when all children are moved out.
+
+I agree that this is not very intuitive and probably would be better if it was just checking current state of item and
+not `isFolder` property. Maybe this could be done with custom `renderItemArrow` renderer.
+
+Reference: [#188](https://github.com/lukasbach/react-complex-tree/issues/188) and [#70](https://github.com/lukasbach/react-complex-tree/pull/70)
+
+</div>
+</details>
+
+
+<details><summary>I want the user to be able to drop items on the bottom of the tree or into an empty tree.</summary>
+<div>
+
+This already works by default.
+Please note that the drag-over needs to be performed over the tree container component for it to register
+on empty trees, so the tree container component needs a minimum height for it to work. You can customize
+this by giving a minimum height to the component rendered with renderTreeContainer which receives the containerProps.
+
+Reference: [#182](https://github.com/lukasbach/react-complex-tree/issues/182)
+
+</div>
+</details>
+
+<details><summary>I want to control the search input state or render the input somewhere else.</summary>
+<div>
+
+If you just want to control the search state from outside, you can already do that via the ref from the tree. Note
+that the search state lives within a tree, not a tree environment, so you need to grab the ref from the tree
+component, not the environment. You can set the current search value with
+[treeRef.setSearch()](https://rct.lukasbach.com/docs/api/interfaces/TreeRef#setsearch), or close the search by
+invoking it with `null`.
+
+If you would also like to not show the included search bar, you can update the
+[`renderSearchInput`](https://rct.lukasbach.com/docs/api/interfaces/TreeRenderProps#rendersearchinput) prop
+to `() => null`.
+
+Alternatively you could also adjust `renderSearchInput` to render a portal that mounts the search input in a
+different location within your place, and customize how the search bar looks like from there.
+
+Reference: [#159](https://github.com/lukasbach/react-complex-tree/issues/159)
+
+</div>
+</details>
+
+<details><summary>I want to register a drag-start event or another event that is not available through RCTs API.</summary>
+<div>
+
+Yeah, there are no direct hooks exposed to register for drag start events. But there are two other ways to hook into these kinds of event handlers yourself:
+
+- [Custom interaction managers](https://rct.lukasbach.com/docs/guides/interaction-modes#custom-interaction-modes): You can use a custom interaction manager to customize the event handlers that are mounted to the item component. You can extend existing modes, so you can fairly easily add only the hook you need on top of existing event handlers.
+- [Custom render logic](https://rct.lukasbach.com/docs/guides/rendering#customizing-the-render-logic-for-tree-items): This would be more effort and something I wouldn't recommend just for this, but you can also customize the render logic for tree items and mount the event there.
+
+Reference: [#156](https://github.com/lukasbach/react-complex-tree/issues/156)
+
+</div>
+</details>
+
+<details><summary>How can I implement a custom data provider?</summary>
+<div>
+
+You can look into the implementation of StaticTreeDataProvider for a more elaborate example: https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/uncontrolledEnvironment/StaticTreeDataProvider.ts
+
+Reference: [#149](https://github.com/lukasbach/react-complex-tree/issues/149)
+
+</div>
+</details>
+
+<!-- stopped at #147, next is #140 -->

@@ -6,6 +6,11 @@ labels: ''
 assignees: lukasbach
 ---
 
+<!--
+Please have a look at https://rct.lukasbach.com/docs/faq
+to see if your request is already covered there.
+-->
+
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

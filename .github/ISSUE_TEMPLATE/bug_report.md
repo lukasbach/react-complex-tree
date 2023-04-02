@@ -6,6 +6,11 @@ labels: ''
 assignees: lukasbach
 ---
 
+<!--
+Please have a look at https://rct.lukasbach.com/docs/faq
+to see if your issue is already covered there.
+-->
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
