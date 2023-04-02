@@ -199,6 +199,7 @@ export const createDefaultRenderers = (
   ),
   renderSearchInput: ({ inputProps }) => (
     <div className={cx('rct-tree-search-input-container')}>
+      <span className="rct-tree-input-icon" />
       <input {...inputProps} className={cx('rct-tree-search-input')} />
     </div>
   ),

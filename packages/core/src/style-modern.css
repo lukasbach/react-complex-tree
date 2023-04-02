@@ -34,6 +34,7 @@
   --rct-search-bg: #f8f9fa;
   --rct-search-text: #000000;
   --rct-search-text-offset: calc(var(--rct-search-padding) * 2 + 16px);
+  --rct-search-container-width: calc(var(--rct-search-width) + var(--rct-search-text-offset) + var(--rct-search-padding) + 2px);
 }
 
 .rct-dark {
@@ -146,7 +147,7 @@
 }
 
 .rct-tree-search-input-container {
-  width: calc(var(--rct-search-width) + var(--rct-search-text-offset) + var(--rct-search-padding) + 2px);
+  width: var(--rct-search-container-width);
 }
 
 .rct-tree-search-input {
@@ -166,14 +167,14 @@
   outline: none;
 }
 
-.rct-tree-search-input-container::before {
+
+.rct-tree-input-icon {
   content: url(data:image/svg+xml,%3Csvg%20stroke%3D%22currentColor%22%20fill%3D%22currentColor%22%20stroke-width%3D%220%22%20viewBox%3D%220%200%2016%2016%22%20height%3D%221em%22%20width%3D%221em%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M11.742%2010.344a6.5%206.5%200%201%200-1.397%201.398h-.001c.03.04.062.078.098.115l3.85%203.85a1%201%200%200%200%201.415-1.414l-3.85-3.85a1.007%201.007%200%200%200-.115-.1zM12%206.5a5.5%205.5%200%201%201-11%200%205.5%205.5%200%200%201%2011%200z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E);
-  position: absolute;
-  top: calc(var(--rct-search-height) / 2);
-  left: var(--rct-search-padding);
+  position: fixed;
+  transform: translateY(var(--rct-search-padding)) translateX(var(--rct-search-padding));
   z-index: 1;
 }
 
-.rct-dark .rct-tree-search-input-container::before {
+.rct-dark .rct-tree-input-icon {
   content: url(data:image/svg+xml,%3Csvg%20stroke%3D%22%23ffffff%22%20fill%3D%22%23ffffff%22%20stroke-width%3D%220%22%20viewBox%3D%220%200%2016%2016%22%20height%3D%221em%22%20width%3D%221em%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M11.742%2010.344a6.5%206.5%200%201%200-1.397%201.398h-.001c.03.04.062.078.098.115l3.85%203.85a1%201%200%200%200%201.415-1.414l-3.85-3.85a1.007%201.007%200%200%200-.115-.1zM12%206.5a5.5%205.5%200%201%201-11%200%205.5%205.5%200%200%201%2011%200z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E);
 }
