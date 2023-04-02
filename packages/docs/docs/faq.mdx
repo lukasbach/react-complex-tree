@@ -113,6 +113,8 @@ Reference: [#217](https://github.com/lukasbach/react-complex-tree/issues/217)
 <details><summary>Can I turn off multi-select?</summary>
 <div>
 
+There is no direct property that controls this.
+
 You should be able to achieve that by implementing a custom interaction mode. You can read about
 those [here](https://rct.lukasbach.com/docs/guides/interaction-modes#custom-interaction-modes), and see
 an example implementation [here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/ClickItemToExpandInteractionManager.ts).
@@ -132,9 +134,6 @@ Reference: [#151](https://github.com/lukasbach/react-complex-tree/issues/151)
 
 Whether arrow is  shown or not depends only on `isFolder` (previously `hasChildren`) prop of the node. So you have to
 change that property for the node when all children are moved out.
-
-I agree that this is not very intuitive and probably would be better if it was just checking current state of item and
-not `isFolder` property. Maybe this could be done with custom `renderItemArrow` renderer.
 
 Reference: [#188](https://github.com/lukasbach/react-complex-tree/issues/188) and [#70](https://github.com/lukasbach/react-complex-tree/pull/70)
 
