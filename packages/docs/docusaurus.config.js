@@ -33,7 +33,7 @@ module.exports = {
           label: 'Documentation',
         },
         {
-          href: 'faq',
+          docId: 'faq',
           label: 'FAQ',
           position: 'left',
         },
