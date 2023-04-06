@@ -213,6 +213,7 @@ export const useOnDragOverTreeHandler = (
           draggingItem => draggingItem.index === targetItem.item
         )
       ) {
+        onDragAtPosition(undefined);
         return;
       }
 
