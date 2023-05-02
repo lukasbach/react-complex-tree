@@ -198,4 +198,24 @@ Reference: [#149](https://github.com/lukasbach/react-complex-tree/issues/149)
 </div>
 </details>
 
+<details><summary>I want to react to user actions, but not when reorder-actions are called</summary>
+<div>
+
+You can use onPrimaryAction for that.
+
+There are no good docs on the exact logic right now, but the intent is that it calls when the user clicks on an item with probably no tree-navigation related intent. The exact logic you can see in the [implementation](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/interactionMode/ClickItemToExpandInteractionManager.ts), and is pretty much
+- when shift is not pressed
+- when control is not pressed
+- [when the item is not a folder, or canInvokePrimaryActionOnItemContainer is true]
+
+You can test when it is triggered in [this example](https://rct.lukasbach.com/storybook/?path=/story/core-basic-examples--actions).
+
+If you want to further customize which kind of user interaction triggers what, you can use [custom interaction modes](https://rct.lukasbach.com/docs/guides/interaction-modes)
+for that.
+
+Reference: [#251](https://github.com/lukasbach/react-complex-tree/issues/251)
+
+</div>
+</details>
+
 <!-- stopped at #147, next is #140 -->
