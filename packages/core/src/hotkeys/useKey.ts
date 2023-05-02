@@ -5,13 +5,17 @@ export const useKey = (
   onHit: (e: KeyboardEvent) => void,
   active?: boolean
 ) => {
-  useHtmlElementEventListener(document, 'keydown', e => {
-    if (!active) {
-      return;
-    }
+  useHtmlElementEventListener(
+    typeof document !== 'undefined' ? document : undefined,
+    'keydown',
+    e => {
+      if (!active) {
+        return;
+      }
 
-    if (active && key.toLowerCase() === e.key.toLowerCase()) {
-      onHit(e);
+      if (active && key.toLowerCase() === e.key.toLowerCase()) {
+        onHit(e);
+      }
     }
-  });
+  );
 };
