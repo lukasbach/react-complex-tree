@@ -1,5 +1,7 @@
+import { getDocument } from '../utils';
+
 export const computeItemHeight = (treeId: string) => {
-  const firstItem = document.querySelector<HTMLElement>(
+  const firstItem = getDocument()?.querySelector<HTMLElement>(
     `[data-rct-tree="${treeId}"] [data-rct-item-container="true"]`
   );
   return firstItem?.offsetHeight ?? 5;

@@ -6,6 +6,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useSearchMatchFocus } from './useSearchMatchFocus';
 import { useViewState } from '../tree/useViewState';
 import { useCallSoon } from '../useCallSoon';
+import { getDocument } from '../utils';
 
 export const SearchInput: React.FC<{
   containerRef?: HTMLElement;
@@ -24,7 +25,7 @@ export const SearchInput: React.FC<{
     if (environment.autoFocus ?? true) {
       // Refocus item in tree
       // TODO move logic as reusable method into tree or tree environment
-      const focusItem = document.querySelector(
+      const focusItem = getDocument()?.querySelector(
         `[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`
       );
       (focusItem as HTMLElement)?.focus?.();

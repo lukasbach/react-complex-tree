@@ -1,3 +1,5 @@
+import { getDocument } from '../utils';
+
 export const scrollIntoView = (element: Element | undefined | null) => {
   if (!element) {
     return;
@@ -11,9 +13,10 @@ export const scrollIntoView = (element: Element | undefined | null) => {
       boundingBox.top >= 0 &&
       boundingBox.left >= 0 &&
       boundingBox.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+        (window.innerHeight ||
+          !!getDocument()?.documentElement?.clientHeight) &&
       boundingBox.right <=
-        (window.innerWidth || document.documentElement.clientWidth);
+        (window.innerWidth || !!getDocument()?.documentElement?.clientWidth);
     if (!isElementInViewport) {
       element.scrollIntoView();
     }

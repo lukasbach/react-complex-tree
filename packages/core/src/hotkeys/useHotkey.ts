@@ -3,6 +3,7 @@ import { useHtmlElementEventListener } from '../useHtmlElementEventListener';
 import { KeyboardBindings } from '../types';
 import { useKeyboardBindings } from './useKeyboardBindings';
 import { useCallSoon } from '../useCallSoon';
+import { getDocument } from '../utils';
 
 const elementsThatCanTakeText = ['input', 'textarea'];
 
@@ -24,7 +25,7 @@ export const useHotkey = (
     [combinationName, keyboardBindings]
   );
 
-  useHtmlElementEventListener(document, 'keydown', e => {
+  useHtmlElementEventListener(getDocument(), 'keydown', e => {
     if (active === false) {
       return;
     }
@@ -63,7 +64,7 @@ export const useHotkey = (
     }
   });
 
-  useHtmlElementEventListener(document, 'keyup', e => {
+  useHtmlElementEventListener(getDocument(), 'keyup', e => {
     if (active === false) {
       return;
     }

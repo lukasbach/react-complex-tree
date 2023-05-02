@@ -8,7 +8,7 @@ import {
 } from '../types';
 import { scrollIntoView } from '../tree/scrollIntoView';
 import { useRenderers } from '../renderers/useRenderers';
-import { buildMapForTrees } from '../utils';
+import { buildMapForTrees, getDocument } from '../utils';
 import { getItemsLinearly } from '../tree/getItemsLinearly';
 import { useRefCopy } from '../useRefCopy';
 import { useStableHandler } from '../use-stable-handler';
@@ -53,13 +53,13 @@ export const useControlledTreeEnvironmentProps = ({
     Required<TreeChangeHandlers>['onFocusItem']
   >(
     (item, treeId) => {
-      const newItem = document.querySelector(
+      const newItem = getDocument()?.querySelector(
         `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
       );
 
       if (autoFocus ?? true) {
         if (
-          document.activeElement?.attributes.getNamedItem(
+          getDocument()?.activeElement?.attributes.getNamedItem(
             'data-rct-search-input'
           )?.value !== 'true'
         ) {
@@ -123,7 +123,7 @@ export const useControlledTreeEnvironmentProps = ({
   );
 
   const focusTree = useCallback((treeId: string) => {
-    const focusItem = document.querySelector(
+    const focusItem = getDocument()?.querySelector(
       `[data-rct-tree="${treeId}"] [data-rct-item-focus="true"]`
     );
     (focusItem as HTMLElement)?.focus?.();
@@ -136,8 +136,8 @@ export const useControlledTreeEnvironmentProps = ({
           autoFocusTree &&
           (autoFocus ?? true) &&
           treeId &&
-          !document
-            .querySelector(`[data-rct-tree="${treeId}"]`)
+          !getDocument()
+            ?.querySelector(`[data-rct-tree="${treeId}"]`)
             ?.contains(document.activeElement)
         ) {
           focusTree(treeId);

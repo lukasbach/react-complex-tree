@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Fixed globally-scoped references to the document prop into a getter that doesn't fail in ssr environments (#259)
