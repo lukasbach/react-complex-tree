@@ -30,5 +30,7 @@ export const TreeItemChildren = (props: {
     children: childElements,
     info: treeInformation,
     containerProps,
+    depth: props.depth,
+    parentId: props.parentId,
   }) as any;
 };
