@@ -114,6 +114,8 @@ export interface TreeRenderProps<T = any, C extends string = never> {
     children: React.ReactNode;
     containerProps: HTMLProps<any>;
     info: TreeInformation;
+    depth: number;
+    parentId: TreeItemIndex;
   }) => React.ReactElement | null;
 
   renderTreeContainer?: (props: {
