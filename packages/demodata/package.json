@@ -1,6 +1,6 @@
 {
   "name": "demodata",
-  "version": "2.1.4-alpha.0",
+  "version": "2.1.4",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
