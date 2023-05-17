@@ -445,9 +445,9 @@ export interface KeyboardBindings {
  * Live descriptors are written in an aria live region describing the state of the
  * tree to accessibility readers. They are displayed in a visually hidden area at the
  * bottom of the tree. Each descriptor composes a HTML string. Variables in the form
- * of {variableName} can be used.
+ * of \{variableName\} can be used.
  *
- * The {keybinding:bindingname} variable referns to a specific keybinding, i.e. {keybinding:primaryAction}
+ * The \{keybinding:bindingname\} variable refers to a specific keybinding, i.e. \{keybinding:primaryAction\}
  * is a valid variable.
  *
  * See the implementation of the `defaultLiveDescriptors` for more details.
