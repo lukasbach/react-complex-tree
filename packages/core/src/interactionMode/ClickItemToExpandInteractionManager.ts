@@ -53,8 +53,7 @@ export class ClickItemToExpandInteractionManager implements InteractionManager {
         actions.focusItem();
       },
       onDragStart: e => {
-        e.dataTransfer.dropEffect = 'move'; // TODO
-        // e.dataTransfer.setDragImage(environment.renderDraggingItem(viewState.selectedItems), 0, 0);
+        e.dataTransfer.dropEffect = 'move';
         actions.startDragging();
       },
       onDragOver: e => {
