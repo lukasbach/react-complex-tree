@@ -42,7 +42,7 @@ function App() {
       }}
       renderItemTitle={({ title }) => <span>{title}</span>}
       renderItemArrow={({ item, context }) =>
-        item.isFolder ? context.isExpanded ? <span>{'v '}</span> : <span>{'> '}</span> : null
+        item.isFolder ? <span {...context.arrowProps}>{context.isExpanded ? 'v ' : '> '}</span> : null
       }
       renderItem={({ title, arrow, depth, context, children }) => (
         <li
