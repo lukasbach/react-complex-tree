@@ -26,6 +26,7 @@ export interface TreePosition {
 export interface TreeItemActions {
   primaryAction: () => void;
   startRenamingItem: () => void;
+  stopRenamingItem: () => void;
   expandItem: () => void;
   collapseItem: () => void;
   toggleExpandedState: () => void;

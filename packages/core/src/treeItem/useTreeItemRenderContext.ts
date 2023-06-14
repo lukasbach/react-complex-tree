@@ -114,6 +114,9 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       startRenamingItem: () => {
         setRenamingItem(item.index);
       },
+      stopRenamingItem: () => {
+        setRenamingItem(null);
+      },
       focusItem: () => {
         environment.onFocusItem?.(item, treeId);
       },
