@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Added check in `onMissingItems` in case `dataProvider.getTreeItems` return null as tree value (#272)

@@ -201,7 +201,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
             dataProvider.getTreeItems(missingItemIds.current).then(items => {
               writeItems(
                 items
-                  .map(item => ({ [item.index]: item }))
+                  .map(item => ({ [item?.index]: item }))
                   .reduce((a, b) => ({ ...a, ...b }), {})
               );
             });
