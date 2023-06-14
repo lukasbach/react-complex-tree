@@ -158,8 +158,6 @@ export const createDefaultRenderers = (
       />
     </form>
   ),
-  renderDraggingItem: () => <div />,
-  renderDraggingItemTitle: () => <div />,
   renderTreeContainer: ({ children, containerProps, info }) => (
     <div
       className={cx(

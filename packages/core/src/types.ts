@@ -103,14 +103,6 @@ export interface TreeRenderProps<T = any, C extends string = never> {
     formProps: FormHTMLAttributes<HTMLFormElement>;
   }) => React.ReactElement | null;
 
-  renderDraggingItem?: (props: {
-    items: Array<TreeItem<T>>;
-  }) => React.ReactElement | null;
-
-  renderDraggingItemTitle?: (props: {
-    items: Array<TreeItem<T>>;
-  }) => React.ReactElement | null;
-
   renderItemsContainer?: (props: {
     children: React.ReactNode;
     containerProps: HTMLProps<any>;
