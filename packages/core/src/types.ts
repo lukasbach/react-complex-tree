@@ -242,6 +242,9 @@ export interface TreeEnvironmentRef<T = any, C extends string = never>
     Omit<TreeEnvironmentConfiguration<T, C>, keyof TreeChangeHandlers> {
   treeEnvironmentContext: TreeEnvironmentContextProps;
   dragAndDropContext: DragAndDropContextProps;
+  activeTreeId?: string;
+  treeIds: string[];
+  trees: Record<string, TreeConfiguration>;
 }
 
 export interface TreeEnvironmentConfiguration<T = any, C extends string = never>
