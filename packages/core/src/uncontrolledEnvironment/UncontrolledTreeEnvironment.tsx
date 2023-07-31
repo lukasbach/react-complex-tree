@@ -9,6 +9,7 @@ import {
 } from '../types';
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
+import { useIsMounted } from '../useIsMounted';
 
 /* const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({ // TODO Write class that internally uses provider instead
   ...provider,
@@ -32,12 +33,14 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
     () => new CompleteTreeDataProvider(props.dataProvider),
     [props.dataProvider]
   );
+  const isMounted = useIsMounted();
 
-  const writeItems = useMemo(
-    () => (newItems: Record<TreeItemIndex, TreeItem>) => {
+  const writeItems = useCallback(
+    (newItems: Record<TreeItemIndex, TreeItem>) => {
+      if (!isMounted.current) return;
       setCurrentItems(oldItems => ({ ...oldItems, ...newItems }));
     },
-    []
+    [isMounted]
   );
 
   const amendViewState = useCallback(

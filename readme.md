@@ -24,6 +24,7 @@ To start using React Complex Tree, install it to your project as a dependency vi
 
 ```
 npm install react-complex-tree
+yarn add react-complex-tree
 ```
 
 then import it and add your tree structure with
@@ -87,3 +88,15 @@ More details at [the Get-Started Guide](https://rct.lukasbach.com/docs/getstarte
 - **Powered by React and TypeScript**
 
   React Complex Tree is powered by React (duh) and is easily integrated in existing React projects by just importing and using the provided components. Comprehensive type information is given as TypeScript interfaces, that ease the integration and provide additional type safety, no matter whether you use TypeScript in your project or not.
+
+
+# Hints for contributing
+
+If you want to develop RCT locally, here are some hints:
+
+- Use [volta](https://volta.sh) to make sure you have a compatible NodeJS and Yarn version installed
+- Run `yarn` to install dependencies
+- Run `yarn build` once locally before running any dev commands
+- Run `yarn start` to start docusaurus and the package in watch mode, and/or `yarn storybook` to run storybook
+- Make sure to run linter and tests before pushing changes
+- 

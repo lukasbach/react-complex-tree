@@ -1,9 +1,4 @@
-<!--
-### Breaking Changes
-
 ### Features
 
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Fixes a bug where a state property is updated when the component is unmounted (#278)
