@@ -102,8 +102,15 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         props.onCollapseItem?.(item, treeId);
       }}
       onSelectItems={(items, treeId) => {
-        amendViewState(treeId, old => ({ ...old, selectedItems: items }));
-        props.onSelectItems?.(items, treeId);
+        amendViewState(treeId, old => {
+          if (props.disableMultiselect) {
+            const newSelected = old.focusedItem ? [old.focusedItem] : [];
+            props.onSelectItems?.(newSelected, treeId);
+            return { ...old, selectedItems: newSelected };
+          }
+          props.onSelectItems?.(items, treeId);
+          return { ...old, selectedItems: items };
+        });
       }}
       onFocusItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));

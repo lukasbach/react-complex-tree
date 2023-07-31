@@ -345,6 +345,7 @@ export interface UncontrolledTreeEnvironmentProps<
   liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
   children: JSX.Element | (JSX.Element | null)[] | null;
+  disableMultiselect?: boolean;
 }
 
 export interface TreeConfiguration {
