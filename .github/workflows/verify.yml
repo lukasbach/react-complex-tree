@@ -42,9 +42,5 @@ jobs:
         run: yarn build
       - name: Test
         run: yarn test
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@main
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       - name: Storybook
         run: yarn build-storybook
