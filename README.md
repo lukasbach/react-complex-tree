@@ -99,4 +99,3 @@ If you want to develop RCT locally, here are some hints:
 - Run `yarn build` once locally before running any dev commands
 - Run `yarn start` to start docusaurus and the package in watch mode, and/or `yarn storybook` to run storybook
 - Make sure to run linter and tests before pushing changes
-- 
