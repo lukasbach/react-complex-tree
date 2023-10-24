@@ -89,7 +89,7 @@
 .rct-tree-item-title-container-selected .rct-tree-item-button::before {
   content: " ";
   position: absolute;
-  top: calc(var(--rct-bar-offset) + var(var(--rct-item-margin)));
+  top: calc(var(--rct-bar-offset) + var(--rct-item-margin));
   /* left: calc(-1 * var(--rct-bar-width));*/
   left: calc(-0.5 * var(--rct-bar-width));
   height: calc(var(--rct-item-height) - 2 * var(--rct-bar-offset));
