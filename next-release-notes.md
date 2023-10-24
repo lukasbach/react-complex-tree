@@ -1,9 +1,3 @@
-<!--
-### Breaking Changes
-
-### Features
 
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Fix Syntax Error in CSS styles (#288)
