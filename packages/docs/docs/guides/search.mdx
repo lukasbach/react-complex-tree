@@ -103,3 +103,98 @@ function App() {
 This feature can programmatically be controlled by pulling a React Ref either from the tree environment
 or the tree itself, and acting on the Ref object. [Read the documentation on externally interacting
 with the tree via Refs](/docs/guides/refs) to find out more.
+
+## Finding items that are not loaded in
+
+The search functionality only searches through items that are currently visible in the tree. This keeps the
+functionality in par with similar tree implementations, where you can directly type into a tree to jump to already
+available items, giving an easier way to scroll through large trees.
+
+Searching through all items and expanding potentially hidden items to expose the searched item is a bit more complicated,
+and depends on your data structure to work. Because there are several ways to define a data structure with RCT,
+it is up to you to implement the logic to actually find the item that should be displayed. Once you determined a path
+to the item (i.e. an array of item ids), you can use the `expandSubsequently(treeId, path)` function in the
+[Tree environment ref](/docs/api/interfaces/TreeEnvironmentRef) to expand the tree to the searched item, or use
+the `expandSubsequently(path)` function in the [Tree Ref](/docs/api/interfaces/TreeRef).
+
+Try entering "blackberry" in the example below, and clicking on "Find item":
+
+```jsx live
+export const CustomFinder = () => {
+  const [search, setSearch] = useState('');
+  const tree = useRef(null)
+
+  const dataProvider = useMemo(
+    () =>
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      })),
+    []
+  );
+
+  const findItemPath = useCallback(
+    async (search, searchRoot = 'root') => {
+      const item = await dataProvider.getTreeItem(searchRoot);
+      if (item.data.toLowerCase().includes(search.toLowerCase())) {
+        return [item.index];
+      }
+      const searchedItems = await Promise.all(
+        item.children?.map(child => findItemPath(search, child)) ?? []
+      );
+      const result = searchedItems.find(item => item !== null);
+      if (!result) {
+        return null;
+      }
+      return [item.index, ...result];
+    },
+    [dataProvider]
+  );
+
+  const find = useCallback(
+    e => {
+      e.preventDefault();
+      if (search) {
+        findItemPath(search).then(path => {
+          if (path) {
+            tree.current
+              ?.expandSubsequently(path.slice(0, path.length - 1))
+              .then(() => {
+                tree.current?.selectItems([path[path.length - 1]]);
+                tree.current?.focusItem(path[path.length - 1]);
+              });
+          }
+        });
+      }
+    },
+    [findItemPath, search]
+  );
+
+  return (
+    <>
+      <form onSubmit={find}>
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search..."
+        />
+        <button type="submit">Find item</button>
+      </form>
+      <UncontrolledTreeEnvironment<string>
+        dataProvider={dataProvider}
+        getItemTitle={item => item.data}
+        viewState={{
+          'tree-1': {},
+        }}
+      >
+        <Tree
+          treeId="tree-1"
+          rootItem="root"
+          treeLabel="Tree Example"
+          ref={tree}
+        />
+      </UncontrolledTreeEnvironment>
+    </>
+  );
+};
+```
