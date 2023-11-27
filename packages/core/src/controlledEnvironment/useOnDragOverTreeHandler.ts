@@ -118,7 +118,7 @@ export const useOnDragOverTreeHandler = (
       }
 
       if (e.clientX < 0 || e.clientY < 0) {
-        return; // TODO hotfix
+        return;
       }
 
       const treeBb = containerRef.current.getBoundingClientRect();
