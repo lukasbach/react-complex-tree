@@ -231,6 +231,15 @@ export const useOnDragOverTreeHandler = (
 
       let draggingPosition: DraggingPosition;
 
+      // Used to move the dragBetweenLine component down to the actual
+      // end of the target item's contents, see #148
+      const targetItemEndOfContents =
+        offset === 'top'
+          ? 0
+          : linearItems[treeId]
+              .slice(linearIndex + 1)
+              .findIndex(item => item.depth <= depth);
+
       if (offset) {
         draggingPosition = {
           targetType: 'between-items',
@@ -242,6 +251,7 @@ export const useOnDragOverTreeHandler = (
           // childIndex: environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
           childIndex: newChildIndex,
           linePosition: offset,
+          targetItemEndOfContents,
         };
       } else {
         draggingPosition = {

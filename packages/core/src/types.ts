@@ -323,6 +323,7 @@ export interface DraggingPositionBetweenItems extends AbstractDraggingPosition {
   childIndex: number;
   linePosition: 'top' | 'bottom';
   parentItem: TreeItemIndex;
+  targetItemEndOfContents: number;
 }
 
 export interface DraggingPositionRoot extends AbstractDraggingPosition {

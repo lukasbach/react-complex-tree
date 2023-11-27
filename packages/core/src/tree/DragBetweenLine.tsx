@@ -18,6 +18,10 @@ export const DragBetweenLine: React.FC<{
     return null;
   }
 
+  const position =
+    (draggingPosition?.linearIndex ?? 0) +
+    (draggingPosition.targetItemEndOfContents ?? 0);
+
   const lineProps: HTMLProps<any> = {
     onDragOver: e => e.preventDefault(), // Allow dropping
   };
@@ -28,7 +32,7 @@ export const DragBetweenLine: React.FC<{
         position: 'absolute',
         left: '0',
         right: '0',
-        top: `${(draggingPosition?.linearIndex ?? 0) * itemHeight}px`,
+        top: `${position * itemHeight}px`,
       }}
     >
       {renderers.renderDragBetweenLine({
