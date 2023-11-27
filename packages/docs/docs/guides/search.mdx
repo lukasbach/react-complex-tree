@@ -120,7 +120,7 @@ the `expandSubsequently(path)` function in the [Tree Ref](/docs/api/interfaces/T
 Try entering "blackberry" in the example below, and clicking on "Find item":
 
 ```jsx live
-export const CustomFinder = () => {
+function App() {
   const [search, setSearch] = useState('');
   const tree = useRef(null)
 
@@ -140,7 +140,7 @@ export const CustomFinder = () => {
         return [item.index];
       }
       const searchedItems = await Promise.all(
-        item.children?.map(child => findItemPath(search, child)) ?? []
+        item.children && item.children.map(child => findItemPath(search, child)) || []
       );
       const result = searchedItems.find(item => item !== null);
       if (!result) {
@@ -158,10 +158,10 @@ export const CustomFinder = () => {
         findItemPath(search).then(path => {
           if (path) {
             tree.current
-              ?.expandSubsequently(path.slice(0, path.length - 1))
+              .expandSubsequently(path.slice(0, path.length - 1))
               .then(() => {
-                tree.current?.selectItems([path[path.length - 1]]);
-                tree.current?.focusItem(path[path.length - 1]);
+                tree.current.selectItems([path[path.length - 1]]);
+                tree.current.focusItem(path[path.length - 1]);
               });
           }
         });
@@ -180,7 +180,7 @@ export const CustomFinder = () => {
         />
         <button type="submit">Find item</button>
       </form>
-      <UncontrolledTreeEnvironment<string>
+      <UncontrolledTreeEnvironment
         dataProvider={dataProvider}
         getItemTitle={item => item.data}
         viewState={{
@@ -196,5 +196,5 @@ export const CustomFinder = () => {
       </UncontrolledTreeEnvironment>
     </>
   );
-};
+}
 ```
