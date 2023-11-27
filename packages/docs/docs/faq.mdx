@@ -218,4 +218,14 @@ Reference: [#251](https://github.com/lukasbach/react-complex-tree/issues/251)
 </div>
 </details>
 
+<details><summary>Render methods for tree items or others unnecessarily re-render</summary>
+
+Yes, the render method for items are retriggered on tree state changes, since every item is provided with information about the tree state in their props, so tree items wouldn't be able to display data they otherwise can.
+
+You can memoize the item render methods directly with only those props that you use, this will ensure that items are not rerendered unless they need to be: https://codesandbox.io/s/react-complex-tree-playground-memo-demo-37mngx
+
+Reference: [#291](https://github.com/lukasbach/react-complex-tree/issues/291)
+
+</details>
+
 <!-- stopped at #147, next is #140 -->
