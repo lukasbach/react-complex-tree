@@ -85,6 +85,9 @@ export const TreeActionsProvider = React.forwardRef<
       collapseAll(): void {
         envActions.collapseAll(tree.treeId);
       },
+      expandSubsequently(itemIds: TreeItemIndex[]): Promise<void> {
+        return envActions.expandSubsequently(tree.treeId, itemIds);
+      },
     }),
     [envActions, tree]
   );

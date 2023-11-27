@@ -171,6 +171,21 @@ export const EnvironmentActionsProvider = React.forwardRef<
     [items, onPrimaryAction]
   );
 
+  const expandSubsequently = useCallback(
+    async (treeId: string, itemIds: TreeItemIndex[]) => {
+      const [current, ...rest] = itemIds;
+      await waitFor(() => !!itemsRef.current?.[current]).then(() => {
+        const item = itemsRef.current[current];
+        if (!item) {
+          return;
+        }
+        onExpandItem?.(item, treeId);
+        expandSubsequently(treeId, rest);
+      });
+    },
+    [itemsRef, onExpandItem]
+  );
+
   const expandAll = useCallback(
     async (treeId: string) => {
       await recursiveExpand(trees[treeId].rootItem, itemsRef, item =>
@@ -204,6 +219,7 @@ export const EnvironmentActionsProvider = React.forwardRef<
       toggleItemSelectStatus,
       invokePrimaryAction,
       expandAll,
+      expandSubsequently,
       collapseAll,
       abortProgrammaticDrag,
       completeProgrammaticDrag,
@@ -224,6 +240,7 @@ export const EnvironmentActionsProvider = React.forwardRef<
       toggleItemSelectStatus,
       invokePrimaryAction,
       expandAll,
+      expandSubsequently,
       collapseAll,
       abortProgrammaticDrag,
       completeProgrammaticDrag,

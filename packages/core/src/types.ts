@@ -233,6 +233,10 @@ export interface TreeEnvironmentChangeActions {
   moveProgrammaticDragPositionDown: () => void;
   expandAll: (treeId: string) => void;
   collapseAll: (treeId: string) => void;
+  expandSubsequently: (
+    treeId: string,
+    itemIds: TreeItemIndex[]
+  ) => Promise<void>;
 }
 
 export type TreeEnvironmentActionsContextProps = TreeEnvironmentChangeActions;
@@ -389,6 +393,7 @@ export interface TreeChangeActions {
   abortSearch: () => void;
   expandAll: () => void;
   collapseAll: () => void;
+  expandSubsequently: (itemIds: TreeItemIndex[]) => Promise<void>;
 }
 
 export type TreeChangeActionsContextProps = TreeChangeActions;
