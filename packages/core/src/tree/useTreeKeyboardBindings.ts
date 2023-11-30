@@ -170,12 +170,19 @@ export const useTreeKeyboardBindings = () => {
   useHotkey(
     'renameItem',
     e => {
-      if (viewState.focusedItem !== undefined) {
-        e.preventDefault();
-        const item = environment.items[viewState.focusedItem];
-        environment.onStartRenamingItem?.(item, treeId);
-        setRenamingItem(item.index);
+      if (viewState.focusedItem === undefined) {
+        return;
       }
+
+      e.preventDefault();
+      const item = environment.items[viewState.focusedItem];
+
+      if (item.canRename === false) {
+        return;
+      }
+
+      environment.onStartRenamingItem?.(item, treeId);
+      setRenamingItem(item.index);
     },
     isActiveTree && (environment.canRename ?? true) && !isRenaming
   );
