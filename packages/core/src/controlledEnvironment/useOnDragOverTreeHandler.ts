@@ -95,6 +95,7 @@ export const useOnDragOverTreeHandler = (
     items,
     canReorderItems,
     trees,
+    canDropBelowOpenFolders,
   } = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
   const isDescendant = useIsDescendant();
@@ -186,6 +187,18 @@ export const useOnDragOverTreeHandler = (
       if (isDescendant(treeId, linearIndex, draggingItems)) {
         onDragAtPosition(undefined);
         return;
+      }
+
+      const nextItem = linearItems[treeId][linearIndex + 1];
+      const redirectToFirstChild =
+        !canDropBelowOpenFolders &&
+        nextItem &&
+        targetItem.depth === nextItem.depth - 1 &&
+        offset === 'bottom';
+      if (redirectToFirstChild) {
+        targetItem = nextItem;
+        linearIndex += 1;
+        offset = 'top';
       }
 
       const { depth } = targetItem;

@@ -176,6 +176,17 @@ export interface TreeCapabilities<T = any, C extends string = never> {
     itemTitle: string
   ) => boolean;
   showLiveDescription?: boolean;
+
+  /**
+   * See Issue #148 or the sample at
+   * https://rct.lukasbach.com/storybook/?path=/story/core-basic-examples--single-tree?path=/story/core-drag-and-drop-configurability--can-drop-below-open-folders
+   * for details.
+   *
+   * If enabled, dropping at the bottom of an open folder will drop the items
+   * in the parent folder below the hovered item instead of inside the folder
+   * at the top.
+   */
+  canDropBelowOpenFolders?: boolean;
 }
 
 export type IndividualTreeViewState<C extends string = never> = {
