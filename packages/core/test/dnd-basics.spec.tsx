@@ -109,6 +109,24 @@ describe('dnd basics', () => {
       await test.dragOver('bb', 'bottom');
       await test.drop();
       await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
+      await test.expectVisibleItemContents('bb', [
+        'aaa',
+        'bba',
+        'bbb',
+        'bbc',
+        'bbd',
+      ]);
+      await test.expectVisibleItemContents('b', ['ba', 'bb', 'bc', 'bd']);
+    });
+
+    it('drag item to open-folder-item bottom with canDropBelowOpenFolders', async () => {
+      const test = await new TestUtil().renderOpenTree({
+        canDropBelowOpenFolders: true,
+      });
+      await test.startDrag('aaa');
+      await test.dragOver('bb', 'bottom');
+      await test.drop();
+      await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
       await test.expectItemContentsVisibleAndUnchanged('bb');
       await test.expectVisibleItemContents('b', [
         'ba',
