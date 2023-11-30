@@ -13,7 +13,7 @@ jobs:
     name: React ${{ matrix.react }} Build
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
+      - uses: volta-cli/action@v4
       - name: Dependencies
         run: yarn
       - name: Custom React version
@@ -33,7 +33,7 @@ jobs:
     name: Lint and Test
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
+      - uses: volta-cli/action@v4
       - name: Dependencies
         run: yarn
       - name: Lint

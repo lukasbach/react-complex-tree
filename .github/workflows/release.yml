@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v3
+      - uses: volta-cli/action@v4
       - name: Dependencies
         run: yarn
       - name: Lint
