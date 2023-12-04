@@ -525,3 +525,34 @@ export const DisableMultiselect = () => (
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
+
+export const NavigateAway = () => {
+  const [navigatedAway, setNavigatedAway] = useState(false);
+
+  if (navigatedAway) return <div>Navigated away!</div>;
+
+  return (
+    <UncontrolledTreeEnvironment<string>
+      canDragAndDrop
+      canDropOnFolder
+      canReorderItems
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, data) => ({
+          ...item,
+          data,
+        }))
+      }
+      getItemTitle={item => item.data}
+      onSelectItems={() => {
+        setNavigatedAway(true);
+      }}
+      viewState={{
+        'tree-1': {
+          expandedItems: [],
+        },
+      }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+};

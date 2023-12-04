@@ -10,6 +10,7 @@ import {
 import { ControlledTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { CompleteTreeDataProvider } from './CompleteTreeDataProvider';
 import { useIsMounted } from '../useIsMounted';
+import { useRefCopy } from '../useRefCopy';
 
 /* const createCompleteDataProvider = (provider: TreeDataProvider): CompleteTreeDataProvider => ({ // TODO Write class that internally uses provider instead
   ...provider,
@@ -28,6 +29,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
     Record<TreeItemIndex, TreeItem>
   >({});
   const [viewState, setViewState] = useState(props.viewState);
+  const viewStateRef = useRefCopy(viewState);
   const missingItemIds = useRef<TreeItemIndex[]>([]);
   const dataProvider = useMemo(
     () => new CompleteTreeDataProvider(props.dataProvider),
@@ -102,15 +104,19 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         props.onCollapseItem?.(item, treeId);
       }}
       onSelectItems={(items, treeId) => {
-        amendViewState(treeId, old => {
-          if (props.disableMultiselect) {
-            const newSelected = old.focusedItem ? [old.focusedItem] : [];
-            props.onSelectItems?.(newSelected, treeId);
-            return { ...old, selectedItems: newSelected };
-          }
+        const oldFocusedItem = viewStateRef.current[treeId]?.focusedItem;
+
+        if (props.disableMultiselect) {
+          const newSelected = oldFocusedItem ? [oldFocusedItem] : [];
+          props.onSelectItems?.(newSelected, treeId);
+          amendViewState(treeId, old => ({
+            ...old,
+            selectedItems: newSelected,
+          }));
+        } else {
           props.onSelectItems?.(items, treeId);
-          return { ...old, selectedItems: items };
-        });
+          amendViewState(treeId, old => ({ ...old, selectedItems: items }));
+        }
       }}
       onFocusItem={(item, treeId) => {
         amendViewState(treeId, old => ({ ...old, focusedItem: item.index }));
