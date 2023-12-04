@@ -29,9 +29,8 @@ const getHoveringPosition = (
   if (linearIndex > treeLinearItems.length - 1) {
     return {
       linearIndex: treeLinearItems.length - 1,
-      targetItem: treeLinearItems[treeLinearItems.length - 1].item,
       offset: 'bottom',
-      targetLinearItem: treeLinearItems[treeLinearItems.length - 1],
+      veryBottom: true,
     } as const;
   }
 
@@ -51,7 +50,7 @@ const getHoveringPosition = (
     offset = 'bottom';
   }
 
-  return { linearIndex, offset, targetItem, targetLinearItem };
+  return { linearIndex, offset };
 };
 
 const useIsDescendant = () => {
@@ -137,7 +136,8 @@ export const useOnDragOverTreeHandler = (
         return;
       }
 
-      let { linearIndex, offset } = getHoveringPosition(
+      // eslint-disable-next-line prefer-const
+      let { linearIndex, offset, veryBottom } = getHoveringPosition(
         e.clientY,
         treeBb.top,
         itemHeight,
@@ -151,7 +151,7 @@ export const useOnDragOverTreeHandler = (
 
       const nextDragCode = outsideContainer
         ? 'outside'
-        : `${treeId}${linearIndex}${offset ?? ''}`;
+        : `${treeId}${linearIndex}${offset ?? ''}${veryBottom && 'vb'}`;
 
       if (lastDragCode === nextDragCode) {
         return;
@@ -244,15 +244,24 @@ export const useOnDragOverTreeHandler = (
 
       let draggingPosition: DraggingPosition;
 
-      if (offset) {
+      if (veryBottom) {
+        const { rootItem } = trees[treeId];
+        draggingPosition = {
+          targetType: 'between-items',
+          treeId,
+          parentItem: rootItem,
+          depth: 0,
+          linearIndex: linearIndex + 1,
+          childIndex: items[rootItem].children?.length ?? 0,
+          linePosition: 'bottom',
+        };
+      } else if (offset) {
         draggingPosition = {
           targetType: 'between-items',
           treeId,
           parentItem: parent.item,
           depth: targetItem.depth,
           linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
-          // childIndex: linearIndex - parentLinearIndex - 1 + (offset === 'top' ? 0 : 1),
-          // childIndex: environment.items[parent.item].children!.indexOf(targetItem.item) + (offset === 'top' ? 0 : 1),
           childIndex: newChildIndex,
           linePosition: offset,
         };
