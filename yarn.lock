@@ -11803,7 +11803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"demodata@^2.3.1, demodata@workspace:packages/demodata":
+"demodata@^2.3.2, demodata@workspace:packages/demodata":
   version: 0.0.0-use.local
   resolution: "demodata@workspace:packages/demodata"
   dependencies:
@@ -12029,7 +12029,7 @@ __metadata:
     "@mdx-js/react": ^1.6.21
     "@svgr/webpack": ^6.5.1
     clsx: ^1.1.1
-    demodata: ^2.3.1
+    demodata: ^2.3.2
     docusaurus-plugin-react-docgen-typescript: ^1.0.2
     docusaurus-plugin-typedoc: ^0.18.0
     file-loader: ^6.2.0
@@ -12037,9 +12037,9 @@ __metadata:
     iframe-resizer-react: ^1.1.0
     prism-react-renderer: ^1.2.1
     react: ^18.2.0
-    react-complex-tree: ^2.3.1
-    react-complex-tree-autodemo: ^2.3.1
-    react-complex-tree-blueprintjs-renderers: ^2.3.1
+    react-complex-tree: ^2.3.2
+    react-complex-tree-autodemo: ^2.3.2
+    react-complex-tree-blueprintjs-renderers: ^2.3.2
     react-docgen-typescript: ^2.2.2
     react-dom: ^18.2.0
     typedoc: ^0.23.18
@@ -21548,7 +21548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-complex-tree-autodemo@^2.3.1, react-complex-tree-autodemo@workspace:packages/autodemo":
+"react-complex-tree-autodemo@^2.3.2, react-complex-tree-autodemo@workspace:packages/autodemo":
   version: 0.0.0-use.local
   resolution: "react-complex-tree-autodemo@workspace:packages/autodemo"
   dependencies:
@@ -21562,10 +21562,10 @@ __metadata:
     "@types/react-dom": ^18.0.7
     babel-jest: ^27.5.1
     babel-loader: ^9.1.0
-    demodata: ^2.3.1
+    demodata: ^2.3.2
     jest: ^26.6.3
     react: ^18.2.0
-    react-complex-tree: ^2.3.1
+    react-complex-tree: ^2.3.2
     react-dom: ^18.2.0
     react-test-renderer: ^18.2.0
     ts-node: ^10.7.0
@@ -21573,7 +21573,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-complex-tree-blueprintjs-renderers@^2.3.1, react-complex-tree-blueprintjs-renderers@workspace:packages/blueprintjs-renderers":
+"react-complex-tree-blueprintjs-renderers@^2.3.2, react-complex-tree-blueprintjs-renderers@workspace:packages/blueprintjs-renderers":
   version: 0.0.0-use.local
   resolution: "react-complex-tree-blueprintjs-renderers@workspace:packages/blueprintjs-renderers"
   dependencies:
@@ -21589,10 +21589,10 @@ __metadata:
     "@types/react-dom": ^18.0.7
     babel-jest: ^27.5.1
     babel-loader: ^9.1.0
-    demodata: ^2.3.1
+    demodata: ^2.3.2
     jest: ^26.6.3
     react: ^18.2.0
-    react-complex-tree: ^2.3.1
+    react-complex-tree: ^2.3.2
     react-dom: ^18.2.0
     react-test-renderer: ^18.2.0
     ts-node: ^10.7.0
@@ -21640,7 +21640,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"react-complex-tree@^2.3.1, react-complex-tree@workspace:packages/core":
+"react-complex-tree@^2.3.2, react-complex-tree@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "react-complex-tree@workspace:packages/core"
   dependencies:
@@ -21658,7 +21658,7 @@ __metadata:
     babel-jest: ^27.5.1
     babel-loader: ^9.1.0
     cpy-cli: ^3.1.1
-    demodata: ^2.3.1
+    demodata: ^2.3.2
     jest: ^29.2.2
     jest-dom: ^4.0.0
     jest-environment-jsdom: ^29.2.2
