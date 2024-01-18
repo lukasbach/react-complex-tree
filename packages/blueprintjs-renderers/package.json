@@ -1,6 +1,6 @@
 {
   "name": "react-complex-tree-blueprintjs-renderers",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
@@ -25,10 +25,10 @@
     "@types/react-dom": "^18.0.7",
     "babel-jest": "^27.5.1",
     "babel-loader": "^9.1.0",
-    "demodata": "^2.3.2",
+    "demodata": "^2.3.3",
     "jest": "^26.6.3",
     "react": "^18.2.0",
-    "react-complex-tree": "^2.3.2",
+    "react-complex-tree": "^2.3.3",
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "ts-node": "^10.7.0",
