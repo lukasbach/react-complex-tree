@@ -202,7 +202,6 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       },
       'aria-hidden': true,
       tabIndex: -1,
-      // TODO alternative interaction modes
     };
 
     const viewStateFlags = !viewState

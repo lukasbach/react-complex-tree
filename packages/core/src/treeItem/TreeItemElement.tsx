@@ -7,7 +7,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useTreeItemRenderContext } from './useTreeItemRenderContext';
 import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 
-export const TreeItem = (props: {
+export const TreeItemElement = (props: {
   itemIndex: TreeItemIndex;
   depth: number;
 }): JSX.Element => {

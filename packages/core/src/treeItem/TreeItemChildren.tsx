@@ -1,5 +1,5 @@
 import React, { HTMLProps } from 'react';
-import { TreeItem } from './TreeItem';
+import { TreeItemElement } from './TreeItemElement';
 import { TreeItemIndex } from '../types';
 import { useTree } from '../tree/Tree';
 
@@ -14,7 +14,7 @@ export const TreeItemChildren = (props: {
 
   for (const child of props.children) {
     childElements.push(
-      <TreeItem key={child} itemIndex={child} depth={props.depth} />
+      <TreeItemElement key={child} itemIndex={child} depth={props.depth} />
     );
   }
 
