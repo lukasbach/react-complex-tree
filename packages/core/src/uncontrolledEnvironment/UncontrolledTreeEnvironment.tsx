@@ -131,7 +131,12 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
       }}
       onDrop={async (items, target) => {
         const promises: Promise<void>[] = [];
-        for (const item of items) {
+
+        // when dropped between items, items are injected at top of insertion point each
+        const orderedItems =
+          target.targetType === 'between-items' ? [...items].reverse() : items;
+
+        for (const item of orderedItems) {
           const parent = Object.values(currentItems).find(potentialParent =>
             potentialParent.children?.includes(item.index)
           );

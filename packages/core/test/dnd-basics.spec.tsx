@@ -202,6 +202,23 @@ describe('dnd basics', () => {
       ]);
     });
 
+    it('drag items with scrambled order into another folder', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.selectItems('aac', 'aad', 'aab');
+      await test.startDrag('aab');
+      await test.dragOver('target-parent');
+      await test.drop();
+      await test.expectVisibleItemContents('aa', ['aaa']);
+      await test.expectVisibleItemContents('target-parent', [
+        'before',
+        'target',
+        'after',
+        'aab',
+        'aac',
+        'aad',
+      ]);
+    });
+
     it('drag folders into another opened folder', async () => {
       const test = await new TestUtil().renderOpenTree();
       await test.selectItems('ab', 'ac', 'ad');
