@@ -14,8 +14,8 @@ import { useSideEffect } from '../useSideEffect';
 import { buildMapForTrees } from '../utils';
 import { useCallSoon } from '../useCallSoon';
 import { computeItemHeight } from './layoutUtils';
-import { useStableHandler } from '../use-stable-handler';
-import { useGetOriginalItemOrder } from '../use-get-original-item-order';
+import { useStableHandler } from '../useStableHandler';
+import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
   null as any

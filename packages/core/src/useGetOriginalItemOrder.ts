@@ -1,6 +1,6 @@
 import { useTreeEnvironment } from './controlledEnvironment/ControlledTreeEnvironment';
 import { TreeItem } from './types';
-import { useStableHandler } from './use-stable-handler';
+import { useStableHandler } from './useStableHandler';
 
 export const useGetOriginalItemOrder = () => {
   const env = useTreeEnvironment();

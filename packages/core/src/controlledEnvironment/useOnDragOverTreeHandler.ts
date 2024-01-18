@@ -8,7 +8,7 @@ import {
 import { useTreeEnvironment } from './ControlledTreeEnvironment';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { isOutsideOfContainer } from './layoutUtils';
-import { useStableHandler } from '../use-stable-handler';
+import { useStableHandler } from '../useStableHandler';
 
 const getHoveringPosition = (
   clientY: number,

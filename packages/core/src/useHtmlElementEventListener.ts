@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useStableHandler } from './use-stable-handler';
+import { useStableHandler } from './useStableHandler';
 
 export const useHtmlElementEventListener = <
   K extends keyof HTMLElementEventMap

@@ -3,7 +3,7 @@ import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 import { LinearItem } from '../types';
-import { useStableHandler } from '../use-stable-handler';
+import { useStableHandler } from '../useStableHandler';
 
 export const useMoveFocusToIndex = () => {
   const { treeId } = useTree();

@@ -6,7 +6,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from '../tree/useSelectUpTo';
-import { useGetOriginalItemOrder } from '../use-get-original-item-order';
+import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
 
 // TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
 
