@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Maintain original item order when dropping items (#315)

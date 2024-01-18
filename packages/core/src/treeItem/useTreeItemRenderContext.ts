@@ -6,6 +6,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
 import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
 import { useSelectUpTo } from '../tree/useSelectUpTo';
+import { useGetOriginalItemOrder } from '../use-get-original-item-order';
 
 // TODO restructure file. Everything into one hook file without helper methods, let all props be generated outside (InteractionManager and AccessibilityPropsManager), ...
 
@@ -16,6 +17,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
   const dnd = useDragAndDrop();
   const selectUpTo = useSelectUpTo('last-focus');
   const itemTitle = item && environment.getItemTitle(item);
+  const getOriginalItemOrder = useGetOriginalItemOrder();
 
   const isSearchMatching = useMemo(
     () =>
@@ -129,10 +131,11 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
         }
 
         if (canDrag) {
-          dnd.onStartDraggingItems(
-            selectedItems.map(id => environment.items[id]),
-            treeId
+          const orderedItems = getOriginalItemOrder(
+            treeId,
+            selectedItems.map(id => environment.items[id])
           );
+          dnd.onStartDraggingItems(orderedItems, treeId);
         }
       },
     };
@@ -232,5 +235,6 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     interactionManager,
     selectUpTo,
     setRenamingItem,
+    getOriginalItemOrder,
   ]);
 };

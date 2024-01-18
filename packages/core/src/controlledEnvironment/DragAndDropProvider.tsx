@@ -15,6 +15,7 @@ import { buildMapForTrees } from '../utils';
 import { useCallSoon } from '../useCallSoon';
 import { computeItemHeight } from './layoutUtils';
 import { useStableHandler } from '../use-stable-handler';
+import { useGetOriginalItemOrder } from '../use-get-original-item-order';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
   null as any
@@ -38,6 +39,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
   const [dragCode, setDragCode] = useState('_nodrag');
   const getViableDragPositions = useGetViableDragPositions();
   const callSoon = useCallSoon();
+  const getOriginalItemOrder = useGetOriginalItemOrder();
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
     (
@@ -222,8 +224,9 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
         return;
       }
 
-      const resolvedDraggingItems = draggingItems.map(
-        id => environment.items[id]
+      const resolvedDraggingItems = getOriginalItemOrder(
+        environment.activeTreeId,
+        draggingItems.map(id => environment.items[id])
       );
 
       if (environment.canDrag && !environment.canDrag(resolvedDraggingItems)) {
@@ -236,7 +239,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
         // Needs to be done after onStartDraggingItems was called, so that viableDragPositions is populated
       });
     }
-  }, [onStartDraggingItems, environment]);
+  }, [environment, getOriginalItemOrder, onStartDraggingItems]);
 
   const abortProgrammaticDrag = useCallback(() => {
     resetState();

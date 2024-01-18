@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "start": "lerna run start --parallel",
+    "start:core": "lerna run start --parallel --scope react-complex-tree",
     "build": "lerna run build",
     "build:core": "lerna run build --scope react-complex-tree",
     "test": "lerna run test --stream",
