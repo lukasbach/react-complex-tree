@@ -16,7 +16,7 @@ export const useGetOriginalItemOrder = () => {
           ] as const
       )
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .sort(([_, aPos], [_2, bPos]) => bPos - aPos)
+      .sort(([_, aPos], [_2, bPos]) => aPos - bPos)
       .map(([item]) => item)
   );
 };
