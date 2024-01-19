@@ -41,7 +41,9 @@ import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react
 </UncontrolledTreeEnvironment>;
 ```
 
-More details at [the Get-Started Guide](https://rct.lukasbach.com/docs/getstarted).
+More details at [the Get-Started Guide](https://rct.lukasbach.com/docs/getstarted). The [guide on how to integrate
+data with a static tree data provider](https://rct.lukasbach.com/docs/guides/static-data-provider) is also
+a good starting point to understand how to integrate data with React Complex Tree.
 
 ## Features
 

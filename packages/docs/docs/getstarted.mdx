@@ -110,7 +110,7 @@ For the environment, there are three ways to implement your tree environment:
 
 - Use an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment) and a
   [StaticTreeDataProvider](/docs/api/classes/StaticTreeDataProvider) that provides the items. This is the easiest
-  approach and is described below.
+  approach and is described below, and in the [static tree data provider guide](/docs/guides/static-data-provider).
 - Use an [UncontrolledTreeEnvironment](/docs/react/UncontrolledTreeEnvironment) and implement a custom
   [TreeDataProvider](/docs/api/interfaces/TreeDataProvider). This is similarly easy and provides the ability to
   directly react to change events and define a lazy item-loading strategy. This approach is most likely the best
@@ -121,6 +121,11 @@ For the environment, there are three ways to implement your tree environment:
   This approach is described [here](/docs/guides/controlled-environment).
 
 ## Providing the data for the tree
+
+:::info
+There is another guide specifically for using static tree data providers [here](/docs/guides/static-data-provider),
+which goes a bit more into detail.
+:::
 
 When integrating React Complex Tree with an uncontrolled environment and a static tree data provider, items
 must be provided as [explicit data source](/docs/api/interfaces/ExplicitDataSource). An example for such
