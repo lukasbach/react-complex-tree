@@ -1,9 +1,7 @@
-import { TreeItemIndex, TreeItem } from 'react-complex-tree';
-
 const readTemplate = (
   template: any,
   data: any = { items: {} }
-): Record<TreeItemIndex, TreeItem> => {
+): Record<any, any> => {
   for (const [key, value] of Object.entries(template)) {
     // eslint-disable-next-line no-param-reassign
     data.items[key] = {
