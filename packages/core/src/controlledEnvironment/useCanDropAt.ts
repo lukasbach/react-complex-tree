@@ -18,6 +18,7 @@ export const useCanDropAt = () => {
       } else {
         const resolvedItem = environment.items[draggingPosition.targetItem];
         if (
+          !resolvedItem ||
           (!environment.canDropOnFolder && resolvedItem.isFolder) ||
           (!environment.canDropOnNonFolder && !resolvedItem.isFolder)
         ) {

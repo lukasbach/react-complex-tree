@@ -2,9 +2,157 @@
 sidebar_position: 2
 ---
 
-# Custom Data Provider
+# Data Provider
 
-When using an uncontrolled environment, you need to provide your data by supplying a data provider.
+When using an uncontrolled environment, you need to provide your data by supplying a data provider. The
+easiest way to get started is using the [Static Tree Data Provider](/docs/api/classes/StaticTreeDataProvider).
+It allows you to provide your data as record which maps item ids to tree items, and gives you the possibility
+to react to changes in the tree structure, as well as inject your own changes through change events.
+
+# Static Tree Data Provider
+
+The following example gives a good example of what is possible with static tree data providers. We will look
+into the details of the data provider below.
+
+```jsx live
+function App() {
+  const items = useMemo(() => ({ ...shortTree.items }), []);
+  const dataProvider = useMemo(
+    () =>
+      new StaticTreeDataProvider(items, (item, data) => ({
+        ...item,
+        data,
+      })),
+    [items]
+  );
+
+  const injectItem = () => {
+    const rand = `${Math.random()}`;
+    items[rand] = { data: 'New Item', index: rand };
+    items.root.children.push(rand);
+    dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
+  };
+
+  const removeItem = () => {
+    if (items.root.children.length === 0) return;
+    items.root.children.pop();
+    dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
+  };
+
+  return (
+    <UncontrolledTreeEnvironment
+      canDragAndDrop
+      canDropOnFolder
+      canReorderItems
+      dataProvider={dataProvider}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-1': {
+          expandedItems: [],
+        },
+      }}
+    >
+      <button type="button" onClick={injectItem}>
+        Inject item
+      </button>
+      <button type="button" onClick={removeItem}>
+        Remove item
+      </button>
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```
+
+## Creating the data provider with data
+
+First, create the data provider. You want to make sure it isn't recreated on re-renders, so memoize
+it in the component in which it is defined.
+
+```tsx
+const dataProvider = useMemo(
+  () =>
+    new StaticTreeDataProvider(items, (item, data) => ({
+      ...item,
+      data,
+    })),
+  [items]
+);
+```
+
+The items is a record mapping item ids to tree items, for example:
+
+```typescript
+const items = [
+  {
+    index: "item-id",
+    data: { arbitraryData: 123, name: "Hello" },
+    children: ["item-id-1", "item-id-2"],
+    isFolder: true
+  }
+]
+```
+
+Note that, whatever you provide to the `getItemTitle` prop is used to infer the item display name.
+
+```ts jsx
+<UncontrolledTreeEnvironment
+  getItemTitle={item => item.data.name}
+/>
+```
+
+## Apply changes from outside
+
+You can apply changes to the underlying data source. Just make sure to let RCT know about that by
+emitting a change event on the affected items. Note that, if you add or remove items, the affected item
+is the parent item, not the added or removed items.
+
+```ts
+const injectItem = () => {
+  const rand = `${Math.random()}`;
+  items[rand] = { data: 'New Item', index: rand };
+  items.root.children.push(rand);
+  dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
+};
+
+const removeItem = () => {
+  if (items.root.children.length === 0) return;
+  items.root.children.pop();
+  dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
+};
+```
+
+## Reacting to Drag Events
+
+Drag changes are always immediately applied to the visualization, so make sure to implement the `canDropAt`
+prop to customize if that should not work in all cases. The static tree data emits tree change events similar
+to the ones you would emit when applying changes from outside, so you can react to them in the same way.
+
+```typescript
+dataProvider.onDidChangeTreeData(changedItemIds => {
+  console.log(changedItemIds);
+});
+```
+
+## Reacting to Rename Events
+
+The second (optional) parameter of the static tree data provider lets you react to rename events. Note that
+you can customize whether renaming is possible in the first place through the `canRename` prop.
+
+```typescript
+const dataProvider = new StaticTreeDataProvider(items, (item, newName) => {
+  // Return the patched item with new item name here
+  return {
+    ...item,
+    data: { ...item.data, name: newName },
+  };
+});
+`
+```
+
+## Custom Data Provider
+
+In more complex scenarios, it's probably easiest to implement your own data provider.
 This provider must implement the [TreeDataProvider interface](/docs/api/interfaces/TreeDataProvider), i.e.
 
 ```typescript
@@ -27,3 +175,139 @@ tree structure should be handled, i.e. by renaming an item or moving items from 
 another. You still need to enable this functionality in the environment by providing the respective
 flags. Look into the [TreeCapabilities interface](/docs/api/interfaces/TreeCapabilities) for more details
 on the necessary flags.
+
+You can use this implementation as baseline:
+
+```typescript
+
+class CustomDataProviderImplementation implements TreeDataProvider {
+  private data: Record<TreeItemIndex, TreeItem> = { ...shortTree.items };
+
+  private treeChangeListeners: ((changedItemIds: TreeItemIndex[]) => void)[] =
+    [];
+
+  public async getTreeItem(itemId: TreeItemIndex) {
+    return this.data[itemId];
+  }
+
+  public async onChangeItemChildren(
+    itemId: TreeItemIndex,
+    newChildren: TreeItemIndex[]
+  ) {
+    this.data[itemId].children = newChildren;
+    this.treeChangeListeners.forEach(listener => listener([itemId]));
+  }
+
+  public onDidChangeTreeData(
+    listener: (changedItemIds: TreeItemIndex[]) => void
+  ): Disposable {
+    this.treeChangeListeners.push(listener);
+    return {
+      dispose: () =>
+        this.treeChangeListeners.splice(
+          this.treeChangeListeners.indexOf(listener),
+          1
+        ),
+    };
+  }
+
+  public async onRenameItem(item: TreeItem<any>, name: string): Promise<void> {
+    this.data[item.index].data = name;
+  }
+
+  // custom handler for directly manipulating the tree data
+  public injectItem(name: string) {
+    const rand = `${Math.random()}`;
+    this.data[rand] = { data: name, index: rand } as TreeItem;
+    this.data.root.children?.push(rand);
+    this.treeChangeListeners.forEach(listener => listener(['root']));
+  }
+}
+```
+
+## Reacting to Drag Events
+
+RCT will call `onChangeItemChildren` when a drag operation is finished. You can use this directly
+to update your data source. Note that, if you add or remove items, the affected item
+is the parent item, not the added or removed items.
+
+In the exemplary implementation above, this emits an event on the `treeChangeListeners` listeners,
+where you could register a custom listener to react to changes.
+
+## Reacting to Rename Events
+
+RCT will call `onRenameItem` when a rename operation is finished. Implement your rename logic there.
+
+## Custom Provider Live Demo
+
+```jsx live
+function App() {
+  const dataProvider = useMemo(
+    () => {
+      class CustomDataProviderImplementation {
+        data = { ...shortTree.items };
+
+        treeChangeListeners = [];
+
+        async getTreeItem(itemId) {
+          return this.data[itemId];
+        }
+
+        async onChangeItemChildren(itemId, newChildren) {
+          this.data[itemId].children = newChildren;
+          this.treeChangeListeners.forEach(listener => listener([itemId]));
+        }
+
+        onDidChangeTreeData(listener) {
+          this.treeChangeListeners.push(listener);
+          return {
+            dispose: () =>
+              this.treeChangeListeners.splice(
+                this.treeChangeListeners.indexOf(listener),
+                1
+              ),
+          };
+        }
+
+        async onRenameItem(item, name) {
+          this.data[item.index].data = name;
+        }
+
+        injectItem(name) {
+          const rand = `${Math.random()}`;
+          this.data[rand] = { data: name, index: rand };
+          this.data.root.children.push(rand);
+          this.treeChangeListeners.forEach(listener => listener(['root']));
+        }
+      }
+      return new CustomDataProviderImplementation()
+    },
+    []
+  );
+
+  return (
+    <UncontrolledTreeEnvironment
+      canDragAndDrop
+      canDropOnFolder
+      canReorderItems
+      dataProvider={dataProvider}
+      getItemTitle={item => item.data}
+      viewState={{
+        'tree-2': {
+          expandedItems: [],
+        },
+      }}
+    >
+      <button
+        type="button"
+        onClick={() =>
+          dataProvider.injectItem(window.prompt('Item name') || 'New item')
+        }
+      >
+        Inject item
+      </button>
+      <Tree treeId="tree-2" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+}
+```

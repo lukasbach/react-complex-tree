@@ -1,20 +1,16 @@
 import { Meta } from '@storybook/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import * as React from 'react';
-import { longTree, shortTree } from 'demodata';
-import { action } from '@storybook/addon-actions';
+import { shortTree } from 'demodata';
 import { Tree } from '../tree/Tree';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
-import { buildTestTree } from '../../test/helpers';
 import {
   Disposable,
-  ExplicitDataSource,
   TreeDataProvider,
   TreeItem,
   TreeItemIndex,
 } from '../types';
-import { EventEmitter } from '../EventEmitter';
 
 export default {
   title: 'Core/Data Provider',
@@ -43,6 +39,12 @@ export const InjectingDataFromOutside = () => {
     items.root.children.pop();
     dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
   };
+
+  useEffect(() => {
+    dataProvider.onDidChangeTreeData(changedItemIds => {
+      console.log(changedItemIds);
+    });
+  }, [dataProvider]);
 
   return (
     <UncontrolledTreeEnvironment<string>
@@ -75,7 +77,6 @@ class CustomDataProviderImplementation implements TreeDataProvider {
     [];
 
   public async getTreeItem(itemId: TreeItemIndex) {
-    console.log(this.data);
     return this.data[itemId];
   }
 
