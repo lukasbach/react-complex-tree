@@ -10,7 +10,10 @@ import { EventEmitter } from '../EventEmitter';
 export class StaticTreeDataProvider<T = any> implements TreeDataProvider {
   private data: ExplicitDataSource;
 
-  private onDidChangeTreeDataEmitter = new EventEmitter<TreeItemIndex[]>();
+  /** Emit an event with the changed item ids to notify the tree view about changes. */
+  public readonly onDidChangeTreeDataEmitter = new EventEmitter<
+    TreeItemIndex[]
+  >();
 
   private setItemName?: (item: TreeItem<T>, newName: string) => TreeItem<T>;
 
