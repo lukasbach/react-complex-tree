@@ -30,7 +30,7 @@ export class DoubleClickItemToExpandInteractionManager
       onClick: e => {
         actions.focusItem();
         if (e.shiftKey) {
-          actions.selectUpTo(!e.ctrlKey);
+          actions.selectUpTo(!isControlKey(e));
         } else if (isControlKey(e)) {
           if (renderFlags.isSelected) {
             actions.unselectItem();
