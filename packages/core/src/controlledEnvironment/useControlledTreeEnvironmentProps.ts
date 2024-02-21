@@ -46,11 +46,11 @@ export const useControlledTreeEnvironmentProps = ({
     Required<TreeChangeHandlers>['onFocusItem']
   >(
     (item, treeId) => {
-      const newItem = getDocument()?.querySelector(
-        `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
-      );
-
       if (autoFocus ?? true) {
+        const newItem = getDocument()?.querySelector(
+          `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
+        );
+
         if (
           getDocument()?.activeElement?.attributes.getNamedItem(
             'data-rct-search-input'
