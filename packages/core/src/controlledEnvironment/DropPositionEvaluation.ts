@@ -18,16 +18,17 @@ export class DropPositionEvaluation {
 
   private getParentOfLinearItem: ReturnType<typeof useGetGetParentOfLinearItem>;
 
-  public readonly draggingItems: TreeItem[] | undefined; // TODO make private again
+  private dragCode = 'initial';
 
-  public readonly itemHeight: number; // TODO should maybe be calculated inside, when dragging starts/class is instantiated
+  public readonly draggingItems: TreeItem[] | undefined;
+
+  public readonly itemHeight: number;
 
   constructor(
-    // TODO direct variables didnt work with the current ts version
     env: TreeEnvironmentContextProps,
     getParentOfLinearItem: ReturnType<typeof useGetGetParentOfLinearItem>,
-    draggingItems: TreeItem[] | undefined, // TODO make private again
-    itemHeight: number // TODO should maybe be calculated inside, when dragging starts/class is instantiated
+    draggingItems: TreeItem[] | undefined,
+    itemHeight: number
   ) {
     this.env = env;
     this.getParentOfLinearItem = getParentOfLinearItem;
@@ -35,27 +36,42 @@ export class DropPositionEvaluation {
     this.itemHeight = itemHeight;
   }
 
-  getDragCode(
+  isNewDragPosition(
     e: DragEvent,
     treeId: string,
     hoveringPosition: HoveringPosition | undefined
   ) {
     if (!hoveringPosition) {
-      return 'invalidhover';
+      return false;
     }
     const { offset, linearIndex, veryBottom } = hoveringPosition;
 
-    return `${treeId}${linearIndex}${offset ?? ''}${veryBottom && 'vb'}`;
+    const newDragCode = `${treeId}${linearIndex}${offset ?? ''}${
+      veryBottom && 'vb'
+    }`;
+    if (newDragCode !== this.dragCode) {
+      this.dragCode = newDragCode;
+      return true;
+    }
+
+    return false;
   }
 
   // returning undefined means calling onDragAtPosition(undefined), returning a dropposition means calling onPerformDrag(dropposition)
   // TODO old function sometimes returned undefined when old state could be kept; is it okay to also return undefined to enter invalid drop state here? e.g. !this.draggingItems, !canDragAndDrop...
   getDraggingPosition(
     e: DragEvent,
-    hoveringPosition: HoveringPosition | undefined,
-    treeId: string
+    treeId: string,
+    containerRef: React.MutableRefObject<HTMLElement | undefined>
   ): DraggingPosition | undefined {
-    if (!this.draggingItems || !this.env.canDragAndDrop || !hoveringPosition) {
+    const hoveringPosition = this.getHoveringPosition(e, treeId, containerRef);
+
+    if (
+      !this.draggingItems ||
+      !this.env.canDragAndDrop ||
+      !hoveringPosition ||
+      !this.isNewDragPosition(e, treeId, hoveringPosition)
+    ) {
       return undefined;
     }
 
@@ -185,7 +201,7 @@ export class DropPositionEvaluation {
   /**
    * Returns undefined for invalid drop targets, like outside the tree.
    */
-  getHoveringPosition(
+  private getHoveringPosition(
     e: DragEvent,
     treeId: string,
     containerRef: React.MutableRefObject<HTMLElement | undefined>

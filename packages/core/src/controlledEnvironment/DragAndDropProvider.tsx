@@ -35,7 +35,6 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
   }>({});
   const [programmaticDragIndex, setProgrammaticDragIndex] = useState(0);
   const [draggingPosition, setDraggingPosition] = useState<DraggingPosition>();
-  const [dragCode, setDragCode] = useState('_nodrag'); // TODO should be moved into evaluator
   const getViableDragPositions = useGetViableDragPositions();
   const callSoon = useCallSoon();
   const getOriginalItemOrder = useGetOriginalItemOrder();
@@ -100,7 +99,6 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
     setViableDragPositions({});
     setProgrammaticDragIndex(0);
     setDraggingPosition(undefined);
-    setDragCode('_nodrag');
     setDropPositionEvaluator(undefined);
   }, []);
 
@@ -175,32 +173,16 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       treeId: string,
       containerRef: React.MutableRefObject<HTMLElement | undefined>
     ) => {
-      // TODO move dragcode check into evaluator
       if (!dropPositionEvaluator) return;
-      const hoveringPosition = dropPositionEvaluator.getHoveringPosition(
+      const newDraggingPosition = dropPositionEvaluator.getDraggingPosition(
         e,
         treeId,
         containerRef
-      );
-      const newDragCode = dropPositionEvaluator.getDragCode(
-        e,
-        treeId,
-        hoveringPosition
-      );
-      if (newDragCode === dragCode) {
-        return;
-      }
-      setDragCode(newDragCode);
-      const newDraggingPosition = dropPositionEvaluator.getDraggingPosition(
-        e,
-        hoveringPosition,
-        treeId
       );
       if (!newDraggingPosition) {
         setDraggingPosition(undefined);
         return;
       }
-      // setItemHeight(dropPositionEvaluator.itemHeight);
       performDrag(newDraggingPosition);
     }
   );
