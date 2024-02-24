@@ -179,7 +179,8 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
         treeId,
         containerRef
       );
-      if (!newDraggingPosition) {
+      if (!newDraggingPosition) return;
+      if (newDraggingPosition === 'invalid') {
         setDraggingPosition(undefined);
         return;
       }
