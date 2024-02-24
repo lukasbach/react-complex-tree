@@ -13,7 +13,7 @@ type HoveringPosition = {
   veryBottom: boolean;
 };
 
-export class DropPositionEvaluation {
+export class DraggingPositionEvaluation {
   private env: TreeEnvironmentContextProps;
 
   private getParentOfLinearItem: ReturnType<typeof useGetGetParentOfLinearItem>;
