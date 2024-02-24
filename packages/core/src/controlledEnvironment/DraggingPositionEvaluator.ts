@@ -12,7 +12,7 @@ import { DraggingPositionEvaluation } from './DraggingPositionEvaluation';
 export type HoveringPosition = {
   linearIndex: number;
   offset: 'bottom' | 'top' | undefined;
-  veryBottom: boolean;
+  indentation: number;
 };
 
 // TODO move back into hook?
@@ -96,18 +96,22 @@ export class DraggingPositionEvaluator {
     const hoveringPosition = (e.clientY - treeBb.top) / this.itemHeight;
 
     const treeLinearItems = this.env.linearItems[treeId];
-    const linearIndex = Math.max(0, Math.floor(hoveringPosition));
-
-    if (linearIndex > treeLinearItems.length - 1) {
-      return {
-        linearIndex: treeLinearItems.length - 1,
-        offset: 'bottom',
-        veryBottom: true,
-      } as const;
-    }
+    const linearIndex = Math.min(
+      Math.max(0, Math.floor(hoveringPosition)),
+      treeLinearItems.length - 1
+    );
 
     const targetLinearItem = treeLinearItems[linearIndex];
     const targetItem = this.env.items[targetLinearItem.item];
+
+    const indentation = Math.min(
+      Math.max(
+        Math.floor((e.clientX - treeBb.left) / this.env.renderDepthOffset),
+        0
+      ),
+      targetLinearItem.depth
+    );
+
     let offset: 'top' | 'bottom' | undefined;
 
     const lineThreshold = !canReorderItems
@@ -122,7 +126,7 @@ export class DraggingPositionEvaluator {
       offset = 'bottom';
     }
 
-    return { linearIndex, offset, veryBottom: false };
+    return { linearIndex, offset, indentation };
   }
 
   private isNewDragPosition(
@@ -133,10 +137,10 @@ export class DraggingPositionEvaluator {
     if (!hoveringPosition) {
       return false;
     }
-    const { offset, linearIndex, veryBottom } = hoveringPosition;
+    const { offset, linearIndex } = hoveringPosition;
 
-    const newDragCode = `${treeId}${linearIndex}${offset ?? ''}${
-      veryBottom && 'vb'
+    const newDragCode = `${treeId}__${linearIndex}__${offset ?? ''}__${
+      hoveringPosition.indentation
     }`;
     if (newDragCode !== this.dragCode) {
       this.dragCode = newDragCode;

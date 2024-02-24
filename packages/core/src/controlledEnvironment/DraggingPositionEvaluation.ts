@@ -4,6 +4,7 @@ import {
 } from './DraggingPositionEvaluator';
 import {
   DraggingPosition,
+  LinearItem,
   TreeEnvironmentContextProps,
   TreeItem,
 } from '../types';
@@ -17,7 +18,13 @@ export class DraggingPositionEvaluation {
 
   private readonly treeId: string;
 
-  private readonly hoveringPosition: HoveringPosition;
+  private linearIndex: number;
+
+  private offset: 'bottom' | 'top' | undefined;
+
+  private indentation: number;
+
+  private targetItem: LinearItem;
 
   constructor(
     evaluator: DraggingPositionEvaluator,
@@ -30,7 +37,10 @@ export class DraggingPositionEvaluation {
     this.env = env;
     this.e = e;
     this.treeId = treeId;
-    this.hoveringPosition = hoveringPosition;
+    this.linearIndex = hoveringPosition.linearIndex;
+    this.offset = hoveringPosition.offset;
+    this.indentation = hoveringPosition.indentation;
+    this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
   }
 
   getDraggingPosition(): DraggingPosition | undefined {
@@ -49,118 +59,139 @@ export class DraggingPositionEvaluation {
       };
     }
 
-    // eslint-disable-next-line prefer-const
-    let { linearIndex, offset, veryBottom } = this.hoveringPosition;
-
     if (
-      linearIndex < 0 ||
-      linearIndex >= this.env.linearItems[this.treeId].length
+      this.linearIndex < 0 ||
+      this.linearIndex >= this.env.linearItems[this.treeId].length
     ) {
       return undefined;
     }
 
-    let targetItem = this.env.linearItems[this.treeId][linearIndex];
     const redirectTargetToParent =
       !this.env.canReorderItems &&
       !this.env.canDropOnNonFolder &&
-      !this.env.items[targetItem.item].isFolder;
+      !this.env.items[this.targetItem.item].isFolder;
 
     if (redirectTargetToParent) {
       const { parentLinearIndex, parent } =
-        this.evaluator.getParentOfLinearItem(linearIndex, this.treeId);
-      targetItem = parent;
-      linearIndex = parentLinearIndex;
+        this.evaluator.getParentOfLinearItem(this.linearIndex, this.treeId);
+      this.targetItem = parent;
+      this.linearIndex = parentLinearIndex;
     }
 
     if (
-      this.isDescendant(this.treeId, linearIndex, this.evaluator.draggingItems)
+      this.isDescendant(
+        this.treeId,
+        this.linearIndex,
+        this.evaluator.draggingItems
+      )
     ) {
       return undefined;
     }
 
-    const nextItem = this.env.linearItems[this.treeId][linearIndex + 1];
+    const treeLinearItems = this.env.linearItems[this.treeId];
+    const deepestDepth = treeLinearItems[this.linearIndex].depth;
+    const legalDropDepthCount = // itemDepthDifferenceToNextItem/isLastInGroup
+      deepestDepth - (treeLinearItems[this.linearIndex + 1]?.depth ?? 0);
+    const canReparentUpwards =
+      this.offset === 'bottom' && legalDropDepthCount > 0;
+    // Default to zero on last position to allow dropping on root when
+    // dropping at bottom
+    if (canReparentUpwards) {
+      const droppingIndent = Math.max(
+        deepestDepth - legalDropDepthCount,
+        this.indentation
+      );
+      let newParent = {
+        parentLinearIndex: this.linearIndex,
+        parent: this.targetItem,
+      };
+      for (let i = deepestDepth; i !== droppingIndent; i -= 1) {
+        newParent = this.evaluator.getParentOfLinearItem(
+          newParent.parentLinearIndex,
+          this.treeId
+        );
+      }
+
+      if (this.indentation !== treeLinearItems[this.linearIndex].depth) {
+        this.targetItem = newParent.parent;
+      }
+    }
+
+    const nextItem = this.env.linearItems[this.treeId][this.linearIndex + 1];
     const redirectToFirstChild =
       !this.env.canDropBelowOpenFolders &&
       nextItem &&
-      targetItem.depth === nextItem.depth - 1 &&
-      offset === 'bottom';
+      this.targetItem.depth === nextItem.depth - 1 &&
+      this.offset === 'bottom';
     if (redirectToFirstChild) {
-      targetItem = nextItem;
-      linearIndex += 1;
-      offset = 'top';
+      this.targetItem = nextItem;
+      this.linearIndex += 1;
+      this.offset = 'top';
     }
 
-    const { depth } = targetItem;
-    const targetItemData = this.env.items[targetItem.item];
+    const { depth } = this.targetItem;
+    const targetItemData = this.env.items[this.targetItem.item];
 
-    if (!offset && !this.env.canDropOnNonFolder && !targetItemData.isFolder) {
+    if (
+      !this.offset &&
+      !this.env.canDropOnNonFolder &&
+      !targetItemData.isFolder
+    ) {
       return undefined;
     }
 
-    if (!offset && !this.env.canDropOnFolder && targetItemData.isFolder) {
+    if (!this.offset && !this.env.canDropOnFolder && targetItemData.isFolder) {
       return undefined;
     }
 
-    if (offset && !this.env.canReorderItems) {
+    if (this.offset && !this.env.canReorderItems) {
       return undefined;
     }
 
     const { parent } = this.evaluator.getParentOfLinearItem(
-      linearIndex,
+      this.linearIndex,
       this.treeId
     );
 
     if (
       this.evaluator.draggingItems.some(
-        draggingItem => draggingItem.index === targetItem.item
+        draggingItem => draggingItem.index === this.targetItem.item
       )
     ) {
       return undefined;
     }
 
     const newChildIndex =
-      this.env.items[parent.item].children!.indexOf(targetItem.item) +
-      (offset === 'top' ? 0 : 1);
+      this.env.items[parent.item].children!.indexOf(this.targetItem.item) +
+      (this.offset === 'top' ? 0 : 1);
 
     if (
-      offset === 'top' &&
+      this.offset === 'top' &&
       depth ===
-        (this.env.linearItems[this.treeId][linearIndex - 1]?.depth ?? -1)
+        (this.env.linearItems[this.treeId][this.linearIndex - 1]?.depth ?? -1)
     ) {
-      offset = 'bottom';
-      linearIndex -= 1;
+      this.offset = 'bottom';
+      this.linearIndex -= 1;
     }
 
-    if (veryBottom) {
-      const { rootItem } = this.env.trees[this.treeId];
-      return {
-        targetType: 'between-items',
-        treeId: this.treeId,
-        parentItem: rootItem,
-        depth: 0,
-        linearIndex: linearIndex + 1,
-        childIndex: this.env.items[rootItem].children?.length ?? 0,
-        linePosition: 'bottom',
-      };
-    }
-    if (offset) {
+    if (this.offset) {
       return {
         targetType: 'between-items',
         treeId: this.treeId,
         parentItem: parent.item,
-        depth: targetItem.depth,
-        linearIndex: linearIndex + (offset === 'top' ? 0 : 1),
+        depth: this.targetItem.depth,
+        linearIndex: this.linearIndex + (this.offset === 'top' ? 0 : 1),
         childIndex: newChildIndex,
-        linePosition: offset,
+        linePosition: this.offset,
       };
     }
     return {
       targetType: 'item',
       treeId: this.treeId,
       parentItem: parent.item,
-      targetItem: targetItem.item,
-      depth: targetItem.depth,
-      linearIndex,
+      targetItem: this.targetItem.item,
+      depth: this.targetItem.depth,
+      linearIndex: this.linearIndex,
     };
   }
 
