@@ -13,7 +13,7 @@ type HoveringPosition = {
   veryBottom: boolean;
 };
 
-export class DraggingPositionEvaluation {
+export class DraggingPositionEvaluator {
   private env: TreeEnvironmentContextProps;
 
   private getParentOfLinearItem: ReturnType<typeof useGetGetParentOfLinearItem>;
@@ -34,27 +34,6 @@ export class DraggingPositionEvaluation {
     this.getParentOfLinearItem = getParentOfLinearItem;
     this.draggingItems = draggingItems;
     this.itemHeight = itemHeight;
-  }
-
-  isNewDragPosition(
-    e: DragEvent,
-    treeId: string,
-    hoveringPosition: HoveringPosition | undefined
-  ) {
-    if (!hoveringPosition) {
-      return false;
-    }
-    const { offset, linearIndex, veryBottom } = hoveringPosition;
-
-    const newDragCode = `${treeId}${linearIndex}${offset ?? ''}${
-      veryBottom && 'vb'
-    }`;
-    if (newDragCode !== this.dragCode) {
-      this.dragCode = newDragCode;
-      return true;
-    }
-
-    return false;
   }
 
   // returning undefined means calling onDragAtPosition(undefined), returning a dropposition means calling onPerformDrag(dropposition)
@@ -269,5 +248,26 @@ export class DraggingPositionEvaluation {
     }
 
     return this.isDescendant(treeId, parentLinearIndex, potentialParents);
+  }
+
+  private isNewDragPosition(
+    e: DragEvent,
+    treeId: string,
+    hoveringPosition: HoveringPosition | undefined
+  ) {
+    if (!hoveringPosition) {
+      return false;
+    }
+    const { offset, linearIndex, veryBottom } = hoveringPosition;
+
+    const newDragCode = `${treeId}${linearIndex}${offset ?? ''}${
+      veryBottom && 'vb'
+    }`;
+    if (newDragCode !== this.dragCode) {
+      this.dragCode = newDragCode;
+      return true;
+    }
+
+    return false;
   }
 }
