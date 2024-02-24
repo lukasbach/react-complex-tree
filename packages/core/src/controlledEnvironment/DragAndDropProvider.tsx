@@ -15,7 +15,7 @@ import { useCallSoon } from '../useCallSoon';
 import { computeItemHeight } from './layoutUtils';
 import { useStableHandler } from '../useStableHandler';
 import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
-import { DropPositionEvaluation } from './DropPositionEvaluation';
+import { DraggingPositionEvaluation } from './DraggingPositionEvaluation';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
@@ -41,7 +41,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
   const [dropPositionEvaluator, setDropPositionEvaluator] = useState<
-    DropPositionEvaluation | undefined
+    DraggingPositionEvaluation | undefined
   >(undefined);
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
@@ -207,7 +207,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       );
 
       setDropPositionEvaluator(
-        new DropPositionEvaluation(
+        new DraggingPositionEvaluation(
           environment,
           getParentOfLinearItem,
           items,
