@@ -43,29 +43,21 @@ export class DraggingPositionEvaluation {
     this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
   }
 
-  getDraggingPosition(): DraggingPosition | undefined {
-    if (!this.evaluator.draggingItems) {
-      return undefined;
-    }
+  private getEmptyTreeDragPosition(): DraggingPosition {
+    return {
+      targetType: 'root',
+      treeId: this.treeId,
+      depth: 0,
+      linearIndex: 0,
+      targetItem: this.env.trees[this.treeId].rootItem,
+    };
+  }
 
-    if (this.env.linearItems[this.treeId].length === 0) {
-      // Empty tree
-      return {
-        targetType: 'root',
-        treeId: this.treeId,
-        depth: 0,
-        linearIndex: 0,
-        targetItem: this.env.trees[this.treeId].rootItem,
-      };
-    }
-
-    if (
-      this.linearIndex < 0 ||
-      this.linearIndex >= this.env.linearItems[this.treeId].length
-    ) {
-      return undefined;
-    }
-
+  /**
+   * If reordering is not allowed, dragging on non-folder items redirects
+   * the drag target to the parent of the target item.
+   */
+  private maybeRedirectToParent() {
     const redirectTargetToParent =
       !this.env.canReorderItems &&
       !this.env.canDropOnNonFolder &&
@@ -77,17 +69,13 @@ export class DraggingPositionEvaluation {
       this.targetItem = parent;
       this.linearIndex = parentLinearIndex;
     }
+  }
 
-    if (
-      this.isDescendant(
-        this.treeId,
-        this.linearIndex,
-        this.evaluator.draggingItems
-      )
-    ) {
-      return undefined;
-    }
-
+  /**
+   * If the item is the last in a group, and the drop is at the bottom,
+   * the x-coordinate of the mouse allows to reparent upwards.
+   */
+  private maybeReparentUpwards(): DraggingPosition | undefined {
     const treeLinearItems = this.env.linearItems[this.treeId];
     const deepestDepth = treeLinearItems[this.linearIndex].depth;
     const legalDropDepthCount = // itemDepthDifferenceToNextItem/isLastInGroup
@@ -96,40 +84,99 @@ export class DraggingPositionEvaluation {
       this.offset === 'bottom' && legalDropDepthCount > 0;
     // Default to zero on last position to allow dropping on root when
     // dropping at bottom
-    if (canReparentUpwards) {
-      const droppingIndent = Math.max(
-        deepestDepth - legalDropDepthCount,
-        this.indentation
-      );
-      let newParent = {
-        parentLinearIndex: this.linearIndex,
-        parent: this.targetItem,
-      };
-      for (let i = deepestDepth; i !== droppingIndent; i -= 1) {
-        newParent = this.evaluator.getParentOfLinearItem(
-          newParent.parentLinearIndex,
-          this.treeId
-        );
-      }
 
-      if (this.indentation !== treeLinearItems[this.linearIndex].depth) {
-        this.targetItem = newParent.parent;
-      }
+    if (!canReparentUpwards) {
+      return undefined;
     }
 
+    const droppingIndent = Math.max(
+      deepestDepth - legalDropDepthCount,
+      this.indentation
+    );
+
+    let newParent = {
+      parentLinearIndex: this.linearIndex,
+      parent: this.targetItem,
+    };
+    let insertionItemAbove: typeof newParent | undefined;
+
+    for (let i = deepestDepth; i >= droppingIndent; i -= 1) {
+      insertionItemAbove = newParent;
+      newParent = this.evaluator.getParentOfLinearItem(
+        newParent.parentLinearIndex,
+        this.treeId
+      );
+    }
+
+    if (this.indentation === treeLinearItems[this.linearIndex].depth) {
+      return undefined;
+    }
+    if (!insertionItemAbove) {
+      return undefined;
+    }
+
+    // this.targetItem = newParent.parent;
+    const reparentedChildIndex =
+      this.env.items[newParent.parent.item].children!.indexOf(
+        insertionItemAbove.parent.item
+      ) + 1;
+    console.log(
+      `new parent is ${newParent.parent.item}, target is ${this.targetItem.item} and reparentedChildIndex is ${reparentedChildIndex}}`
+    );
+    console.log(newParent);
+    console.log('new depth is', newParent.parent.depth + 1);
+
+    return {
+      targetType: 'between-items',
+      treeId: this.treeId,
+      // parentItem: this.evaluator.getParentOfLinearItem(
+      //   newParent.parentLinearIndex,
+      //   this.treeId
+      // ).parent.item,
+      parentItem: newParent.parent.item,
+      // depth: newParent.parent.depth + 1,
+      depth: droppingIndent,
+      linearIndex: this.linearIndex + 1,
+      childIndex: reparentedChildIndex,
+      linePosition: 'bottom',
+    } as const;
+  }
+
+  /**
+   * Don't allow to drop at bottom of an open folder, since that will place
+   * it visually at a different position. Redirect the drag target to the
+   * top of the folder contents in that case.
+   */
+  private maybeRedirectInsideOpenFolder() {
     const nextItem = this.env.linearItems[this.treeId][this.linearIndex + 1];
-    const redirectToFirstChild =
+    const redirectInsideOpenFolder =
       !this.env.canDropBelowOpenFolders &&
       nextItem &&
       this.targetItem.depth === nextItem.depth - 1 &&
       this.offset === 'bottom';
-    if (redirectToFirstChild) {
+    if (redirectInsideOpenFolder) {
       this.targetItem = nextItem;
       this.linearIndex += 1;
       this.offset = 'top';
     }
+  }
 
-    const { depth } = this.targetItem;
+  /**
+   * Inside a folder, only drop at bottom offset to make it visually
+   * consistent.
+   */
+  private maybeMapToBottomOffset() {
+    const priorItem = this.env.linearItems[this.treeId][this.linearIndex - 1];
+    if (
+      this.offset === 'top' &&
+      this.targetItem.depth === (priorItem?.depth ?? -1)
+    ) {
+      this.offset = 'bottom';
+      this.linearIndex -= 1;
+    }
+  }
+
+  private canDropAtCurrentTarget() {
     const targetItemData = this.env.items[this.targetItem.item];
 
     if (
@@ -137,42 +184,70 @@ export class DraggingPositionEvaluation {
       !this.env.canDropOnNonFolder &&
       !targetItemData.isFolder
     ) {
-      return undefined;
+      return false;
     }
 
     if (!this.offset && !this.env.canDropOnFolder && targetItemData.isFolder) {
-      return undefined;
+      return false;
     }
 
     if (this.offset && !this.env.canReorderItems) {
+      return false;
+    }
+
+    if (
+      this.evaluator.draggingItems?.some(
+        draggingItem => draggingItem.index === this.targetItem.item
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  getDraggingPosition(): DraggingPosition | undefined {
+    if (this.env.linearItems[this.treeId].length === 0) {
+      return this.getEmptyTreeDragPosition();
+    }
+
+    if (
+      !this.evaluator.draggingItems ||
+      this.linearIndex < 0 ||
+      this.linearIndex >= this.env.linearItems[this.treeId].length
+    ) {
       return undefined;
     }
 
+    this.maybeRedirectToParent();
+
+    if (this.areDraggingItemsDescendantOfTarget()) {
+      return undefined;
+    }
+
+    const reparented = this.maybeReparentUpwards();
+    if (reparented) {
+      return reparented;
+    }
+
+    this.maybeRedirectInsideOpenFolder();
+
+    // Must run before maybeMapToBottomOffset
     const { parent } = this.evaluator.getParentOfLinearItem(
       this.linearIndex,
       this.treeId
     );
-
-    if (
-      this.evaluator.draggingItems.some(
-        draggingItem => draggingItem.index === this.targetItem.item
-      )
-    ) {
-      return undefined;
-    }
-
     const newChildIndex =
       this.env.items[parent.item].children!.indexOf(this.targetItem.item) +
       (this.offset === 'top' ? 0 : 1);
 
-    if (
-      this.offset === 'top' &&
-      depth ===
-        (this.env.linearItems[this.treeId][this.linearIndex - 1]?.depth ?? -1)
-    ) {
-      this.offset = 'bottom';
-      this.linearIndex -= 1;
+    this.maybeMapToBottomOffset();
+
+    if (!this.canDropAtCurrentTarget()) {
+      return undefined;
     }
+
+    // used to be here: this.maybeMapToBottomOffset();.. moved up for better readability
 
     if (this.offset) {
       return {
@@ -214,5 +289,16 @@ export class DraggingPositionEvaluation {
     }
 
     return this.isDescendant(treeId, parentLinearIndex, potentialParents);
+  }
+
+  private areDraggingItemsDescendantOfTarget() {
+    return (
+      this.evaluator.draggingItems &&
+      this.isDescendant(
+        this.treeId,
+        this.linearIndex,
+        this.evaluator.draggingItems
+      )
+    );
   }
 }

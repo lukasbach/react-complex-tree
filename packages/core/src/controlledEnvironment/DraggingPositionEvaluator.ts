@@ -101,6 +101,14 @@ export class DraggingPositionEvaluator {
       treeLinearItems.length - 1
     );
 
+    if (treeLinearItems.length === 0) {
+      return {
+        linearIndex: 0,
+        offset: 'bottom',
+        indentation: 0,
+      };
+    }
+
     const targetLinearItem = treeLinearItems[linearIndex];
     const targetItem = this.env.items[targetLinearItem.item];
 
