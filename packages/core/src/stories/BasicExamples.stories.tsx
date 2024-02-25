@@ -497,6 +497,24 @@ export const UnitTestTreeOpen = () => (
   </UncontrolledTreeEnvironment>
 );
 
+export const ReparentTestTree = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(buildTestTree(), (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => `${item.data}`}
+    viewState={{ 'tree-1': { expandedItems: ['a', 'ad'] } }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);
+
 export const DisableMultiselect = () => (
   <UncontrolledTreeEnvironment<string>
     canDragAndDrop
