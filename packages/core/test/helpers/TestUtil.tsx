@@ -146,15 +146,19 @@ export class TestUtil {
     });
   }
 
-  public async dragOver(title: string, position?: 'top' | 'bottom') {
+  public async dragOver(
+    title: string,
+    position?: 'top' | 'bottom',
+    indent?: number
+  ) {
     await act(async () => {
       const items = await this.renderProps!.findAllByTestId('title');
       const itemIndex = items.findIndex(item => item.innerHTML === title);
 
-      // jsom doesnt support drag events :( let's mock it directly on the dnd context
+      // jsdom doesnt support drag events :( let's mock it directly on the dnd context
       this.environmentRef?.dragAndDropContext.onDragOverTreeHandler(
         {
-          clientX: 0,
+          clientX: indent !== undefined ? indent * 10 : 9999,
           clientY:
             itemIndex * 10 +
             (position === 'top' ? 1 : position === 'bottom' ? 9 : 5),
