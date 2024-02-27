@@ -373,6 +373,22 @@ describe('dnd basics', () => {
   });
 
   describe('special drop positions', () => {
+    it('doesnt allow dropping into itself', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.startDrag('a');
+      await test.dragOver('aa');
+      await test.drop();
+      await test.expectTreeUnchanged();
+    });
+
+    it('doesnt allow dropping into itself 2', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.startDrag('a');
+      await test.dragOver('aac', 'bottom');
+      await test.drop();
+      await test.expectTreeUnchanged();
+    });
+
     describe('reparent upwards', () => {
       it('doesnt reparent in the on normal item', async () => {
         const test = await new TestUtil().renderOpenTree();
@@ -448,6 +464,68 @@ describe('dnd basics', () => {
           'deep1',
           'special',
         ]);
+      });
+    });
+
+    describe('redirects to parent', () => {
+      it('should redirect to parent of canReorderItems is disabled', async () => {
+        const test = await new TestUtil().renderOpenTree({
+          canReorderItems: false,
+        });
+        await test.startDrag('target');
+        await test.dragOver('aab', 'bottom');
+        await test.drop();
+        await test.expectItemContents('aa', [
+          'aaa',
+          'aab',
+          'aac',
+          'aad',
+          'target',
+        ]);
+      });
+
+      it('should not redirect to parent of canReorderItems is enabled', async () => {
+        const test = await new TestUtil().renderOpenTree({
+          canReorderItems: true,
+        });
+        await test.startDrag('target');
+        await test.dragOver('aab', 'bottom');
+        await test.drop();
+        await test.expectItemContents('aa', [
+          'aaa',
+          'aab',
+          'target',
+          'aac',
+          'aad',
+        ]);
+      });
+    });
+
+    describe('redirects inside open folder', () => {
+      it('redirects inside open folder when dropping at bottom of open folder if disabled', async () => {
+        const test = await new TestUtil().renderOpenTree({});
+        await test.startDrag('target');
+        await test.dragOver('aa', 'bottom');
+        await test.drop();
+        await test.expectItemContentsUnchanged('a');
+        await test.expectItemContents('aa', [
+          'target',
+          'aaa',
+          'aab',
+          'aac',
+          'aad',
+        ]);
+      });
+
+      it('doesnt redirects inside open folder when enabled', async () => {
+        const test = await new TestUtil().renderOpenTree({
+          canDropBelowOpenFolders: true,
+        });
+        await test.startDrag('target');
+        await test.dragOver('aa', 'bottom');
+        await test.drop();
+        await test.expectItemContentsUnchanged('aa');
+        await test.expectItemContents('a', ['aa', 'target', 'ab', 'ac', 'ad']);
       });
     });
   });
