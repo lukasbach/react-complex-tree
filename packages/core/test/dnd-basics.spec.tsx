@@ -371,4 +371,84 @@ describe('dnd basics', () => {
       await test.expectItemContentsVisibleAndUnchanged('a', 'b', 'bb');
     });
   });
+
+  describe('special drop positions', () => {
+    describe('reparent upwards', () => {
+      it('doesnt reparent in the on normal item', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('bbb');
+        await test.dragOver('aac', 'bottom', 0);
+        await test.drop();
+        await test.expectItemContentsUnchanged('a', 'b');
+        await test.expectItemContents('aa', [
+          'aaa',
+          'aab',
+          'aac',
+          'bbb',
+          'aad',
+        ]);
+      });
+
+      it('doesnt reparent in the middle of a subtree', async () => {
+        const test = await new TestUtil().renderTree();
+        await test.clickItem('a');
+        await test.clickItem('target-parent');
+        await test.startDrag('target');
+        await test.dragOver('ab', 'bottom', 0);
+        await test.drop();
+        await test.expectItemContentsUnchanged('ab', 'ac', 'root');
+        await test.expectItemContents('a', ['aa', 'ab', 'target', 'ac', 'ad']);
+      });
+
+      it('doesnt reparent at the top of a subtree', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('bbb');
+        await test.dragOver('aaa', 'top', 0);
+        await test.drop();
+        await test.expectItemContentsUnchanged('a', 'b');
+        await test.expectItemContents('aa', [
+          'bbb',
+          'aaa',
+          'aab',
+          'aac',
+          'aad',
+        ]);
+      });
+
+      it('reparents inner level', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('bbb');
+        await test.dragOver('add', 'bottom', 1);
+        await test.drop();
+        await test.expectItemContentsUnchanged('ad', 'b');
+        await test.expectItemContents('a', ['aa', 'ab', 'ac', 'ad', 'bbb']);
+      });
+
+      it('reparents mid level', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('bbb');
+        await test.dragOver('add', 'bottom', 1);
+        await test.drop();
+        await test.expectItemContentsUnchanged('ad', 'b', 'root');
+        await test.expectItemContents('a', ['aa', 'ab', 'ac', 'ad', 'bbb']);
+      });
+
+      it('reparents outer level', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('bbb');
+        await test.dragOver('add', 'bottom', 0);
+        await test.drop();
+        await test.expectItemContentsUnchanged('ad', 'a', 'b');
+        await test.expectItemContents('root', [
+          'target-parent',
+          'a',
+          'bbb',
+          'b',
+          'c',
+          'deep1',
+          'special',
+        ]);
+      });
+    });
+  });
 });

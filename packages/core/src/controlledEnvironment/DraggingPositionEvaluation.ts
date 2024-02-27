@@ -78,12 +78,14 @@ export class DraggingPositionEvaluation {
   private maybeReparentUpwards(): DraggingPosition | undefined {
     const treeLinearItems = this.env.linearItems[this.treeId];
     const deepestDepth = treeLinearItems[this.linearIndex].depth;
-    const legalDropDepthCount = // itemDepthDifferenceToNextItem/isLastInGroup
-      deepestDepth - (treeLinearItems[this.linearIndex + 1]?.depth ?? 0);
-    const canReparentUpwards =
-      this.offset === 'bottom' && legalDropDepthCount > 0;
+
     // Default to zero on last position to allow dropping on root when
     // dropping at bottom
+    const legalDropDepthCount = // itemDepthDifferenceToNextItem/isLastInGroup
+      deepestDepth - (treeLinearItems[this.linearIndex + 1]?.depth ?? 0);
+
+    const canReparentUpwards =
+      this.offset === 'bottom' && legalDropDepthCount > 0;
 
     if (!canReparentUpwards) {
       return undefined;
