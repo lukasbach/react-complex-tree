@@ -128,21 +128,11 @@ export class DraggingPositionEvaluation {
       this.env.items[newParent.parent.item].children!.indexOf(
         insertionItemAbove.parent.item
       ) + 1;
-    console.log(
-      `new parent is ${newParent.parent.item}, target is ${this.targetItem.item} and reparentedChildIndex is ${reparentedChildIndex}}`
-    );
-    console.log(newParent);
-    console.log('new depth is', newParent.parent.depth + 1);
 
     return {
       targetType: 'between-items',
       treeId: this.treeId,
-      // parentItem: this.evaluator.getParentOfLinearItem(
-      //   newParent.parentLinearIndex,
-      //   this.treeId
-      // ).parent.item,
       parentItem: newParent.parent.item,
-      // depth: newParent.parent.depth + 1,
       depth: droppingIndent,
       linearIndex: this.linearIndex + 1,
       childIndex: reparentedChildIndex,
