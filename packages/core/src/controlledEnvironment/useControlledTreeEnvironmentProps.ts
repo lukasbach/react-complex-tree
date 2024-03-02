@@ -45,8 +45,8 @@ export const useControlledTreeEnvironmentProps = ({
   const onFocusItemHandler = useCallback<
     Required<TreeChangeHandlers>['onFocusItem']
   >(
-    (item, treeId) => {
-      if (autoFocus ?? true) {
+    (item, treeId, setDomFocus = true) => {
+      if ((autoFocus ?? true) && setDomFocus) {
         const newItem = getDocument()?.querySelector(
           `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
         );

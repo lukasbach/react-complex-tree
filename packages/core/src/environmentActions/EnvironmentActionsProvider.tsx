@@ -76,8 +76,8 @@ export const EnvironmentActionsProvider = React.forwardRef<
   );
 
   const focusItem = useCallback(
-    (itemId: TreeItemIndex, treeId: string) => {
-      onFocusItem?.(items[itemId], treeId);
+    (itemId: TreeItemIndex, treeId: string, setDomFocus = true) => {
+      onFocusItem?.(items[itemId], treeId, setDomFocus);
     },
     [items, onFocusItem]
   );

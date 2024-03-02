@@ -35,7 +35,9 @@ export interface TreeItemActions {
   addToSelectedItems: () => void;
   selectUpTo: (overrideOldSelection?: boolean) => void;
   startDragging: () => void;
-  focusItem: () => void;
+
+  /** @param setDomFocus - Defaults to true. */
+  focusItem: (setDomFocus?: boolean) => void;
   // toggleSelectedState: () => void;
 }
 
@@ -216,7 +218,11 @@ export interface TreeChangeHandlers<T = any> {
   onCollapseItem?: (item: TreeItem<T>, treeId: string) => void;
   onExpandItem?: (item: TreeItem<T>, treeId: string) => void;
   onSelectItems?: (items: TreeItemIndex[], treeId: string) => void; // TODO TreeItem instead of just index
-  onFocusItem?: (item: TreeItem<T>, treeId: string) => void;
+  onFocusItem?: (
+    item: TreeItem<T>,
+    treeId: string,
+    setDomFocus?: boolean
+  ) => void;
   onDrop?: (items: TreeItem<T>[], target: DraggingPosition) => void;
   onPrimaryAction?: (items: TreeItem<T>, treeId: string) => void;
   onRegisterTree?: (tree: TreeConfiguration) => void;
@@ -234,7 +240,14 @@ export interface TreeEnvironmentChangeActions {
   selectItems: (itemsIds: TreeItemIndex[], treeId: string) => void;
   toggleItemSelectStatus: (itemId: TreeItemIndex, treeId: string) => void;
   invokePrimaryAction: (itemId: TreeItemIndex, treeID: string) => void;
-  focusItem: (itemId: TreeItemIndex, treeId: string) => void;
+
+  /** @param setDomFocus - Defaults to true. */
+  focusItem: (
+    itemId: TreeItemIndex,
+    treeId: string,
+    setDomFocus?: boolean
+  ) => void;
+
   moveFocusUp: (treeId: string) => void;
   moveFocusDown: (treeId: string) => void;
   startProgrammaticDrag: () => void;
@@ -396,7 +409,10 @@ export interface TreeChangeActions {
   toggleItemExpandedState: (itemId: TreeItemIndex) => void;
   selectItems: (itemsIds: TreeItemIndex[]) => void;
   toggleItemSelectStatus: (itemId: TreeItemIndex) => void;
-  focusItem: (itemId: TreeItemIndex) => void;
+
+  /** @param setDomFocus - Defaults to true. */
+  focusItem: (itemId: TreeItemIndex, setDomFocus?: boolean) => void;
+
   moveFocusUp: () => void;
   moveFocusDown: () => void;
   invokePrimaryAction: (itemId: TreeItemIndex) => void;

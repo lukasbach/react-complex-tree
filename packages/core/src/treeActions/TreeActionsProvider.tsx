@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PropsWithChildren, useMemo } from 'react';
 import {
+  TreeChangeActions,
   TreeChangeActionsContextProps,
   TreeItemIndex,
   TreeRef,
@@ -26,7 +27,7 @@ export const TreeActionsProvider = React.forwardRef<
 
   // TODO change tree childs to use actions rather than output events where possible
   // TODO maybe replace with stable handlers
-  const actions = useMemo(
+  const actions = useMemo<TreeChangeActions>(
     () => ({
       abortRenamingItem(): void {
         tree.setRenamingItem(null);
@@ -43,8 +44,8 @@ export const TreeActionsProvider = React.forwardRef<
       expandItem(itemId: TreeItemIndex): void {
         envActions.expandItem(itemId, tree.treeId);
       },
-      focusItem(itemId: TreeItemIndex): void {
-        envActions.focusItem(itemId, tree.treeId);
+      focusItem(itemId: TreeItemIndex, setDomFocus = true): void {
+        envActions.focusItem(itemId, tree.treeId, setDomFocus);
       },
       focusTree(autoFocus = true): void {
         envActions.focusTree(tree.treeId, autoFocus);

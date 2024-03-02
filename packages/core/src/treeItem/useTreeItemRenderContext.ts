@@ -119,8 +119,8 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
       stopRenamingItem: () => {
         setRenamingItem(null);
       },
-      focusItem: () => {
-        environment.onFocusItem?.(item, treeId);
+      focusItem: (setDomFocus = true) => {
+        environment.onFocusItem?.(item, treeId, setDomFocus);
       },
       startDragging: () => {
         let selectedItems = viewState?.selectedItems ?? [];
