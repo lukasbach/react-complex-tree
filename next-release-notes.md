@@ -4,7 +4,8 @@
   without updating the DOM focus. This defaults to true in all existing methods to maintain the current behavior if
   it is absent. (#336)
 - Allow customizing when a subtree is rendered or not with the new `shouldRenderChildren` prop. This can be used to 
-  create opening and closing animations on subtrees. (#333)
+  create opening and closing animations on subtrees. See [Demo](https://rct.lukasbach.com/storybook/?path=/story/core-basic-examples--animated-expanding-and-collapsing)
+  and [Demo Implementation](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/stories/BasicExamples.stories.tsx#L561) for details. (#333)
 
 ### Bug Fixes
 
