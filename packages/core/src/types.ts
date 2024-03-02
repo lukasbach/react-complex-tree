@@ -519,3 +519,9 @@ export interface LiveDescriptors {
    */
   programmaticallyDraggingTarget: string;
 }
+
+export type HoveringPosition = {
+  linearIndex: number;
+  offset: 'bottom' | 'top' | undefined;
+  indentation: number;
+};
