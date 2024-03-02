@@ -178,6 +178,10 @@ export interface TreeCapabilities<T = any, C extends string = never> {
     itemTitle: string
   ) => boolean;
   showLiveDescription?: boolean;
+  shouldRenderChildren?: (
+    item: TreeItem<T>,
+    context: TreeItemRenderContext<C>
+  ) => boolean;
 
   /**
    * See Issue #148 or the sample at

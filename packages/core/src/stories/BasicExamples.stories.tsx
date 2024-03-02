@@ -7,6 +7,7 @@ import { Tree } from '../tree/Tree';
 import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDataProvider';
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { buildTestTree } from '../../test/helpers';
+import { TreeItemIndex } from '../types';
 
 export default {
   title: 'Core/Basic Examples',
@@ -551,6 +552,69 @@ export const NavigateAway = () => {
           expandedItems: [],
         },
       }}
+    >
+      <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+    </UncontrolledTreeEnvironment>
+  );
+};
+
+export const AnimatedExpandingAndCollapsing = () => {
+  const [openingItem, setOpeningItem] = useState<TreeItemIndex | undefined>();
+  const [closingItem, setClosingItem] = useState<TreeItemIndex | undefined>();
+  return (
+    <UncontrolledTreeEnvironment<string>
+      dataProvider={
+        new StaticTreeDataProvider(longTree.items, (item, data) => ({
+          ...item,
+          data,
+        }))
+      }
+      getItemTitle={item => item.data}
+      shouldRenderChildren={(item, context) =>
+        context.isExpanded ||
+        closingItem === item.index ||
+        openingItem === item.index
+      }
+      onExpandItem={item => {
+        setOpeningItem(item.index);
+        setTimeout(() => {
+          setOpeningItem(undefined);
+        });
+      }}
+      onCollapseItem={item => {
+        setClosingItem(item.index);
+        setTimeout(() => {
+          setClosingItem(undefined);
+        }, 500);
+      }}
+      viewState={{
+        'tree-1': {},
+      }}
+      renderItemsContainer={({ children, containerProps, parentId }) => (
+        <div
+          style={{
+            overflow: 'hidden',
+          }}
+        >
+          <ul
+            {...containerProps}
+            className="rct-tree-items-container"
+            style={{
+              transition: 'all 500ms',
+              maxHeight:
+                parentId === openingItem || parentId === closingItem
+                  ? 0
+                  : '999999px',
+              marginTop:
+                parentId === closingItem || parentId === openingItem
+                  ? '-100%'
+                  : '0',
+            }}
+          >
+            {children}
+          </ul>
+        </div>
+      )}
     >
       <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
     </UncontrolledTreeEnvironment>

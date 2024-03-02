@@ -32,7 +32,11 @@ export const TreeItemElement = (props: {
     return null as any;
   }
 
-  const children = item.isFolder && isExpanded && item.children && (
+  const shouldRenderChildren =
+    environment.shouldRenderChildren?.(item, renderContext) ??
+    (item.isFolder && isExpanded);
+
+  const children = item.children && shouldRenderChildren && (
     <TreeItemChildren depth={props.depth + 1} parentId={props.itemIndex}>
       {item.children}
     </TreeItemChildren>

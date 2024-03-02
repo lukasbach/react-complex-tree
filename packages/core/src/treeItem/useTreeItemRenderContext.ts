@@ -1,5 +1,10 @@
 import { HTMLProps, useMemo } from 'react';
-import { TreeItem, TreeItemActions, TreeItemRenderFlags } from '../types';
+import {
+  TreeItem,
+  TreeItemActions,
+  TreeItemRenderContext,
+  TreeItemRenderFlags,
+} from '../types';
 import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
@@ -37,7 +42,7 @@ export const useTreeItemRenderContext = (item?: TreeItem) => {
     item && environment.viewState[treeId]?.expandedItems?.includes(item.index);
   const isRenaming = item && renamingItem === item.index;
 
-  return useMemo(() => {
+  return useMemo<TreeItemRenderContext | undefined>(() => {
     if (!item) {
       return undefined;
     }
