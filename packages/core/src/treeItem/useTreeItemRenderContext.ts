@@ -9,7 +9,7 @@ import { defaultMatcher } from '../search/defaultMatcher';
 import { useTree } from '../tree/Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useInteractionManager } from '../controlledEnvironment/InteractionManagerProvider';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { useSelectUpTo } from '../tree/useSelectUpTo';
 import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { DraggingPosition, TreeItem } from '../types';
-import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useCanDropAt = () => {
   const environment = useTreeEnvironment();

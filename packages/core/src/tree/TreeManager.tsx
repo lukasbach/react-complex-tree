@@ -7,7 +7,7 @@ import { useTreeKeyboardBindings } from './useTreeKeyboardBindings';
 import { SearchInput } from '../search/SearchInput';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { MaybeLiveDescription } from './MaybeLiveDescription';
 
 export const TreeManager = (): JSX.Element => {

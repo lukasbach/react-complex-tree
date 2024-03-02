@@ -5,7 +5,7 @@ import {
   TreeEnvironmentContextProps,
   TreeItem,
 } from '../types';
-import { useGetGetParentOfLinearItem } from '../controlledEnvironment/useGetParentOfLinearItem';
+import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 
 export class DraggingPositionEvaluation {
   private readonly env: TreeEnvironmentContextProps;

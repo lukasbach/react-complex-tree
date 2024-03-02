@@ -8,7 +8,7 @@ import {
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useStableHandler } from '../useStableHandler';
 import { DraggingPositionEvaluation } from './DraggingPositionEvaluation';
-import { useGetGetParentOfLinearItem } from '../controlledEnvironment/useGetParentOfLinearItem';
+import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 
 export const useDraggingPosition = () => {
   const dragCode = useRef('initial');
