@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { defaultLiveDescriptors } from './defaultLiveDescriptors';
 import { useTree } from './Tree';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { resolveLiveDescriptor } from './resolveLiveDescriptor';
 import { useKeyboardBindings } from '../hotkeys/useKeyboardBindings';
 

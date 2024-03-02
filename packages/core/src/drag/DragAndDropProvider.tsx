@@ -6,7 +6,7 @@ import {
   TreeItem,
   TreeItemIndex,
 } from '../types';
-import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useCanDropAt } from './useCanDropAt';
 import { useGetViableDragPositions } from './useGetViableDragPositions';
 import { useSideEffect } from '../useSideEffect';
@@ -14,7 +14,7 @@ import { buildMapForTrees } from '../utils';
 import { useCallSoon } from '../useCallSoon';
 import { useStableHandler } from '../useStableHandler';
 import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
-import { useDraggingPosition } from '../drag/useDraggingPosition';
+import { useDraggingPosition } from './useDraggingPosition';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
   null as any

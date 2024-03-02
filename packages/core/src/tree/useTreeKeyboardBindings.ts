@@ -4,7 +4,7 @@ import { useMoveFocusToIndex } from './useMoveFocusToIndex';
 import { useViewState } from './useViewState';
 import { useTree } from './Tree';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { useSelectUpTo } from './useSelectUpTo';
 import { useLinearItems } from '../controlledEnvironment/useLinearItems';
 
