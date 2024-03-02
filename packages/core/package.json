@@ -1,6 +1,6 @@
 {
   "name": "react-complex-tree",
-  "version": "2.3.4",
+  "version": "2.3.5-alpha.0",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "esnext": "lib/esnext/index.js",
@@ -34,7 +34,7 @@
     "babel-jest": "^27.5.1",
     "babel-loader": "^9.1.0",
     "cpy-cli": "^3.1.1",
-    "demodata": "^2.3.4",
+    "demodata": "^2.3.5-alpha.0",
     "jest": "^29.2.2",
     "jest-dom": "^4.0.0",
     "jest-environment-jsdom": "^29.2.2",
