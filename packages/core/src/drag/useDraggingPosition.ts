@@ -143,7 +143,7 @@ export const useDraggingPosition = () => {
   );
 
   const initiateDraggingPosition = useStableHandler(
-    (items: TreeItem[], treeId: string) => {
+    (treeId: string, items: TreeItem[]) => {
       setDraggingItems(items);
       dragCode.current = 'initial';
       itemHeight.current = computeItemHeight(treeId);
