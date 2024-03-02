@@ -1,4 +1,3 @@
-import { DraggingPositionEvaluator } from './DraggingPositionEvaluator';
 import {
   DraggingPosition,
   HoveringPosition,
@@ -6,11 +5,14 @@ import {
   TreeEnvironmentContextProps,
   TreeItem,
 } from '../types';
+import { useGetGetParentOfLinearItem } from '../controlledEnvironment/useGetParentOfLinearItem';
 
 export class DraggingPositionEvaluation {
-  private readonly evaluator: DraggingPositionEvaluator;
-
   private readonly env: TreeEnvironmentContextProps;
+
+  public readonly getParentOfLinearItem: ReturnType<
+    typeof useGetGetParentOfLinearItem
+  >;
 
   private readonly e: DragEvent;
 
@@ -24,14 +26,16 @@ export class DraggingPositionEvaluation {
 
   private targetItem: LinearItem;
 
+  private draggingItems: TreeItem[] | undefined;
+
   constructor(
-    evaluator: DraggingPositionEvaluator,
     env: TreeEnvironmentContextProps,
     e: DragEvent,
     treeId: string,
-    hoveringPosition: HoveringPosition
+    hoveringPosition: HoveringPosition,
+    draggingItems: TreeItem[] | undefined,
+    getParentOfLinearItem: ReturnType<typeof useGetGetParentOfLinearItem>
   ) {
-    this.evaluator = evaluator;
     this.env = env;
     this.e = e;
     this.treeId = treeId;
@@ -39,6 +43,8 @@ export class DraggingPositionEvaluation {
     this.offset = hoveringPosition.offset;
     this.indentation = hoveringPosition.indentation;
     this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
+    this.getParentOfLinearItem = getParentOfLinearItem;
+    this.draggingItems = draggingItems;
   }
 
   private getEmptyTreeDragPosition(): DraggingPosition {
@@ -62,8 +68,10 @@ export class DraggingPositionEvaluation {
       !this.env.items[this.targetItem.item].isFolder;
 
     if (redirectTargetToParent) {
-      const { parentLinearIndex, parent } =
-        this.evaluator.getParentOfLinearItem(this.linearIndex, this.treeId);
+      const { parentLinearIndex, parent } = this.getParentOfLinearItem(
+        this.linearIndex,
+        this.treeId
+      );
       this.targetItem = parent;
       this.linearIndex = parentLinearIndex;
     }
@@ -102,7 +110,7 @@ export class DraggingPositionEvaluation {
 
     for (let i = deepestDepth; i >= droppingIndent; i -= 1) {
       insertionItemAbove = newParent;
-      newParent = this.evaluator.getParentOfLinearItem(
+      newParent = this.getParentOfLinearItem(
         newParent.parentLinearIndex,
         this.treeId
       );
@@ -196,7 +204,7 @@ export class DraggingPositionEvaluation {
     }
 
     if (
-      this.evaluator.draggingItems?.some(
+      this.draggingItems?.some(
         draggingItem => draggingItem.index === this.targetItem.item
       )
     ) {
@@ -212,7 +220,7 @@ export class DraggingPositionEvaluation {
     }
 
     if (
-      !this.evaluator.draggingItems ||
+      !this.draggingItems ||
       this.linearIndex < 0 ||
       this.linearIndex >= this.env.linearItems[this.treeId].length
     ) {
@@ -233,7 +241,7 @@ export class DraggingPositionEvaluation {
     this.maybeRedirectInsideOpenFolder();
 
     // Must run before maybeMapToBottomOffset
-    const { parent } = this.evaluator.getParentOfLinearItem(
+    const { parent } = this.getParentOfLinearItem(
       this.linearIndex,
       this.treeId
     );
@@ -275,7 +283,7 @@ export class DraggingPositionEvaluation {
     itemLinearIndex: number,
     potentialParents: TreeItem[]
   ) {
-    const { parentLinearIndex, parent } = this.evaluator.getParentOfLinearItem(
+    const { parentLinearIndex, parent } = this.getParentOfLinearItem(
       itemLinearIndex,
       treeId
     );
@@ -293,12 +301,8 @@ export class DraggingPositionEvaluation {
 
   private areDraggingItemsDescendantOfTarget() {
     return (
-      this.evaluator.draggingItems &&
-      this.isDescendant(
-        this.treeId,
-        this.linearIndex,
-        this.evaluator.draggingItems
-      )
+      this.draggingItems &&
+      this.isDescendant(this.treeId, this.linearIndex, this.draggingItems)
     );
   }
 }
