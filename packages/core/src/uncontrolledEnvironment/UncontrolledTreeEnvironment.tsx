@@ -90,11 +90,6 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
           expandedItems: [...(old.expandedItems ?? []), item.index],
         }));
         props.onExpandItem?.(item, treeId);
-        // const itemsToLoad = item.children?.filter(itemId => currentItems[itemId] === undefined) ?? [];
-        // dataProvider.getTreeItems(itemsToLoad).then(items => {
-        //  writeItems(items.map(item => ({ [item.index]: item })).reduce((a, b) => ({...a, ...b}), {}));
-        //  setViewState(viewState => ({ ...viewState, expandedItems: [...viewState.expandedItems ?? [], item.index] }));
-        // });
       }}
       onCollapseItem={(item, treeId) => {
         amendViewState(treeId, old => ({
@@ -233,9 +228,6 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         missingItemIds.current.push(...itemIds);
         props.onMissingItems?.(itemIds);
       }}
-      // onRegisterTree={tree => {
-      //   dataProvider.getTreeItem(tree.rootItem).then(item => writeItems({ [item.index]: item }));
-      // }}
     >
       {props.children}
     </ControlledTreeEnvironment>
