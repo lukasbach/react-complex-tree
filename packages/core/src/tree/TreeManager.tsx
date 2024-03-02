@@ -35,7 +35,7 @@ export const TreeManager = (): JSX.Element => {
   const treeChildren = (
     <>
       <MaybeLiveDescription />
-      <TreeItemChildren depth={0} parentId={treeId}>
+      <TreeItemChildren depth={0} parentId={rootItem}>
         {rootChildren ?? []}
       </TreeItemChildren>
       <DragBetweenLine treeId={treeId} />
