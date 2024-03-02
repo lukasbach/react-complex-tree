@@ -22,7 +22,7 @@ export class DraggingPositionEvaluation {
 
   private offset: 'bottom' | 'top' | undefined;
 
-  private indentation: number;
+  private indentation: number | undefined;
 
   private targetItem: LinearItem;
 
@@ -82,6 +82,10 @@ export class DraggingPositionEvaluation {
    * the x-coordinate of the mouse allows to reparent upwards.
    */
   private maybeReparentUpwards(): DraggingPosition | undefined {
+    if (this.indentation === undefined) {
+      return undefined;
+    }
+
     const treeLinearItems = this.env.linearItems[this.treeId];
     const deepestDepth = treeLinearItems[this.linearIndex].depth;
 
