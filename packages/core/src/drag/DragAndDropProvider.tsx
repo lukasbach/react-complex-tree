@@ -190,7 +190,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
   });
 
   const onStartDraggingItems = useCallback(
-    (items, treeId) => {
+    (items: TreeItem[], treeId: string) => {
       const treeViableDragPositions = buildMapForTrees(
         environment.treeIds,
         treeId => getViableDragPositions(treeId, items)
