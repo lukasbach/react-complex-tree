@@ -1,5 +1,8 @@
 ### Features
 
+- Make drop target depth in last-of-subtree locations dependent on x-coordinates of the mouse, allowing the user to
+  drop in higher depths than the currently hovering item. This behavior is automatically used if `renderDepthOffset`
+  on the renderers is set to a non-zero value. (#148)
 - Add `setDomFocus` argument to focus-item methods to provide an escape hatch to set the focus state of an item in RCT
   without updating the DOM focus. This defaults to true in all existing methods to maintain the current behavior if
   it is absent. (#336)
