@@ -80,13 +80,15 @@ export const useDraggingPosition = () => {
       const targetLinearItem = treeLinearItems[linearIndex];
       const targetItem = env.items[targetLinearItem.item];
 
-      const indentation = Math.min(
-        Math.max(
-          Math.floor((e.clientX - treeBb.left) / env.renderDepthOffset),
-          0
-        ),
-        targetLinearItem.depth
-      );
+      const indentation = !env.renderDepthOffset
+        ? undefined
+        : Math.min(
+            Math.max(
+              Math.floor((e.clientX - treeBb.left) / env.renderDepthOffset),
+              0
+            ),
+            targetLinearItem.depth
+          );
 
       let offset: 'top' | 'bottom' | undefined;
 

@@ -523,5 +523,7 @@ export interface LiveDescriptors {
 export type HoveringPosition = {
   linearIndex: number;
   offset: 'bottom' | 'top' | undefined;
-  indentation: number;
+
+  // is undefined if tree renderDepthOffset is not set or zero
+  indentation: number | undefined;
 };
