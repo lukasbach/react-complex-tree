@@ -1,19 +1,13 @@
 import * as React from 'react';
 import {
   DraggingPosition,
+  HoveringPosition,
   TreeEnvironmentContextProps,
   TreeItem,
 } from '../types';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
 import { isOutsideOfContainer } from './layoutUtils';
 import { DraggingPositionEvaluation } from './DraggingPositionEvaluation';
-
-// TODO move out
-export type HoveringPosition = {
-  linearIndex: number;
-  offset: 'bottom' | 'top' | undefined;
-  indentation: number;
-};
 
 // TODO move back into hook?
 export class DraggingPositionEvaluator {

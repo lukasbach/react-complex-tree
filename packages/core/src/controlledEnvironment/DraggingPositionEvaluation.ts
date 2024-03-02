@@ -1,9 +1,7 @@
-import {
-  DraggingPositionEvaluator,
-  HoveringPosition,
-} from './DraggingPositionEvaluator';
+import { DraggingPositionEvaluator } from './DraggingPositionEvaluator';
 import {
   DraggingPosition,
+  HoveringPosition,
   LinearItem,
   TreeEnvironmentContextProps,
   TreeItem,
