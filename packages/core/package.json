@@ -7,6 +7,7 @@
   "typings": "lib/esm/index.d.ts",
   "style": "lib/style-modern.css",
   "unpkg": "lib/bundle.js",
+  "funding": "https://github.com/sponsors/lukasbach",
   "sideEffects": [
     "**/*.css"
   ],

@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
-### Bug Fixes and Improvements
-
 ### Other Changes
--->
+- Add funding link to package.json
