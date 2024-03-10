@@ -96,7 +96,10 @@ export const useDraggingPosition = () => {
         ? 0.2
         : 0.5;
 
-      if (hoveringPosition % 1 < lineThreshold) {
+      if (hoveringPosition - 0.5 >= treeLinearItems.length - 1) {
+        // very bottom, always use offset "bottom"
+        offset = 'bottom';
+      } else if (hoveringPosition % 1 < lineThreshold) {
         offset = 'top';
       } else if (hoveringPosition % 1 > 1 - lineThreshold) {
         offset = 'bottom';

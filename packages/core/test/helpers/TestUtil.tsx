@@ -149,7 +149,8 @@ export class TestUtil {
   public async dragOver(
     title: string,
     position?: 'top' | 'bottom',
-    indent?: number
+    indent?: number,
+    additionalYCoord = 0
   ) {
     await act(async () => {
       const items = await this.renderProps!.findAllByTestId('title');
@@ -161,7 +162,8 @@ export class TestUtil {
           clientX: indent !== undefined ? indent * 10 : 9999,
           clientY:
             itemIndex * 10 +
-            (position === 'top' ? 1 : position === 'bottom' ? 9 : 5),
+            (position === 'top' ? 1 : position === 'bottom' ? 9 : 5) +
+            additionalYCoord,
         } as any,
         'tree-1',
         { current: this.containerRef ?? undefined }

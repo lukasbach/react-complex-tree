@@ -373,6 +373,21 @@ describe('dnd basics', () => {
   });
 
   describe('special drop positions', () => {
+    it.each([0, 5, 10, 15, 20, 30, 40])(
+      'drops at very bottom +%ipx',
+      async offset => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('target');
+        await test.dragOver('cannot-rename', 'bottom', 20, offset);
+        await test.drop();
+        await test.expectVisibleItemContents('special', [
+          'cannot-move',
+          'cannot-rename',
+          'target',
+        ]);
+      }
+    );
+
     it('doesnt allow dropping into itself', async () => {
       const test = await new TestUtil().renderOpenTree();
       await test.startDrag('a');
