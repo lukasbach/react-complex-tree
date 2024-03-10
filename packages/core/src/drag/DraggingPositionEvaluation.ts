@@ -175,20 +175,12 @@ export class DraggingPositionEvaluation {
     if (!priorItem || priorItem?.depth === undefined) return;
 
     const depthDistanceToPrior = priorItem.depth - this.targetItem.depth;
+
     if (
       this.offset === 'top' &&
-      this.targetItem.depth === (priorItem?.depth ?? -1)
+      (depthDistanceToPrior === 0 ||
+        (depthDistanceToPrior > 0 && this.indentation !== undefined))
     ) {
-      // map inside folder
-      this.offset = 'bottom';
-      this.linearIndex -= 1;
-      this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
-    } else if (
-      this.offset === 'top' &&
-      depthDistanceToPrior > 0 &&
-      this.indentation !== undefined
-    ) {
-      // map at bottom of folder, up inside folder contents
       this.offset = 'bottom';
       this.linearIndex -= 1;
       this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
