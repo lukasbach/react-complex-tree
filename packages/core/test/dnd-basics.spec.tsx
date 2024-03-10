@@ -434,10 +434,16 @@ describe('dnd basics', () => {
       it('reparents inner level', async () => {
         const test = await new TestUtil().renderOpenTree();
         await test.startDrag('bbb');
-        await test.dragOver('add', 'bottom', 1);
+        await test.dragOver('add', 'bottom', 2);
         await test.drop();
-        await test.expectItemContentsUnchanged('ad', 'b');
-        await test.expectItemContents('a', ['aa', 'ab', 'ac', 'ad', 'bbb']);
+        await test.expectItemContentsUnchanged('a', 'b', 'root');
+        await test.expectItemContents('ad', [
+          'ada',
+          'adb',
+          'adc',
+          'add',
+          'bbb',
+        ]);
       });
 
       it('reparents mid level', async () => {
@@ -464,6 +470,49 @@ describe('dnd basics', () => {
           'deep1',
           'special',
         ]);
+      });
+
+      describe('reparent upwards when dragging at top of item below subtree', () => {
+        it('reparents inner level', async () => {
+          const test = await new TestUtil().renderOpenTree();
+          await test.startDrag('bbb');
+          await test.dragOver('b', 'top', 2);
+          await test.drop();
+          await test.expectItemContentsUnchanged('a', 'b', 'root');
+          await test.expectItemContents('ad', [
+            'ada',
+            'adb',
+            'adc',
+            'add',
+            'bbb',
+          ]);
+        });
+
+        it('reparents mid level', async () => {
+          const test = await new TestUtil().renderOpenTree();
+          await test.startDrag('bbb');
+          await test.dragOver('b', 'top', 1);
+          await test.drop();
+          await test.expectItemContentsUnchanged('ad', 'b', 'root');
+          await test.expectItemContents('a', ['aa', 'ab', 'ac', 'ad', 'bbb']);
+        });
+
+        it('reparents outer level', async () => {
+          const test = await new TestUtil().renderOpenTree();
+          await test.startDrag('bbb');
+          await test.dragOver('b', 'top', 0);
+          await test.drop();
+          await test.expectItemContentsUnchanged('ad', 'a', 'b');
+          await test.expectItemContents('root', [
+            'target-parent',
+            'a',
+            'bbb',
+            'b',
+            'c',
+            'deep1',
+            'special',
+          ]);
+        });
       });
     });
 

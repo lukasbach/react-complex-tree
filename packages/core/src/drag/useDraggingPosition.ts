@@ -82,12 +82,9 @@ export const useDraggingPosition = () => {
 
       const indentation = !env.renderDepthOffset
         ? undefined
-        : Math.min(
-            Math.max(
-              Math.floor((e.clientX - treeBb.left) / env.renderDepthOffset),
-              0
-            ),
-            targetLinearItem.depth
+        : Math.max(
+            Math.floor((e.clientX - treeBb.left) / env.renderDepthOffset),
+            0
           );
 
       let offset: 'top' | 'bottom' | undefined;

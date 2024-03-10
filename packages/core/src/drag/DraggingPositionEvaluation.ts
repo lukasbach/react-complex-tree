@@ -165,16 +165,33 @@ export class DraggingPositionEvaluation {
 
   /**
    * Inside a folder, only drop at bottom offset to make it visually
-   * consistent.
+   * consistent. This also maps to bottom offset for items below open
+   * subtrees, to keep the x-coordinate based dropping consistent (only
+   * if indentation is defined).
    */
   private maybeMapToBottomOffset() {
     const priorItem = this.env.linearItems[this.treeId][this.linearIndex - 1];
+
+    if (!priorItem || priorItem?.depth === undefined) return;
+
+    const depthDistanceToPrior = priorItem.depth - this.targetItem.depth;
     if (
       this.offset === 'top' &&
       this.targetItem.depth === (priorItem?.depth ?? -1)
     ) {
+      // map inside folder
       this.offset = 'bottom';
       this.linearIndex -= 1;
+      this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
+    } else if (
+      this.offset === 'top' &&
+      depthDistanceToPrior > 0 &&
+      this.indentation !== undefined
+    ) {
+      // map at bottom of folder, up inside folder contents
+      this.offset = 'bottom';
+      this.linearIndex -= 1;
+      this.targetItem = this.env.linearItems[this.treeId][this.linearIndex];
     }
   }
 
@@ -227,14 +244,18 @@ export class DraggingPositionEvaluation {
       return undefined;
     }
 
+    this.maybeRedirectInsideOpenFolder();
+    this.maybeMapToBottomOffset();
+
     const reparented = this.maybeReparentUpwards();
     if (reparented) {
       return reparented;
     }
 
-    this.maybeRedirectInsideOpenFolder();
+    if (!this.canDropAtCurrentTarget()) {
+      return undefined;
+    }
 
-    // Must run before maybeMapToBottomOffset
     const { parent } = this.getParentOfLinearItem(
       this.linearIndex,
       this.treeId
@@ -242,14 +263,6 @@ export class DraggingPositionEvaluation {
     const newChildIndex =
       this.env.items[parent.item].children!.indexOf(this.targetItem.item) +
       (this.offset === 'top' ? 0 : 1);
-
-    this.maybeMapToBottomOffset();
-
-    if (!this.canDropAtCurrentTarget()) {
-      return undefined;
-    }
-
-    // used to be here: this.maybeMapToBottomOffset();.. moved up for better readability
 
     if (this.offset) {
       return {
