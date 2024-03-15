@@ -22,7 +22,7 @@ Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---120
 
 The development of react-complex-tree is supported by the community. Special thanks to:
 
-<br>
+<br />
 <div align="center">
   <a href="https://modyfi.com#gh-light-mode-only">
     <div>
@@ -35,7 +35,7 @@ The development of react-complex-tree is supported by the community. Special tha
     </div>
   </a>
 </div>
-<br>
+<br />
 
 Find out [how to support the development of react-complex-tree](https://github.com/sponsors/lukasbach).
 
