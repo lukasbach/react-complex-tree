@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: volta-cli/action@v4
+      - name: Dependencies
+        run: yarn
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
+      - name: Test
+        run: yarn test
+      - name: Do Release
+        run: |
+          git config --global user.email "bot@noreply.lukasbach.com"
+          git config --global user.name "lukasbachbot"
+          npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+          yarn lerna publish prerelease --yes --no-verify-access --summary-file --loglevel silly --dist-tag prerelease
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Release info
+        run: cat ./lerna-publish-summary.json
