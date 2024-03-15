@@ -127,11 +127,21 @@ export class DraggingPositionEvaluation {
       return undefined;
     }
 
-    // this.targetItem = newParent.parent;
     const reparentedChildIndex =
       this.env.items[newParent.parent.item].children!.indexOf(
         insertionItemAbove.parent.item
       ) + 1;
+
+    if (
+      this.draggingItems &&
+      this.isDescendant(
+        this.treeId,
+        newParent.parentLinearIndex + 1,
+        this.draggingItems
+      )
+    ) {
+      return undefined;
+    }
 
     return {
       targetType: 'between-items',
@@ -232,16 +242,16 @@ export class DraggingPositionEvaluation {
 
     this.maybeRedirectToParent();
 
-    if (this.areDraggingItemsDescendantOfTarget()) {
-      return undefined;
-    }
-
     this.maybeRedirectInsideOpenFolder();
     this.maybeMapToBottomOffset();
 
     const reparented = this.maybeReparentUpwards();
     if (reparented) {
       return reparented;
+    }
+
+    if (this.areDraggingItemsDescendantOfTarget()) {
+      return undefined;
     }
 
     if (!this.canDropAtCurrentTarget()) {
@@ -282,6 +292,7 @@ export class DraggingPositionEvaluation {
     itemLinearIndex: number,
     potentialParents: TreeItem[]
   ) {
+    // console.log('descendant check', itemLinearIndex, potentialParents);
     const { parentLinearIndex, parent } = this.getParentOfLinearItem(
       itemLinearIndex,
       treeId

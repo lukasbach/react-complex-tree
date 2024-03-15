@@ -446,6 +446,14 @@ describe('dnd basics', () => {
         ]);
       });
 
+      it('doesnt reparent into itself', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('a');
+        await test.dragOver('aad', 'bottom', 3);
+        await test.drop();
+        await test.expectTreeUnchanged();
+      });
+
       it('reparents inner level', async () => {
         const test = await new TestUtil().renderOpenTree();
         await test.startDrag('bbb');
@@ -480,6 +488,41 @@ describe('dnd basics', () => {
           'target-parent',
           'a',
           'bbb',
+          'b',
+          'c',
+          'deep1',
+          'special',
+        ]);
+      });
+
+      it('reparents bottom-most nested item', async () => {
+        const test = await new TestUtil().renderOpenTree();
+        await test.startDrag('special');
+        await test.dragOver('deep5', 'bottom', 10);
+        await test.drop();
+        await test.expectVisibleItemContents('deep4', ['deep5', 'special']);
+
+        await new Promise(r => {
+          setTimeout(r);
+        });
+
+        await test.startDrag('special');
+        await test.dragOver('cannot-rename', 'bottom', 3);
+        await test.drop();
+        await test.expectVisibleItemContents('deep4', ['deep5']);
+        await test.expectVisibleItemContents('deep3', ['deep4', 'special']);
+
+        await new Promise(r => {
+          setTimeout(r);
+        });
+
+        await test.startDrag('special');
+        await test.dragOver('cannot-rename', 'bottom', 0);
+        await test.drop();
+        await test.expectVisibleItemContents('deep3', ['deep4']);
+        await test.expectItemContents('root', [
+          'target-parent',
+          'a',
           'b',
           'c',
           'deep1',
