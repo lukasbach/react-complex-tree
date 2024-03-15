@@ -18,6 +18,27 @@ and a more comprehensive documentation. Many common issues or questions are cove
 The Changelog is available at [https://rct.lukasbach.com/docs/changelog](https://rct.lukasbach.com/docs/changelog).
 Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---12052022) when migrating from v1.x to v2.x.
 
+## Sponsors
+
+The development of react-complex-tree is supported by the community. Special thanks to:
+
+<br>
+<div align="center">
+  <a href="https://modyfi.com#gh-light-mode-only">
+    <div>
+      <img src="https://lukasbach.com/thanks/modyfi-brand-logo-black.svg#gh-light-mode-only" width="250" alt="Modyfi" />
+    </div>
+  </a>
+  <a href="https://modyfi.com#gh-dark-mode-only">
+    <div>
+      <img src="https://lukasbach.com/thanks/modyfi-brand-logo.svg#gh-dark-mode-only" width="250" alt="Modyfi" />
+    </div>
+  </a>
+</div>
+<br>
+
+Find out [how to support the development of react-complex-tree](https://github.com/sponsors/lukasbach).
+
 ## Installation
 
 To start using React Complex Tree, install it to your project as a dependency via
