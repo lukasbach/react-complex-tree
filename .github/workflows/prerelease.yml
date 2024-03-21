@@ -27,3 +27,16 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release info
         run: cat ./lerna-publish-summary.json
+      - name: Update lockfile
+        run: |
+          echo "enableImmutableInstalls: false" > ./.yarnrc.yml
+          yarn
+          git checkout HEAD -- ./.yarnrc.yml
+        env:
+          CI: false
+      - name: Push remaining changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: lukasbachbot
+          author_email: bot@noreply.lukasbach.com
+          message: 'chore: tidy up after prerelease'
