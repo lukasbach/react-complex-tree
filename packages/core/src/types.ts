@@ -519,3 +519,11 @@ export interface LiveDescriptors {
    */
   programmaticallyDraggingTarget: string;
 }
+
+export type HoveringPosition = {
+  linearIndex: number;
+  offset: 'bottom' | 'top' | undefined;
+
+  // is undefined if tree renderDepthOffset is not set or zero
+  indentation: number | undefined;
+};

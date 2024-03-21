@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { TreeInformation, TreeItemIndex, TreeProps } from '../types';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 
 export const useCreatedTreeInformation = (
   tree: TreeProps,

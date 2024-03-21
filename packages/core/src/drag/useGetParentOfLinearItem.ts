@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 
 export const useGetGetParentOfLinearItem = () => {
   const environment = useTreeEnvironment();

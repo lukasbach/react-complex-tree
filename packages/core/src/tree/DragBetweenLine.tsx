@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { HTMLProps } from 'react';
 import { useTree } from './Tree';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 
 export const DragBetweenLine: React.FC<{
   treeId: string;

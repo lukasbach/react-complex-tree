@@ -6,7 +6,7 @@ import {
   TreeEnvironmentRef,
 } from '../types';
 import { InteractionManagerProvider } from './InteractionManagerProvider';
-import { DragAndDropProvider } from './DragAndDropProvider';
+import { DragAndDropProvider } from '../drag/DragAndDropProvider';
 import { EnvironmentActionsProvider } from '../environmentActions/EnvironmentActionsProvider';
 import { useControlledTreeEnvironmentProps } from './useControlledTreeEnvironmentProps';
 

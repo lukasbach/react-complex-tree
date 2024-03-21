@@ -6,7 +6,7 @@ import {
   TreeItem,
   TreeItemIndex,
 } from '../types';
-import { useDragAndDrop } from '../controlledEnvironment/DragAndDropProvider';
+import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useCreatedEnvironmentRef } from './useCreatedEnvironmentRef';
 import { useRefCopy } from '../useRefCopy';

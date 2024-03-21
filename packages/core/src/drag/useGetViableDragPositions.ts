@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { DraggingPosition, TreeItem } from '../types';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
-import { useTreeEnvironment } from './ControlledTreeEnvironment';
+import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useCanDropAt } from './useCanDropAt';
 
 export const useGetViableDragPositions = () => {
