@@ -1,3 +1,9 @@
+<!--
+### Breaking Changes
+
+### Features
+
 ### Bug Fixes and Improvements
-- Fixed a bug where items where sometimes inserted with inverted order. (#353)
-  - The `onDrop` should be a bit faster in general, since some redundant calls to `dataProvider.onChangeItemChildren` have been removed. In the past, this was called twice per item, once for moving the item out of its old folder, and once for moving it into the target folder. Now, all insertion calls into the target folder are batched into one `dataProvider.onChangeItemChildren` call for all dragged items.
+
+### Other Changes
+-->
