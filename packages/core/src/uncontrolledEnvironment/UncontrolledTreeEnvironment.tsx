@@ -126,12 +126,11 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
       }}
       onDrop={async (items, target) => {
         const promises: Promise<void>[] = [];
+        const itemsIndices = items.map(i => i.index);
+        let itemsPriorToInsertion = 0;
 
-        // when dropped between items, items are injected at top of insertion point each
-        const orderedItems =
-          target.targetType === 'between-items' ? [...items].reverse() : items;
-
-        for (const item of orderedItems) {
+        // move old items out
+        for (const item of items) {
           const parent = Object.values(currentItems).find(potentialParent =>
             potentialParent.children?.includes(item.index)
           );
@@ -146,67 +145,73 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
             );
           }
 
-          if (target.targetType === 'item' || target.targetType === 'root') {
-            if (target.targetItem === parent.index) {
-              // NOOP
-            } else {
-              promises.push(
-                dataProvider.onChangeItemChildren(
-                  parent.index,
-                  parent.children.filter(child => child !== item.index)
-                )
-              );
-              promises.push(
-                dataProvider.onChangeItemChildren(target.targetItem, [
-                  ...(currentItems[target.targetItem].children ?? []),
-                  item.index,
-                ])
-              );
-            }
-          } else {
-            const newParent = currentItems[target.parentItem];
-            const newParentChildren = [...(newParent.children ?? [])].filter(
-              child => child !== item.index
+          if (
+            target.targetType === 'between-items' &&
+            target.parentItem === item.index
+          ) {
+            // Trying to drop inside itself
+            return;
+          }
+
+          if (
+            (target.targetType === 'item' || target.targetType === 'root') &&
+            target.targetItem !== parent.index
+          ) {
+            promises.push(
+              dataProvider.onChangeItemChildren(
+                parent.index,
+                parent.children.filter(child => child !== item.index)
+              )
             );
+          }
 
-            if (target.parentItem === item.index) {
-              // Trying to drop inside itself
-              return;
-            }
-
+          if (target.targetType === 'between-items') {
             if (target.parentItem === parent.index) {
+              const newParent = currentItems[target.parentItem];
               const isOldItemPriorToNewItem =
                 ((newParent.children ?? []).findIndex(
                   child => child === item.index
                 ) ?? Infinity) < target.childIndex;
-              newParentChildren.splice(
-                target.childIndex - (isOldItemPriorToNewItem ? 1 : 0),
-                0,
-                item.index
-              );
-              promises.push(
-                dataProvider.onChangeItemChildren(
-                  target.parentItem,
-                  newParentChildren
-                )
-              );
+              itemsPriorToInsertion += isOldItemPriorToNewItem ? 1 : 0;
             } else {
-              newParentChildren.splice(target.childIndex, 0, item.index);
               promises.push(
                 dataProvider.onChangeItemChildren(
                   parent.index,
                   parent.children.filter(child => child !== item.index)
-                )
-              );
-              promises.push(
-                dataProvider.onChangeItemChildren(
-                  target.parentItem,
-                  newParentChildren
                 )
               );
             }
           }
         }
+
+        // insert new items
+        if (target.targetType === 'item' || target.targetType === 'root') {
+          promises.push(
+            dataProvider.onChangeItemChildren(target.targetItem, [
+              ...(currentItems[target.targetItem].children ?? []).filter(
+                i => !itemsIndices.includes(i)
+              ),
+              ...itemsIndices,
+            ])
+          );
+        } else {
+          const newParent = currentItems[target.parentItem];
+          const newParentChildren = [...(newParent.children ?? [])].filter(
+            c => !itemsIndices.includes(c)
+          );
+          newParentChildren.splice(
+            target.childIndex - itemsPriorToInsertion,
+            0,
+            ...itemsIndices
+          );
+          promises.push(
+            dataProvider.onChangeItemChildren(
+              target.parentItem,
+              newParentChildren
+            )
+          );
+        }
+
         await Promise.all(promises);
         props.onDrop?.(items, target);
       }}

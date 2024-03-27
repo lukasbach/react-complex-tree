@@ -219,6 +219,24 @@ describe('dnd basics', () => {
       ]);
     });
 
+    it('drag items with scrambled order below in same folder', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.selectItems('aac', 'aaa', 'aab');
+      await test.startDrag('aab');
+      await test.dragOver('aad', 'bottom');
+      await test.drop();
+      await test.expectVisibleItemContents('aa', ['aad', 'aaa', 'aab', 'aac']);
+    });
+
+    it('drag items with scrambled order above in same folder', async () => {
+      const test = await new TestUtil().renderOpenTree();
+      await test.selectItems('aac', 'aad', 'aab');
+      await test.startDrag('aab');
+      await test.dragOver('aaa', 'top');
+      await test.drop();
+      await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad', 'aaa']);
+    });
+
     it('drag folders into another opened folder', async () => {
       const test = await new TestUtil().renderOpenTree();
       await test.selectItems('ab', 'ac', 'ad');
