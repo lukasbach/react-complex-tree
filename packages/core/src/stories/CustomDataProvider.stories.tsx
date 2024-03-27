@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import * as React from 'react';
 import { shortTree } from 'demodata';
 import { Tree } from '../tree/Tree';
@@ -8,6 +8,7 @@ import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/Uncontro
 import {
   Disposable,
   TreeDataProvider,
+  TreeEnvironmentRef,
   TreeItem,
   TreeItemIndex,
 } from '../types';
@@ -17,6 +18,7 @@ export default {
 } as Meta;
 
 export const InjectingDataFromOutside = () => {
+  const treeEnv = useRef<TreeEnvironmentRef>(null);
   const items = useMemo(() => ({ ...shortTree.items }), []);
   const dataProvider = useMemo(
     () =>
@@ -36,15 +38,24 @@ export const InjectingDataFromOutside = () => {
 
   const removeItem = () => {
     if (items.root.children.length === 0) return;
-    items.root.children.pop();
+    const item = items.root.children.pop();
+    delete items[item];
     dataProvider.onDidChangeTreeDataEmitter.emit(['root']);
   };
 
-  useEffect(() => {
-    dataProvider.onDidChangeTreeData(changedItemIds => {
-      console.log(changedItemIds);
-    });
-  }, [dataProvider]);
+  useEffect(
+    () =>
+      dataProvider.onDidChangeTreeData(changedItemIds => {
+        console.log('Changed Item IDs:', changedItemIds);
+
+        const focusedItem = treeEnv.current?.viewState['tree-1']?.focusedItem;
+        if (focusedItem && !items[focusedItem]) {
+          console.log('Focused item was deleted, refocusing new item...');
+          treeEnv.current.focusItem(items.root.children[0], 'tree-1');
+        }
+      }).dispose,
+    [dataProvider, items]
+  );
 
   return (
     <UncontrolledTreeEnvironment<string>
@@ -58,6 +69,7 @@ export const InjectingDataFromOutside = () => {
           expandedItems: [],
         },
       }}
+      ref={treeEnv}
     >
       <button type="button" onClick={injectItem}>
         Inject item
