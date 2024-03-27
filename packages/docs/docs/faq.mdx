@@ -18,10 +18,14 @@ Feel free to contribute additional questions and answers if you think they are r
     updating items?</summary>
 <div>
 
-If you want to react to tree state changes, I suggest you implement a custom
-[TreeDataProvider](https://rct.lukasbach.com/docs/api/interfaces/TreeDataProvider)
-rather than using
-StaticTreeDataProvider. There you can implement logic that reacts to change events. If you need more
+If you want to react to tree state changes, the easiest way to go forward is implementing a custom
+[TreeDataProvider](https://rct.lukasbach.com/docs/api/interfaces/TreeDataProvider),
+though it is also possible with static tree data providers.
+
+[Here is some documentation on how to achieve this with static tree data providers](https://rct.lukasbach.com/docs/guides/static-data-provider),
+and [here is some documentation on how to do it with custom tree data providers](https://rct.lukasbach.com/docs/guides/custom-data-provider).
+
+There you can implement logic that reacts to change events. If you need more
 control, you can also use a [controlled environment](https://rct.lukasbach.com/docs/guides/controlled-environment)
 rather than an uncontrolled environment, then you get complete control over your data.
 
@@ -225,6 +229,16 @@ Yes, the render method for items are retriggered on tree state changes, since ev
 You can memoize the item render methods directly with only those props that you use, this will ensure that items are not rerendered unless they need to be: https://codesandbox.io/s/react-complex-tree-playground-memo-demo-37mngx
 
 Reference: [#291](https://github.com/lukasbach/react-complex-tree/issues/291)
+
+</details>
+
+<details><summary>I want to animate expanding and collapsing subtrees</summary>
+
+The library doesn't provide that functionality out of the box, but you can implement it yourself with some custom
+logic. [Here is a sample implementation](https://github.com/lukasbach/react-complex-tree/blob/7e4e397d464755002d8d09aa106c678e6598a803/packages/core/src/stories/BasicExamples.stories.tsx#L579),
+and [this is the storybook where you can see how it looks like](https://rct.lukasbach.com/storybook/?path=/story/core-basic-examples--animated-expanding-and-collapsing).
+
+Reference: [#290](https://github.com/lukasbach/react-complex-tree/issues/290)
 
 </details>
 
