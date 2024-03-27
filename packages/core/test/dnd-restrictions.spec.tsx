@@ -154,9 +154,16 @@ describe('dnd restrictions', () => {
         canReorderItems: false,
       });
       await test.startDrag('aaa');
-      await test.dragOver('aac', 'bottom');
+      await test.dragOver('abb', 'bottom');
       await test.drop();
-      await test.expectTreeUnchanged();
+      await test.expectVisibleItemContents('ab', [
+        'aba',
+        'abb',
+        'abc',
+        'abd',
+        'aaa',
+      ]);
+      await test.expectVisibleItemContents('aa', ['aab', 'aac', 'aad']);
       await test.expectOpenViewState();
     });
 
