@@ -132,7 +132,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         // move old items out
         for (const item of items) {
           const parent = Object.values(currentItems).find(potentialParent =>
-            potentialParent.children?.includes(item.index)
+            potentialParent?.children?.includes?.(item.index)
           );
 
           if (!parent) {
