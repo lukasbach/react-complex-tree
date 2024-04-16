@@ -70,8 +70,6 @@ still show different contents.
   canDragAndDrop={true}
   canDropOnFolder={true}
   canReorderItems={true}
-  renderItemTitle={({ title }) => <div style={{wordBreak: 'break-all', display:'flex', whiteSpace: 'break-spaces !important', width: 50, height:'100% !important' }}>
-      {title} {title} {title} {title} </div>}
   dataProvider={new StaticTreeDataProvider(longTree.items, (item, data) => ({ ...item, data }))}
   getItemTitle={item => item.data}
   viewState={{}}
