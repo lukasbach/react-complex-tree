@@ -4,6 +4,7 @@ import { DraggingPosition, HoveringPosition, TreeItem } from '../types';
 import {
   computeItemHeight,
   isOutsideOfContainer,
+  computeItemHeightArray,
 } from '../controlledEnvironment/layoutUtils';
 import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvironment';
 import { useStableHandler } from '../useStableHandler';
@@ -16,6 +17,7 @@ export const useDraggingPosition = () => {
     undefined
   );
   const itemHeight = useRef(0);
+  const itemsHeightArray = useRef([0]);
   const env = useTreeEnvironment();
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
 
@@ -55,19 +57,35 @@ export const useDraggingPosition = () => {
         return undefined;
       }
 
+      itemsHeightArray.current = computeItemHeightArray(treeId);
+
       const treeBb = containerRef.current.getBoundingClientRect();
 
       if (isOutsideOfContainer(e, treeBb)) {
         return undefined;
       }
 
-      const hoveringPosition = (e.clientY - treeBb.top) / itemHeight.current;
+      const clientYRelativeToTreeTop = e.clientY - treeBb.top;
+      let cumulativeHeight = 0;
+      let linearIndex = 0;
+      let hoveringPosition = 0;
+
+      for (let i = 0; i < itemsHeightArray.current.length; i++) {
+        cumulativeHeight += itemsHeightArray.current[i];
+        if (clientYRelativeToTreeTop <= cumulativeHeight) {
+          linearIndex = i;
+          // Calculate hovering position as a fraction within the current item
+          const previousItemsHeight = cumulativeHeight - itemsHeightArray.current[i];
+          hoveringPosition = linearIndex + (clientYRelativeToTreeTop - previousItemsHeight) / itemsHeightArray.current[i];
+          break;
+        }
+      }
 
       const treeLinearItems = env.linearItems[treeId];
-      const linearIndex = Math.min(
-        Math.max(0, Math.floor(hoveringPosition)),
-        treeLinearItems.length - 1
-      );
+      // const linearIndexx = Math.min(
+      //   Math.max(0, Math.floor(hoveringPosition)),
+      //   treeLinearItems.length - 1
+      // );
 
       if (treeLinearItems.length === 0) {
         return {
@@ -149,6 +167,8 @@ export const useDraggingPosition = () => {
       setDraggingItems(items);
       dragCode.current = 'initial';
       itemHeight.current = computeItemHeight(treeId);
+      itemsHeightArray.current = computeItemHeightArray(treeId);
+
     }
   );
 
@@ -156,6 +176,8 @@ export const useDraggingPosition = () => {
     setDraggingItems(undefined);
     dragCode.current = 'initial';
     itemHeight.current = 0;
+    itemsHeightArray.current = [0];
+
   });
 
   return {
@@ -164,5 +186,6 @@ export const useDraggingPosition = () => {
     draggingItems,
     getDraggingPosition,
     itemHeight,
+    itemsHeightArray,
   };
 };
