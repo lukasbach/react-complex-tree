@@ -68,11 +68,11 @@ export const TreeItemRenamingInput: React.FC<{
       setTitle(e.target.value);
     },
     onBlur: e => {
-      if (e.relatedTarget !== submitButtonRef.current) {
+      if (!e.relatedTarget || e.relatedTarget !== submitButtonRef.current) {
         abort();
       }
     },
-    'aria-label': 'New item name', // TODO
+    'aria-label': 'New item name',
     tabIndex: 0,
   };
 

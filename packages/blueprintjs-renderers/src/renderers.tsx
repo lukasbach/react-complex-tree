@@ -156,6 +156,7 @@ export const renderers: TreeRenderProps = {
       <span className={Classes.TREE_NODE_SECONDARY_LABEL}>
         <Button
           icon="tick"
+          ref={props.submitButtonRef}
           {...(props.submitButtonProps as any)}
           type="submit"
           minimal

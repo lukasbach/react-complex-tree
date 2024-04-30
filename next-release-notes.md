@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Fixes an issue where not providing a submit button ref in a custom rename input renderer would prevent dismissing the input on blur (#368)
