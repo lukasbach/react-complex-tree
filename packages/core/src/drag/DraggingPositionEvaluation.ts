@@ -298,7 +298,7 @@ export class DraggingPositionEvaluation {
       treeId
     );
 
-    if (potentialParents.find(p => p.index === parent.item)) {
+    if (potentialParents.some(p => p.index === parent.item)) {
       return true;
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 import { useCallback } from 'react';
 import { DraggingPosition, TreeItem } from '../types';
 import { useGetGetParentOfLinearItem } from './useGetParentOfLinearItem';
@@ -9,54 +10,96 @@ export const useGetViableDragPositions = () => {
   const getParentOfLinearItem = useGetGetParentOfLinearItem();
   const canDropAt = useCanDropAt();
 
+  const isDescendant = useCallback(
+    (treeId: string, itemLinearIndex: number, potentialParents: TreeItem[]) => {
+      // based on DraggingPositionEvaluation.isDescendant()
+      const { parent, parentLinearIndex } = getParentOfLinearItem(
+        itemLinearIndex,
+        treeId
+      );
+      if (potentialParents.some(p => p.index === parent.item)) return true;
+      if (parent.depth === 0) return false;
+      return isDescendant(treeId, parentLinearIndex, potentialParents);
+    },
+    [getParentOfLinearItem]
+  );
+
   return useCallback(
     (treeId: string, draggingItems: TreeItem[]) => {
       const linearItems = environment.linearItems[treeId];
-      return linearItems
-        .map<DraggingPosition[]>(({ item, depth }, linearIndex) => {
-          const { parent } = getParentOfLinearItem(linearIndex, treeId);
-          const childIndex =
-            environment.items[parent.item].children!.indexOf(item);
+      const targets: DraggingPosition[] = [];
+      let skipUntilDepthIsLowerThan = -1;
 
-          const itemPosition: DraggingPosition = {
-            targetType: 'item',
-            parentItem: parent.item,
-            targetItem: item,
-            linearIndex,
-            depth,
-            treeId,
-          };
+      for (
+        let linearIndex = 0;
+        linearIndex < linearItems.length;
+        // eslint-disable-next-line no-plusplus
+        linearIndex++
+      ) {
+        const { item, depth } = linearItems[linearIndex];
 
-          const topPosition: DraggingPosition = {
-            targetType: 'between-items',
-            parentItem: parent.item,
-            linePosition: 'top',
-            childIndex,
-            depth,
-            treeId,
-            linearIndex,
-          };
+        if (
+          skipUntilDepthIsLowerThan !== -1 &&
+          depth > skipUntilDepthIsLowerThan
+        ) {
+          continue;
+        } else {
+          skipUntilDepthIsLowerThan = -1;
+        }
 
-          const bottomPosition: DraggingPosition = {
-            targetType: 'between-items',
-            parentItem: parent.item,
-            linePosition: 'bottom',
-            linearIndex: linearIndex + 1,
-            childIndex: childIndex + 1,
-            depth,
-            treeId,
-          };
+        const { parent } = getParentOfLinearItem(linearIndex, treeId);
+        const childIndex =
+          environment.items[parent.item].children!.indexOf(item);
 
-          const skipTopPosition =
-            depth === (linearItems[linearIndex - 1]?.depth ?? -1);
+        if (isDescendant(treeId, linearIndex, draggingItems)) {
+          skipUntilDepthIsLowerThan = depth + 1;
+          continue;
+        }
 
-          if (skipTopPosition) {
-            return [itemPosition, bottomPosition];
-          }
-          return [topPosition, itemPosition, bottomPosition];
-        })
-        .reduce((a, b) => [...a, ...b], [])
-        .filter(position => canDropAt(position, draggingItems));
+        const itemPosition: DraggingPosition = {
+          targetType: 'item',
+          parentItem: parent.item,
+          targetItem: item,
+          linearIndex,
+          depth,
+          treeId,
+        };
+
+        const topPosition: DraggingPosition = {
+          targetType: 'between-items',
+          parentItem: parent.item,
+          linePosition: 'top',
+          childIndex,
+          depth,
+          treeId,
+          linearIndex,
+        };
+
+        const bottomPosition: DraggingPosition = {
+          targetType: 'between-items',
+          parentItem: parent.item,
+          linePosition: 'bottom',
+          linearIndex: linearIndex + 1,
+          childIndex: childIndex + 1,
+          depth,
+          treeId,
+        };
+
+        const skipTopPosition =
+          depth === (linearItems[linearIndex - 1]?.depth ?? -1);
+
+        if (!skipTopPosition && canDropAt(topPosition, draggingItems)) {
+          targets.push(topPosition);
+        }
+        if (canDropAt(itemPosition, draggingItems)) {
+          targets.push(itemPosition);
+        }
+        if (canDropAt(bottomPosition, draggingItems)) {
+          targets.push(bottomPosition);
+        }
+      }
+
+      return targets;
     },
     [
       canDropAt,

@@ -20,7 +20,10 @@ export const useCanDropAt = () => {
         if (
           !resolvedItem ||
           (!environment.canDropOnFolder && resolvedItem.isFolder) ||
-          (!environment.canDropOnNonFolder && !resolvedItem.isFolder)
+          (!environment.canDropOnNonFolder && !resolvedItem.isFolder) ||
+          draggingItems.some(
+            draggingItem => draggingItem.index === draggingPosition.targetItem
+          )
         ) {
           return false;
         }
