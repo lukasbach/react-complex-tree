@@ -106,6 +106,7 @@ export const useGetViableDragPositions = () => {
       environment.items,
       environment.linearItems,
       getParentOfLinearItem,
+      isDescendant,
     ]
   );
 };
