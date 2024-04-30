@@ -23,7 +23,7 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^6.5.14",
     "@storybook/addon-actions": "^6.5.14",
-    "@storybook/addon-docs": "^6.5.14",
+    "@storybook/addon-docs": "^8.0.9",
     "@storybook/addon-essentials": "^6.5.14",
     "@storybook/addon-links": "^6.5.14",
     "@storybook/addons": "^6.5.14",
