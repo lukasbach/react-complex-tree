@@ -49,6 +49,7 @@
   align-items: center;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
+  padding-left: var(--depthOffset, 0px);
 }
 
 .rct-tree-child-list {

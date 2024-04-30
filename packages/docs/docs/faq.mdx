@@ -242,4 +242,18 @@ Reference: [#290](https://github.com/lukasbach/react-complex-tree/issues/290)
 
 </details>
 
+
+<details><summary>I want to enable RTL (right-to-left) mode for my tree</summary>
+
+  The library doesn't make any assumptions about how you render your tree, and you can fairly easily implement
+  RTL mode in custom renderers yourself. However, if you are using the built-in default renderers, you can also
+  enable RTL mode by providing the renderers with an `rtl` flag. Add `{...createDefaultRenderers(10, true)}`
+  to either the `Tree` or `TreeEnvironment` component to enable RTL mode.
+
+  See [here](/docs/guides/accessibility#right-to-left-mode-rtl) for more details.
+
+  Reference: [#369](https://github.com/lukasbach/react-complex-tree/issues/369)
+
+</details>
+
 <!-- stopped at #147, next is #140 -->

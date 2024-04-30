@@ -5,7 +5,8 @@ const cx = (...classNames: Array<string | undefined | false>) =>
   classNames.filter(cn => !!cn).join(' ');
 
 export const createDefaultRenderers = (
-  renderDepthOffset: number
+  renderDepthOffset: number,
+  rtl?: boolean
 ): AllTreeRenderProps => ({
   renderItemTitle: ({ title, context, info }) => {
     if (!info.isSearching || !context.isSearchMatching) {
@@ -31,6 +32,7 @@ export const createDefaultRenderers = (
     <div
       className={cx(
         item.isFolder && 'rct-tree-item-arrow-isFolder',
+        context.isExpanded && 'rct-tree-item-arrow-expanded',
         'rct-tree-item-arrow'
       )}
       {...context.arrowProps}
@@ -102,7 +104,7 @@ export const createDefaultRenderers = (
       >
         <div
           {...(context.itemContainerWithoutChildrenProps as any)}
-          style={{ paddingLeft: `${(depth + 1) * renderDepthOffset}px` }}
+          style={{ '--depthOffset': `${(depth + 1) * renderDepthOffset}px` }}
           className={cx(
             'rct-tree-item-title-container',
             item.isFolder && 'rct-tree-item-title-container-isFolder',
@@ -164,7 +166,8 @@ export const createDefaultRenderers = (
         'rct-tree-root',
         info.isFocused && 'rct-tree-root-focus',
         info.isRenaming && 'rct-tree-root-renaming',
-        info.areItemsSelected && 'rct-tree-root-itemsselected'
+        info.areItemsSelected && 'rct-tree-root-itemsselected',
+        rtl && 'rct-rtl'
       )}
     >
       <div

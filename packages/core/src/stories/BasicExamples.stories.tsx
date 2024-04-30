@@ -8,6 +8,7 @@ import { StaticTreeDataProvider } from '../uncontrolledEnvironment/StaticTreeDat
 import { UncontrolledTreeEnvironment } from '../uncontrolledEnvironment/UncontrolledTreeEnvironment';
 import { buildTestTree } from '../../test/helpers';
 import { TreeItemIndex } from '../types';
+import { createDefaultRenderers } from '../renderers';
 
 export default {
   title: 'Core/Basic Examples',
@@ -638,3 +639,33 @@ export const AnimatedExpandingAndCollapsing = () => {
     </UncontrolledTreeEnvironment>
   );
 };
+
+export const RightToLeftRenderers = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
+      },
+    }}
+    {...createDefaultRenderers(10, true)}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);

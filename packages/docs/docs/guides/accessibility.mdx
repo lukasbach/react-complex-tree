@@ -24,6 +24,25 @@ All features can be accessed via keybindings, including
 [drag and drop](/docs/guides/keyboard#keyboard-bound-drag-and-drop-sequences), searching and renaming.
 [Find out more in the documentation on keyboard bindings.](/docs/guides/keyboard)
 
+## Right-To-Left Mode (RTL)
+
+The library doesn't make any assumptions about how you render your tree, and you can fairly easily implement
+RTL mode in custom renderers yourself. However, if you are using the built-in default renderers, you can also
+enable RTL mode by providing the renderers with an `rtl` flag. Add `{...createDefaultRenderers(10, true)}`
+to either the `Tree` or `TreeEnvironment` component to enable RTL mode.
+
+```typescript jsx
+import { createDefaultRenderers } from 'react-complex-tree';
+
+<UncontrolledTreeEnvironment<string>
+  {...createDefaultRenderers(10, true)}
+>
+  <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+</UncontrolledTreeEnvironment>
+```
+
+<StoryEmbed storyName="core-basic-examples--right-to-left-renderers" iframeProps={{ width: 600 }} />
+
 ## Live descriptors
 
 A visually hidden live section is rendered at the top of the tree that explains the state of the tree
