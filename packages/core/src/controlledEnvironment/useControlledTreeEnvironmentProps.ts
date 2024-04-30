@@ -47,9 +47,13 @@ export const useControlledTreeEnvironmentProps = ({
   >(
     (item, treeId, setDomFocus = true) => {
       if ((autoFocus ?? true) && setDomFocus) {
-        const newItem = getDocument()?.querySelector(
-          `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
-        );
+        const newItem =
+          getDocument()?.querySelector(
+            `[data-rct-tree="${treeId}"] [data-rct-item-id="${item.index}"]`
+          ) ??
+          getDocument()?.querySelector(
+            `[data-rct-tree="${treeId}"] [data-rct-item-id]`
+          );
 
         if (
           getDocument()?.activeElement?.attributes.getNamedItem(
