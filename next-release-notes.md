@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
 ### Features
-
-### Bug Fixes and Improvements
-
-### Other Changes
--->
+- Introduce `disableArrowKeys` prop on tree environment to disable arrow-related hotkeys (#363)
