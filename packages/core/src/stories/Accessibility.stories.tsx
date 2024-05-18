@@ -142,3 +142,39 @@ export const NoDescriptors = () => (
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
+
+export const NoKeyboardBindings = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {},
+    }}
+    keyboardBindings={{
+      primaryAction: [],
+      moveFocusToFirstItem: [],
+      moveFocusToLastItem: [],
+      expandSiblings: [],
+      renameItem: [],
+      abortRenameItem: [],
+      toggleSelectItem: [],
+      abortSearch: [],
+      startSearch: [],
+      selectAll: [],
+      startProgrammaticDnd: [],
+      abortProgrammaticDnd: [],
+      completeProgrammaticDnd: [],
+    }}
+    disableArrowKeys
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);

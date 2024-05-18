@@ -193,6 +193,8 @@ export interface TreeCapabilities<T = any, C extends string = never> {
    * at the top.
    */
   canDropBelowOpenFolders?: boolean;
+
+  disableArrowKeys?: boolean;
 }
 
 export type IndividualTreeViewState<C extends string = never> = {

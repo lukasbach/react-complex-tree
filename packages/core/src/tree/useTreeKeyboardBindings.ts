@@ -19,6 +19,8 @@ export const useTreeKeyboardBindings = () => {
 
   const isActiveTree = environment.activeTreeId === treeId;
   const isRenaming = !!renamingItem;
+  const { disableArrowKeys } = environment;
+  const enableArrowKeys = !disableArrowKeys && isActiveTree && !isRenaming;
 
   useKey(
     'arrowdown',
@@ -34,7 +36,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree && !isRenaming
+    enableArrowKeys
   );
 
   useKey(
@@ -51,7 +53,7 @@ export const useTreeKeyboardBindings = () => {
         }
       }
     },
-    isActiveTree && !isRenaming
+    enableArrowKeys
   );
 
   useHotkey(
@@ -87,7 +89,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
+    enableArrowKeys && !dnd.isProgrammaticallyDragging
   );
 
   useKey(
@@ -111,7 +113,7 @@ export const useTreeKeyboardBindings = () => {
         return currentIndex;
       });
     },
-    isActiveTree && !dnd.isProgrammaticallyDragging && !isRenaming
+    enableArrowKeys && !dnd.isProgrammaticallyDragging
   );
 
   useHotkey(
