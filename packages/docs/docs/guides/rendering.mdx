@@ -115,13 +115,13 @@ renderItem={({ title, arrow, depth, context, children }) => {
       <li
         {...context.itemContainerWithChildrenProps}
       >
-        <button
+        <InteractiveComponent
           {...context.itemContainerWithoutChildrenProps}
           {...context.interactiveElementProps}
         >
           { arrow }
           { title }
-        </button>
+        </InteractiveComponent>
       </li>
       {children}
     </>
