@@ -179,6 +179,36 @@ Reference: [#159](https://github.com/lukasbach/react-complex-tree/issues/159)
 </div>
 </details>
 
+<details><summary>I want the search input to behave differently</summary>
+<div>
+
+If you want the search to behave in a completely different way than the built-in search, it is not that
+difficult to implement a custom search yourself.
+
+[Here is a sample for a custom search](https://rct.lukasbach.com/storybook/?path=/story/core-finding-items--custom-finder),
+with the [implementation for that sample here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/stories/FindingItems.stories.tsx).
+
+Reference: [#383](https://github.com/lukasbach/react-complex-tree/issues/383)
+
+</div>
+</details>
+
+<details><summary>I want the search input to always be visible</summary>
+<div>
+
+There is no easy option for this, and a custom reimplementation of the search input might be
+a cleaner solution, see the FAQ point above, but this should be doable with some hacks nonetheless.
+
+The search input is rendered whenever the search value is not null, which it is by default.
+You can set the search value to an empty string instead of null with `treeRef.setSearch("")`.
+Remove the keyboard bindings for "abortSearch". In your renderSearchInput implementation,
+overwrite the `onBlur` handler with something new after what `...inputProps` provides to the input.
+
+Reference: [#383](https://github.com/lukasbach/react-complex-tree/issues/383)
+
+</div>
+</details>
+
 <details><summary>I want to register a drag-start event or another event that is not available through RCTs API.</summary>
 <div>
 
