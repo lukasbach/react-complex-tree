@@ -44,23 +44,26 @@ function App() {
       renderItemArrow={({ item, context }) =>
         item.isFolder ? <span {...context.arrowProps}>{context.isExpanded ? 'v ' : '> '}</span> : null
       }
-      renderItem={({ title, arrow, depth, context, children }) => (
-        <li
-          {...context.itemContainerWithChildrenProps}
-          style={{
-            margin: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-          }}
-        >
-          <button {...context.itemContainerWithoutChildrenProps} {...context.interactiveElementProps}>
-            {arrow}
-            {title}
-          </button>
-          {children}
-        </li>
-      )}
+      renderItem={({ title, arrow, depth, context, children }) => {
+        const InteractiveComponent = context.isRenaming ? 'div' : 'button';
+        return (
+          <li
+            {...context.itemContainerWithChildrenProps}
+            style={{
+              margin: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            }}
+          >
+            <InteractiveComponent {...context.itemContainerWithoutChildrenProps} {...context.interactiveElementProps}>
+              {arrow}
+              {title}
+            </InteractiveComponent>
+            {children}
+          </li>
+        );
+      }}
       renderTreeContainer={({ children, containerProps }) => <div {...containerProps}>{children}</div>}
       renderItemsContainer={({ children, containerProps }) => <ul {...containerProps}>{children}</ul>}
     >
@@ -105,22 +108,25 @@ for example because you want to implement a virtualized list, you can do so by r
 item container:
 
 ```jsx
-renderItem={({ title, arrow, depth, context, children }) => (
-  <>
-    <li
-      {...context.itemContainerWithChildrenProps}
-    >
-      <button
-        {...context.itemContainerWithoutChildrenProps}
-        {...context.interactiveElementProps}
+renderItem={({ title, arrow, depth, context, children }) => {
+  const InteractiveComponent = context.isRenaming ? 'div' : 'button';
+  return (
+    <>
+      <li
+        {...context.itemContainerWithChildrenProps}
       >
-        { arrow }
-        { title }
-      </button>
-    </li>
-    {children}
-  </>
-)}
+        <button
+          {...context.itemContainerWithoutChildrenProps}
+          {...context.interactiveElementProps}
+        >
+          { arrow }
+          { title }
+        </button>
+      </li>
+      {children}
+    </>
+  );
+}}
 ```
 
 Make sure to provide the props-objects `context.itemContainerWithoutChildrenProps` and
@@ -138,3 +144,11 @@ Note that, if you want to customize the way how mouse clicks interact with the t
 clicking on a parent node should expand it or just focus it) should not be changed by providing custom
 DOM hooks, but by choosing a different interaction mode.
 [Read more on interaction modes here](/docs/guides/interaction-modes).
+
+:::caution
+
+The `InteractiveComponent = context.isRenaming ? 'div' : 'button'` is important in case you want to
+support renaming items. If the tree item is always rendered as button, it's focusing behavior will
+cause a blur event when the rename starts, and revert the item back to the non-renaming state.
+
+:::

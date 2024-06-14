@@ -43,19 +43,22 @@ export const MinimalRenderers = () => (
         )
       ) : null
     }
-    renderItem={({ title, arrow, context, children }) => (
-      <li {...context.itemContainerWithChildrenProps}>
-        <button
-          type="button"
-          {...context.itemContainerWithoutChildrenProps}
-          {...(context.interactiveElementProps as any)}
-        >
-          {arrow}
-          {title}
-        </button>
-        {children}
-      </li>
-    )}
+    renderItem={({ title, arrow, context, children }) => {
+      const InteractiveComponent = context.isRenaming ? 'div' : 'button';
+      return (
+        <li {...context.itemContainerWithChildrenProps}>
+          <InteractiveComponent
+            type="button"
+            {...context.itemContainerWithoutChildrenProps}
+            {...(context.interactiveElementProps as any)}
+          >
+            {arrow}
+            {title}
+          </InteractiveComponent>
+          {children}
+        </li>
+      );
+    }}
     renderTreeContainer={({ children, containerProps }) => (
       <div {...containerProps}>{children}</div>
     )}
