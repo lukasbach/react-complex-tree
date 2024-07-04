@@ -13,7 +13,7 @@
 <a href="https://www.producthunt.com/posts/react-complex-tree?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-react-complex-tree" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=303494&theme=light" alt="React Complex Tree - Unopinionated accessible tree component with drag and drop | Product Hunt" width="250" height="54" /></a>
 
 Look into the [official documentation](https://rct.lukasbach.com/) to see more examples
-and a more comprehensive documentation. Many common issues or questions are covered in the [FAQ page](https://rct.lukasbach.com/docs/faq).
+and more comprehensive documentation. Many common issues or questions are covered in the [FAQ page](https://rct.lukasbach.com/docs/faq).
 
 The Changelog is available at [https://rct.lukasbach.com/docs/changelog](https://rct.lukasbach.com/docs/changelog).
 Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---12052022) when migrating from v1.x to v2.x.
@@ -62,7 +62,7 @@ import { UncontrolledTreeEnvironment, Tree, StaticTreeDataProvider } from 'react
 </UncontrolledTreeEnvironment>;
 ```
 
-More details at [the Get-Started Guide](https://rct.lukasbach.com/docs/getstarted). The [guide on how to integrate
+More details at [the Get Started Guide](https://rct.lukasbach.com/docs/getstarted). The [guide on how to integrate
 data with a static tree data provider](https://rct.lukasbach.com/docs/guides/static-data-provider) is also
 a good starting point to understand how to integrate data with React Complex Tree.
 
@@ -90,11 +90,11 @@ a good starting point to understand how to integrate data with React Complex Tre
 
 - **Multi-Selection**
 
-  Other than other more simple tree libraries, React Complex Tree allows you to select as many items as you want, and move them all at once by dragging to a different location. Why provide your users with less functionality, when you can settle with powerful tree capabilities with no additional effort? Try it out on the demo above and select multiple items at once by holding control on your keyboard while clicking on items, then dragging all at once to a different location.
+  Other than other more simple tree libraries, React Complex Tree allows you to select as many items as you want, and move them all at once by dragging to a different location. Why provide your users with less functionality, when you can offer powerful tree capabilities with no additional effort? Try it out on the demo above and select multiple items at once by holding control on your keyboard while clicking on items, then dragging all at once to a different location.
 
-- **Renaming built in**
+- **Renaming built-in**
 
-  React Complex Tree provides renaming as native feature with its capabilities. Select any item and press F2, to start renaming the item. This provides a more intuitive way of renaming items for users without implementing custom dialog solutions that are more disruptive to your users workflow.
+  React Complex Tree provides renaming as native feature with its capabilities. Select any item and press F2, to start renaming the item. This provides a more intuitive way of renaming items for users without implementing custom dialog solutions that are more disruptive to your users' workflow.
 
 - **Search Functionality**
 
@@ -106,14 +106,14 @@ a good starting point to understand how to integrate data with React Complex Tre
 
 - **Controlled and Uncontrolled interfaces**
 
-  The most easiest way of using React Complex Tree is using an uncontrolled tree environment that maintains the tree state, i.e. which items are selected, expanded, etc. itself. You only need to supply a data provider that defines how items are asynchronously loaded, and the environment does the rest. However, if you want more control, you can instead use the controlled environment for full customizable.
+  The easiest way of using React Complex Tree is using an uncontrolled tree environment that maintains the tree state, i.e. which items are selected, expanded, etc., itself. You only need to supply a data provider that defines how items are asynchronously loaded, and the environment does the rest. However, if you want more control, you can instead use the controlled environment for full customizable.
 
 - **Powered by React and TypeScript**
 
-  React Complex Tree is powered by React (duh) and is easily integrated in existing React projects by just importing and using the provided components. Comprehensive type information is given as TypeScript interfaces, that ease the integration and provide additional type safety, no matter whether you use TypeScript in your project or not.
+  React Complex Tree is powered by React (duh) and is easily integrated into existing React projects by just importing and using the provided components. Comprehensive type information is given as TypeScript interfaces, that ease the integration and provide additional type safety, no matter whether you use TypeScript in your project or not.
 
 
-# Hints for contributing
+# Hints for Contributing
 
 If you want to develop RCT locally, here are some hints:
 
