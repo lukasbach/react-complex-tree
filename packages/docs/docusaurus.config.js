@@ -5,6 +5,7 @@ const links = {
   storybook: 'https://rct.lukasbach.com/storybook',
   sandbox: 'https://codesandbox.io/s/react-complex-tree-playground-u5tjs',
   github: 'https://github.com/lukasbach/react-complex-tree',
+  sponsor: 'https://github.com/sponsors/lukasbach'
 };
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
@@ -47,6 +48,11 @@ module.exports = {
           href: links.sandbox,
           label: 'Playground',
           position: 'left',
+        },
+        {
+          href: links.sponsor,
+          label: 'Sponsor',
+          position: 'right',
         },
         {
           href: links.github,
