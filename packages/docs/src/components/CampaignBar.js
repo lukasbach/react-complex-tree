@@ -20,7 +20,7 @@ export default function CampaignBar() {
     <div className={styles.bar}>
       <a href="https://github.com/sponsors/lukasbach" target="_blank" className={styles.content} >
         <div className={styles.alsocheckout}>Github Sponsors</div>
-        <div className={styles.title}>If react-complex-tree provides meaningful value to you, consider supporting its developement and maintanence by sponsoring on Github</div>
+        <div className={styles.title}>If react-complex-tree provides meaningful value to you, consider supporting its development and maintenance by sponsoring on Github</div>
       </a>
       <div
         aria-label="Hide banner"
