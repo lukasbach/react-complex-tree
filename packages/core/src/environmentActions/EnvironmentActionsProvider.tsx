@@ -177,10 +177,13 @@ export const EnvironmentActionsProvider = React.forwardRef<
       await waitFor(() => !!itemsRef.current?.[current]).then(() => {
         const item = itemsRef.current[current];
         if (!item) {
-          return;
+          return Promise.resolve();
         }
         onExpandItem?.(item, treeId);
-        expandSubsequently(treeId, rest);
+        if (rest.length > 0) {
+          return expandSubsequently(treeId, rest);
+        }
+        return Promise.resolve();
       });
     },
     [itemsRef, onExpandItem]
