@@ -11,7 +11,7 @@ export default {
 } as Meta;
 
 export const CustomFinder = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('pizza');
   const tree = useRef<TreeRef>(null);
 
   const dataProvider = useMemo(
@@ -47,12 +47,11 @@ export const CustomFinder = () => {
       if (search) {
         findItemPath(search).then(path => {
           if (path) {
-            tree.current
-              ?.expandSubsequently(path.slice(0, path.length - 1))
-              .then(() => {
-                tree.current?.selectItems([path[path.length - 1]]);
-                tree.current?.focusItem(path[path.length - 1]);
-              });
+            // wait for full path including leaf, to make sure it loaded in
+            tree.current?.expandSubsequently(path).then(() => {
+              tree.current?.selectItems([path[path.length - 1]]);
+              tree.current?.focusItem(path[path.length - 1]);
+            });
           }
         });
       }
