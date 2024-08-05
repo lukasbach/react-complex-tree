@@ -7,7 +7,10 @@ export const computeItemHeight = (treeId: string) => {
   if (firstItem) {
     const style = getComputedStyle(firstItem);
     // top margin flows into the bottom margin of the previous item, so ignore it
-    return firstItem.offsetHeight + parseFloat(style.marginBottom);
+    return (
+      firstItem.offsetHeight +
+      Math.max(parseFloat(style.marginTop), parseFloat(style.marginBottom))
+    );
   }
   return 5;
 };
