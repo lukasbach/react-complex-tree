@@ -314,6 +314,7 @@ export interface DragAndDropContextProps<T = any> {
   onStartDraggingItems: (items: TreeItem<T>[], treeId: string) => void;
   draggingItems?: TreeItem<T>[];
   itemHeight: number;
+  itemsHeightArray: number[];
   isProgrammaticallyDragging?: boolean;
   startProgrammaticDrag: () => void;
   abortProgrammaticDrag: () => void;
