@@ -227,7 +227,7 @@ export class DraggingPositionEvaluation {
     return true;
   }
 
-  getDraggingPosition(): DraggingPosition | undefined {
+  getDraggingPosition(): DraggingPosition | 'invalid' | undefined {
     if (this.env.linearItems[this.treeId].length === 0) {
       return this.getEmptyTreeDragPosition();
     }
@@ -251,11 +251,11 @@ export class DraggingPositionEvaluation {
     }
 
     if (this.areDraggingItemsDescendantOfTarget()) {
-      return undefined;
+      return 'invalid';
     }
 
     if (!this.canDropAtCurrentTarget()) {
-      return undefined;
+      return 'invalid';
     }
 
     const { parent } = this.getParentOfLinearItem(

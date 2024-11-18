@@ -48,6 +48,9 @@ export const TreeManager = (): JSX.Element => {
       e.preventDefault(); // Allow drop. Also implicitly set by items, but needed here as well for dropping on empty space
       dnd.onDragOverTreeHandler(e as any, treeId, containerRef);
     },
+    onDragLeave: e => {
+      dnd.onDragLeaveContainerHandler(e as any, containerRef);
+    },
     onMouseDown: () => dnd.abortProgrammaticDrag(),
     ref: containerRef,
     style: { position: 'relative' },

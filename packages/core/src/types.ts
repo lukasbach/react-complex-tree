@@ -328,6 +328,10 @@ export interface DragAndDropContextProps<T = any> {
     treeId: string,
     containerRef: React.MutableRefObject<HTMLElement | undefined>
   ) => void;
+  onDragLeaveContainerHandler: (
+    e: DragEvent,
+    containerRef: React.MutableRefObject<HTMLElement | undefined>
+  ) => void;
 }
 
 export type DraggingPosition =
