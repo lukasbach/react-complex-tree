@@ -18,11 +18,8 @@ jobs:
         run: yarn
       - name: Custom React version
         run: |
-          echo "enableImmutableInstalls: false" > ./.yarnrc.yml
-          yarn add react@${{ matrix.react }} -D
-          cd packages/core
-          yarn add react@${{ matrix.react }} -D
-          cd ../..
+          echo -e "nodeLinker: node-modules\nenableImmutableInstalls: false" > ./.yarnrc.yml
+          npm pkg set devDependencies.react=${{matrix.react}} --ws
           cat ./.yarnrc.yml
           yarn
       - name: Build

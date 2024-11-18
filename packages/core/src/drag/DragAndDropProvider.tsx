@@ -15,6 +15,7 @@ import { useCallSoon } from '../useCallSoon';
 import { useStableHandler } from '../useStableHandler';
 import { useGetOriginalItemOrder } from '../useGetOriginalItemOrder';
 import { useDraggingPosition } from './useDraggingPosition';
+import { isOutsideOfContainer } from '../controlledEnvironment/layoutUtils';
 
 const DragAndDropContext = React.createContext<DragAndDropContextProps>(
   null as any
@@ -177,6 +178,20 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
     }
   );
 
+  const onDragLeaveContainerHandler = useStableHandler(
+    (
+      e: DragEvent,
+      containerRef: React.MutableRefObject<HTMLElement | undefined>
+    ) => {
+      if (!containerRef.current) return;
+      if (
+        isOutsideOfContainer(e, containerRef.current.getBoundingClientRect())
+      ) {
+        setDraggingPosition(undefined);
+      }
+    }
+  );
+
   const onDropHandler = useStableHandler(() => {
     if (!draggingItems || !draggingPosition || !environment.onDrop) {
       return;
@@ -287,6 +302,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       itemHeight: itemHeight.current,
       isProgrammaticallyDragging,
       onDragOverTreeHandler,
+      onDragLeaveContainerHandler,
       viableDragPositions,
     }),
     [
@@ -297,6 +313,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       isProgrammaticallyDragging,
       itemHeight,
       onDragOverTreeHandler,
+      onDragLeaveContainerHandler,
       onStartDraggingItems,
       programmaticDragDown,
       programmaticDragUp,

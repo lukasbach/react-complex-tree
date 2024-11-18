@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:lukasbach/react-complex-tree.git",
-    "directory": "packages/docs"
+    "directory": "."
   },
   "author": "Lukas Bach",
   "license": "MIT",

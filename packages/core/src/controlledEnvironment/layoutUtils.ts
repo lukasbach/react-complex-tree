@@ -16,7 +16,7 @@ export const computeItemHeight = (treeId: string) => {
 };
 
 export const isOutsideOfContainer = (e: DragEvent, treeBb: DOMRect) =>
-  e.clientX < treeBb.left ||
-  e.clientX > treeBb.right ||
-  e.clientY < treeBb.top ||
-  e.clientY > treeBb.bottom;
+  e.clientX <= treeBb.left ||
+  e.clientX >= treeBb.right ||
+  e.clientY <= treeBb.top ||
+  e.clientY >= treeBb.bottom;

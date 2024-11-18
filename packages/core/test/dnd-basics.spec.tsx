@@ -654,4 +654,35 @@ describe('dnd basics', () => {
       });
     });
   });
+
+  it('doesnt drop on last valid location when moving drop to invalid location', async () => {
+    const test = await new TestUtil().renderOpenTree({});
+    await test.startDrag('aab');
+    await test.dragOver('aa');
+    await test.dragOver('aab');
+    await test.drop();
+    await test.expectItemContentsUnchanged('aa');
+  });
+
+  it('sets drop position correctly', async () => {
+    const test = await new TestUtil().renderOpenTree({});
+    await test.startDrag('target');
+    await test.dragOver('aa');
+    expect(test.treeRef?.dragAndDropContext?.draggingPosition).toStrictEqual({
+      depth: 1,
+      linearIndex: 5,
+      parentItem: 'a',
+      targetItem: 'aa',
+      targetType: 'item',
+      treeId: 'tree-1',
+    });
+  });
+
+  it('unsets drop position when dragging out', async () => {
+    const test = await new TestUtil().renderOpenTree({});
+    await test.startDrag('target');
+    await test.dragOver('aa');
+    await test.dragLeave();
+    expect(test.treeRef?.dragAndDropContext?.draggingPosition).toBe(undefined);
+  });
 });

@@ -171,6 +171,20 @@ export class TestUtil {
     });
   }
 
+  public async dragLeave() {
+    (isOutsideOfContainer as jest.Mock).mockReturnValue(true);
+    await act(async () => {
+      this.environmentRef?.dragAndDropContext.onDragLeaveContainerHandler(
+        {
+          clientX: 9999,
+          clientY: 9999,
+        } as any,
+        { current: this.containerRef ?? undefined }
+      );
+    });
+    (isOutsideOfContainer as jest.Mock).mockReturnValue(false);
+  }
+
   public async drop() {
     await act(async () => {
       fireEvent.drop(window);
