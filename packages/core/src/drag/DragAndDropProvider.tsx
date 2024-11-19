@@ -42,6 +42,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
     draggingItems,
     getDraggingPosition,
     itemHeight,
+    itemsHeightArray,
   } = useDraggingPosition();
 
   const resetProgrammaticDragIndexForCurrentTree = useCallback(
@@ -300,6 +301,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       draggingItems,
       draggingPosition,
       itemHeight: itemHeight.current,
+      itemsHeightArray: itemsHeightArray.current,
       isProgrammaticallyDragging,
       onDragOverTreeHandler,
       onDragLeaveContainerHandler,
@@ -312,6 +314,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
       draggingPosition,
       isProgrammaticallyDragging,
       itemHeight,
+      itemsHeightArray,
       onDragOverTreeHandler,
       onDragLeaveContainerHandler,
       onStartDraggingItems,
