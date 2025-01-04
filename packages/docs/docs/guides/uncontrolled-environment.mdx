@@ -58,6 +58,8 @@ function App() {
 }
 ```
 
+Note that for each item in the data structure representing the tree (`items` in this case), each object must have a field named `index` that has the same value as the key for that object.  The `children` array can only refer to these values as well.
+
 ## Component Props
 
 The props for the `UncontrolledTreeEnvironment` are as follows:
