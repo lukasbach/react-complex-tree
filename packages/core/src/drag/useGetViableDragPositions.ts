@@ -85,16 +85,18 @@ export const useGetViableDragPositions = () => {
           treeId,
         };
 
-        const skipTopPosition =
-          depth === (linearItems[linearIndex - 1]?.depth ?? -1);
+        const depthOfItemAbove = linearItems[linearIndex - 1]?.depth ?? -1;
+        const depthOfItemBelow = linearItems[linearIndex + 1]?.depth ?? -1;
+        const isWithinFolder = depth === depthOfItemAbove;
+        const isBelowOpenFolder = depth === depthOfItemBelow - 1;
 
-        if (!skipTopPosition && canDropAt(topPosition, draggingItems)) {
+        if (!isWithinFolder && canDropAt(topPosition, draggingItems)) {
           targets.push(topPosition);
         }
         if (canDropAt(itemPosition, draggingItems)) {
           targets.push(itemPosition);
         }
-        if (canDropAt(bottomPosition, draggingItems)) {
+        if (!isBelowOpenFolder && canDropAt(bottomPosition, draggingItems)) {
           targets.push(bottomPosition);
         }
       }
