@@ -28,10 +28,11 @@ export class DoubleClickItemToExpandInteractionManager
   ): HTMLProps<HTMLElement> {
     return {
       onClick: e => {
+        const isSpacebarEvent = e.detail === 0;
         actions.focusItem();
-        if (e.shiftKey) {
+        if (e.shiftKey && !isSpacebarEvent) {
           actions.selectUpTo(!isControlKey(e));
-        } else if (isControlKey(e)) {
+        } else if (isControlKey(e) && !isSpacebarEvent) {
           if (renderFlags.isSelected) {
             actions.unselectItem();
           } else {

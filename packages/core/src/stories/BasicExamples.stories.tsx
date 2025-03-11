@@ -703,3 +703,47 @@ export const ItemContainersWithMargin = () => (
     <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
   </UncontrolledTreeEnvironment>
 );
+
+export const HotkeysDisabled = () => (
+  <UncontrolledTreeEnvironment<string>
+    canDragAndDrop
+    canDropOnFolder
+    canReorderItems
+    keyboardBindings={{
+      primaryAction: [],
+      moveFocusToFirstItem: [],
+      moveFocusToLastItem: [],
+      expandSiblings: [],
+      renameItem: [],
+      abortRenameItem: [],
+      toggleSelectItem: [],
+      abortSearch: [],
+      startSearch: [],
+      selectAll: [],
+      startProgrammaticDnd: [],
+      abortProgrammaticDnd: [],
+      completeProgrammaticDnd: [],
+    }}
+    dataProvider={
+      new StaticTreeDataProvider(longTree.items, (item, data) => ({
+        ...item,
+        data,
+      }))
+    }
+    getItemTitle={item => item.data}
+    viewState={{
+      'tree-1': {
+        expandedItems: [
+          'Fruit',
+          'Meals',
+          'America',
+          'Europe',
+          'Asia',
+          'Desserts',
+        ],
+      },
+    }}
+  >
+    <Tree treeId="tree-1" rootItem="root" treeLabel="Tree Example" />
+  </UncontrolledTreeEnvironment>
+);

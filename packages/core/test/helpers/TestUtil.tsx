@@ -85,7 +85,7 @@ export class TestUtil {
   public async clickItem(title: string) {
     await this.expectVisible(title);
     await act(async () => {
-      fireEvent.click(await this.renderProps!.findByText(title));
+      fireEvent.click(await this.renderProps!.findByText(title), { detail: 1 });
     });
   }
 
@@ -93,6 +93,7 @@ export class TestUtil {
     await act(async () => {
       fireEvent.click(await this.renderProps!.findByText(title), {
         ctrlKey: true,
+        detail: 1,
       });
     });
   }
@@ -102,6 +103,7 @@ export class TestUtil {
       fireEvent.click(await this.renderProps!.findByText(title), {
         ctrlKey: true,
         shiftKey: true,
+        detail: 1,
       });
     });
   }
@@ -110,6 +112,7 @@ export class TestUtil {
     await act(async () => {
       fireEvent.click(await this.renderProps!.findByText(title), {
         shiftKey: true,
+        detail: 1,
       });
     });
   }

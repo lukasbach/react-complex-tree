@@ -135,6 +135,7 @@ export const useTreeKeyboardBindings = () => {
     'toggleSelectItem',
     e => {
       e.preventDefault();
+      e.stopPropagation();
       if (viewState.focusedItem !== undefined) {
         if (
           viewState.selectedItems &&

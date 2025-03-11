@@ -104,12 +104,12 @@ describe('selection', () => {
       await test.focusTree();
       await test.clickItem('before');
       await test.pressKeys('ArrowDown');
-      await test.pressKeys('Control', 'Space');
+      await test.pressKeys('Control', ' ');
       await test.pressKeys('ArrowDown');
-      await test.pressKeys('Control', 'Space');
+      await test.pressKeys('Control', ' ');
       await test.pressKeys('ArrowDown');
       await test.pressKeys('ArrowDown');
-      await test.pressKeys('Control', 'Space');
+      await test.pressKeys('Control', ' ');
       await test.expectFocused('aa');
       await test.expectSelected('before', 'target', 'after', 'aa');
       await test.expectTreeUnchanged();
