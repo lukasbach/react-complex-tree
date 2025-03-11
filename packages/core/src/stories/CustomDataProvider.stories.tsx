@@ -66,7 +66,7 @@ export const InjectingDataFromOutside = () => {
       getItemTitle={item => item.data}
       viewState={{
         'tree-1': {
-          expandedItems: [],
+          expandedItems: ['container'],
         },
       }}
       ref={treeEnv}
@@ -140,7 +140,7 @@ export const CustomDataProvider = () => {
       getItemTitle={item => item.data}
       viewState={{
         'tree-1': {
-          expandedItems: [],
+          expandedItems: ['container'],
         },
       }}
     >
