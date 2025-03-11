@@ -56,8 +56,9 @@ export const useHotkey = (
         .reduce((a, b) => a || b, false);
 
       if (partialMatch) {
-        if (pressedKeys.current.length > 1 || !/^[a-zA-Z]$/.test(e.key)) {
+        if (pressedKeys.current.length > 1 || !/^[a-zA-Z\s]$/.test(e.key)) {
           // Prevent default, but not if this is the first input and a letter (which should trigger a search)
+          // also not on first input and spacebar, as that should trigger an item directly
           e.preventDefault();
         }
       }
