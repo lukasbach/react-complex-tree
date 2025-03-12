@@ -118,7 +118,7 @@ describe('dnd restrictions', () => {
 
   describe('canDrag', () => {
     it('respects disabled value', async () => {
-      const canDrag = jest.fn(items => items[0].data !== 'aab');
+      const canDrag = jest.fn(items => items[0]?.data !== 'aab');
       const test = await new TestUtil().renderOpenTree({
         canDrag,
       });
@@ -131,7 +131,7 @@ describe('dnd restrictions', () => {
     });
 
     it('works for other item', async () => {
-      const canDrag = jest.fn(items => items[0].data !== 'aab');
+      const canDrag = jest.fn(items => items[0]?.data !== 'aab');
       const test = await new TestUtil().renderOpenTree({
         canDrag,
       });
