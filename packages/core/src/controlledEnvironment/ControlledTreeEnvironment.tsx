@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import {
   ControlledTreeEnvironmentProps,
   TreeEnvironmentContextProps,
@@ -21,26 +21,24 @@ export const ControlledTreeEnvironment = React.forwardRef<
 >((props, ref) => {
   const environmentContextProps = useControlledTreeEnvironmentProps(props);
 
-  const { viewState } = props;
+  const { viewState, onFocusItem } = props;
 
   // Make sure that every tree view state has a focused item
-  for (const treeId of Object.keys(environmentContextProps.trees)) {
-    // TODO if the focus item is dragged out of the tree and is not within the expanded items
-    // TODO of that tree, the tree does not show any focus item anymore.
-    // Fix: use linear items to see if focus item is visible, and reset if not. Only refresh that
-    // information when the viewstate changes
-    if (
-      !viewState[treeId]?.focusedItem &&
-      environmentContextProps.trees[treeId]
-    ) {
-      viewState[treeId] = {
-        ...viewState[treeId],
-        focusedItem:
-          props.items[environmentContextProps.trees[treeId].rootItem]
-            ?.children?.[0],
-      };
+  useEffect(() => {
+    for (const treeId of Object.keys(environmentContextProps.trees)) {
+      const firstItemIndex =
+        props.items[environmentContextProps.trees[treeId].rootItem]
+          ?.children?.[0];
+      const firstItem = firstItemIndex && props.items[firstItemIndex];
+      if (
+        !viewState[treeId]?.focusedItem &&
+        environmentContextProps.trees[treeId] &&
+        firstItem
+      ) {
+        onFocusItem?.(firstItem, treeId, false);
+      }
     }
-  }
+  }, [environmentContextProps.trees, onFocusItem, props.items, viewState]);
 
   return (
     <TreeEnvironmentContext.Provider value={environmentContextProps}>
