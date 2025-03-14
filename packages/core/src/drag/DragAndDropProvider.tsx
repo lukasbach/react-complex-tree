@@ -282,7 +282,7 @@ export const DragAndDropProvider: React.FC<React.PropsWithChildren> = ({
     if (environment.activeTreeId) {
       setProgrammaticDragIndex(oldIndex =>
         Math.min(
-          viableDragPositions[environment.activeTreeId!].length,
+          viableDragPositions[environment.activeTreeId!].length - 1,
           oldIndex + 1
         )
       );
