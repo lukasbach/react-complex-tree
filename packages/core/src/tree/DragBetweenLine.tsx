@@ -6,7 +6,7 @@ import { useDragAndDrop } from '../drag/DragAndDropProvider';
 export const DragBetweenLine: React.FC<{
   treeId: string;
 }> = ({ treeId }) => {
-  const { draggingPosition, itemHeight } = useDragAndDrop();
+  const { draggingPosition, itemHeight, itemsHeightArray } = useDragAndDrop();
   const { renderers } = useTree();
 
   const shouldDisplay =
@@ -28,7 +28,7 @@ export const DragBetweenLine: React.FC<{
         position: 'absolute',
         left: '0',
         right: '0',
-        top: `${(draggingPosition?.linearIndex ?? 0) * itemHeight}px`,
+        top: `${itemsHeightArray.slice(0, draggingPosition?.linearIndex ?? 0).reduce((acc, height) => acc + height, 0)}px`,
       }}
     >
       {renderers.renderDragBetweenLine({
