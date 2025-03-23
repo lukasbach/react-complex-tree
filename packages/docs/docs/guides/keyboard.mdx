@@ -16,26 +16,26 @@ The default bindings are defined in the source code
 [here](https://github.com/lukasbach/react-complex-tree/blob/main/packages/core/src/hotkeys/defaultKeyboardBindings.ts).
 :::
 
-| Interaction                                    | Default Binding     | Binding Symbol            | Note                                                                  |
-| ---------------------------------------------- | ------------------- | ------------------------- | --------------------------------------------------------------------- |
-| Expand Siblings                                | `CONTROL + *`       | `expandSiblings`          | Not yet implemented                                                   |
-| Move focus to first item in tree               | `HOME`              | `moveFocusToFirstItem`    |                                                                       |
-| Move focus to last item in tree                | `END`               | `moveFocusToLastItem`     |                                                                       |
-| Execute primary action for selected items      | `ENTER`             | `primaryAction`           | Calls the `onPrimaryAction` hook provided to the environment.         |
-| Start renaming focused item                    | `F2`                | `renameItem`              | Renaming is completed by submitting the form, i.e. by pressing enter. |
-| Abort renaming focused item                    | `ESCAPE`            | `abortRenameItem`         | Blurring the input also aborts renaming.                              |
-| Toggle the select-state of the focused item    | `CONTROL + SPACE`   | `toggleSelectItem`        |                                                                       |
-| Abort search and hide the search input         | `ESCAPE` or `ENTER` | `abortSearch`             |                                                                       |
-| Bring up the search input and focus it         | None                | `startSearch`             | By default, searching can be started by pressing any letter button.   |
-| Select all items                               | `CONTROL + A`       | `selectAll`               |                                                                       |
-| Start keyboard-bound Drag-and-Drop sequence    | `CONTROL + D`       | `startProgrammaticDnd`    |                                                                       |
-| Complete keyboard-bound Drag-and-Drop sequence | `ENTER`             | `completeProgrammaticDnd` |                                                                       |
-| Abort keyboard-bound Drag-and-Drop sequence    | `ESCAPE`            | `abortProgrammaticDnd`    |                                                                       |
+| Interaction                                    | Default Binding      | Binding Symbol            | Note                                                                  |
+| ---------------------------------------------- | -------------------- | ------------------------- | --------------------------------------------------------------------- |
+| Expand Siblings                                | `CONTROL + *`        | `expandSiblings`          | Not yet implemented                                                   |
+| Move focus to first item in tree               | `HOME`               | `moveFocusToFirstItem`    |                                                                       |
+| Move focus to last item in tree                | `END`                | `moveFocusToLastItem`     |                                                                       |
+| Execute primary action for selected items      | `ENTER`              | `primaryAction`           | Calls the `onPrimaryAction` hook provided to the environment.         |
+| Start renaming focused item                    | `F2`                 | `renameItem`              | Renaming is completed by submitting the form, i.e. by pressing enter. |
+| Abort renaming focused item                    | `ESCAPE`             | `abortRenameItem`         | Blurring the input also aborts renaming.                              |
+| Toggle the select-state of the focused item    | `CONTROL + SPACE`    | `toggleSelectItem`        |                                                                       |
+| Abort search and hide the search input         | `ESCAPE` or `ENTER`  | `abortSearch`             |                                                                       |
+| Bring up the search input and focus it         | None                 | `startSearch`             | By default, searching can be started by pressing any letter button.   |
+| Select all items                               | `CONTROL + A`        | `selectAll`               |                                                                       |
+| Start keyboard-bound Drag-and-Drop sequence    | `CONTROL + SHIFT +D` | `startProgrammaticDnd`    |                                                                       |
+| Complete keyboard-bound Drag-and-Drop sequence | `ENTER`              | `completeProgrammaticDnd` |                                                                       |
+| Abort keyboard-bound Drag-and-Drop sequence    | `ESCAPE`             | `abortProgrammaticDnd`    |                                                                       |
 
 ## Keyboard-bound Drag-and-Drop sequences
 
 Drag and Drop is also controllable via keyboard. This sequence can be started by pressing the
-hotkey `startProgrammaticDnd` which is `CONTROL + D` by default. Then, the user can press the up or down keys
+hotkey `startProgrammaticDnd` which is `CONTROL + SHIFT + D` by default. Then, the user can press the up or down keys
 to select a target location. Moving the focus to a different tree with Tab is also possible. To complete the drop,
 the hotkey `completeProgrammaticDnd` (`ENTER`) needs to be pressed. The drag can also be aborted with the hotkey
 `abortProgrammaticDnd` (`ESCAPE`).
