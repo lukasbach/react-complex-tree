@@ -23,7 +23,8 @@ Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---120
 > A successor library for react-complex-tree, [Headless Tree](https://headless-tree.lukasbach.com/),
 > is now available as Beta! Headless Tree provides easier-to-use interfaces,
 > better customizability and more features.
-> Join [the Discord](https://discord.gg/KuZ6EezzVw) to get involved, and
+> [Read more about the change in the blog post](https://medium.com/@lukasbach/headless-tree-and-the-future-of-react-complex-tree-fc920700e82a),
+> join [the Discord](https://discord.gg/KuZ6EezzVw) to get involved, or
 > [follow on Bluesky](https://bsky.app/profile/lukasbach.bsky.social) to
 > stay up to date.
 
