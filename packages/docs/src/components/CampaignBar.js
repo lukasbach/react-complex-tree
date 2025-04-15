@@ -12,17 +12,17 @@ export default function CampaignBar() {
     setHide(!!hideDate && parseInt(hideDate) > Date.now() - days * 3);
   }, []);
 
-  if (hide) {
-    return null;
-  }
+  // if (hide) {
+  //   return null;
+  // }
 
   return (
     <div className={styles.bar}>
-      <a href="https://github.com/sponsors/lukasbach" target="_blank" className={styles.content} >
-        <div className={styles.alsocheckout}>Github Sponsors</div>
-        <div className={styles.title}>If react-complex-tree provides meaningful value to you, consider supporting its development and maintenance by sponsoring on Github</div>
+      <a href="https://headless-tree.lukasbach.com" target="_blank" className={styles.content} >
+        <div className={styles.alsocheckout}>Headless Tree</div>
+        <div className={styles.title}>A successor for react-complex-tree, Headless Tree, is now available!</div>
       </a>
-      <div
+      {/*<div
         aria-label="Hide banner"
         className={styles.close}
         onClick={() => {
@@ -31,7 +31,7 @@ export default function CampaignBar() {
         }}
       >
         ×
-      </div>
+      </div>*/}
     </div>
   );
 }

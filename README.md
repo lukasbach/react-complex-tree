@@ -18,6 +18,15 @@ and more comprehensive documentation. Many common issues or questions are covere
 The Changelog is available at [https://rct.lukasbach.com/docs/changelog](https://rct.lukasbach.com/docs/changelog).
 Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---12052022) when migrating from v1.x to v2.x.
 
+
+> [!TIP]
+> A successor library for react-complex-tree, [Headless Tree](https://headless-tree.lukasbach.com/),
+> is now available as Beta! Headless Tree provides easier-to-use interfaces,
+> better customizability and more features.
+> Join [the Discord](https://discord.gg/KuZ6EezzVw) to get involved, and
+> [follow on Bluesky](https://bsky.app/profile/lukasbach.bsky.social) to
+> stay up to date.
+
 ## Sponsors
 
 The development of react-complex-tree is supported by the community. Special thanks to:
