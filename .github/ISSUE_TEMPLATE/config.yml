@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Chat
+    url: https://discord.gg/KuZ6EezzVw
+    about: An official discord server to discuss issues and features
+  - name: Github Discussions
+    url: https://github.com/lukasbach/react-complex-tree/discussions
+    about: Discussions can also be posted on Github Discussions
