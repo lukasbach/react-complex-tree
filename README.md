@@ -28,25 +28,6 @@ Check the [v2 release notes](https://rct.lukasbach.com/docs/changelog/#200---120
 > [follow on Bluesky](https://bsky.app/profile/lukasbach.bsky.social) to
 > stay up to date.
 
-## Sponsors
-
-The development of react-complex-tree is supported by the community. Special thanks to:
-
-<br />
-<div align="center">
-  <a href="https://modyfi.com#gh-light-mode-only">
-    <div>
-      <img src="https://lukasbach.com/thanks/modyfi-brand-logo-black.svg#gh-light-mode-only" width="250" alt="Modyfi" />
-    </div>
-  </a>
-  <a href="https://modyfi.com#gh-dark-mode-only">
-    <div>
-      <img src="https://lukasbach.com/thanks/modyfi-brand-logo.svg#gh-dark-mode-only" width="250" alt="Modyfi" />
-    </div>
-  </a>
-</div>
-<br />
-
 Find out [how to support the development of react-complex-tree](https://github.com/sponsors/lukasbach).
 
 ## Installation
