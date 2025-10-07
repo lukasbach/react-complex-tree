@@ -1,9 +1,2 @@
-<!--
-### Breaking Changes
-
-### Features
-
 ### Bug Fixes and Improvements
-
-### Other Changes
--->
+- switch JSX.Element to React.ReactElement to support React 19 and 18 (#437)
