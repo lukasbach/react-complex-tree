@@ -97,5 +97,5 @@ export const TreeItemRenamingInput: React.FC<{
     submitButtonRef,
     formProps,
     inputProps,
-  }) as JSX.Element;
+  }) as React.ReactElement;
 };

@@ -75,7 +75,7 @@ export const AutoDemo = ({
     treeRef3: React.Ref<TreeRef>,
     treeRef4: React.Ref<TreeRef>,
     treeRef5: React.Ref<TreeRef>
-  ) => JSX.Element;
+  ) => React.ReactElement;
   storyScript: (story: AutomationStoryHelpers) => Promise<void>;
   restart?: boolean;
 }) => {

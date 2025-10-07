@@ -10,7 +10,7 @@ import { useTreeEnvironment } from '../controlledEnvironment/ControlledTreeEnvir
 import { useDragAndDrop } from '../drag/DragAndDropProvider';
 import { MaybeLiveDescription } from './MaybeLiveDescription';
 
-export const TreeManager = (): JSX.Element => {
+export const TreeManager = (): React.ReactElement => {
   const { treeId, rootItem, renderers, treeInformation } = useTree();
   const environment = useTreeEnvironment();
   const containerRef = useRef<HTMLElement>();
@@ -68,5 +68,5 @@ export const TreeManager = (): JSX.Element => {
     children: treeChildren,
     info: treeInformation,
     containerProps,
-  }) as JSX.Element;
+  }) as React.ReactElement;
 };

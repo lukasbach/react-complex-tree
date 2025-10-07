@@ -7,10 +7,10 @@ export const TreeItemChildren = (props: {
   children: TreeItemIndex[];
   depth: number;
   parentId: TreeItemIndex;
-}): JSX.Element => {
+}): React.ReactElement => {
   const { renderers, treeInformation } = useTree();
 
-  const childElements: JSX.Element[] = [];
+  const childElements: React.ReactElement[] = [];
 
   for (const child of props.children) {
     childElements.push(
