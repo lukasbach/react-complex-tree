@@ -368,7 +368,7 @@ export interface ControlledTreeEnvironmentProps<
   T = any,
   C extends string = never
 > extends TreeEnvironmentConfiguration<T, C> {
-  children?: JSX.Element | (JSX.Element | null)[] | null;
+  children?: React.ReactElement | (React.ReactElement | null)[] | null;
 }
 
 export interface UncontrolledTreeEnvironmentProps<
@@ -382,7 +382,7 @@ export interface UncontrolledTreeEnvironmentProps<
   keyboardBindings?: KeyboardBindings;
   liveDescriptors?: LiveDescriptors;
   getItemTitle: (item: TreeItem<T>) => string;
-  children: JSX.Element | (JSX.Element | null)[] | null;
+  children: React.ReactElement | (React.ReactElement | null)[] | null;
   disableMultiselect?: boolean;
 }
 

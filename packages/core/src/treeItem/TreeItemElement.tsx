@@ -10,7 +10,7 @@ import { TreeItemRenamingInput } from './TreeItemRenamingInput';
 export const TreeItemElement = (props: {
   itemIndex: TreeItemIndex;
   depth: number;
-}): JSX.Element => {
+}): React.ReactElement => {
   const [hasBeenRequested, setHasBeenRequested] = useState(false);
   const { renderers, treeInformation, renamingItem } = useTree();
   const environment = useTreeEnvironment();
