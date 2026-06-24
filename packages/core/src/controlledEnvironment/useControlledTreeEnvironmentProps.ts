@@ -89,7 +89,7 @@ export const useControlledTreeEnvironmentProps = ({
     treeId => {
       onUnregisterTree?.(trees[treeId]);
       setTrees(trees => {
-        const newTrees = {...trees};
+        const newTrees = { ...trees };
         delete newTrees[treeId];
         return newTrees;
       });
