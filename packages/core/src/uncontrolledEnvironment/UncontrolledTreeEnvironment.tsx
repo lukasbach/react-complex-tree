@@ -64,15 +64,16 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
   );
 
   useEffect(() => {
-    const { dispose } = dataProvider.onDidChangeTreeData(changedItemIds => {
-      dataProvider.getTreeItems(changedItemIds).then(items => {
-        writeItems(
-          items
-            .map(item => ({ [item.index]: item }))
-            .reduce((a, b) => ({ ...a, ...b }), {})
-        );
-      });
-    });
+    const { dispose } = dataProvider.onDidChangeTreeData(
+      async changedItemIds => {
+        const items = await dataProvider.getTreeItems(changedItemIds);
+        const itemMap = {};
+        for (const item of items) {
+          itemMap[item.index] = item;
+        }
+        writeItems(itemMap);
+      }
+    );
 
     return dispose;
   }, [dataProvider, writeItems]);
