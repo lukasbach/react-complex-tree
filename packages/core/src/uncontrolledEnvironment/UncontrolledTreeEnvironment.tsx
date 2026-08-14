@@ -219,14 +219,15 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
       onMissingItems={itemIds => {
         // Batch individual fetch-item-calls together
         if (missingItemIds.current.length === 0) {
-          setTimeout(() => {
-            dataProvider.getTreeItems(missingItemIds.current).then(items => {
-              writeItems(
-                items
-                  .map(item => ({ [item?.index]: item }))
-                  .reduce((a, b) => ({ ...a, ...b }), {})
-              );
-            });
+          setTimeout(async () => {
+            const items = await dataProvider.getTreeItems(
+              missingItemIds.current
+            );
+            const itemMap = {};
+            for (const item of items) {
+              itemMap[item.index] = item;
+            }
+            writeItems(itemMap);
             missingItemIds.current = [];
           });
         }
