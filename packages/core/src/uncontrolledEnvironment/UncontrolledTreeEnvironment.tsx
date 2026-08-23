@@ -69,7 +69,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
         const items = await dataProvider.getTreeItems(changedItemIds);
         const itemMap = {};
         for (const item of items) {
-          itemMap[item.index] = item;
+          if (item != null) itemMap[item.index] = item;
         }
         writeItems(itemMap);
       }
@@ -225,7 +225,7 @@ export const UncontrolledTreeEnvironment = React.forwardRef<
             );
             const itemMap = {};
             for (const item of items) {
-              itemMap[item.index] = item;
+              if (item != null) itemMap[item.index] = item;
             }
             writeItems(itemMap);
             missingItemIds.current = [];
