@@ -33,7 +33,7 @@ export const MinimalRenderers = () => (
         ],
       },
     }}
-    renderItemTitle={({ title }) => <span>{title}</span>}
+    renderItemTitle={({ title }) => title}
     renderItemArrow={({ item, context }) =>
       item.isFolder ? (
         context.isExpanded ? (
